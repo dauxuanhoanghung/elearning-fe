@@ -12,9 +12,8 @@ import {
   URL_LOGOUT,
   URL_REFRESH_TOKEN,
   URL_REGISTER,
-} from "../constant/url";
-import { HttpStatusCode } from "../constant/HttpStatusCode";
-import { isAxiosExpiredTokenError, isAxiosUnauthorizedError } from "./utils";
+  URL_SERVER,
+} from "../constants/url";
 import { toast } from "react-toastify";
 
 class Http {
@@ -23,7 +22,7 @@ class Http {
     this.refreshToken = getRefreshTokenFromLS();
     this.refreshTokenRequest = null;
     this.instance = axios.create({
-      baseURL: "http://localhost:8080", // Replace with your base URL
+      baseURL: `${URL_SERVER}`, // Replace with your base URL
       // timeout: 10000,
       headers: {
         "Content-Type": "application/json",
@@ -31,7 +30,7 @@ class Http {
         "expire-refresh-token": 60 * 60 * 24 * 160, // 160 days
       },
     });
-
+    /** Request, gắn token vào headers */
     this.instance.interceptors.request.use(
       (config) => {
         let accessToken = getAccessTokenFromLS();
@@ -45,7 +44,7 @@ class Http {
         return Promise.reject(error);
       }
     );
-
+    /** Response */
     this.instance.interceptors.response.use(
       (response) => {
         const { url } = response.config;
@@ -65,16 +64,16 @@ class Http {
         return response;
       },
       (error) => {
-        if (
-          ![
-            HttpStatusCode.UnprocessableEntity,
-            HttpStatusCode.Unauthorized,
-          ].includes(error.response?.status)
-        ) {
-          const data = error.response?.data;
-          const message = data?.message || error.message;
-          toast.error(message);
-        }
+        // if (
+        //   ![
+        //     HttpStatusCode.UnprocessableEntity,
+        //     HttpStatusCode.Unauthorized,
+        //   ].includes(error.response?.status)
+        // ) {
+        //   const data = error.response?.data;
+        //   const message = data?.message || error.message;
+        //   toast.error(message);
+        // }
 
         if (isAxiosUnauthorizedError(error)) {
           const config = error.response?.config || { headers: {}, url: "" };
