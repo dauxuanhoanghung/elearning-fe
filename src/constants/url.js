@@ -2,15 +2,15 @@
 export const URL_SERVER = "http://localhost:8080";
 
 // #region Authentication
-export const URL_LOGIN = "/authenticate";
+export const URL_LOGIN = "/api/auth/authenticate";
 export const URL_LOGOUT = "/logout";
-export const URL_REFRESH_TOKEN = "/refresh-token";
-export const URL_LOGIN_GOOGLE = "/login-google";
+export const URL_REFRESH_TOKEN = "/api/auth/refresh-token";
+export const URL_LOGIN_GOOGLE = "/api/auth/login-google";
 // #endregion
 // #region User API
 export const URL_USER = "/api/users/";
-export const URL_CURRENT_USER = `${URL_USER}current-user/`;
-export const URL_REGISTER = `${URL_USER}register/`;
+export const URL_CURRENT_USER = `${URL_USER}current-user`;
+export const URL_REGISTER = `${URL_USER}`;
 // #endregion
 // #region Course API
 export const URL_COURSE = "/api/courses/";

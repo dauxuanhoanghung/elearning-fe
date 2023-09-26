@@ -6,13 +6,13 @@ import { Avatar } from "@mui/material";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from '@mui/icons-material/Search';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import SearchIcon from "@mui/icons-material/Search";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import UserContext from "../../contexts/UserContext";
 
 const Navbar = () => {
   const [showContent, setShowContent] = useState(false);
-  const [user, setUser] = useState(null);
-
+  const { user, setUser } = useContext(UserContext);
   function Toggle() {
     setShowContent(!showContent);
   }
@@ -55,11 +55,7 @@ const Navbar = () => {
         )}
       </div>
       <Link to="/">
-        <img
-          src={logo}
-          alt="logo"
-          className="navbar__logo"
-        />
+        <img src={logo} alt="logo" className="navbar__logo" />
       </Link>
       <p className="navbar__text">Categories</p>
       <input
@@ -71,7 +67,7 @@ const Navbar = () => {
         onKeyDown={handleEnter}
       />
       <p className="navbar__text navbar__ub">Your Business</p>
-      {user && (
+      {Object.keys(user).length !== 0 && (
         <>
           <button className="navbar__logout">
             <p className="navbar__text navbar__ins">Log-Out</p>
@@ -89,7 +85,7 @@ const Navbar = () => {
           />
         </>
       )}
-      {!user && (
+      {Object.keys(user).length === 0 && (
         <div className="navbar__user">
           <Link to={`/search/python`}>
             <SearchIcon className="navbar__searchIcon" />

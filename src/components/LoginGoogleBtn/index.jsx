@@ -9,48 +9,35 @@ import Spinner from "../Spinner";
 import { setAccessTokenToLS, setProfileToLS } from "../../utils/auth";
 import { removeVietnameseTones } from "../../utils/utils";
 const client_id =
-  "281158067602-ojdjfk6tuna36d0lqjhsni8q2ic1l6ec.apps.googleusercontent.com";
-
-function LoginGoogleBtn() {
+  "402026854293-394gqacf406s92p1ujrd2bndv764psm3.apps.googleusercontent.com";
+const client_secret = "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";
+const LoginGoogleBtn = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { setUser } = useContext(UserContext);
-  const handleLoginGoogle = (credential) => {
-    console.log(credential);
+  const handleLoginGoogle = async (credential) => {
+    console.log("LoginGoogleBtn >>>", credential);
     const data = {
       username:
         removeVietnameseTones(credential.family_name).toLowerCase() +
         credential.sub,
-      password: "ou@123", //Đặt tạm
-      confirmPassword: "ou@123",
-      firstName: credential.name,
+      password: "123456", //Đặt tạm
+      confirmPassword: "123456",
+      firstName: credential.given_name,
+      lastName: credential.family_name,
       email: credential.email,
+      avatar: credential.picture,
     };
     setLoading(true);
-    userService.register(data).then((res) => {
-      const profile = res.data.data;
-      const auth = {
-        username: data.alumniId,
-        password: "ou@123",
-      };
-      authService.login(auth).then((res) => {
-        const token = res.data.data.token;
-        setAccessTokenToLS(token);
-        navigate("/");
-      });
-      //   if (profile !== "Username exists") {
-      //     setProfileToLS(profile);
-      //     setUser(profile);
-      //   } else {
-      //     userService.getUserById(data.alumniId).then((res) => {
-      //       setProfileToLS(res.data);
-      //       setUser(res.data);
-      //     });
-      //   }
-
-      console.log(res.data.data);
+    const res = await authService.loginGoogle(data);
+    console.log("JWT:", res.data.data);
+    const token = res.data.data.token;
+    setAccessTokenToLS(token);
+    userService.getCurrentUser().then((res) => {
+      setProfileToLS(res.data.data);
+      setUser(res.data.data);
+      navigate("/");
     });
-    console.log(data);
     setLoading(false);
   };
 
@@ -75,6 +62,6 @@ function LoginGoogleBtn() {
       )}
     </>
   );
-}
+};
 
 export default LoginGoogleBtn;

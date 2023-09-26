@@ -11,7 +11,7 @@ const userService = {
   },
   /**
    *
-   * @param {username, firstName, lastName, password, confirmPassword, email, avatar} body
+   * @param {username, firstName, lastName, password, confirmPassword, email, avatarFile, avatar (null)} body
    * @returns
    */
   register(body) {

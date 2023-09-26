@@ -13,15 +13,14 @@ const LoginForm = () => {
     <>
       <div className="login">
         <div className="login__content">
-          <LoginGoogleBtn />
 
-          <button className="login__option">
+          {/* <button className="login__option">
             <img
               src="https://cdn3.iconfinder.com/data/icons/capsocial-round/500/facebook-512.png"
               alt="facebook"
             />
             <h4>Continue with Facebook</h4>
-          </button>
+          </button> */}
 
           <div className="login__inputs">
             <input
@@ -43,6 +42,7 @@ const LoginForm = () => {
           <div className="login__text">
             Don't have an account? <Link to="/signup">Sign up</Link>
           </div>
+          <LoginGoogleBtn />
         </div>
       </div>
     </>

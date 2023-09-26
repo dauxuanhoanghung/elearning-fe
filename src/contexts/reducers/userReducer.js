@@ -1,6 +1,6 @@
 // userReducer.js
 const initialState = {
-  user: null,
+  user: {},
 };
 
 const userReducer = (state = initialState, action) => {
@@ -13,7 +13,7 @@ const userReducer = (state = initialState, action) => {
     case "LOGOUT_USER":
       return {
         ...state,
-        user: null,
+        user: {},
       };
     default:
       return state;

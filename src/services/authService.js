@@ -12,8 +12,17 @@ const authService = {
   logout() {
     return http.post(URL_LOGOUT);
   },
-  loginGoogle() {
-    
+  /**
+   * 
+   * @param {username, password, confirmPassword, firstName, lastName, email, avatar} body 
+   * @returns 
+   */
+  loginGoogle(body) {
+    return http.post(URL_LOGIN_GOOGLE, body, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
   }
 };
 

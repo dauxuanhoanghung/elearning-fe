@@ -75,34 +75,34 @@ class Http {
         //   toast.error(message);
         // }
 
-        if (isAxiosUnauthorizedError(error)) {
-          const config = error.response?.config || { headers: {}, url: "" };
-          const { url } = config;
+        // if (isAxiosUnauthorizedError(error)) {
+        //   const config = error.response?.config || { headers: {}, url: "" };
+        //   const { url } = config;
 
-          if (isAxiosExpiredTokenError(error) && url !== URL_REFRESH_TOKEN) {
-            this.refreshTokenRequest =
-              this.refreshTokenRequest ||
-              this.handleRefreshToken().finally(() => {
-                setTimeout(() => {
-                  this.refreshTokenRequest = null;
-                }, 10000);
-              });
+        //   if (isAxiosExpiredTokenError(error) && url !== URL_REFRESH_TOKEN) {
+        //     this.refreshTokenRequest =
+        //       this.refreshTokenRequest ||
+        //       this.handleRefreshToken().finally(() => {
+        //         setTimeout(() => {
+        //           this.refreshTokenRequest = null;
+        //         }, 10000);
+        //       });
 
-            return this.refreshTokenRequest.then((access_token) => {
-              return this.instance({
-                ...config,
-                headers: { ...config.headers, authorization: access_token },
-              });
-            });
-          }
+        //     return this.refreshTokenRequest.then((access_token) => {
+        //       return this.instance({
+        //         ...config,
+        //         headers: { ...config.headers, authorization: access_token },
+        //       });
+        //     });
+        //   }
 
-          clearLS();
-          this.accessToken = "";
-          this.refreshToken = "";
-          toast.error(
-            error.response?.data.data?.message || error.response?.data.message
-          );
-        }
+        //   clearLS();
+        //   this.accessToken = "";
+        //   this.refreshToken = "";
+        //   toast.error(
+        //     error.response?.data.data?.message || error.response?.data.message
+        //   );
+        // }
 
         return Promise.reject(error);
       }
