@@ -1,4 +1,4 @@
-import { URL_LOGIN, URL_LOGOUT } from '../constant/url';
+import { URL_LOGIN, URL_LOGOUT, URL_LOGIN_GOOGLE } from '../constants/url';
 import http from '../utils/http';
 const authService = {
   /**
@@ -11,6 +11,9 @@ const authService = {
   },
   logout() {
     return http.post(URL_LOGOUT);
+  },
+  loginGoogle() {
+    
   }
 };
 
