@@ -9,6 +9,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import UserContext from "../../contexts/UserContext";
+import { isEmptyObject } from "../../utils/utils";
 
 const Navbar = () => {
   const [showContent, setShowContent] = useState(false);
@@ -67,7 +68,7 @@ const Navbar = () => {
         onKeyDown={handleEnter}
       />
       <p className="navbar__text navbar__ub">Your Business</p>
-      {Object.keys(user).length !== 0 && (
+      {!isEmptyObject(user) && (
         <>
           <button className="navbar__logout">
             <p className="navbar__text navbar__ins">Log-Out</p>
@@ -85,7 +86,7 @@ const Navbar = () => {
           />
         </>
       )}
-      {Object.keys(user).length === 0 && (
+      {isEmptyObject(user) && (
         <div className="navbar__user">
           <Link to={`/search/python`}>
             <SearchIcon className="navbar__searchIcon" />

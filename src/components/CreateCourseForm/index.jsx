@@ -7,15 +7,19 @@ import {
   Box,
   Paper,
   IconButton,
-  Card,
 } from "@mui/material";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import HomeIcon from "@mui/icons-material/Home";
+import { useNavigate } from "react-router-dom";
 
 const CreateCourseForm = (props) => {
   const { courseData, setCourseData, saveCourse } = props;
-
+  const navigate = useNavigate()
+  const handleReturnHome = () => {
+    navigate("/")
+  }
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setCourseData({ ...courseData, [name]: value });
@@ -51,7 +55,10 @@ const CreateCourseForm = (props) => {
   // #endregion
   // #region sections
   const addSection = () => {
-    const sections = [...courseData.sections, { text: "", orderIndex: 0 }];
+    const sections = [
+      ...courseData.sections,
+      { sectionName: "", orderIndex: courseData.sections.length + 1 },
+    ];
     setCourseData({ ...courseData, sections });
   };
 
@@ -60,9 +67,23 @@ const CreateCourseForm = (props) => {
     sections[index][property] = value;
     setCourseData({ ...courseData, sections });
   };
+  const handleDeleteSection = (index) => {
+    const updatedSections = [...courseData.sections];
+    updatedSections.splice(index, 1);
+    updatedSections.forEach((s, i) => (s["orderIndex"] = i + 1));
+    setCourseData({
+      ...courseData,
+      sections: updatedSections,
+    });
+  };
   // #endregion
   return (
     <Box sx={{ margin: "10px auto", width: "90%" }}>
+      <IconButton aria-label="Return to Home Page" onClick={handleReturnHome}>
+        <HomeIcon />
+        Return to Home Page
+      </IconButton>
+
       <div
         style={{
           display: "flex",
@@ -191,48 +212,51 @@ const CreateCourseForm = (props) => {
             Add Criterion
           </Button>
         </Grid>
+        <Typography
+          justifyContent="center"
+          variant="h5"
+          sx={{ marginTop: "10px" }}
+        >
+          List of Sections
+        </Typography>
         {/* Sections List */}
         {courseData.sections.map((section, index) => (
-          <Grid item xs={12} key={index} display="flex">
-            <Card>
+          <Grid container xs={12} key={index} sx={{ position: "relative" }}>
+            <Typography
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+            >
+              Section {section.orderIndex}
+            </Typography>
+            <Grid item xs={8}>
               <TextField
                 label={`Section Text`}
-                value={section.text}
-                width="90%"
+                value={section.sectionName}
+                fullWidth
                 onChange={(e) =>
-                  handleSectionChange(index, "text", e.target.value)
+                  handleSectionChange(index, "sectionName", e.target.value)
                 }
+                required
               />
-              <TextField
-                label={`Order Index`}
-                type="number"
-                value={section.orderIndex}
-                width="10%"
-                onChange={(e) =>
-                  handleSectionChange(index, "orderIndex", e.target.value)
-                }
-              />
-            </Card>
+            </Grid>
+            <IconButton
+              onClick={() => handleDeleteSection(index)}
+              aria-label={`Delete section ${index + 1}`}
+              sx={{
+                position: "absolute",
+                right: "5px",
+                transform: "translate(-50%)",
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
           </Grid>
         ))}
         <Grid item xs={12}>
           <Button variant="outlined" size="small" onClick={addSection}>
             <AddIcon />
             Add New Section
-          </Button>
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            cursor: "pointer",
-          }}
-        >
-          <Button variant="contained" color="primary" onClick={saveCourse}>
-            Save Course
           </Button>
         </Grid>
       </Grid>
