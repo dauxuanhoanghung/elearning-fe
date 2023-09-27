@@ -1,5 +1,4 @@
 import {
-  Alert,
   Avatar,
   Card,
   CardActions,
@@ -7,8 +6,6 @@ import {
   CardHeader,
   CardMedia,
   IconButton,
-  Slide,
-  Snackbar,
   Typography,
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -16,10 +13,8 @@ import ShareIcon from "@mui/icons-material/Share";
 import { useContext, useEffect, useState } from "react";
 import UserContext from "../../contexts/UserContext";
 import { isEmptyObject } from "../../utils/utils";
+import { useSnackbar } from "../../contexts/SnackbarContext";
 
-function TransitionLeft(props) {
-  return <Slide {...props} direction="left" />;
-}
 /**
  *
  * @param {id, name, description, background, countRegistration, user} props: Card
@@ -29,30 +24,25 @@ const CourseCard = (props) => {
   const { id, name, description, background, countRegistration, user } = props;
   const { user: currentUser } = useContext(UserContext);
   // #region Snackbar
-  const [snackState, setSnackState] = useState({
-    open: false,
-    message: "",
-    severity: "error",
-  });
-
-  const handleClose = () => {
-    setSnackState(false);
-  };
+  const { showSnackbar } = useSnackbar();
   // #endregion
   // #region Favorites
   const [favorites, setFavorites] = useState(false);
   const handleToggleFavorite = () => {
     if (!isEmptyObject(currentUser)) {
       setFavorites((prev) => !prev);
-      setSnackState({
-        open: true,
+      showSnackbar({
         message: favorites
           ? "Add to favorites success"
           : "Remove from favorites success",
         severity: favorites ? "success" : "info",
       });
     } else {
-      setSnackState({ open: true, message: "Please login first", severity: "error" });
+      setSnackState({
+        open: true,
+        message: "Please login first",
+        severity: "error",
+      });
     }
   };
   useEffect(() => {}, []);
@@ -87,21 +77,6 @@ const CourseCard = (props) => {
           </IconButton>
         </CardActions>
       </Card>
-      <Snackbar
-        open={snackState.open}
-        autoHideDuration={1000}
-        onClose={handleClose}
-        TransitionComponent={TransitionLeft}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      >
-        <Alert
-          onClose={handleClose}
-          severity={snackState.severity}
-          sx={{ width: "100%" }}
-        >
-          {snackState.message}
-        </Alert>
-      </Snackbar>
     </>
   );
 };

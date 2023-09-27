@@ -51,8 +51,8 @@ class Http {
         if (url === URL_LOGIN) {
           //|| url === URL_REGISTER
           const data = response.data;
-          this.accessToken = data.data.access_token;
-          this.refreshToken = data.data.refresh_token;
+          this.accessToken = data.data.token;
+          this.refreshToken = data.data.token;
           setAccessTokenToLS(this.accessToken);
           setRefreshTokenToLS(this.refreshToken);
           // setProfileToLS(data.data.user);

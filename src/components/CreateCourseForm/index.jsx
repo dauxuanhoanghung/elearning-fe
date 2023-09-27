@@ -29,7 +29,7 @@ const CreateCourseForm = (props) => {
   const inputRef = useRef();
   const handleBackgroundImageUpload = (e) => {
     const backgroundImage = e.target.files[0];
-    setCourseData({ ...courseData, background: backgroundImage });
+    setCourseData({ ...courseData, backgroundFile: backgroundImage });
     setBackgroundImageURL(URL.createObjectURL(backgroundImage));
   };
   // #endregion

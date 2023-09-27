@@ -4,33 +4,23 @@ import Footer from "../../../../components/Footer";
 import CreateCourseForm from "../../../../components/CreateCourseForm";
 import CreateLectureForm from "../../../../components/CreateLectureForm";
 import {
-  Alert,
   Box,
   Button,
   Container,
   Slide,
-  Snackbar,
   Step,
   StepButton,
   Stepper,
   Typography,
 } from "@mui/material";
-
+import { useSnackbar } from "../../../../contexts/SnackbarContext";
+import courseService from "../../../../services/courseService";
+import Spinner from "../../../../components/Spinner";
+import { useNavigate } from "react-router-dom";
 const steps = ["Create Info Course", "Add Lecture"];
-function TransitionLeft(props) {
-  return <Slide {...props} direction="left" />;
-}
 const CourseCreation = ({}) => {
   // #region Snackbar
-  const [snackState, setSnackState] = useState({
-    open: false,
-    message: "",
-    severity: "error",
-  });
-
-  const handleClose = () => {
-    setSnackState(false);
-  };
+  const { showSnackbar } = useSnackbar();
   // #endregion
   // #region Stepper
   const [activeStep, setActiveStep] = useState(0);
@@ -53,7 +43,7 @@ const CourseCreation = ({}) => {
   const handleNext = () => {
     if (activeStep === 0) {
       if (courseData.name.trim() === "" || courseData.price.trim() === "") {
-        setSnackState({ open: true, message: "Please enter full field", severity: "error"})
+        showSnackbar({ message: "Please enter full field", severity: "error" });
         return;
       }
     }
@@ -75,7 +65,11 @@ const CourseCreation = ({}) => {
   const handleComplete = () => {
     if (activeStep === 0) {
       if (courseData.name.trim() === "" || courseData.price.trim() === "") {
-        setSnackState({ open: true, message: "Please enter full field", severity: "error"})
+        setSnackState({
+          open: true,
+          message: "Please enter full field",
+          severity: "error",
+        });
         return;
       }
     }
@@ -92,23 +86,53 @@ const CourseCreation = ({}) => {
   // #endregion
   const [courseData, setCourseData] = useState({
     name: "",
-    background: null,
+    backgroundFile: null,
     price: "",
     description: "",
     criteria: [],
     sections: [],
   });
-  const [showCreateLectureForm, setShowCreateLectureForm] = useState(false);
-
-  const saveCourse = () => {
-    // Handle saving the course data to your backend or storage here
-    console.log("saveCourse >>>", courseData);
-    setShowCreateLectureForm(true);
-  };
-
-  const handleFetchToSaveData = () => {
+  const navigate = useNavigate();
+  const handleFetchToSaveData = async () => {
+    const createFormData = (data) => {
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("backgroundFile", data.backgroundFile);
+      formData.append("price", data.price);
+      formData.append("description", data.description);
+      formData.append("criteria", JSON.stringify(data.criteria));
+      data.sections.forEach((section, sectionIndex) => {
+        const sectionFormData = new FormData();
+        sectionFormData.append("sectionName", section.sectionName);
+        sectionFormData.append("orderIndex", section.orderIndex);
+        section.lectures.forEach((lecture, index) => {
+          const lectureFormData = new FormData();
+          lectureFormData.append("title", lecture.title);
+          lectureFormData.append("content", lecture.content);
+          lectureFormData.append("type", lecture.type);
+          lectureFormData.append("orderIndex", lecture.orderIndex);
+          lectureFormData.append("videoFile", lecture.videoFile);
+          sectionFormData.append("lectures", lectureFormData);
+        });
+        formData.append("sections", sectionFormData);
+      });
+      return formData;
+    };
     console.log("handleFetchToSaveData >>>", courseData);
+    // setLoading(true);
+    const request = createFormData(courseData);
+    const courseRes = await courseService.create(request);
+    // const sectionRes = await 
+    // if (res.status === "201") {
+    //   navigate("/");
+    // }
+    // setLoading(false);
   };
+
+  const [loading, setLoading] = useState(false);
+  if (loading) {
+    return <Spinner />;
+  }
   return (
     <>
       <Navbar />
@@ -161,7 +185,11 @@ const CourseCreation = ({}) => {
                   Back
                 </Button>
                 <Box sx={{ flex: "1 1 auto" }} />
-                <Button onClick={handleNext} sx={{ mr: 1 }}>
+                <Button
+                  onClick={handleNext}
+                  disabled={activeStep === steps.length - 1}
+                  sx={{ mr: 1 }}
+                >
                   Next
                 </Button>
                 {activeStep !== steps.length &&
@@ -184,21 +212,6 @@ const CourseCreation = ({}) => {
           )}
         </div>
       </Container>
-      <Snackbar
-        open={snackState.open}
-        autoHideDuration={1000}
-        onClose={handleClose}
-        TransitionComponent={TransitionLeft}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      >
-        <Alert
-          onClose={handleClose}
-          severity={snackState.severity}
-          sx={{ width: "100%" }}
-        >
-          {snackState.message}
-        </Alert>
-      </Snackbar>
       <Footer />
     </>
   );
