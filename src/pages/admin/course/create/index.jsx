@@ -17,6 +17,7 @@ import { useSnackbar } from "../../../../contexts/SnackbarContext";
 import courseService from "../../../../services/courseService";
 import Spinner from "../../../../components/Spinner";
 import { useNavigate } from "react-router-dom";
+import { objectToFormData, buildFormData } from "../../../../utils/utils";
 const steps = ["Create Info Course", "Add Lecture"];
 const CourseCreation = ({}) => {
   // #region Snackbar
@@ -101,20 +102,31 @@ const CourseCreation = ({}) => {
       formData.append("price", data.price);
       formData.append("description", data.description);
       formData.append("criteria", JSON.stringify(data.criteria));
+      return formData;
+    };
+    const createSectionFormData = (data, course) => {
+      const formData = new FormData();
       data.sections.forEach((section, sectionIndex) => {
-        const sectionFormData = new FormData();
-        sectionFormData.append("sectionName", section.sectionName);
-        sectionFormData.append("orderIndex", section.orderIndex);
+        const sectionForm = new FormData();
+        sectionForm.append(`sectionName`, section.sectionName);
+        sectionForm.append(`orderIndex`, section.orderIndex);
+        sectionForm.append(`courses`, course);
         section.lectures.forEach((lecture, index) => {
-          const lectureFormData = new FormData();
-          lectureFormData.append("title", lecture.title);
-          lectureFormData.append("content", lecture.content);
-          lectureFormData.append("type", lecture.type);
-          lectureFormData.append("orderIndex", lecture.orderIndex);
-          lectureFormData.append("videoFile", lecture.videoFile);
-          sectionFormData.append("lectures", lectureFormData);
+          const lectureForm = new FormData();
+          lectureForm.append(`lectures[${index}][title]`, lecture.title);
+          lectureForm.append(`lectures[${index}][content]`, lecture.content);
+          lectureForm.append(`lectures[${index}][type]`, lecture.type);
+          lectureForm.append(
+            `lectures[${index}][orderIndex]`,
+            lecture.orderIndex
+          );
+          lectureForm.append(
+            `lectures[${index}][videoFile]`,
+            lecture.videoFile
+          );
+          sectionForm.append("lectures", lectureForm);
         });
-        formData.append("sections", sectionFormData);
+        formData.append("sections", sectionForm);
       });
       return formData;
     };
@@ -122,7 +134,14 @@ const CourseCreation = ({}) => {
     // setLoading(true);
     const request = createFormData(courseData);
     const courseRes = await courseService.create(request);
-    // const sectionRes = await 
+    console.log(courseRes.data.data);
+    if (courseRes.data.status === 201) {
+      const sectionRequest = createSectionFormData(
+        courseData,
+        courseRes?.data?.data.id
+      );
+      const sectionRes = await courseService.createSection(sectionRequest);
+    }
     // if (res.status === "201") {
     //   navigate("/");
     // }

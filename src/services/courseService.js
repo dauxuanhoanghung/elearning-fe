@@ -1,5 +1,6 @@
 import {
   URL_COURSE,
+  URL_CREATE_SECTION,
   URL_DELETE_COURSE_BY_ID,
   URL_GET_COURSE_BY_ID,
 } from "../constants/url";
@@ -14,11 +15,23 @@ const courseService = {
   },
   /**
    *
-   * @param {name, description, price, backgroundFile, publishDate, createdDate, criteria, sections} body
+   * @param {courseRequest, sections} body
    * @returns
    */
   create(body) {
     return http.post(URL_COURSE, body, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  },
+  /**
+   * 
+   * @param [] sections 
+   * @returns 
+   */
+  createSection(sections) {
+    return http.post(URL_CREATE_SECTION, sections, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

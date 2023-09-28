@@ -14,6 +14,7 @@ export const URL_REGISTER = `${URL_USER}`;
 // #endregion
 // #region Course API
 export const URL_COURSE = "/api/courses/";
+export const URL_CREATE_SECTION = `${URL_COURSE}after-create-course`
 export const URL_GET_COURSE_BY_ID = (id) => `${URL_COURSE}${id}`;
 export const URL_UPDATE_COURSE = `${URL_COURSE}update`;
 export const URL_DELETE_COURSE_BY_ID = (id) => `${URL_COURSE}${id}/delete`;
