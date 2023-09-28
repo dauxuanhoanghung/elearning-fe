@@ -24,8 +24,8 @@ export const URL_COURSE_COMMENT = "/api/course-comments/";
 // #endregion
 // #region Lecture API
 export const URL_LECTURE = "/api/lectures/";
-export const URL_GET_LECTURE_BY_ID = (id) => `${URL_LECTURE}/${id}`;
-export const URL_DELETE_LECTURE_BY_ID = (id) => `${URL_LECTURE}/${id}`;
+export const URL_GET_LECTURE_BY_ID = (id) => `${URL_LECTURE}${id}`;
+export const URL_DELETE_LECTURE_BY_ID = (id) => `${URL_LECTURE}${id}/delete`;
 // #endregion
 // #region Blog API
 export const URL_BLOG = "/api/blogs/";

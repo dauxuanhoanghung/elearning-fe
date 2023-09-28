@@ -15,9 +15,9 @@ import {
 } from "@mui/material";
 import { useSnackbar } from "../../../../contexts/SnackbarContext";
 import courseService from "../../../../services/courseService";
+import lectureService from "../../../../services/lectureService";
 import Spinner from "../../../../components/Spinner";
 import { useNavigate } from "react-router-dom";
-import { objectToFormData, buildFormData } from "../../../../utils/utils";
 const steps = ["Create Info Course", "Add Lecture"];
 const CourseCreation = ({}) => {
   // #region Snackbar
@@ -104,133 +104,146 @@ const CourseCreation = ({}) => {
       formData.append("criteria", JSON.stringify(data.criteria));
       return formData;
     };
-    const createSectionFormData = (data, course) => {
+    const createSectionFormData = (courseSections, courseId) => {
+      let sections = [];
+      courseSections.forEach((d) =>
+        sections.push({
+          sectionName: d.sectionName,
+          orderIndex: d.orderIndex,
+          course: courseId,
+        })
+      );
+      return sections;
+    };
+    const createLectureForm = (lecture, sectionId) => {
       const formData = new FormData();
-      data.sections.forEach((section, sectionIndex) => {
-        const sectionForm = new FormData();
-        sectionForm.append(`sectionName`, section.sectionName);
-        sectionForm.append(`orderIndex`, section.orderIndex);
-        sectionForm.append(`courses`, course);
-        section.lectures.forEach((lecture, index) => {
-          const lectureForm = new FormData();
-          lectureForm.append(`lectures[${index}][title]`, lecture.title);
-          lectureForm.append(`lectures[${index}][content]`, lecture.content);
-          lectureForm.append(`lectures[${index}][type]`, lecture.type);
-          lectureForm.append(
-            `lectures[${index}][orderIndex]`,
-            lecture.orderIndex
-          );
-          lectureForm.append(
-            `lectures[${index}][videoFile]`,
-            lecture.videoFile
-          );
-          sectionForm.append("lectures", lectureForm);
-        });
-        formData.append("sections", sectionForm);
-      });
+      formData.append("title", lecture.title);
+      formData.append("content", lecture.content);
+      formData.append("type", lecture.type);
+      formData.append("orderIndex", lecture.orderIndex);
+      formData.append("videoFile", lecture.videoFile);
+      formData.append("section", sectionId);
       return formData;
     };
     console.log("handleFetchToSaveData >>>", courseData);
+
     // setLoading(true);
     const request = createFormData(courseData);
     const courseRes = await courseService.create(request);
     console.log(courseRes.data.data);
     if (courseRes.data.status === 201) {
       const sectionRequest = createSectionFormData(
-        courseData,
+        courseData.sections,
         courseRes?.data?.data.id
       );
-      const sectionRes = await courseService.createSection(sectionRequest);
+      const sectionRes = await courseService.createSection(
+        JSON.stringify({ sections: [...sectionRequest] })
+      );
+      const sectionsResult = sectionRes.data.data;
+      let finalRes = null;
+      courseData.sections.forEach((section) => {
+        sectionsResult.forEach((resultSection) => {
+          if (section.orderIndex === resultSection.orderIndex) {
+            console.log("section.orderIndex", section.orderIndex, resultSection.orderIndex)
+            section.lectures.forEach(async (lecture) => {
+              const lectureRequest = createLectureForm(lecture, resultSection.id);
+              finalRes = await lectureService.create(lectureRequest);
+            })
+          }
+        });
+      });
     }
-    // if (res.status === "201") {
-    //   navigate("/");
-    // }
+    if (finalRes.data.status === 201) {
+      navigate("/");
+    }
     // setLoading(false);
   };
 
   const [loading, setLoading] = useState(false);
-  if (loading) {
-    return <Spinner />;
-  }
+
   return (
     <>
       <Navbar />
-      <Container sx={{ marginY: "20px", minHeight: "500px" }}>
-        <Stepper nonLinear activeStep={activeStep}>
-          {steps.map((label, index) => (
-            <Step key={label} completed={completed[index]}>
-              <StepButton color="inherit" onClick={handleStep(index)}>
-                {label}
-              </StepButton>
-            </Step>
-          ))}
-        </Stepper>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <Container sx={{ marginY: "20px", minHeight: "500px" }}>
+          <Stepper nonLinear activeStep={activeStep}>
+            {steps.map((label, index) => (
+              <Step key={label} completed={completed[index]}>
+                <StepButton color="inherit" onClick={handleStep(index)}>
+                  {label}
+                </StepButton>
+              </Step>
+            ))}
+          </Stepper>
 
-        <div>
-          {allStepsCompleted() ? (
-            <>
-              <Typography sx={{ mt: 2, mb: 1 }}>
-                All steps completed - you're finished
-              </Typography>
-              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                <Box sx={{ flex: "1 1 auto" }} />
-                <Button onClick={handleReset}>Reset</Button>
-                <Button onClick={handleFetchToSaveData}>Complete</Button>
-              </Box>
-            </>
-          ) : (
-            <>
-              <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
-                {activeStep === 0 && (
-                  <CreateCourseForm
-                    courseData={courseData}
-                    setCourseData={setCourseData}
-                  />
-                )}
-                {activeStep === 1 && (
-                  <CreateLectureForm
-                    courseData={courseData}
-                    setCourseData={setCourseData}
-                  />
-                )}
-              </Typography>
-              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                <Button
-                  color="inherit"
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  sx={{ mr: 1 }}
-                >
-                  Back
-                </Button>
-                <Box sx={{ flex: "1 1 auto" }} />
-                <Button
-                  onClick={handleNext}
-                  disabled={activeStep === steps.length - 1}
-                  sx={{ mr: 1 }}
-                >
-                  Next
-                </Button>
-                {activeStep !== steps.length &&
-                  (completed[activeStep] ? (
-                    <Typography
-                      variant="caption"
-                      sx={{ display: "inline-block" }}
-                    >
-                      Step {activeStep + 1} already completed
-                    </Typography>
-                  ) : (
-                    <Button onClick={handleComplete}>
-                      {completedSteps() === totalSteps() - 1
-                        ? "Finish"
-                        : "Complete Step"}
-                    </Button>
-                  ))}
-              </Box>
-            </>
-          )}
-        </div>
-      </Container>
+          <div>
+            {allStepsCompleted() ? (
+              <>
+                <Typography sx={{ mt: 2, mb: 1 }}>
+                  All steps completed - you're finished
+                </Typography>
+                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                  <Box sx={{ flex: "1 1 auto" }} />
+                  <Button onClick={handleReset}>Reset</Button>
+                  <Button onClick={handleFetchToSaveData}>Complete</Button>
+                </Box>
+              </>
+            ) : (
+              <>
+                <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
+                  {activeStep === 0 && (
+                    <CreateCourseForm
+                      courseData={courseData}
+                      setCourseData={setCourseData}
+                    />
+                  )}
+                  {activeStep === 1 && (
+                    <CreateLectureForm
+                      courseData={courseData}
+                      setCourseData={setCourseData}
+                    />
+                  )}
+                </Typography>
+                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                  <Button
+                    color="inherit"
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    sx={{ mr: 1 }}
+                  >
+                    Back
+                  </Button>
+                  <Box sx={{ flex: "1 1 auto" }} />
+                  <Button
+                    onClick={handleNext}
+                    disabled={activeStep === steps.length - 1}
+                    sx={{ mr: 1 }}
+                  >
+                    Next
+                  </Button>
+                  {activeStep !== steps.length &&
+                    (completed[activeStep] ? (
+                      <Typography
+                        variant="caption"
+                        sx={{ display: "inline-block" }}
+                      >
+                        Step {activeStep + 1} already completed
+                      </Typography>
+                    ) : (
+                      <Button onClick={handleComplete}>
+                        {completedSteps() === totalSteps() - 1
+                          ? "Finish"
+                          : "Complete Step"}
+                      </Button>
+                    ))}
+                </Box>
+              </>
+            )}
+          </div>
+        </Container>
+      )}
       <Footer />
     </>
   );

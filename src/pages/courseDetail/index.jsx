@@ -12,10 +12,11 @@ function CourseDetail() {
   // Endregion
   // Region course comments
   const [comments, setComments] = useState([]);
+  const [page, setPage] = useState(0);
   useEffect(() => {
     const getCommentsByCourseId = async (courseId) => {};
     getCommentsByCourseId(courseId);
-  }, [courseId]);
+  }, [courseId, page]);
   // Endregion
   return (
     <>

@@ -33,8 +33,8 @@ const courseService = {
   createSection(sections) {
     return http.post(URL_CREATE_SECTION, sections, {
       headers: {
-        "Content-Type": "multipart/form-data",
-      },
+        "Content-Type": "application/json",
+      }
     });
   },
   /**
