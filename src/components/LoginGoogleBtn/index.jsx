@@ -8,9 +8,7 @@ import UserContext from "../../contexts/UserContext";
 import Spinner from "../Spinner";
 import { setAccessTokenToLS, setProfileToLS } from "../../utils/auth";
 import { removeVietnameseTones } from "../../utils/utils";
-const client_id =
-  "402026854293-394gqacf406s92p1ujrd2bndv764psm3.apps.googleusercontent.com";
-const client_secret = "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";
+const client_id = import.meta.env.GOOGLE_CLIENT_ID;
 const LoginGoogleBtn = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);

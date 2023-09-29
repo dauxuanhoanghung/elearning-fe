@@ -3,7 +3,7 @@ import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import LoginGoogleBtn from "../LoginGoogleBtn";
 import authService from "../../services/authService";
-import { setAccessTokenToLS, setProfileToLS } from "../../utils/auth";
+import { setProfileToLS } from "../../utils/auth";
 import userService from "../../services/userService";
 import UserContext from "../../contexts/UserContext";
 

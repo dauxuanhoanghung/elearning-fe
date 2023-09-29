@@ -128,10 +128,12 @@ const CourseCreation = ({}) => {
     console.log("handleFetchToSaveData >>>", courseData);
 
     // setLoading(true);
+    // 1. create course
     const request = createFormData(courseData);
     const courseRes = await courseService.create(request);
     console.log(courseRes.data.data);
     if (courseRes.data.status === 201) {
+      // 2. create section
       const sectionRequest = createSectionFormData(
         courseData.sections,
         courseRes?.data?.data.id
@@ -141,6 +143,7 @@ const CourseCreation = ({}) => {
       );
       const sectionsResult = sectionRes.data.data;
       let finalRes = null;
+      // 3. create lecture
       courseData.sections.forEach((section) => {
         sectionsResult.forEach((resultSection) => {
           if (section.orderIndex === resultSection.orderIndex) {

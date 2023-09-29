@@ -14,13 +14,18 @@ export const URL_REGISTER = `${URL_USER}`;
 // #endregion
 // #region Course API
 export const URL_COURSE = "/api/courses/";
-export const URL_CREATE_SECTION = `${URL_COURSE}after-create-course`
+export const URL_CREATE_SECTION = `${URL_COURSE}after-create-course`;
+export const URL_GET_SECTION_BY_COURSE_ID = (id) =>
+  `${URL_COURSE}${id}/get-section`;
 export const URL_GET_COURSE_BY_ID = (id) => `${URL_COURSE}${id}`;
 export const URL_UPDATE_COURSE = `${URL_COURSE}update`;
 export const URL_DELETE_COURSE_BY_ID = (id) => `${URL_COURSE}${id}/delete`;
+export const URL_GET_CRITERIA_BY_ID = (id) => `${URL_COURSE}${id}/get-criteria`;
 // #endregion
 // #region Course Comment API
 export const URL_COURSE_COMMENT = "/api/course-comments/";
+export const URL_GET_COMMENT_BY_COURSE_ID = (courseId) =>
+  `${URL_COURSE_COMMENT}course/${courseId}`;
 // #endregion
 // #region Lecture API
 export const URL_LECTURE = "/api/lectures/";

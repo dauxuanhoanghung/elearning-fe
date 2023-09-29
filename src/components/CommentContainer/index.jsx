@@ -1,44 +1,46 @@
-import React from "react";
-import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import Divider from "@mui/material/Divider";
+import React, { useState } from "react";
+import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import Comment from "../Comment"; // Assuming you have a Comment component
-import { Button, TextField } from "@mui/material";
-
-const comments = [
-  {
-    id: 1,
-    user: { name: "John Doe", avatar: "avatar_url_1" },
-    text: "This is the first comment.",
-    createdDate: "September 27, 2023",
-  },
-  {
-    id: 2,
-    user: { name: "Jane Smith", avatar: "avatar_url_2" },
-    text: "This is the second comment.",
-    createdDate: "September 28, 2023",
-  },
-  // Add more comments here
-];
+import {
+  Button,
+  InputAdornment,
+  TextField,
+  Typography,
+  List,
+  ListItem,
+  Divider,
+  IconButton,
+} from "@mui/material";
+import courseCommentService from "../../services/courseCommentService";
 
 const CommentContainer = (props) => {
+  const { comments = [], setComments, courseId, lectureId, blogId, getCommentsByCourseId } =
+    props;
   const [newComment, setNewComment] = useState("");
 
   const handleCommentChange = (event) => {
     setNewComment(event.target.value);
   };
 
-  const handleCommentSubmit = () => {
+  const handleCommentSubmit = async () => {
     // Handle comment submission here, e.g., send to a server, update state, etc.
     // You can add your logic here to save the new comment.
     console.log("New Comment:", newComment);
+    if (courseId) {
+      const request = { content: newComment, course: courseId };
+      console.log(request);
+      const res = await courseCommentService.createComment(request);
+      console.log(res.data.data)
+      setComments([newComment, ...comments]);
+      console.log(comments)
+    } else if (lectureId) {
+    } else if (blogId) {
+    }
     setNewComment("");
   };
 
   return (
-    <Paper elevation={3} style={{ padding: "16px" }}>
+    <>
       <Typography variant="h5" gutterBottom>
         Comments
       </Typography>
@@ -46,19 +48,23 @@ const CommentContainer = (props) => {
         label="Add a comment"
         variant="outlined"
         fullWidth
-        multiline
         rows={4}
         value={newComment}
         onChange={handleCommentChange}
+        onKeyUp={(e) => e.keyCode === 13 && handleCommentSubmit()}
         style={{ marginTop: "16px" }}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton onClick={handleCommentSubmit}>
+                <SendOutlinedIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
       />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleCommentSubmit}
-        style={{ marginTop: "8px" }}
-      >
-        Submit Comment
+      <Button onClick={getCommentsByCourseId} variant="text">
+        See more...
       </Button>
       <List>
         {comments.map((comment, index) => (
@@ -72,7 +78,7 @@ const CommentContainer = (props) => {
           </React.Fragment>
         ))}
       </List>
-    </Paper>
+    </>
   );
 };
 

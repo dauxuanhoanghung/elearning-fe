@@ -3,6 +3,8 @@ import {
   URL_CREATE_SECTION,
   URL_DELETE_COURSE_BY_ID,
   URL_GET_COURSE_BY_ID,
+  URL_GET_CRITERIA_BY_ID,
+  URL_GET_SECTION_BY_COURSE_ID,
 } from "../constants/url";
 import http from "../utils/http";
 
@@ -26,21 +28,24 @@ const courseService = {
     });
   },
   /**
-   * 
-   * @param [] sections 
-   * @returns 
+   *
+   * @param [] sections
+   * @returns
    */
   createSection(sections) {
     return http.post(URL_CREATE_SECTION, sections, {
       headers: {
         "Content-Type": "application/json",
-      }
+      },
     });
   },
+  getSection(courseId) {
+    return http.get(URL_GET_SECTION_BY_COURSE_ID(courseId));
+  },
   /**
-   * 
-   * @param {id, name, description, price, backgroundFile, publishDate, createdDate, criteria, sections} body 
-   * @returns 
+   *
+   * @param {id, name, description, price, backgroundFile, publishDate, createdDate, criteria, sections} body
+   * @returns
    */
   update(body) {
     return http.put(URL_UPDATE_COURSE, body, {
@@ -56,6 +61,9 @@ const courseService = {
    */
   deleteById(id) {
     return http.delete(URL_DELETE_COURSE_BY_ID(id));
+  },
+  getCriteriaByCourseId(courseId) {
+    return http.get(URL_GET_CRITERIA_BY_ID(courseId));
   },
 };
 

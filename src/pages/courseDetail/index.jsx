@@ -1,46 +1,215 @@
+import {
+  Avatar,
+  Box,
+  Breadcrumbs,
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  Paper,
+  Typography,
+} from "@mui/material";
+import FeedOutlinedIcon from "@mui/icons-material/FeedOutlined";
+import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import CommentContainer from "../../components/CommentContainer";
+import courseCommentService from "../../services/courseCommentService";
+import courseService from "../../services/courseService";
+import SectionCard from "../../components/SectionCard";
+
+const styles = {
+  container: {
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    minHeight: "100vh",
+    alignItems: "center",
+  },
+  paper: {
+    padding: "16px",
+  },
+};
 
 function CourseDetail() {
   const { courseId } = useParams();
-  // Region course criteria
+  // #region course detail
+  /**
+   * course {id, name, description, background(image), price(for button), creator, createdDate}
+   */
+  const [courseData, setCourseData] = useState({});
+  useEffect(() => {
+    const getCourseByCourseId = async (courseId) => {
+      const res = await courseService.getCourseById(courseId);
+      setCourseData(res.data.data);
+    };
+    getCourseByCourseId(courseId);
+  }, []);
+  // #endregion
+  // #region criteria
   const [listCriteria, setListCriteria] = useState([]);
   useEffect(() => {
-    const getListCriteriaByCourseId = async (courseId) => {};
+    const getListCriteriaByCourseId = async (courseId) => {
+      const res = await courseService.getCriteriaByCourseId(courseId);
+      setListCriteria([...res.data.data]);
+    };
     getListCriteriaByCourseId(courseId);
-  }, [courseId]);
-  // Endregion
-  // Region course comments
+  }, []);
+  // #region section
+  const [sections, setSections] = useState([]);
+  useEffect(() => {
+    const getSectionsByCourseId = async (courseId) => {
+      const res = await courseService.getSection(courseId);
+      setSections([...res.data.data]);
+    };
+    getSectionsByCourseId(courseId);
+  }, []);
+  // #endregion
+  // #region comments
   const [comments, setComments] = useState([]);
   const [page, setPage] = useState(0);
+  const getCommentsByCourseId = async () => {
+    if (page === -1) return;
+    let res = await courseCommentService.getCommentsByCourseId(courseId, page);
+    if (res.data.data.length > 0) {
+      setComments([...comments, ...res.data.data]);
+      setPage(page + 1);
+    } else setPage(-1);
+  };
   useEffect(() => {
-    const getCommentsByCourseId = async (courseId) => {};
     getCommentsByCourseId(courseId);
-  }, [courseId, page]);
-  // Endregion
+  }, []);
+  // #endregion
+  // #region Registration
+  const [registration, setRegistration] = useState(false);
+  const handleRegisterCourse = async () => {};
+  // endregion
   return (
     <>
-      <div className={classes.root}>
-        <Card className={classes.card}>
-          <CardMedia
-            className={classes.media}
-            image="URL_TO_COURSE_IMAGE" // Replace with the actual URL of the course image
-            title="Course Image"
-          />
-          <CardContent>
+      <Navbar />
+      <Box sx={{ width: "90%", margin: "10px auto" }} style={styles.container}>
+        <img
+          src={courseData.background}
+          style={{
+            maxHeight: "400px",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        />
+        {/* Content */}
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={8}>
+            <Breadcrumbs aria-label="breadcrumb">
+              <Link to="/" style={{ textDecoration: "none" }}>
+                Home
+              </Link>
+              <Typography color="textPrimary">{courseData.name}</Typography>
+            </Breadcrumbs>
+            {/* Course Title */}
+            <Typography variant="h4" gutterBottom>
+              {courseData.name}
+            </Typography>
+            {/* Course Description */}
+            <Typography variant="h6" gutterBottom>
+              {courseData.description}
+            </Typography>
+            {/* Course Sections */}
             <Typography variant="h5" gutterBottom>
-              Course Name
+              <Typography variant="h5">Criteria:</Typography>
+              {listCriteria?.map((criteria, index) => (
+                <>
+                  <Typography key={index} variant="body1">
+                    <ArrowForwardIosRoundedIcon /> {criteria.text}
+                  </Typography>
+                </>
+              ))}
             </Typography>
-            <Typography variant="body1">
-              Course Description goes here. Provide a detailed description of
-              the course.
+            {/* Course Sections */}
+            <Typography variant="subtitle1" gutterBottom>
+              <Typography variant="h5">Sections:</Typography>
+              {sections?.map((section, index) => (
+                <SectionCard
+                  key={index}
+                  orderIndex={section.orderIndex}
+                  sectionName={section.sectionName}
+                  hideIcon={true}
+                />
+              ))}
             </Typography>
-          </CardContent>
-          <Button variant="contained" color="primary">
-            Register
-          </Button>
-        </Card>
-      </div>
+
+            {/* Render comments section here */}
+            <CommentContainer
+              courseId={courseId}
+              comments={comments}
+              setComments={setComments}
+              getCommentsByCourseId={getCommentsByCourseId}
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Card>
+              <CardContent>
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  sx={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <Typography sx={{ alignItems: "center" }}>
+                    <GroupAddOutlinedIcon />
+                    <span style={{ marginBottom: "5px" }}>Registrations: </span>
+                  </Typography>
+                  <Typography>{courseData.registrationCount || 0}</Typography>
+                </Typography>
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  sx={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <Typography>
+                    <FeedOutlinedIcon />
+                    Lectures:
+                  </Typography>
+                  <Typography>{courseData.lectureCount || 0}</Typography>
+                </Typography>
+              </CardContent>
+            </Card>
+            <Button
+              variant="contained"
+              sx={{ width: "100%", backgroundColor: "" }}
+              onClick={handleRegisterCourse}
+            >
+              {courseData?.price === 0
+                ? "Free. Register now"
+                : courseData?.price}
+            </Button>
+            {/* Creator */}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                margin: "10px auto",
+              }}
+            >
+              <Avatar
+                src={courseData.user?.avatar}
+                alt={courseData.user?.firstName + courseData.user?.lastName}
+                style={{ marginRight: "16px" }}
+              />
+              <Typography variant="body1">
+                Creator:
+                {`${courseData.user?.firstName} ${courseData.user?.lastName}`}
+              </Typography>
+            </Box>
+            {/* Created Date */}
+            <Typography variant="body2" color="textSecondary">
+              Created Date: {courseData.createdDate}
+            </Typography>
+          </Grid>
+        </Grid>
+      </Box>
+      <Footer />
     </>
   );
 }

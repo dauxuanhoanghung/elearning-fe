@@ -9,28 +9,30 @@ import Rating from "@mui/material/Rating";
  * @param {user, text, createdDate } param0
  * @returns
  */
-const Comment = ({ user, text, createdDate }) => {
+const Comment = ({ user, content, createdDate }) => {
   return (
-    <Paper elevation={3} style={{ padding: "16px", marginBottom: "16px" }}>
+    <>
       <Box display="flex" alignItems="center">
         <Avatar
-          src={user.avatar}
-          alt={user.name}
+          src={user?.avatar}
+          alt={user?.firstName + user?.lastName}
           style={{ marginRight: "16px" }}
         />
-        <Typography variant="h6">{user.name}</Typography>
+        <Box>
+          <Typography variant="h6">{`${user?.firstName} ${user?.lastName}`}</Typography>
+          <Typography variant="body1" style={{ marginTop: "4px" }}>
+            {content}
+          </Typography>
+          <Typography
+            variant="caption"
+            color="textSecondary"
+            style={{ marginTop: "2px" }}
+          >
+            {createdDate}
+          </Typography>
+        </Box>
       </Box>
-      <Typography variant="body1" style={{ marginTop: "8px" }}>
-        {text}
-      </Typography>
-      <Typography
-        variant="caption"
-        color="textSecondary"
-        style={{ marginTop: "8px" }}
-      >
-        {createdDate}
-      </Typography>
-    </Paper>
+    </>
   );
 };
 

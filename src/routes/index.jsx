@@ -7,6 +7,7 @@ import CourseCreation from "../pages/admin/course/create";
 import { getProfileFromLS } from "../utils/auth";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { isEmptyObject } from "../utils/utils";
+import CourseDetail from "../pages/courseDetail";
 
 const AuthenticatedRoute = ({ redirect = "/" }) => {
   const user = getProfileFromLS();
@@ -22,7 +23,7 @@ export const routers = [
   { path: "signup", element: <Signup /> },
   { path: "/course/create", element: <AuthenticatedRoute redirect='/login' />, children: [{ index: true, element: <CourseCreation /> }] },
   // { path: "/course/create", element: <CourseCreation /> },
-  { path: "/course/:courseId", element: null },
+  { path: "/course/:courseId/view", element: <CourseDetail /> },
   { path: "/blog/:blogId", element: null },
   { path: "*", element: <PageNotFound /> },
 ];
