@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSnackbar } from "../../contexts/SnackbarContext";
 import lectureService from "../../services/lectureService";
 import { Button } from "@mui/material";
 
@@ -8,7 +9,7 @@ const LectureDetail = () => {
   const { lectureId } = useSearchParams();
   const navigate = useNavigate();
   const [lectureData, setLectureData] = useState({});
-
+  const { showSnackbar } = useSnackbar();
   useEffect(() => {
     if (lectureId === null) {
       navigate("/");
@@ -44,12 +45,22 @@ const LectureDetail = () => {
     ref.current.seekTo(seconds, "seconds");
   };
   // #endregion
-  const writeNote = () => {
+  // #region note
+  const [note, setNote] = useState("");
+  const writeNote = async () => {
     handleChangePlayerState("playing", false);
     const currentTime = ref.current.getCurrentTime();
-    
+    const request = {
+      text: note,
+      noteTime: currentTime,
+      lectureId: lectureId,
+    };
+    const response = await userNoteService.createNote(request);
+    if (response.data.status === 201) {
+      
+    }
   };
-
+  // #endregion
   return (
     <>
       <ReactPlayer
@@ -66,7 +77,7 @@ const LectureDetail = () => {
         onPlay={handlePlay}
         onSeek={handleSeek}
       />
-      <Button onClick={writeNote}>Write a note</Button>
+      <Button onClick={writeNote}>Add a note</Button>
     </>
   );
 };

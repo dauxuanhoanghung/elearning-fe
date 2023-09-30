@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
-import CourseCard from "../CourseCard"; // Import your CourseCard component
+import CourseCard from "../CourseCard";
 import courseService from "../../services/courseService";
 
 const CourseContainer = () => {

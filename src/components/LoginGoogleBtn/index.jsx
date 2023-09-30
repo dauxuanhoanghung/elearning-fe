@@ -1,18 +1,19 @@
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import authService from "../../services/authService";
 import userService from "../../services/userService";
-import UserContext from "../../contexts/UserContext";
 import Spinner from "../Spinner";
-import { setAccessTokenToLS, setProfileToLS } from "../../utils/auth";
 import { removeVietnameseTones } from "../../utils/utils";
-const client_id = import.meta.env.GOOGLE_CLIENT_ID;
+import { useDispatch } from "react-redux";
+import { login, setUser } from "../../app/store/user/userSlice";
+const client_id = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
 const LoginGoogleBtn = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { setUser } = useContext(UserContext);
+  const dispatch = useDispatch();
   const handleLoginGoogle = async (credential) => {
     console.log("LoginGoogleBtn >>>", credential);
     const data = {
@@ -28,12 +29,9 @@ const LoginGoogleBtn = () => {
     };
     setLoading(true);
     const res = await authService.loginGoogle(data);
-    console.log("JWT:", res.data.data);
-    const token = res.data.data.token;
-    setAccessTokenToLS(token);
+    dispatch(login(res.data.data));
     userService.getCurrentUser().then((res) => {
-      setProfileToLS(res.data.data);
-      setUser(res.data.data);
+      dispatch(setUser(res.data.data));
       navigate("/");
     });
     setLoading(false);

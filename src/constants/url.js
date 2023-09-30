@@ -26,6 +26,8 @@ export const URL_GET_COURSE_BY_ID = (id) => `${URL_COURSE}${id}`;
 export const URL_UPDATE_COURSE = `${URL_COURSE}update`;
 export const URL_DELETE_COURSE_BY_ID = (id) => `${URL_COURSE}${id}/delete`;
 export const URL_GET_CRITERIA_BY_ID = (id) => `${URL_COURSE}${id}/get-criteria`;
+export const URL_FAVOR = `/api/favorite/`;
+export const URL_GET_FAVORITE_COURSES = `${URL_FAVOR}get-favorite-courses`;
 // #endregion
 // #region Course Comment API
 export const URL_COURSE_COMMENT = "/api/course-comments/";

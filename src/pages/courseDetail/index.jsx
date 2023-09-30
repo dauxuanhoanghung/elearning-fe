@@ -123,7 +123,7 @@ function CourseDetail() {
               {listCriteria?.map((criteria, index) => (
                 <>
                   <Typography key={index} variant="body1">
-                    <ArrowForwardIosRoundedIcon /> {criteria.text}
+                    <ArrowForwardIosRoundedIcon style={{ fontSize: "14px"}} /> {criteria.text}
                   </Typography>
                 </>
               ))}

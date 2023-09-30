@@ -7,7 +7,6 @@ import {
   Box,
   Button,
   Container,
-  Slide,
   Step,
   StepButton,
   Stepper,
@@ -19,6 +18,7 @@ import lectureService from "../../../../services/lectureService";
 import Spinner from "../../../../components/Spinner";
 import { useNavigate } from "react-router-dom";
 const steps = ["Create Info Course", "Add Lecture"];
+
 const CourseCreation = ({}) => {
   // #region Snackbar
   const { showSnackbar } = useSnackbar();

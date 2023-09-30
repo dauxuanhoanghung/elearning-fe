@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 
 /**
  * 
- * @param {*} props 
+ * @param {id, orderIndex, title, content, type, videos} props 
  * @returns 
  */
 const LectureItem = (props) => {

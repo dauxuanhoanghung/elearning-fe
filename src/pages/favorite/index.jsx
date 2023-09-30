@@ -1,13 +1,9 @@
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
-import { useState } from "react";
-import CourseContainer from "../../components/CourseContainer";
 import { Box } from "@mui/material";
+import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
+import CourseContainer from "../../components/CourseContainer";
 
-const Home = () => {
-  //#region Blog
-  const [blogs, setBlogs] = useState([]);
-  //#endregion
+const FavoritePage = () => {
   return (
     <>
       <Navbar />
@@ -18,5 +14,4 @@ const Home = () => {
     </>
   );
 };
-
-export default Home;
+export default FavoritePage;

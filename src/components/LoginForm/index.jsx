@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import LoginGoogleBtn from "../LoginGoogleBtn";
 import authService from "../../services/authService";
 import userService from "../../services/userService";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login, setUser } from "../../app/store/user/userSlice";
 
 const LoginForm = () => {
@@ -12,19 +12,24 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
+  const processLogin = async () => {
+    const res = await authService.login({ username, password });
+    dispatch(login(res.data.data));
+    userService.getCurrentUser().then((res) => {
+      dispatch(setUser(res.data.data));
+      navigate("/");
+    });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    const processLogin = async () => {
-      const res = await authService.login({ username, password });
-      dispatch(login(res.data.data)); 
-      userService.getCurrentUser().then((res) => {
-        console.log(res);
-        dispatch(setUser(res.data.data));
-        navigate("/");
-      });
-    };
+
     processLogin();
+  };
+
+  const handleKeyUp = (e) => {
+    if (e.keyCode === 13) {
+      processLogin();
+    }
   };
 
   return (
@@ -51,6 +56,7 @@ const LoginForm = () => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              onKeyUp={handleKeyUp}
             />
             <button type="submit" onClick={handleSubmit}>
               Log In

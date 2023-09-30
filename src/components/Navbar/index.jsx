@@ -67,7 +67,6 @@ const Navbar = () => {
       <Link to="/">
         <img src={logo} alt="logo" className="navbar__logo" />
       </Link>
-      <p className="navbar__text">Categories</p>
       <input
         type="text"
         placeholder="Search for anything"
@@ -83,7 +82,9 @@ const Navbar = () => {
             <p className="navbar__text navbar__ins">Log-Out</p>
           </button>
           <p className="navbar__text">My learning</p>
-          <FavoriteBorderIcon className="navbar__icon navbar__favIcon" />
+          <Link to="/my-favorite">
+            <FavoriteBorderIcon className="navbar__icon navbar__favIcon" />
+          </Link>
           <div className="navbar__mediaSet">
             <SearchIcon className="navbar__searchIcon" />
             <ShoppingCartOutlinedIcon className="navbar__icon" />
