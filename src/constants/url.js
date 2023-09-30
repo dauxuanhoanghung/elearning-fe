@@ -12,6 +12,11 @@ export const URL_USER = "/api/users/";
 export const URL_CURRENT_USER = `${URL_USER}current-user`;
 export const URL_REGISTER = `${URL_USER}`;
 // #endregion
+// #region User API
+export const URL_USER_NOTE = "/api/user-notes/";
+export const URL_GET_NOTE_BY_LECTURE = (lectureId) =>
+  `${URL_USER_NOTE}${lectureId}`;
+// #endregion
 // #region Course API
 export const URL_COURSE = "/api/courses/";
 export const URL_CREATE_SECTION = `${URL_COURSE}after-create-course`;
@@ -31,6 +36,11 @@ export const URL_GET_COMMENT_BY_COURSE_ID = (courseId) =>
 export const URL_LECTURE = "/api/lectures/";
 export const URL_GET_LECTURE_BY_ID = (id) => `${URL_LECTURE}${id}`;
 export const URL_DELETE_LECTURE_BY_ID = (id) => `${URL_LECTURE}${id}/delete`;
+// #endregion
+// #region Course Comment API
+export const URL_LECTURE_COMMENT = "/api/lecture-comments/";
+export const URL_GET_COMMENT_BY_LECTURE_ID = (lectureId) =>
+  `${URL_LECTURE_COMMENT}course/${lectureId}`;
 // #endregion
 // #region Blog API
 export const URL_BLOG = "/api/blogs/";

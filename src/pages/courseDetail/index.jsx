@@ -5,8 +5,8 @@ import {
   Button,
   Card,
   CardContent,
+  CardMedia,
   Grid,
-  Paper,
   Typography,
 } from "@mui/material";
 import FeedOutlinedIcon from "@mui/icons-material/FeedOutlined";
@@ -16,10 +16,10 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import SectionCard from "../../components/SectionCard";
 import CommentContainer from "../../components/CommentContainer";
 import courseCommentService from "../../services/courseCommentService";
 import courseService from "../../services/courseService";
-import SectionCard from "../../components/SectionCard";
 
 const styles = {
   container: {
@@ -57,6 +57,7 @@ function CourseDetail() {
     };
     getListCriteriaByCourseId(courseId);
   }, []);
+  // #endregion
   // #region section
   const [sections, setSections] = useState([]);
   useEffect(() => {
@@ -90,14 +91,14 @@ function CourseDetail() {
     <>
       <Navbar />
       <Box sx={{ width: "90%", margin: "10px auto" }} style={styles.container}>
-        <img
-          src={courseData.background}
-          style={{
-            maxHeight: "400px",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }}
+        <CardMedia
+          component="img"
+          height="400"
+          image={
+            courseData.background ||
+            "https://i.ytimg.com/vi/7PCkvCPvDXk/hqdefault.jpg"
+          }
+          alt="green iguana"
         />
         {/* Content */}
         <Grid container spacing={3}>
@@ -145,7 +146,7 @@ function CourseDetail() {
               courseId={courseId}
               comments={comments}
               setComments={setComments}
-              getCommentsByCourseId={getCommentsByCourseId}
+              getMoreComments={getCommentsByCourseId}
             />
           </Grid>
           <Grid item xs={12} sm={4}>

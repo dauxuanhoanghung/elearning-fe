@@ -5,7 +5,7 @@ import { Typography, Container, Grid, Paper } from "@mui/material";
 
 const Footer = () => {
   return (
-    <Paper elevation={3}>
+    <>
       <Container>
         <Grid container>
           <Grid item xs={12} sm={4}>
@@ -57,7 +57,7 @@ const Footer = () => {
       <Typography variant="body2">
         © {new Date().getFullYear()} Dau Xuan Hoang Hung
       </Typography>
-    </Paper>
+    </>
   );
 };
 

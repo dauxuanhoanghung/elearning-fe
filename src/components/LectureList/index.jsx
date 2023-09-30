@@ -4,6 +4,8 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Box } from "@mui/material";
 
 const LectureList = () => {
   const [sections, setSections] = useState([]);
@@ -14,7 +16,7 @@ const LectureList = () => {
     const sampleSections = [
       {
         id: 1,
-        sectionName: "Section 1",
+        sectionName: "Get-Started",
         lectures: [
           { id: 101, orderIndex: 1, title: "Lecture 1.1" },
           { id: 102, orderIndex: 2, title: "Lecture 1.2" },
@@ -34,18 +36,12 @@ const LectureList = () => {
   }, []);
 
   return (
-    <div>
+    <Box sx={{ width: "90%", marginLeft: "auto"}}>
       {sections.map((section) => (
         <Accordion key={section.id}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography variant="h6" style={{ fontWeight: "bold" }}>
               {section.sectionName}
-            </Typography>
-            <Typography
-              variant="h6"
-              style={{ fontWeight: "bold", marginLeft: "auto" }}
-            >
-              Order Index: {section.orderIndex}
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -63,7 +59,7 @@ const LectureList = () => {
           </AccordionDetails>
         </Accordion>
       ))}
-    </div>
+    </Box>
   );
 };
 

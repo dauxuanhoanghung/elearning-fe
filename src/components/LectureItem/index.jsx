@@ -3,6 +3,11 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
+/**
+ * 
+ * @param {*} props 
+ * @returns 
+ */
 const LectureItem = (props) => {
   const { id, orderIndex, title } = props;
 
@@ -13,9 +18,8 @@ const LectureItem = (props) => {
           {title}
         </Typography>
         <Typography color="textSecondary">
-          ID: {id} | Order Index: {orderIndex}
+          ID: {id}
         </Typography>
-        {/* Add more content or props as needed */}
       </CardContent>
     </Card>
   );

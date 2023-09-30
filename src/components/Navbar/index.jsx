@@ -1,19 +1,28 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Navbar.css";
 import logo from "../../assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Avatar } from "@mui/material";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import UserContext from "../../contexts/UserContext";
 import { isEmptyObject } from "../../utils/utils";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../app/store/user/userSlice";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [showContent, setShowContent] = useState(false);
-  const { user, setUser } = useContext(UserContext);
+  // #region user redux
+  const user = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
+  // #endregion
   function Toggle() {
     setShowContent(!showContent);
   }
@@ -70,7 +79,7 @@ const Navbar = () => {
       <p className="navbar__text navbar__ub">Your Business</p>
       {!isEmptyObject(user) && (
         <>
-          <button className="navbar__logout">
+          <button className="navbar__logout" onClick={handleLogout}>
             <p className="navbar__text navbar__ins">Log-Out</p>
           </button>
           <p className="navbar__text">My learning</p>

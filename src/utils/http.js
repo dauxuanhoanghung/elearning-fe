@@ -26,8 +26,6 @@ class Http {
       // timeout: 10000,
       headers: {
         "Content-Type": "application/json",
-        "expire-access-token": 60 * 60 * 24, // 1 day
-        "expire-refresh-token": 60 * 60 * 24 * 160, // 160 days
       },
     });
     /** Request, gắn token vào headers */
@@ -47,20 +45,20 @@ class Http {
     /** Response */
     this.instance.interceptors.response.use(
       (response) => {
-        const { url } = response.config;
-        if (url === URL_LOGIN) {
-          //|| url === URL_REGISTER
-          const data = response.data;
-          this.accessToken = data.data.token;
-          this.refreshToken = data.data.token;
-          setAccessTokenToLS(this.accessToken);
-          setRefreshTokenToLS(this.refreshToken);
-          // setProfileToLS(data.data.user);
-        } else if (url === URL_LOGOUT) {
-          this.accessToken = "";
-          this.refreshToken = "";
-          clearLS();
-        }
+        // const { url } = response.config;
+        // if (url === URL_LOGIN) {
+        //   //|| url === URL_REGISTER
+        //   const data = response.data;
+        //   this.accessToken = data.data.token;
+        //   this.refreshToken = data.data.token;
+        //   setAccessTokenToLS(this.accessToken);
+        //   setRefreshTokenToLS(this.refreshToken);
+        //   // setProfileToLS(data.data.user);
+        // } else if (url === URL_LOGOUT) {
+        //   this.accessToken = "";
+        //   this.refreshToken = "";
+        //   clearLS();
+        // }
         return response;
       },
       (error) => {

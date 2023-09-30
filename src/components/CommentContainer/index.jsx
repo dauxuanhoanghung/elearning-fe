@@ -14,7 +14,7 @@ import {
 import courseCommentService from "../../services/courseCommentService";
 
 const CommentContainer = (props) => {
-  const { comments = [], setComments, courseId, lectureId, blogId, getCommentsByCourseId } =
+  const { comments = [], setComments, courseId, lectureId, blogId, getMoreComments } =
     props;
   const [newComment, setNewComment] = useState("");
 
@@ -28,12 +28,14 @@ const CommentContainer = (props) => {
     console.log("New Comment:", newComment);
     if (courseId) {
       const request = { content: newComment, course: courseId };
-      console.log(request);
       const res = await courseCommentService.createComment(request);
-      console.log(res.data.data)
       setComments([newComment, ...comments]);
       console.log(comments)
     } else if (lectureId) {
+      const request = { content: newComment, course: courseId };
+      const res = await courseCommentService.createComment(request);
+      setComments([newComment, ...comments]);
+      console.log(comments)
     } else if (blogId) {
     }
     setNewComment("");
@@ -63,7 +65,7 @@ const CommentContainer = (props) => {
           ),
         }}
       />
-      <Button onClick={getCommentsByCourseId} variant="text">
+      <Button onClick={getMoreComments} variant="text">
         See more...
       </Button>
       <List>

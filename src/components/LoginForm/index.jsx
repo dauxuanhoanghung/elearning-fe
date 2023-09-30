@@ -1,30 +1,30 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import LoginGoogleBtn from "../LoginGoogleBtn";
 import authService from "../../services/authService";
-import { setProfileToLS } from "../../utils/auth";
 import userService from "../../services/userService";
-import UserContext from "../../contexts/UserContext";
+import { useDispatch } from "react-redux";
+import { login, setUser } from "../../app/store/user/userSlice";
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext);
+  const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const login = async () => {
+    const processLogin = async () => {
       const res = await authService.login({ username, password });
-      console.log("JWT:", res.data.data);
+      dispatch(login(res.data.data)); 
       userService.getCurrentUser().then((res) => {
-        setProfileToLS(res.data.data);
-        setUser(res.data.data);
+        console.log(res);
+        dispatch(setUser(res.data.data));
         navigate("/");
       });
     };
-    login();
+    processLogin();
   };
 
   return (
