@@ -17,27 +17,32 @@ import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import AddIcon from "@mui/icons-material/Add";
 import MyModal from "../MyModal";
 import UserNote from "./UserNote";
+import { secondsToMMSS } from "../../utils/utils";
 
 const LectureDetail = () => {
-  const { lectureId } = useSearchParams();
+  const [searchParams] = useSearchParams();
+  const lectureId = searchParams.get("lectureId");
   const navigate = useNavigate();
-  const [lectureData, setLectureData] = useState({});
   const { showSnackbar } = useSnackbar();
+  // #region lecture
+  /**
+   * {id, title, content, type, videoUrl, orderIndex} lectureData
+   */
+  const [lectureData, setLectureData] = useState({});
   useEffect(() => {
-    console.log("lecture", lectureId);
-    // if (!lectureId) {
-    //   showSnackbar({ message: "Invalid route", severity: "error" });
-    //   navigate("/");
-    //   return;
-    // }
+    if (!lectureId) {
+      showSnackbar({ message: "Invalid route", severity: "error" });
+      navigate("/");
+      return;
+    }
     const fetchLectureData = async () => {
       if (!lectureId) return;
       const res = await lectureService.getLectureById(lectureId);
-      setLectureData();
+      setLectureData(res.data.data);
     };
     fetchLectureData();
   }, [lectureId]);
-
+  // #endregion
   // #region Player
   const player = useRef();
   const [playerState, setPlayerState] = useState({
@@ -60,9 +65,19 @@ const LectureDetail = () => {
   const handleSeek = (seconds) => {
     player.current.seekTo(seconds, "seconds");
   };
+  const [currentTime, setCurrentTime] = useState(0);
   // #endregion
   // #region Modal
   const [openModal, setOpenModal] = useState(false);
+  const handleOpenModal = () => {
+    setOpenModal(true);
+    handleChangePlayerState("playing", false);
+    setCurrentTime(player.current.getCurrentTime());
+  };
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    handleChangePlayerState("playing", true);
+  };
   // #endregion
   // #region note
   const [userNotes, setUserNotes] = useState([]);
@@ -79,8 +94,18 @@ const LectureDetail = () => {
     fetchUserNotes();
   }, []);
   const [note, setNote] = useState("");
+  const handleNoteChange = (e) => {
+    setNote(e.target.value);
+  };
   const writeNote = () => {
     const handleAddUserNote = async () => {
+      if (note.trim().length === 0) {
+        showSnackbar({
+          message: "Please enter a your note.",
+          severity: "warning",
+        });
+        return;
+      }
       const currentTime = player.current.getCurrentTime();
       const request = {
         text: note,
@@ -89,10 +114,26 @@ const LectureDetail = () => {
       };
       const response = await userNoteService.createNote(request);
       if (response.data.status === 201) {
+        setUserNotes([response.data.data, ...userNotes]);
+        showSnackbar({ message: response.data.message, severity: "success" });
       }
+      setNote("");
+      setOpenModal(false);
     };
     handleChangePlayerState("playing", false);
+    handleAddUserNote();
     setOpenModal(true);
+  };
+  const handleDeleteNote = (id) => {
+    const deleteNote = async () => {
+      const res = await userNoteService.deleteById(id);
+      if (res.data.status === 204) {
+        showSnackbar({ message: res.data.message, severity: "info" });
+        const updatedUserNotes = userNotes.filter(u => u.id != id);
+        setUserNotes([...updatedUserNotes]);
+      }
+    };
+    deleteNote();
   };
   // #endregion
   return (
@@ -100,7 +141,7 @@ const LectureDetail = () => {
       <ReactPlayer
         className="react-player"
         controls
-        url={`https://www.youtube.com/watch?v=bH7FysX2JIY`}
+        url={`${lectureData.videoUrl}`}
         width="100%"
         height="550px"
         playing={playerState?.playing}
@@ -118,25 +159,33 @@ const LectureDetail = () => {
           margin: "10px auto",
         }}
       >
-        <Typography>{lectureData.title}</Typography>
+        <Typography variant="h6">{lectureData?.title}</Typography>
         <Button
-          onClick={() => setOpenModal(true)}
+          onClick={handleOpenModal}
           sx={{ backgroundColor: "#ebebeb", padding: "10px", color: "#000" }}
         >
           <AddIcon />
           Add a note
         </Button>
       </Box>
+      <Box>
+        <Typography variant="h6">{lectureData.content}</Typography>
+      </Box>
 
-      <MyModal open={openModal} onClose={() => setOpenModal(false)}>
+      <MyModal open={openModal} onClose={handleCloseModal}>
         <>
-          <Typography>Add a note on</Typography>
+          <Typography>
+            Add a note on
+            <span style={{ color: "#F9812A" }}>
+              {` ${secondsToMMSS(currentTime)}`}
+            </span>
+          </Typography>
           <TextField
             label="Add a note"
             variant="outlined"
             fullWidth
             value={note}
-            onChange={setNote}
+            onChange={handleNoteChange}
             onKeyUp={(e) => e.keyCode === 13 && writeNote()}
             style={{ marginTop: "16px" }}
             InputProps={{
@@ -149,20 +198,31 @@ const LectureDetail = () => {
               ),
             }}
           />
-          {userNotes?.map((userNote, index) => (
-            <React.Fragment key={index}>
-              <UserNote text={userNote.text} time={userNote.noteTime} />
-            </React.Fragment>
-          ))}
-          {userNotes?.length === 0 && (
-            <>
-              <Box container sx={{ margin: "30px 0" }}>
-                <Alert severity="info">
-                  You haven't give a note on this lecture !!! Do it now.
-                </Alert>
-              </Box>
-            </>
-          )}
+          <Box sx={{ margin: "10px auto" }}>
+            {userNotes?.map((userNote, index) => (
+              <React.Fragment key={index}>
+                <UserNote
+                  id={userNote.id}
+                  text={userNote.text}
+                  time={userNote.noteTime}
+                  onTimeClick={() => {
+                    handleSeek(userNote.noteTime);
+                    handleCloseModal();
+                  }}
+                  handleDeleteNote={handleDeleteNote}
+                />
+              </React.Fragment>
+            ))}
+            {userNotes?.length === 0 && (
+              <>
+                <Box container sx={{ margin: "30px 0" }}>
+                  <Alert severity="info">
+                    You haven't give a note on this lecture !!! Do it now.
+                  </Alert>
+                </Box>
+              </>
+            )}
+          </Box>
         </>
       </MyModal>
     </>

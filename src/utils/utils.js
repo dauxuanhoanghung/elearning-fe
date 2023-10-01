@@ -100,3 +100,14 @@ export function buildFormData(formData, data, parentKey) {
     formData.append(parentKey, value);
   }
 }
+
+export function secondsToMMSS(inputString) {
+  const totalSeconds = parseInt(inputString, 10);
+  if (isNaN(totalSeconds)) {
+    return "";
+  }
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  return formattedTime;
+}

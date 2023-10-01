@@ -6,10 +6,10 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   bgcolor: "background.paper",
-  height: "400px",
+  height: "80%",
   padding: "15px",
   borderRadius: "10px",
-  width: "50%",
+  width: "70%",
 };
 
 const MyModal = ({ open, onClose, children, sx = {} }) => {

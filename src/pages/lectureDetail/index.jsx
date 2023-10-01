@@ -28,7 +28,8 @@ const LectureDetailPage = () => {
     getCommentsByLectureId(lectureId);
   }, []);
   // #endregion
-  const { lectureId } = useSearchParams();
+  const [searchParams] = useSearchParams();
+  const lectureId = searchParams.get("lectureId");
   return (
     <>
       <Navbar />

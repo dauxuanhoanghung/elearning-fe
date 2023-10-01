@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Box, Grid } from "@mui/material";
-import CourseCard from "../CourseCard";
+import CourseCard from "./CourseCard";
 import courseService from "../../services/courseService";
 import favoriteService from "../../services/favoriteService";
 import { Link } from "react-router-dom";
@@ -25,7 +25,7 @@ const CourseContainer = ({ isFavoritePage = false }) => {
   return (
     <Grid container spacing={2}>
       {courses.length === 0 && (
-        <Box container sx={{ margin: "30px", width: "100%"}}>
+        <Box container sx={{ margin: "30px", width: "100%" }}>
           <Alert severity="error" sx={{ width: "100%" }}>
             Thers's no course for you !!! <Link to="/">Go to home</Link>
           </Alert>
