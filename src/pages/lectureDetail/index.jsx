@@ -13,6 +13,7 @@ const LectureDetailPage = () => {
   const [comments, setComments] = useState([]);
   const [page, setPage] = useState(0);
   const getCommentsByLectureId = async () => {
+    if (!lectureId) return;
     if (page === -1) return;
     let res = await lectureCommentService.getCommentsByLectureId(
       lectureId,

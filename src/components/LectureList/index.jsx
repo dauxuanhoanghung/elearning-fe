@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-import LectureItem from "../LectureItem";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import Typography from "@mui/material/Typography";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Box } from "@mui/material";
+import LectureItem from "./LectureItem";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {
+  Box,
+  Divider,
+  Typography,
+  AccordionSummary,
+  AccordionDetails,
+  Accordion,
+  List,
+} from "@mui/material";
 
 const LectureList = () => {
   const [sections, setSections] = useState([]);
@@ -17,6 +21,7 @@ const LectureList = () => {
       {
         id: 1,
         sectionName: "Get-Started",
+        orderIndex: 1,
         lectures: [
           { id: 101, orderIndex: 1, title: "Lecture 1.1" },
           { id: 102, orderIndex: 2, title: "Lecture 1.2" },
@@ -25,6 +30,7 @@ const LectureList = () => {
       {
         id: 2,
         sectionName: "Section 2",
+        orderIndex: 2,
         lectures: [
           { id: 201, orderIndex: 1, title: "Lecture 2.1" },
           { id: 202, orderIndex: 2, title: "Lecture 2.2" },
@@ -36,26 +42,34 @@ const LectureList = () => {
   }, []);
 
   return (
-    <Box sx={{ width: "90%", marginLeft: "auto"}}>
+    <Box sx={{ width: "98%", marginLeft: "auto" }}>
+      <Typography variant="h6">Course content:</Typography>
       {sections.map((section) => (
-        <Accordion key={section.id}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="h6" style={{ fontWeight: "bold" }}>
-              {section.sectionName}
+        <Accordion key={section.id} sx={{ marginY: 0}}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            sx={{ paddingY: "0px", cursor: "pointer", marginY: 0 }}
+          >
+            <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+              {section.orderIndex}. {section.sectionName}
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <div>
-              {section.lectures.map((lecture) => (
-                <LectureItem
-                  key={lecture.id}
-                  id={lecture.id}
-                  orderIndex={lecture.orderIndex}
-                  title={lecture.title}
-                  // Add more props as needed
-                />
+            <List>
+              {section.lectures.map((lecture, index) => (
+                <React.Fragment key={lecture.id}>
+                  <LectureItem
+                    id={lecture.id}
+                    orderIndex={lecture.orderIndex}
+                    title={lecture.title}
+                    courseId={section.courseId}
+                  />
+                  {index < section.lectures.length - 1 && (
+                    <Divider variant="inset" component="li" />
+                  )}
+                </React.Fragment>
               ))}
-            </div>
+            </List>
           </AccordionDetails>
         </Accordion>
       ))}

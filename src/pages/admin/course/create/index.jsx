@@ -101,7 +101,7 @@ const CourseCreation = ({}) => {
       formData.append("backgroundFile", data.backgroundFile);
       formData.append("price", data.price);
       formData.append("description", data.description);
-      formData.append("criteria", JSON.stringify(data.criteria));
+      formData.append("criteria", data.criteria);
       return formData;
     };
     const createSectionFormData = (courseSections, courseId) => {
@@ -144,21 +144,25 @@ const CourseCreation = ({}) => {
       const sectionsResult = sectionRes.data.data;
       let finalRes = null;
       // 3. create lecture
-      courseData.sections.forEach((section) => {
+      courseData.sections.forEach(async (section) => {
         sectionsResult.forEach((resultSection) => {
           if (section.orderIndex === resultSection.orderIndex) {
-            console.log("section.orderIndex", section.orderIndex, resultSection.orderIndex)
-            section.lectures.forEach(async (lecture) => {
-              const lectureRequest = createLectureForm(lecture, resultSection.id);
+            section.lectures?.forEach(async (lecture) => {
+              const lectureRequest = createLectureForm(
+                lecture,
+                resultSection.id
+              );
+              console.log(lectureRequest)
               finalRes = await lectureService.create(lectureRequest);
-            })
+            });
           }
         });
       });
+      if (finalRes?.data?.status === 201) {
+        navigate("/");
+      }
     }
-    if (finalRes.data.status === 201) {
-      navigate("/");
-    }
+
     // setLoading(false);
   };
 

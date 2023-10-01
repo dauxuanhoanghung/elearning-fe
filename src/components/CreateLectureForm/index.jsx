@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import SectionForm from "./SectionForm";
 /**
  *
@@ -25,14 +25,13 @@ const CreateLectureForm = (props) => {
     <>
       {courseData.sections.length !== 0 &&
         courseData.sections.map((section, index) => (
-          <>
+          <React.Fragment key={index}>
             <SectionForm
-              key={index}
               section={section}
               setCourseData={setCourseData}
               courseData={courseData}
             />
-          </>
+          </React.Fragment>
         ))}
     </>
   );

@@ -8,7 +8,7 @@ const FavoritePage = () => {
     <>
       <Navbar />
       <Box sx={{ width: "90%", marginX: "auto", marginY: "10px" }}>
-        <CourseContainer />
+        <CourseContainer isFavoritePage={true} />
       </Box>
       <Footer />
     </>

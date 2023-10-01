@@ -32,7 +32,7 @@ export function SnackbarProvider({ children }) {
       {children}
       <Snackbar
         open={snackState.open}
-        autoHideDuration={1000}
+        autoHideDuration={2000}
         onClose={handleClose}
         TransitionComponent={TransitionLeft}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
@@ -40,7 +40,7 @@ export function SnackbarProvider({ children }) {
         <Alert
           onClose={handleClose}
           severity={snackState.severity}
-          sx={{ width: "100%" }}
+          sx={{ width: "100%", fontSize: "16px" }}
         >
           {snackState.message}
         </Alert>

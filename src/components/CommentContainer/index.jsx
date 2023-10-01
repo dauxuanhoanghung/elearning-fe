@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
-import Comment from "../Comment"; // Assuming you have a Comment component
+import Comment from "./Comment"; // Assuming you have a Comment component
 import {
   Button,
   InputAdornment,

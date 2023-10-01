@@ -12,7 +12,7 @@ import {
 import FeedOutlinedIcon from "@mui/icons-material/FeedOutlined";
 import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
@@ -20,6 +20,7 @@ import SectionCard from "../../components/SectionCard";
 import CommentContainer from "../../components/CommentContainer";
 import courseCommentService from "../../services/courseCommentService";
 import courseService from "../../services/courseService";
+import registrationService from "../../services/registrationService";
 
 const styles = {
   container: {
@@ -85,7 +86,22 @@ function CourseDetail() {
   // #endregion
   // #region Registration
   const [registration, setRegistration] = useState(false);
-  const handleRegisterCourse = async () => {};
+  const firstRender = useRef(true);
+
+  useEffect(() => {
+    if (firstRender.current && !registration) {
+      firstRender.current = false;
+      const getInitialRegistration = async () => {
+        const initialRegistrationStatus =
+          await registrationService.getInitialRegistration(courseId);
+        setRegistration(initialRegistrationStatus);
+      };
+      getInitialRegistration();
+    }
+  }, [registration]);
+  const handleRegisterCourse = async () => {
+    if (registration) return;
+  };
   // endregion
   return (
     <>
@@ -123,7 +139,8 @@ function CourseDetail() {
               {listCriteria?.map((criteria, index) => (
                 <>
                   <Typography key={index} variant="body1">
-                    <ArrowForwardIosRoundedIcon style={{ fontSize: "14px"}} /> {criteria.text}
+                    <ArrowForwardIosRoundedIcon style={{ fontSize: "14px" }} />{" "}
+                    {criteria.text}
                   </Typography>
                 </>
               ))}
@@ -176,15 +193,25 @@ function CourseDetail() {
                 </Typography>
               </CardContent>
             </Card>
-            <Button
-              variant="contained"
-              sx={{ width: "100%", backgroundColor: "" }}
-              onClick={handleRegisterCourse}
-            >
-              {courseData?.price === 0
-                ? "Free. Register now"
-                : courseData?.price}
-            </Button>
+            {registration && (
+              <Button
+                variant="contained"
+                sx={{ width: "100%", backgroundColor: "#f1c40f" }}
+              >
+                Continue see course
+              </Button>
+            )}
+            {!registration && (
+              <Button
+                variant="contained"
+                sx={{ width: "100%", backgroundColor: "#3498db" }}
+                onClick={handleRegisterCourse}
+              >
+                {courseData?.price === 0
+                  ? "Free. Register now"
+                  : courseData?.price}
+              </Button>
+            )}
             {/* Creator */}
             <Box
               sx={{
