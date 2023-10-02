@@ -29,6 +29,10 @@ export const URL_DELETE_COURSE_BY_ID = (id) => `${URL_COURSE}${id}/delete`;
 export const URL_GET_CRITERIA_BY_ID = (id) => `${URL_COURSE}${id}/get-criteria`;
 export const URL_FAVOR = `/api/favorite/`;
 export const URL_GET_FAVORITE_COURSES = `${URL_FAVOR}get-favorite-courses`;
+export const URL_GET_COUNT_LECTURES_BY_COURSE_ID = (courseId) =>
+  `${URL_COURSE}${courseId}/get-count-lectures`;
+  export const URL_GET_COUNT_REGISTRATIONS_BY_COURSE_ID = (courseId) =>
+  `${URL_COURSE}${courseId}/get-count-registration`;
 // #endregion
 // #region Course Comment API
 export const URL_COURSE_COMMENT = "/api/course-comments/";

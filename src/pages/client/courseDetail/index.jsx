@@ -12,7 +12,7 @@ import {
 import FeedOutlinedIcon from "@mui/icons-material/FeedOutlined";
 import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import SectionCard from "../../../components/SectionCard";
 import CommentContainer from "../../../components/CommentContainer";
@@ -46,13 +46,25 @@ function CourseDetail() {
    * course {id, name, description, background(image), price(for button), creator, createdDate}
    */
   const [courseData, setCourseData] = useState({});
+  const [countLectures, setCountLectures] = useState(0);
+  const [countRegistrations, setCountRegistrations] = useState(0);
   useEffect(() => {
     const getCourseByCourseId = async (courseId) => {
       const res = await courseService.getCourseById(courseId);
       setCourseData(res.data.data);
     };
+    const getCountLecturesByCourseId = async (courseId) => {
+      const res = await courseService.countLecturesByCourseId(courseId);
+      setCountLectures(res.data.data);
+    };
+    const getCountRegistrationsByCourseId = async (courseId) => {
+      const res = await courseService.countRegistrationsByCourseId(courseId);
+      setCountLectures(res.data.data);
+    };
     getCourseByCourseId(courseId);
-  }, []);
+    getCountLecturesByCourseId(courseId);
+    getCountRegistrationsByCourseId(courseId);
+  }, [courseId]);
   // #endregion
   // #region criteria
   const [listCriteria, setListCriteria] = useState([]);
@@ -148,24 +160,25 @@ function CourseDetail() {
             <Typography variant="h5" gutterBottom>
               <Typography variant="h5">Criteria:</Typography>
               {listCriteria?.map((criteria, index) => (
-                <>
-                  <Typography key={index} variant="body1">
+                <React.Fragment key={index}>
+                  <Typography variant="body1">
                     <ArrowForwardIosRoundedIcon style={{ fontSize: "14px" }} />{" "}
                     {criteria.text}
                   </Typography>
-                </>
+                </React.Fragment>
               ))}
             </Typography>
             {/* Course Sections */}
             <Typography variant="subtitle1" gutterBottom>
-              <Typography variant="h5">Sections:</Typography>
+              <Typography variant="h5">Course sections:</Typography>
               {sections?.map((section, index) => (
-                <SectionCard
-                  key={index}
-                  orderIndex={section.orderIndex}
-                  sectionName={section.sectionName}
-                  hideIcon={true}
-                />
+                <React.Fragment key={index}>
+                  <SectionCard
+                    orderIndex={section.orderIndex}
+                    sectionName={section.sectionName}
+                    hideExpand={true}
+                  />
+                </React.Fragment>
               ))}
             </Typography>
 
@@ -189,7 +202,7 @@ function CourseDetail() {
                     <GroupAddOutlinedIcon />
                     <span style={{ marginBottom: "5px" }}>Registrations: </span>
                   </Typography>
-                  <Typography>{courseData.registrationCount || 0}</Typography>
+                  <Typography>{countRegistrations || 0}</Typography>
                 </Typography>
                 <Typography
                   variant="body2"
@@ -200,7 +213,7 @@ function CourseDetail() {
                     <FeedOutlinedIcon />
                     Lectures:
                   </Typography>
-                  <Typography>{courseData.lectureCount || 0}</Typography>
+                  <Typography>{countLectures || 0}</Typography>
                 </Typography>
               </CardContent>
             </Card>

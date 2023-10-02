@@ -2,6 +2,8 @@ import {
   URL_COURSE,
   URL_CREATE_SECTION,
   URL_DELETE_COURSE_BY_ID,
+  URL_GET_COUNT_LECTURES_BY_COURSE_ID,
+  URL_GET_COUNT_REGISTRATIONS_BY_COURSE_ID,
   URL_GET_COURSE_BY_ID,
   URL_GET_CRITERIA_BY_ID,
   URL_GET_SECTION_BY_COURSE_ID,
@@ -64,6 +66,12 @@ const courseService = {
   },
   getCriteriaByCourseId(courseId) {
     return http.get(URL_GET_CRITERIA_BY_ID(courseId));
+  },
+  countLecturesByCourseId(courseId) {
+    return http.get(URL_GET_COUNT_LECTURES_BY_COURSE_ID(courseId));
+  },
+  countRegistrationsByCourseId(courseId) {
+    return http.get(URL_GET_COUNT_REGISTRATIONS_BY_COURSE_ID(courseId));
   },
 };
 

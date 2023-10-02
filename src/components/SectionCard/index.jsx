@@ -10,7 +10,7 @@ const SectionCard = ({
   orderIndex,
   sectionName,
   children,
-  hideIcon = false,
+  hideExpand = false,
 }) => {
   const [isExpanded, setIsExpanded] = useState(true);
 
@@ -24,7 +24,7 @@ const SectionCard = ({
         <Typography variant="h5">
           Section {orderIndex}: {sectionName}
         </Typography>
-        {!hideIcon && (
+        {!hideExpand && (
           <IconButton
             onClick={toggleExpansion}
             aria-expanded={isExpanded}
@@ -34,7 +34,7 @@ const SectionCard = ({
           </IconButton>
         )}
       </CardContent>
-      {!hideIcon && (
+      {!hideExpand && (
         <Collapse in={isExpanded} timeout="auto" unmountOnExit>
           <CardContent>{children}</CardContent>
         </Collapse>
