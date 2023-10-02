@@ -8,13 +8,9 @@ import {
   setRefreshTokenToLS,
 } from "./auth";
 import {
-  URL_LOGIN,
-  URL_LOGOUT,
   URL_REFRESH_TOKEN,
-  URL_REGISTER,
   URL_SERVER,
 } from "../constants/url";
-import { toast } from "react-toastify";
 
 class Http {
   constructor() {

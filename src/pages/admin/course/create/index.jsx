@@ -19,7 +19,7 @@ import Spinner from "../../../../components/Spinner";
 import { useNavigate } from "react-router-dom";
 const steps = ["Create Info Course", "Add Lecture"];
 
-const CourseCreation = ({}) => {
+const CourseCreationPage = ({}) => {
   // #region Snackbar
   const { showSnackbar } = useSnackbar();
   // #endregion
@@ -256,4 +256,4 @@ const CourseCreation = ({}) => {
   );
 };
 
-export default CourseCreation;
+export default CourseCreationPage;

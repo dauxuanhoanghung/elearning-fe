@@ -8,7 +8,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import { isEmptyObject } from "../../utils/utils";
+import { isEmptyObject, isLecturer } from "../../utils/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../app/store/user/userSlice";
 
@@ -75,13 +75,16 @@ const Navbar = () => {
         onChange={(e) => setSearchInput(e.target.value)}
         onKeyDown={handleEnter}
       />
-      <p className="navbar__text navbar__ub">Your Business</p>
       {!isEmptyObject(user) && (
         <>
-          <button className="navbar__logout" onClick={handleLogout}>
-            <p className="navbar__text navbar__ins">Log-Out</p>
-          </button>
-          <p className="navbar__text">My learning</p>
+          {isLecturer(user) && (
+            <Link to="/my-business">
+              <p className="navbar__text navbar__ub">My Business</p>
+            </Link>
+          )}
+          <Link to="/my-course">
+            <p className="navbar__text">My learning</p>
+          </Link>
           <Link to="/my-favorite">
             <FavoriteBorderIcon className="navbar__icon navbar__favIcon" />
           </Link>
@@ -94,6 +97,9 @@ const Navbar = () => {
             className="navbar__icon navbar__avatar"
             style={{ height: 32, width: 32 }}
           />
+          <button className="navbar__logout" onClick={handleLogout}>
+            <p className="navbar__text navbar__ins">Log-Out</p>
+          </button>
         </>
       )}
       {isEmptyObject(user) && (

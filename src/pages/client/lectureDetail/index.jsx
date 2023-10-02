@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Typography, Box, Stack, Grid } from "@mui/material";
-import Navbar from "../../components/Navbar";
-import LectureDetail from "../../components/LectureDetail";
-import Footer from "../../components/Footer";
-import CommentContainer from "../../components/CommentContainer";
-import LectureList from "../../components/LectureList";
-import lectureCommentService from "../../services/lectureCommentService";
+import Navbar from "../../../components/Navbar";
+import LectureDetail from "../../../components/LectureDetail";
+import Footer from "../../../components/Footer";
+import CommentContainer from "../../../components/CommentContainer";
+import LectureList from "../../../components/LectureList";
+import lectureCommentService from "../../../services/lectureCommentService";
 import { useSearchParams } from "react-router-dom";
 
 const LectureDetailPage = () => {

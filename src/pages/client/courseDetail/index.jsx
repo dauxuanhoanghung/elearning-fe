@@ -13,14 +13,17 @@ import FeedOutlinedIcon from "@mui/icons-material/FeedOutlined";
 import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { useEffect, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
-import SectionCard from "../../components/SectionCard";
-import CommentContainer from "../../components/CommentContainer";
-import courseCommentService from "../../services/courseCommentService";
-import courseService from "../../services/courseService";
-import registrationService from "../../services/registrationService";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import Navbar from "../../../components/Navbar";
+import Footer from "../../../components/Footer";
+import SectionCard from "../../../components/SectionCard";
+import CommentContainer from "../../../components/CommentContainer";
+import courseCommentService from "../../../services/courseCommentService";
+import courseService from "../../../services/courseService";
+import registrationService from "../../../services/registrationService";
+import { useSelector } from "react-redux";
+import { isEmptyObject } from "../../../utils/utils";
+import { useSnackbar } from "../../../contexts/SnackbarContext";
 
 const styles = {
   container: {
@@ -36,6 +39,9 @@ const styles = {
 
 function CourseDetail() {
   const { courseId } = useParams();
+  const { currentUser } = useSelector((state) => state.user.user);
+  const { showSnackbar } = useSnackbar();
+  const navigate = useNavigate();
   // #region course detail
   /**
    * course {id, name, description, background(image), price(for button), creator, createdDate}
@@ -89,7 +95,7 @@ function CourseDetail() {
   const firstRender = useRef(true);
 
   useEffect(() => {
-    if (firstRender.current && !registration) {
+    if (firstRender.current && !registration && !isEmptyObject(currentUser)) {
       firstRender.current = false;
       const getInitialRegistration = async () => {
         const initialRegistrationStatus =
@@ -98,11 +104,18 @@ function CourseDetail() {
       };
       getInitialRegistration();
     }
-  }, [registration]);
+  }, []);
   const handleRegisterCourse = async () => {
     if (registration) return;
+    if (isEmptyObject(currentUser)) {
+      showSnackbar({
+        message: "Please login first to use to feature.",
+        severity: "error",
+      });
+      navigate("/login");
+    }
   };
-  // endregion
+  // #endregion
   return (
     <>
       <Navbar />
@@ -226,9 +239,11 @@ function CourseDetail() {
                 style={{ marginRight: "16px" }}
               />
               <Typography variant="body1">
-                Creator:
                 {`${courseData.user?.firstName} ${courseData.user?.lastName}`}
               </Typography>
+              <Button onClick>
+                Chat to creator
+              </Button>
             </Box>
             {/* Created Date */}
             <Typography variant="body2" color="textSecondary">
