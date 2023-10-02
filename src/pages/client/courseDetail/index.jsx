@@ -14,8 +14,6 @@ import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import Navbar from "../../../components/Navbar";
-import Footer from "../../../components/Footer";
 import SectionCard from "../../../components/SectionCard";
 import CommentContainer from "../../../components/CommentContainer";
 import courseCommentService from "../../../services/courseCommentService";
@@ -24,6 +22,7 @@ import registrationService from "../../../services/registrationService";
 import { useSelector } from "react-redux";
 import { isEmptyObject } from "../../../utils/utils";
 import { useSnackbar } from "../../../contexts/SnackbarContext";
+import DefaultLayout from "../../../layout";
 
 const styles = {
   container: {
@@ -118,8 +117,7 @@ function CourseDetail() {
   // #endregion
   return (
     <>
-      <Navbar />
-      <Box sx={{ width: "90%", margin: "10px auto" }} style={styles.container}>
+      <DefaultLayout>
         <CardMedia
           component="img"
           height="400"
@@ -241,9 +239,7 @@ function CourseDetail() {
               <Typography variant="body1">
                 {`${courseData.user?.firstName} ${courseData.user?.lastName}`}
               </Typography>
-              <Button onClick>
-                Chat to creator
-              </Button>
+              <Button onClick>Chat to creator</Button>
             </Box>
             {/* Created Date */}
             <Typography variant="body2" color="textSecondary">
@@ -251,8 +247,7 @@ function CourseDetail() {
             </Typography>
           </Grid>
         </Grid>
-      </Box>
-      <Footer />
+      </DefaultLayout>
     </>
   );
 }

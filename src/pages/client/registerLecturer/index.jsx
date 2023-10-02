@@ -1,13 +1,7 @@
-import Footer from "../../../components/Footer";
-import Navbar from "../../../components/Navbar";
+import DefaultLayout from "../../../layout";
 
 const RegisterLecturerPage = () => {
-  return (
-    <>
-      <Navbar />
-      <Footer />
-    </>
-  );
+  return <DefaultLayout></DefaultLayout>;
 };
 
 export default RegisterLecturerPage;

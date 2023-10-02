@@ -1,8 +1,6 @@
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
 import { useState } from "react";
 import CourseContainer from "../../components/CourseContainer";
-import { Box } from "@mui/material";
+import DefaultLayout from "../../layout";
 
 const Home = () => {
   //#region Blog
@@ -10,11 +8,9 @@ const Home = () => {
   //#endregion
   return (
     <>
-      <Navbar />
-      <Box sx={{ width: "90%", marginX: "auto", marginY: "10px" }}>
+      <DefaultLayout>
         <CourseContainer />
-      </Box>
-      <Footer />
+      </DefaultLayout>
     </>
   );
 };

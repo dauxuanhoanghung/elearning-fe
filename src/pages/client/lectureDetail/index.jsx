@@ -7,6 +7,7 @@ import CommentContainer from "../../../components/CommentContainer";
 import LectureList from "../../../components/LectureList";
 import lectureCommentService from "../../../services/lectureCommentService";
 import { useSearchParams } from "react-router-dom";
+import DefaultLayout from "../../../layout";
 
 const LectureDetailPage = () => {
   // #region comments
@@ -32,22 +33,22 @@ const LectureDetailPage = () => {
   const lectureId = searchParams.get("lectureId");
   return (
     <>
-      <Navbar />
-      <Grid container sx={{ width: "90%", margin: "10px auto" }}>
-        <Grid item xs={12} sm={9}>
-          <LectureDetail />
-          <CommentContainer
-            comments={comments}
-            setComments={setComments}
-            lectureId={lectureId}
-            getMoreComments={getCommentsByLectureId}
-          />
+      <DefaultLayout>
+        <Grid container sx={{ width: "90%", margin: "10px auto" }}>
+          <Grid item xs={12} sm={9}>
+            <LectureDetail />
+            <CommentContainer
+              comments={comments}
+              setComments={setComments}
+              lectureId={lectureId}
+              getMoreComments={getCommentsByLectureId}
+            />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <LectureList />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={3}>
-          <LectureList />
-        </Grid>
-      </Grid>
-      <Footer />
+      </DefaultLayout>
     </>
   );
 };

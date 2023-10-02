@@ -1,12 +1,10 @@
-import React, { useContext, useEffect } from "react";
-import Navbar from "../../components/Navbar";
+import React, { useEffect } from "react";
+import DefaultLayout from "../../layout";
 import LoginForm from "../../components/LoginForm";
-import Footer from "../../components/Footer";
 import { useSelector } from "react-redux";
 import { isEmptyObject } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "../../contexts/SnackbarContext";
-
 
 const Login = () => {
   const user = useSelector((state) => state.user.user);
@@ -14,16 +12,17 @@ const Login = () => {
   const { showSnackbar } = useSnackbar();
   useEffect(() => {
     if (!isEmptyObject(user)) {
-      showSnackbar({ message: "Authenticated user can't go to this page", severity: "error" })
+      showSnackbar({
+        message: "Authenticated user can't go to this page",
+        severity: "error",
+      });
       navigate("/");
     }
-  }, [])
+  }, []);
   return (
-    <>
-      <Navbar />
+    <DefaultLayout>
       <LoginForm />
-      <Footer />
-    </>
+    </DefaultLayout>
   );
 };
 

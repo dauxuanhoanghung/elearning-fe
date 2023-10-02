@@ -1,13 +1,14 @@
-import Footer from "../../components/Footer";
-import Navbar from "../../components/Navbar";
 import SignUp from "../../components/Signup";
+import DefaultLayout from "../../layout";
 
 const Signup = () => {
-  return <>
-    <Navbar />
-    <SignUp />
-    <Footer />
-  </>;
+  return (
+    <>
+      <DefaultLayout>
+        <SignUp />
+      </DefaultLayout>
+    </>
+  );
 };
 
 export default Signup;

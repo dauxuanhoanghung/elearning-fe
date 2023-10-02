@@ -1,10 +1,11 @@
 import DefaultLayout from "../../../layout";
 
-const MyCoursePage = () => {
+const MyBusinessPage = () => {
   return (
     <DefaultLayout>
 
     </DefaultLayout>
   );
 };
-export default MyCoursePage;
+
+export default MyBusinessPage;

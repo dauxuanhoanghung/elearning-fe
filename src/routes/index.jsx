@@ -10,9 +10,11 @@ import CourseDetail from "../pages/client/courseDetail";
 import LectureDetail from "../pages/client/lectureDetail";
 import FavoritePage from "../pages/client/favorite";
 import MyCoursePage from "../pages/client/myCourse";
+import MyBusinessPage from "../pages/client/myBusiness";
 import RegisterLecturerPage from "../pages/client/registerLecturer";
 import AdminHomePage from "../pages/admin/home";
 import AdminStatsPage from "../pages/admin/stats";
+
 
 const AuthenticatedRoute = ({ redirect = "/" }) => {
   const user = getProfileFromLS();
@@ -26,6 +28,11 @@ export const routers = [
   { path: "/", element: <Home /> },
   { path: "login", element: <Login /> },
   { path: "signup", element: <Signup /> },
+  {
+    path: "/my-business",
+    element: <AuthenticatedRoute redirect="/login" />,
+    children: [{ index: true, element: <MyBusinessPage /> }],
+  },
   {
     path: "/my-favorite",
     element: <AuthenticatedRoute redirect="/login" />,
