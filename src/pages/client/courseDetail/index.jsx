@@ -16,9 +16,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import SectionCard from "../../../components/SectionCard";
 import CommentContainer from "../../../components/CommentContainer";
-import courseCommentService from "../../../services/courseCommentService";
-import courseService from "../../../services/courseService";
-import registrationService from "../../../services/registrationService";
+import {
+  courseCommentService,
+  courseService,
+  registrationService,
+} from "../../../services";
 import { useSelector } from "react-redux";
 import { isEmptyObject } from "../../../utils/utils";
 import { useSnackbar } from "../../../contexts/SnackbarContext";

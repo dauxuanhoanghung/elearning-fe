@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Alert, Box, Grid } from "@mui/material";
 import CourseCard from "./CourseCard";
-import courseService from "../../services/courseService";
-import favoriteService from "../../services/favoriteService";
+import { courseService, favoriteService } from "../../services";
 import { Link } from "react-router-dom";
 import Spinner from "../Spinner";
 

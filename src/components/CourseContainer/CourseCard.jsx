@@ -16,7 +16,7 @@ import { useEffect, useRef, useState } from "react";
 import { isEmptyObject } from "../../utils/utils";
 import { useSnackbar } from "../../contexts/SnackbarContext";
 import { useSelector } from "react-redux";
-import favoriteService from "../../services/favoriteService";
+import { favoriteService } from "../../services";
 import { Link } from "react-router-dom";
 
 /**

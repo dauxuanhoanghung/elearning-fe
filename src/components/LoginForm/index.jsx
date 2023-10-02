@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import LoginGoogleBtn from "../LoginGoogleBtn";
-import authService from "../../services/authService";
-import userService from "../../services/userService";
+import { userService, authService } from "../../services";
 import { useDispatch, useSelector } from "react-redux";
 import { login, setUser } from "../../app/store/user/userSlice";
 

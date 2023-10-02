@@ -1,8 +1,7 @@
 import React, { useRef, useState } from "react";
-import Navbar from "../../../../components/Navbar";
-import Footer from "../../../../components/Footer";
 import CreateCourseForm from "../../../../components/CreateCourseForm";
 import CreateLectureForm from "../../../../components/CreateLectureForm";
+import Spinner from "../../../../components/Spinner";
 import {
   Box,
   Button,
@@ -13,9 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useSnackbar } from "../../../../contexts/SnackbarContext";
-import courseService from "../../../../services/courseService";
-import lectureService from "../../../../services/lectureService";
-import Spinner from "../../../../components/Spinner";
+import { courseService, lectureService } from "../../../../services";
 import { useNavigate } from "react-router-dom";
 import DefaultLayout from "../../../../layout";
 const steps = ["Create Info Course", "Add Lecture"];
