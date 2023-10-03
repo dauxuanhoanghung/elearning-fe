@@ -1,4 +1,4 @@
-{
+[{
     "iss": "https://accounts.google.com",
     "azp": "402026854293-394gqacf406s92p1ujrd2bndv764psm3.apps.googleusercontent.com",
     "aud": "402026854293-394gqacf406s92p1ujrd2bndv764psm3.apps.googleusercontent.com",
@@ -31,4 +31,4 @@
     "iat": 1695733651,
     "exp": 1695737251,
     "jti": "58c95bef02a7380a3aea8c50ecd3c8dc60195c71"
-}
+}]

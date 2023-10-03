@@ -7,10 +7,7 @@ import {
   // setProfileToLS,
   setRefreshTokenToLS,
 } from "./auth";
-import {
-  URL_REFRESH_TOKEN,
-  URL_SERVER,
-} from "../constants/url";
+import { URL_REFRESH_TOKEN, URL_SERVER } from "../constants/url";
 
 class Http {
   constructor() {
@@ -19,7 +16,7 @@ class Http {
     this.refreshTokenRequest = null;
     this.instance = axios.create({
       baseURL: `${URL_SERVER}`, // Replace with your base URL
-      // timeout: 10000,
+      timeout: 10000,
       headers: {
         "Content-Type": "application/json",
       },
@@ -103,23 +100,21 @@ class Http {
     );
   }
 
-  handleRefreshToken() {
-    return this.instance
-      .post(URL_REFRESH_TOKEN, {
+  async handleRefreshToken() {
+    try {
+      const res = await this.instance.post(URL_REFRESH_TOKEN, {
         refresh_token: this.refreshToken,
-      })
-      .then((res) => {
-        const { access_token } = res.data.data;
-        setAccessTokenToLS(access_token);
-        this.accessToken = access_token;
-        return access_token;
-      })
-      .catch((error) => {
-        clearLS();
-        this.accessToken = "";
-        this.refreshToken = "";
-        throw error;
       });
+      const { access_token } = res.data.data;
+      setAccessTokenToLS(access_token);
+      this.accessToken = access_token;
+      return access_token;
+    } catch (error) {
+      clearLS();
+      this.accessToken = "";
+      this.refreshToken = "";
+      throw error;
+    }
   }
 }
 
