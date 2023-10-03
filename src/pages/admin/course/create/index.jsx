@@ -63,11 +63,7 @@ const CourseCreationPage = ({}) => {
   const handleComplete = () => {
     if (activeStep === 0) {
       if (courseData.name.trim() === "" || courseData.price.trim() === "") {
-        setSnackState({
-          open: true,
-          message: "Please enter full field",
-          severity: "error",
-        });
+        showSnackbar({ message: "Please enter full field", severity: "error" });
         return;
       }
     }

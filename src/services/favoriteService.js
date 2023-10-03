@@ -4,12 +4,16 @@ const favoriteService = {
   toggle(body) {
     return http.post(URL_FAVOR, body);
   },
-  getFavoriteCourse() {
-    return http.get(URL_GET_FAVORITE_COURSES);
+  getFavoriteCourse(page = 0) {
+    return http.get(URL_GET_FAVORITE_COURSES, {
+      params: {
+        page: page,
+      },
+    });
   },
-  fetchInitialFavorite(courseId){
+  fetchInitialFavorite(courseId) {
     return http.get(`${URL_FAVOR}get-favor-by-course-id/${courseId}`);
-  }
+  },
 };
 
 export default favoriteService;

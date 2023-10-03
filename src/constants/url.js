@@ -20,6 +20,7 @@ export const URL_DELETE_NOTE_BY_ID = (id) => `${URL_USER_NOTE}${id}/delete`;
 // #endregion
 // #region Course API
 export const URL_COURSE = "/api/courses/";
+export const URL_MY_BUSINESS_COURSES = `${URL_COURSE}my-business`;
 export const URL_CREATE_SECTION = `${URL_COURSE}after-create-course`;
 export const URL_GET_SECTION_BY_COURSE_ID = (id) =>
   `${URL_COURSE}${id}/get-section`;

@@ -7,9 +7,9 @@ const Spinner = () => {
       <div
         style={{
           position: "absolute",
-          top: 0,
-          left: 0,
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          top: "50%",
+          left: "50%",
+          transition: "translateX(-50%, -50%)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",

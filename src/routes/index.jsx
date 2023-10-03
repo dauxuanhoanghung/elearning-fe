@@ -1,6 +1,6 @@
 import { getProfileFromLS } from "../utils/auth";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { isEmptyObject } from "../utils/utils";
+import { isEmptyObject, isLecturer } from "../utils/utils";
 import Home from "../pages/home";
 import Login from "../pages/login";
 import PageNotFound from "../pages/errors/notFound";
@@ -15,7 +15,6 @@ import RegisterLecturerPage from "../pages/client/registerLecturer";
 import AdminHomePage from "../pages/admin/home";
 import AdminStatsPage from "../pages/admin/stats";
 
-
 const AuthenticatedRoute = ({ redirect = "/" }) => {
   const user = getProfileFromLS();
   const { state } = useLocation();
@@ -24,13 +23,20 @@ const AuthenticatedRoute = ({ redirect = "/" }) => {
   return <Outlet />;
 };
 
+const LecturerRoute = ({ redirect = "/" }) => {
+  const user = getProfileFromLS();
+  const { state } = useLocation();
+  if (user != null && isLecturer(user)) return <Outlet />;
+  return <Navigate to={state?.redirect || redirect} />;
+};
+
 export const routers = [
   { path: "/", element: <Home /> },
   { path: "login", element: <Login /> },
   { path: "signup", element: <Signup /> },
   {
     path: "/my-business",
-    element: <AuthenticatedRoute redirect="/login" />,
+    element: <LecturerRoute redirect="/login" />,
     children: [{ index: true, element: <MyBusinessPage /> }],
   },
   {
@@ -56,7 +62,7 @@ export const routers = [
     children: [{ index: true, element: <RegisterLecturerPage /> }],
   },
   { path: "/blog/:blogId", element: null },
-  { path: "/admin", element: <AdminHomePage />},
-  { path: "/admin/stats", element: <AdminStatsPage />},
+  { path: "/admin", element: <AdminHomePage /> },
+  { path: "/admin/stats", element: <AdminStatsPage /> },
   { path: "*", element: <PageNotFound /> },
 ];

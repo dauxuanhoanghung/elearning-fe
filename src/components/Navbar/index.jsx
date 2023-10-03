@@ -77,9 +77,14 @@ const Navbar = () => {
       />
       {!isEmptyObject(user) && (
         <>
-          {isLecturer(user) && (
+          {/* Lecture */}
+          {isLecturer(user) ? (
             <Link to="/my-business">
               <p className="navbar__text navbar__ub">My Business</p>
+            </Link>
+          ) : (
+            <Link to="/register-lecturer">
+              <p className="navbar__text navbar__ub">Register lecturer</p>
             </Link>
           )}
           <Link to="/my-course">

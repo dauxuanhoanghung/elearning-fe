@@ -6,23 +6,28 @@ import { Link } from "react-router-dom";
 import Spinner from "../Spinner";
 
 const CourseContainer = ({ isFavoritePage = false }) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   //#region Course
   const [courses, setCourses] = useState([]);
+  const [page, setPage] = useState(0)
   useEffect(() => {
     const getCourses = async () => {
-      setLoading(true);
-      if (!isFavoritePage) {
-        const res = await courseService.getCourses();
-        setCourses(...courses, res.data.data);
-      } else {
-        const res = await favoriteService.getFavoriteCourse();
-        setCourses(...courses, res.data.data);
+      setLoading(prev => true);
+      try {
+        if (!isFavoritePage) {
+          const res = await courseService.getCourses(page);
+          setCourses(...courses, res.data.data);
+        } else {
+          const res = await favoriteService.getFavoriteCourse(page);
+          setCourses(...courses, res.data.data);
+        }
+      } catch (error) {
+      } finally {
+        setLoading(prev => false);
       }
-      setLoading(false);
     };
     getCourses();
-  }, []);
+  }, [page]);
   //#endregion
 
   return (

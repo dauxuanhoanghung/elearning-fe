@@ -7,12 +7,25 @@ import {
   URL_GET_COURSE_BY_ID,
   URL_GET_CRITERIA_BY_ID,
   URL_GET_SECTION_BY_COURSE_ID,
+  URL_MY_BUSINESS_COURSES,
 } from "../constants/url";
 import http from "../utils/http";
 
 const courseService = {
-  getCourses() {
-    return http.get(URL_COURSE);
+  getCourses(page = 0) {
+    return http.get(URL_COURSE, {
+      params: {
+        page: page,
+      },
+    });
+  },
+  getMyCourse(page = 0) {
+    return http.get(URL_MY_BUSINESS_COURSES, {
+      params: {
+        page: page,
+        business: true
+      },
+    });
   },
   getCourseById(id) {
     return http.get(URL_GET_COURSE_BY_ID(id));
