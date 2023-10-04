@@ -1,10 +1,11 @@
 import {
   URL_DELETE_LECTURER_FORM_BY_ID,
   URL_GET_LECTURER_FORM_BY_CURRENT_USER,
+  URL_LECTURER_APRROVAL,
   URL_LECTURER_REGISTRATION,
-  URL_UPDATE_LECTURER_FORM_BY_CURRENT_USER
-} from '../constants/url';
-import http from '../utils/http';
+  URL_UPDATE_LECTURER_FORM_BY_CURRENT_USER,
+} from "../constants/url";
+import http from "../utils/http";
 const lecturerRegistrationService = {
   /**
    *
@@ -13,8 +14,8 @@ const lecturerRegistrationService = {
   registerLecturer(body) {
     return http.post(URL_LECTURER_REGISTRATION, body, {
       headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+        "Content-Type": "multipart/form-data",
+      },
     });
   },
   getLecturerFormByCurrentUser() {
@@ -30,10 +31,23 @@ const lecturerRegistrationService = {
   updateLecturerFormByCurrentUser(id, body) {
     return http.put(URL_UPDATE_LECTURER_FORM_BY_CURRENT_USER(id), body, {
       headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+        "Content-Type": "multipart/form-data",
+      },
     });
-  }
+  },
+  getRegistrationForms(page = 0) {
+    return http.get(URL_LECTURER_REGISTRATION, {
+      params: {
+        page: page,
+      },
+    });
+  },
+  approvalForm(id) {
+    return http.post(URL_LECTURER_APRROVAL);
+  },
+  rejectForm(body) {
+    return http.post(URL_LECTURER_REJECT, body);
+  },
 };
 
 export default lecturerRegistrationService;

@@ -14,6 +14,7 @@ import MyBusinessPage from "../pages/client/myBusiness";
 import RegisterLecturerPage from "../pages/client/registerLecturer";
 import AdminHomePage from "../pages/admin/home";
 import AdminStatsPage from "../pages/admin/stats";
+import AdminApprovalPage from "../pages/admin/approval";
 
 const AuthenticatedRoute = ({ redirect = "/" }) => {
   const user = getProfileFromLS();
@@ -64,5 +65,6 @@ export const routers = [
   { path: "/blog/:blogId", element: null },
   { path: "/admin", element: <AdminHomePage /> },
   { path: "/admin/stats", element: <AdminStatsPage /> },
+  { path: "/admin/approval", element: <AdminApprovalPage /> },
   { path: "*", element: <PageNotFound /> },
 ];
