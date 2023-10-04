@@ -1,13 +1,13 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   clearLS,
   getAccessTokenFromLS,
   getRefreshTokenFromLS,
   setAccessTokenToLS,
   // setProfileToLS,
-  setRefreshTokenToLS,
-} from "./auth";
-import { URL_REFRESH_TOKEN, URL_SERVER } from "../constants/url";
+  setRefreshTokenToLS
+} from './auth';
+import { URL_REFRESH_TOKEN, URL_SERVER } from '../constants/url';
 
 class Http {
   constructor() {
@@ -16,17 +16,17 @@ class Http {
     this.refreshTokenRequest = null;
     this.instance = axios.create({
       baseURL: `${URL_SERVER}`, // Replace with your base URL
-      timeout: 10000,
+      // timeout: 10000,
       headers: {
-        "Content-Type": "application/json",
-      },
+        'Content-Type': 'application/json'
+      }
     });
     /** Request, gắn token vào headers */
     this.instance.interceptors.request.use(
       (config) => {
         let accessToken = getAccessTokenFromLS();
         if (accessToken && config.headers) {
-          config.headers.authorization = "Bearer " + accessToken;
+          config.headers.authorization = 'Bearer ' + accessToken;
           return config;
         }
         return config;
@@ -103,7 +103,7 @@ class Http {
   async handleRefreshToken() {
     try {
       const res = await this.instance.post(URL_REFRESH_TOKEN, {
-        refresh_token: this.refreshToken,
+        refresh_token: this.refreshToken
       });
       const { access_token } = res.data.data;
       setAccessTokenToLS(access_token);
@@ -111,8 +111,8 @@ class Http {
       return access_token;
     } catch (error) {
       clearLS();
-      this.accessToken = "";
-      this.refreshToken = "";
+      this.accessToken = '';
+      this.refreshToken = '';
       throw error;
     }
   }

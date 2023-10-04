@@ -32,7 +32,7 @@ export const URL_FAVOR = `/api/favorite/`;
 export const URL_GET_FAVORITE_COURSES = `${URL_FAVOR}get-favorite-courses`;
 export const URL_GET_COUNT_LECTURES_BY_COURSE_ID = (courseId) =>
   `${URL_COURSE}${courseId}/get-count-lectures`;
-  export const URL_GET_COUNT_REGISTRATIONS_BY_COURSE_ID = (courseId) =>
+export const URL_GET_COUNT_REGISTRATIONS_BY_COURSE_ID = (courseId) =>
   `${URL_COURSE}${courseId}/get-count-registration`;
 // #endregion
 // #region Course Comment API
@@ -55,3 +55,10 @@ export const URL_BLOG = "/api/blogs/";
 export const URL_GET_BLOG_BY_ID = (id) => `${URL_BLOG}/${id}`;
 export const URL_DELETE_BLOG_BY_ID = (id) => `${URL_BLOG}/${id}`;
 // #endregion
+// #region
+export const URL_LECTURER_REGISTRATION = `/api/lecturer-registration/`;
+export const URL_GET_LECTURER_FORM_BY_CURRENT_USER = `${URL_LECTURER_REGISTRATION}current-user`;
+export const URL_UPDATE_LECTURER_FORM_BY_CURRENT_USER = (id) =>
+  `${URL_LECTURER_REGISTRATION}${id}/update`;
+export const URL_DELETE_LECTURER_FORM_BY_ID = (id) =>
+  `${URL_LECTURER_REGISTRATION}${id}/delete`;
