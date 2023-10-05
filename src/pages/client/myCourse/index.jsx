@@ -6,6 +6,7 @@ import { courseService } from "../../../services";
 import { titleStyle } from "../../../utils/styles";
 import Spinner from "../../../components/Spinner";
 import CourseCard from "../../../components/CourseContainer/CourseCard";
+import MySkeleton from "../../../components/MySkeleton";
 
 const MyCoursePage = () => {
   const [loading, setLoading] = useState(false);
@@ -39,7 +40,7 @@ const MyCoursePage = () => {
         My Learning Courses
       </Typography>
       {loading ? (
-        <Spinner />
+        <MySkeleton />
       ) : (
         <>
           <Grid container spacing={2}>

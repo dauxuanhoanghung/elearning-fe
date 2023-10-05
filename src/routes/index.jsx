@@ -15,6 +15,7 @@ import RegisterLecturerPage from "../pages/client/registerLecturer";
 import AdminHomePage from "../pages/admin/home";
 import AdminStatsPage from "../pages/admin/stats";
 import AdminApprovalPage from "../pages/admin/approval";
+import CourseUpdatePage from "../pages/admin/course/update";
 
 const AuthenticatedRoute = ({ redirect = "/" }) => {
   const user = getProfileFromLS();
@@ -54,6 +55,11 @@ export const routers = [
     path: "/course/create",
     element: <AuthenticatedRoute redirect="/login" />,
     children: [{ index: true, element: <CourseCreationPage /> }],
+  },
+  {
+    path: "/course/:courseId/update",
+    element: <AuthenticatedRoute redirect="/login" />,
+    children: [{ index: true, element: <CourseUpdatePage /> }],
   },
   { path: "/course/:courseId/learning", element: <LectureDetail /> },
   { path: "/course/:courseId/view", element: <CourseDetail /> },

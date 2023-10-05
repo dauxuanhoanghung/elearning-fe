@@ -3,6 +3,7 @@ import {
   URL_GET_LECTURER_FORM_BY_CURRENT_USER,
   URL_LECTURER_APRROVAL,
   URL_LECTURER_REGISTRATION,
+  URL_LECTURER_REJECT,
   URL_UPDATE_LECTURER_FORM_BY_CURRENT_USER,
 } from "../constants/url";
 import http from "../utils/http";
@@ -43,8 +44,13 @@ const lecturerRegistrationService = {
     });
   },
   approvalForm(id) {
-    return http.post(URL_LECTURER_APRROVAL);
+    return http.post(URL_LECTURER_APRROVAL(id));
   },
+  /**
+   * 
+   * @param {*} body 
+   * @returns 
+   */
   rejectForm(body) {
     return http.post(URL_LECTURER_REJECT, body);
   },

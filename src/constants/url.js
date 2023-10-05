@@ -64,5 +64,4 @@ export const URL_DELETE_LECTURER_FORM_BY_ID = (id) =>
   `${URL_LECTURER_REGISTRATION}${id}/delete`;
 export const URL_LECTURER_APRROVAL = (id) =>
   `${URL_LECTURER_REGISTRATION}${id}/approve`;
-export const URL_LECTURER_REJECT = (id) =>
-  `${URL_LECTURER_REGISTRATION}${id}/reject`;
+export const URL_LECTURER_REJECT = `${URL_LECTURER_REGISTRATION}reject`;

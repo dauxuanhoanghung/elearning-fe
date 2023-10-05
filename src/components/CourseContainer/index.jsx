@@ -3,7 +3,7 @@ import { Alert, Box, Grid } from "@mui/material";
 import CourseCard from "./CourseCard";
 import { courseService, favoriteService } from "../../services";
 import { Link } from "react-router-dom";
-import Spinner from "../Spinner";
+import MySkeleton from "../MySkeleton";
 
 const CourseContainer = ({ isFavoritePage = false }) => {
   const [loading, setLoading] = useState(true);
@@ -33,7 +33,7 @@ const CourseContainer = ({ isFavoritePage = false }) => {
   return (
     <>
       {loading ? (
-        <Spinner />
+        <MySkeleton />
       ) : (
         <Grid container spacing={2}>
           {courses.length === 0 && (

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { courseService } from "../../../services";
 import { Link } from "react-router-dom";
 import { titleStyle } from "../../../utils/styles";
+import MySkeleton from "../../../components/MySkeleton";
 
 const MyBusinessPage = () => {
   const [loading, setLoading] = useState(true);
@@ -19,7 +20,7 @@ const MyBusinessPage = () => {
         setLoading(true);
         const res = await courseService.getMyCourse(page);
         setCourses(res.data.data);
-        
+
       } catch {
       } finally {
         setLoading(false);
@@ -41,7 +42,7 @@ const MyBusinessPage = () => {
         My Courses
       </Typography>
       {loading ? (
-        <Spinner />
+        <MySkeleton />
       ) : (
         <>
           <Grid container spacing={2}>
