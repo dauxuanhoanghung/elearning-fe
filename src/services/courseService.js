@@ -7,6 +7,7 @@ import {
   URL_GET_COURSE_BY_ID,
   URL_GET_CRITERIA_BY_ID,
   URL_GET_SECTION_BY_COURSE_ID,
+  URL_GET_SECTION_LECTURES_BY_COURSE_ID,
   URL_MY_BUSINESS_COURSES,
 } from "../constants/url";
 import http from "../utils/http";
@@ -23,7 +24,7 @@ const courseService = {
     return http.get(URL_MY_BUSINESS_COURSES, {
       params: {
         page: page,
-        business: true
+        business: true,
       },
     });
   },
@@ -56,6 +57,9 @@ const courseService = {
   },
   getSection(courseId) {
     return http.get(URL_GET_SECTION_BY_COURSE_ID(courseId));
+  },
+  getSectionAndLecturesByCourseId(courseId) {
+    return http.get(URL_GET_SECTION_LECTURES_BY_COURSE_ID(courseId));
   },
   /**
    *

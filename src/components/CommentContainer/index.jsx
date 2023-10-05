@@ -12,9 +12,12 @@ import {
   IconButton,
 } from "@mui/material";
 import courseCommentService from "../../services/courseCommentService";
+import { lectureCommentService } from "../../services";
+import { useSnackbar } from "../../contexts/SnackbarContext";
 
 const CommentContainer = (props) => {
-  const { comments = [], setComments, courseId, lectureId, blogId, getMoreComments } =
+  const { showSnackbar } = useSnackbar();
+  const { comments = [], setComments, courseId, lectureId, blogId, getMoreComments, page } =
     props;
   const [newComment, setNewComment] = useState("");
 
@@ -32,13 +35,17 @@ const CommentContainer = (props) => {
       setComments([newComment, ...comments]);
       console.log(comments)
     } else if (lectureId) {
-      const request = { content: newComment, course: courseId };
-      const res = await courseCommentService.createComment(request);
+      const request = { content: newComment, lecture: lectureId };
+      const res = await lectureCommentService.createComment(request);
       setComments([newComment, ...comments]);
       console.log(comments)
+      console.log(res)
     } else if (blogId) {
     }
-    setNewComment("");
+    if (res.data.status === 201) {
+      setNewComment("");
+      showSnackbar({ message: "Comment successfully created", severity: "success" });
+    }
   };
 
   return (
@@ -65,9 +72,10 @@ const CommentContainer = (props) => {
           ),
         }}
       />
-      <Button onClick={getMoreComments} variant="text">
-        See more...
-      </Button>
+      {page !== -1 && (
+        <Button onClick={getMoreComments} variant="text">
+          See more...
+        </Button>)}
       <List>
         {comments.map((comment, index) => (
           <React.Fragment key={comment.id}>

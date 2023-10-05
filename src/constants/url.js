@@ -24,6 +24,8 @@ export const URL_MY_BUSINESS_COURSES = `${URL_COURSE}my-business`;
 export const URL_CREATE_SECTION = `${URL_COURSE}after-create-course`;
 export const URL_GET_SECTION_BY_COURSE_ID = (id) =>
   `${URL_COURSE}${id}/get-section`;
+export const URL_GET_SECTION_LECTURES_BY_COURSE_ID = (id) =>
+  `${URL_COURSE}${id}/get-section-lectures`;
 export const URL_GET_COURSE_BY_ID = (id) => `${URL_COURSE}${id}`;
 export const URL_UPDATE_COURSE = `${URL_COURSE}update`;
 export const URL_DELETE_COURSE_BY_ID = (id) => `${URL_COURSE}${id}/delete`;

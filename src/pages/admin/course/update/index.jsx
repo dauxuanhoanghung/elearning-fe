@@ -4,6 +4,7 @@ import { courseService } from "../../../../services";
 import { useSelector } from "react-redux";
 import { isAdmin } from "../../../../utils/utils";
 import { useEffect } from "react";
+import DefaultLayout from "../../../../layout";
 
 const CourseUpdatePage = () => {
   const { showSnackbar } = useSnackbar();
@@ -20,6 +21,7 @@ const CourseUpdatePage = () => {
   /**
    * course {id, name, description, background(image), price(for button), creator, createdDate}
    */
+  const [loading, setLoading] = useState(false);
   const [courseData, setCourseData] = useState({});
   useEffect(() => {
     const getCourseByCourseId = async (courseId) => {
@@ -29,7 +31,11 @@ const CourseUpdatePage = () => {
     getCourseByCourseId(courseId);
   }, [courseId]);
   // #endregion
+
   return <>
+    <DefaultLayout>
+
+    </DefaultLayout>
   </>
 }
 

@@ -10,13 +10,22 @@ import {
   Accordion,
   List,
 } from "@mui/material";
+import { courseService } from "../../services";
+import { useParams } from "react-router-dom";
 
 const LectureList = () => {
+  const { courseId } = useParams();
   const [sections, setSections] = useState([]);
 
   useEffect(() => {
-    // Fetch or set the sections data here, e.g., from an API call or props
-    // For the sake of this example, we'll create sample data
+    const fetchSectionsAndItsLectures = async () => {
+      const res = await courseService.getSectionAndLecturesByCourseId(courseId)
+      console.log(res)
+      if (res.data.status === 200) {
+        setSections(res.data.data);
+      }
+    }
+
     const sampleSections = [
       {
         id: 1,
@@ -39,13 +48,14 @@ const LectureList = () => {
     ];
 
     setSections(sampleSections);
+    fetchSectionsAndItsLectures();
   }, []);
 
   return (
     <Box sx={{ width: "98%", marginLeft: "auto" }}>
       <Typography variant="h6">Course content:</Typography>
       {sections.map((section) => (
-        <Accordion key={section.id} sx={{ marginY: 0}}>
+        <Accordion key={section.id} sx={{ margin: "0 !important" }}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             sx={{ paddingY: "0px", cursor: "pointer", marginY: 0 }}
@@ -62,7 +72,7 @@ const LectureList = () => {
                     id={lecture.id}
                     orderIndex={lecture.orderIndex}
                     title={lecture.title}
-                    courseId={section.courseId}
+                    courseId={courseId}
                   />
                   {index < section.lectures.length - 1 && (
                     <Divider variant="inset" component="li" />

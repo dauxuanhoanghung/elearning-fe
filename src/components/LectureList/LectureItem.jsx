@@ -18,17 +18,16 @@ const LectureItem = (props) => {
         style={{ textDecoration: "none", color: "#000" }}
       >
         <Typography variant="h6" component="div">
-          {orderIndex}. {title}
+          {`${orderIndex}. ${title}`}
         </Typography>
         <Typography variant="body2" color="textSecondary">
           {type === "VIDEO" && (
-            <>
-              <SlowMotionVideoIcon />
-            </>
+            <SlowMotionVideoIcon />
           )}
           {type === "TEXT" && (
             <>
-              <EditNoteIcon />
+              Single
+              <EditNoteIcon /> 2
             </>
           )}
         </Typography>
