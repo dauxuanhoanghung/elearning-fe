@@ -16,7 +16,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [showContent, setShowContent] = useState(false);
   // #region user redux
-  const user = useSelector((state) => state.user.user);
+  const currentUser = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(logout());
@@ -45,7 +45,7 @@ const Navbar = () => {
     <div className="navbar">
       <MenuIcon className="navbar__menuIcon" onClick={Toggle} />
       <div className={showContent ? "navbar__hidden" : "hide"}>
-        {!user && (
+        {!currentUser && (
           <>
             <Link to="/login">
               <h3 style={{ marginTop: "15px" }}>Login</h3>
@@ -56,7 +56,7 @@ const Navbar = () => {
           </>
         )}
 
-        {user && (
+        {currentUser && (
           <>
             <button className="m-signOut">
               <h3 style={{ marginTop: "15px" }}>Log Out</h3>
@@ -75,10 +75,10 @@ const Navbar = () => {
         onChange={(e) => setSearchInput(e.target.value)}
         onKeyDown={handleEnter}
       />
-      {!isEmptyObject(user) && (
+      {!isEmptyObject(currentUser) && (
         <>
           {/* Lecture */}
-          {isLecturer(user) ? (
+          {isLecturer(currentUser) ? (
             <Link to="/my-business">
               <p className="navbar__text navbar__ub">My Business</p>
             </Link>
@@ -107,7 +107,7 @@ const Navbar = () => {
           </button>
         </>
       )}
-      {isEmptyObject(user) && (
+      {isEmptyObject(currentUser) && (
         <div className="navbar__user">
           <Link to={`/search/python`}>
             <SearchIcon className="navbar__searchIcon" />

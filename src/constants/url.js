@@ -52,6 +52,11 @@ export const URL_LECTURE_COMMENT = "/api/lecture-comments/";
 export const URL_GET_COMMENT_BY_LECTURE_ID = (lectureId) =>
   `${URL_LECTURE_COMMENT}lecture/${lectureId}`;
 // #endregion
+// #region Registration - Transaction
+export const URL_REGISTRATION = "/api/registration/";
+export const URL_REGISTRATION_INIT = (id) =>
+  `${URL_REGISTRATION}${id}/get-current-user`;
+
 // #region Blog API
 export const URL_BLOG = "/api/blogs/";
 export const URL_GET_BLOG_BY_ID = (id) => `${URL_BLOG}/${id}`;

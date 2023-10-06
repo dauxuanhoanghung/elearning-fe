@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import DefaultLayout from "../../../../layout";
 const steps = ["Create Info Course", "Add Lecture"];
 
-const CourseCreationPage = ({}) => {
+const CourseCreationPage = ({ }) => {
   const { showSnackbar } = useSnackbar();
   const navigate = useNavigate();
   // #region Stepper
@@ -146,7 +146,6 @@ const CourseCreationPage = ({}) => {
                 lecture,
                 resultSection.id
               );
-              console.log(lectureRequest);
               finalRes = await lectureService.create(lectureRequest);
             });
           }

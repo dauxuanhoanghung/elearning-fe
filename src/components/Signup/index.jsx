@@ -45,7 +45,6 @@ const SignUp = () => {
       const request = new FormData();
       for (let field in formData) request.append(field, formData[field]);
       if (selectedFile) request.append("avatarFile", selectedFile);
-      console.log(request.values());
       //   for (const pair of request.entries()) {
       //     console.log(pair[0], pair[1]);
       //   }

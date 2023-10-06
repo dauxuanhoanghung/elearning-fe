@@ -26,23 +26,18 @@ const CommentContainer = (props) => {
   };
 
   const handleCommentSubmit = async () => {
-    // Handle comment submission here, e.g., send to a server, update state, etc.
-    // You can add your logic here to save the new comment.
-    console.log("New Comment:", newComment);
+    let res = null;
     if (courseId) {
       const request = { content: newComment, course: courseId };
-      const res = await courseCommentService.createComment(request);
+      res = await courseCommentService.createComment(request);
       setComments([newComment, ...comments]);
-      console.log(comments)
     } else if (lectureId) {
       const request = { content: newComment, lecture: lectureId };
-      const res = await lectureCommentService.createComment(request);
+      res = await lectureCommentService.createComment(request);
       setComments([newComment, ...comments]);
-      console.log(comments)
-      console.log(res)
     } else if (blogId) {
     }
-    if (res.data.status === 201) {
+    if (res?.data.status === 201) {
       setNewComment("");
       showSnackbar({ message: "Comment successfully created", severity: "success" });
     }

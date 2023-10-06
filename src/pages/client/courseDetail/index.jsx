@@ -25,6 +25,8 @@ import { useSelector } from "react-redux";
 import { isEmptyObject } from "../../../utils/utils";
 import { useSnackbar } from "../../../contexts/SnackbarContext";
 import DefaultLayout from "../../../layout";
+import { current } from "@reduxjs/toolkit";
+import { getProfileFromLS } from "../../../utils/auth";
 
 const styles = {
   container: {
@@ -40,7 +42,8 @@ const styles = {
 
 function CourseDetail() {
   const { courseId } = useParams();
-  const { currentUser } = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.user.user);
+  const currentUser = isEmptyObject(user) ? getProfileFromLS() : user;
   const { showSnackbar } = useSnackbar();
   const navigate = useNavigate();
   // #region course detail
@@ -61,7 +64,7 @@ function CourseDetail() {
     };
     const getCountRegistrationsByCourseId = async (courseId) => {
       const res = await courseService.countRegistrationsByCourseId(courseId);
-      setCountLectures(res.data.data);
+      setCountRegistrations(res.data.data);
     };
     getCourseByCourseId(courseId);
     getCountLecturesByCourseId(courseId);
@@ -105,19 +108,25 @@ function CourseDetail() {
   // #endregion
   // #region Registration
   const [registration, setRegistration] = useState(false);
+  const [url, setUrl] = useState("");
   const firstRender = useRef(true);
 
   useEffect(() => {
     if (firstRender.current && !registration && !isEmptyObject(currentUser)) {
-      firstRender.current = false;
+      console.log("init")
       const getInitialRegistration = async () => {
-        const initialRegistrationStatus =
+        const res =
           await registrationService.getInitialRegistration(courseId);
-        setRegistration(initialRegistrationStatus);
+        console.log(res)
+        setRegistration(true);
+        setUrl(res?.data?.data.nextUrl)
       };
       getInitialRegistration();
     }
   }, []);
+  const handleSeeContinue = () => {
+    navigate(`/course/${courseId}/learning?lectureId=${url}`);
+  }
   const handleRegisterCourse = async () => {
     if (registration) return;
     if (isEmptyObject(currentUser)) {
@@ -126,7 +135,16 @@ function CourseDetail() {
         severity: "error",
       });
       navigate("/login");
+      return;
     }
+    console.log("register course")
+    const res = await registrationService.register({ course: courseId });
+    console.log(res);
+    if (res.data.status === 200) {
+      showSnackbar({ message: "Register course success!!!", severity: "success" })
+      navigate(`/course/${courseId}/learning?lectureId=${res?.data?.data.nextUrl}`);
+    }
+
   };
   // #endregion
   return (
@@ -223,6 +241,7 @@ function CourseDetail() {
               <Button
                 variant="contained"
                 sx={{ width: "100%", backgroundColor: "#f1c40f" }}
+                onClick={handleSeeContinue}
               >
                 Continue see course
               </Button>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 import EditNoteIcon from "@mui/icons-material/EditNote";
@@ -10,27 +10,28 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
  */
 const LectureItem = (props) => {
   const { id, orderIndex, title, type, videos, courseId } = props;
-
   return (
     <>
       <Link
         to={`/course/${courseId}/learning?lectureId=${id}`}
-        style={{ textDecoration: "none", color: "#000" }}
+        style={{ textDecoration: "none", color: "#000", padding: "2px" }}
       >
         <Typography variant="h6" component="div">
           {`${orderIndex}. ${title}`}
         </Typography>
-        <Typography variant="body2" color="textSecondary">
-          {type === "VIDEO" && (
+        <Box sx={{ display: "flex" }}>
+          {type === "VIDEO" && (<>
             <SlowMotionVideoIcon />
+            <Typography variant="body2">{type}</Typography>
+          </>
           )}
           {type === "TEXT" && (
             <>
-              Single
-              <EditNoteIcon /> 2
+              <EditNoteIcon />
+              <Typography>{type}</Typography>
             </>
           )}
-        </Typography>
+        </Box>
       </Link>
     </>
   );

@@ -29,7 +29,6 @@ const UserNote = ({ id, user, text, time, onTimeClick, handleDeleteNote }) => {
   const handleCloseDialog = () => setOpenDialog(false);
   const handleDeleteUserNote = () => {
     handleCloseDialog();
-    console.log("handleDeleteUserNote")
     handleDeleteNote(id);
   };
   return (

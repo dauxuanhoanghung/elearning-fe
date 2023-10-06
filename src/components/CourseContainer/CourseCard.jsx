@@ -51,7 +51,6 @@ const CourseCard = (props) => {
       setFavorites((prev) => !prev);
       const res = await favoriteService.toggle({ course: id });
       const fav = res.status !== 204;
-      console.log(res);
       showSnackbar({
         message: fav
           ? "Add to favorites success"

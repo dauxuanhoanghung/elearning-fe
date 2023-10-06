@@ -25,29 +25,6 @@ const LectureList = () => {
         setSections(res.data.data);
       }
     }
-
-    const sampleSections = [
-      {
-        id: 1,
-        sectionName: "Get-Started",
-        orderIndex: 1,
-        lectures: [
-          { id: 101, orderIndex: 1, title: "Lecture 1.1" },
-          { id: 102, orderIndex: 2, title: "Lecture 1.2" },
-        ],
-      },
-      {
-        id: 2,
-        sectionName: "Section 2",
-        orderIndex: 2,
-        lectures: [
-          { id: 201, orderIndex: 1, title: "Lecture 2.1" },
-          { id: 202, orderIndex: 2, title: "Lecture 2.2" },
-        ],
-      },
-    ];
-
-    setSections(sampleSections);
     fetchSectionsAndItsLectures();
   }, []);
 
@@ -72,6 +49,7 @@ const LectureList = () => {
                     id={lecture.id}
                     orderIndex={lecture.orderIndex}
                     title={lecture.title}
+                    type={lecture.type}
                     courseId={courseId}
                   />
                   {index < section.lectures.length - 1 && (

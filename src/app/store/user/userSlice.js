@@ -8,8 +8,8 @@ import {
 } from "../../../utils/auth";
 
 const initialState = {
-  isLogin: Object.keys(getProfileFromLS()) === 0 ? true : false,
-  user: getProfileFromLS() || {},
+  isLogin: false,
+  user: {},
 };
 
 export const userSlice = createSlice({
@@ -31,10 +31,15 @@ export const userSlice = createSlice({
       state.user = {};
       state.isLogin = false;
     },
+    loadFromLocalStorage: (state, action) => {
+      state.user = getProfileFromLS() || {};
+      state.isLogin = Object.keys(getProfileFromLS()) === 0 ? true : false;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { login, logout, setUser } = userSlice.actions;
+export const { login, logout, setUser, loadFromLocalStorage } =
+  userSlice.actions;
 
 export default userSlice.reducer;

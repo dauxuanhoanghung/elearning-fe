@@ -10,7 +10,7 @@ const CourseUpdatePage = () => {
   const { showSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const { courseId } = useParams();
-  const { currentUser } = useSelector((state) => state.user.user);
+  const currentUser = useSelector((state) => state.user.user);
   useEffect(() => {
     if (!isAdmin(currentUser)) {
       showSnackbar({ message: "You are not allowed to this Admin page.", severity: "error" });
