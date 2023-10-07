@@ -30,6 +30,7 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
     content: "",
     type: "VIDEO",
     orderIndex: "",
+    uploaderType: "YOUTUBE",
     videoFile: null,
   });
   const handleLectureChange = (e) => {
@@ -38,6 +39,8 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
       setLectureFormData({ ...lectureFormData, [name]: files[0] });
     } else {
       setLectureFormData({ ...lectureFormData, [name]: value });
+      if (name === "TEXT")
+        setLectureFormData({ ...lectureFormData, ["videoFile"]: null });
     }
   };
   const addLecture = () => {
@@ -52,6 +55,7 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
       title: lectureFormData.title,
       content: lectureFormData.content,
       type: lectureFormData.type,
+      uploaderType: lectureFormData.uploaderType,
       orderIndex: lectures.length + 1,
       videoFile: lectureFormData.videoFile,
     };

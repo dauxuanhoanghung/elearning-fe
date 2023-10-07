@@ -8,10 +8,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from "react-redux";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
-    <Provider store={store}>
+  <Provider store={store}>
+    <BrowserRouter>
       <App />
-      <ToastContainer />
-    </Provider>
-  </BrowserRouter>
+    </BrowserRouter>
+    <ToastContainer />
+  </Provider>
 );

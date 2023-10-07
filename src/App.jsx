@@ -6,13 +6,18 @@ import { useDispatch } from "react-redux";
 import { loadFromLocalStorage } from "./app/store/user/userSlice";
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
   const element = useRoutes(routers);
   const dispatch = useDispatch();
   useEffect(() => {
     // Dispatch the action to load data from localStorage
-    dispatch(loadFromLocalStorage());
+    dispatch(loadFromLocalStorage())
+    setIsLoading(false);
     console.log('Loaded data from local')
-  }, [dispatch]);
+  }, []);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <>
       <AppProvider>

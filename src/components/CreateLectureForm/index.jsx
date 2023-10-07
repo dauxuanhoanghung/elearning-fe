@@ -8,7 +8,7 @@ import SectionForm from "./SectionForm";
 const CreateLectureForm = (props) => {
   const { courseData, setCourseData } = props;
   useEffect(() => {
-    if (courseData.sections.length === 0) {
+    if (courseData?.sections.length === 0) {
       setCourseData({
         ...courseData,
         sections: [

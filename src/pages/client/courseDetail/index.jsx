@@ -25,7 +25,6 @@ import { useSelector } from "react-redux";
 import { isEmptyObject } from "../../../utils/utils";
 import { useSnackbar } from "../../../contexts/SnackbarContext";
 import DefaultLayout from "../../../layout";
-import { current } from "@reduxjs/toolkit";
 import { getProfileFromLS } from "../../../utils/auth";
 
 const styles = {
@@ -42,8 +41,7 @@ const styles = {
 
 function CourseDetail() {
   const { courseId } = useParams();
-  const user = useSelector((state) => state.user.user);
-  const currentUser = isEmptyObject(user) ? getProfileFromLS() : user;
+  const currentUser = useSelector((state) => state.user.user);
   const { showSnackbar } = useSnackbar();
   const navigate = useNavigate();
   // #region course detail
@@ -114,6 +112,7 @@ function CourseDetail() {
   useEffect(() => {
     if (firstRender.current && !registration && !isEmptyObject(currentUser)) {
       console.log("init")
+      firstRender.current = false;
       const getInitialRegistration = async () => {
         const res =
           await registrationService.getInitialRegistration(courseId);
