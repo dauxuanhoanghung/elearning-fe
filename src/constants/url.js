@@ -72,3 +72,11 @@ export const URL_DELETE_LECTURER_FORM_BY_ID = (id) =>
 export const URL_LECTURER_APRROVAL = (id) =>
   `${URL_LECTURER_REGISTRATION}${id}/approve`;
 export const URL_LECTURER_REJECT = `${URL_LECTURER_REGISTRATION}reject`;
+
+// #region Stats API
+const URL_STATS = "/api/stats/";
+export const URL_GET_COURSE_WITH_MOST_LECTURES = `${URL_STATS}get-course-with-most-lectures`;
+export const URL_GET_COURSE_WITH_MOST_REGISTRATION = `${URL_STATS}get-course-with-most-registration`;
+export const URL_GET_USER_REGISTER_UNTIL_MONTH = `${URL_STATS}get-user-register-until-month`;
+export const URL_GET_USER_REGISTER_BY_MONTH = `${URL_STATS}get-number-of-user-by-month`;
+export const URL_GET_USER_BY_ROLE = `${URL_STATS}get-count-user-by-role`;

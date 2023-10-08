@@ -117,7 +117,8 @@ function CourseDetail() {
         const res =
           await registrationService.getInitialRegistration(courseId);
         console.log(res)
-        setRegistration(true);
+        if (true)
+          setRegistration(true);
         setUrl(res?.data?.data.nextUrl)
       };
       getInitialRegistration();
@@ -278,6 +279,9 @@ function CourseDetail() {
             <Typography variant="body2" color="textSecondary">
               Created Date: {courseData.createdDate}
             </Typography>
+            {courseData.user?.id === currentUser.id && <>
+              <Button>Edit your course</Button>
+            </>}
           </Grid>
         </Grid>
       </DefaultLayout>

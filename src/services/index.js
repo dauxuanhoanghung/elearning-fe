@@ -9,6 +9,7 @@ import lectureService from "./lectureService";
 import registrationService from "./registrationService";
 import userService from "./userService";
 import userNoteService from "./userNoteService";
+import statsService from "./admin/statsService";
 
 export {
   authService,
@@ -22,4 +23,5 @@ export {
   registrationService,
   userService,
   userNoteService,
+  statsService
 };
