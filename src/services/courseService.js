@@ -9,6 +9,7 @@ import {
   URL_GET_SECTION_BY_COURSE_ID,
   URL_GET_SECTION_LECTURES_BY_COURSE_ID,
   URL_MY_BUSINESS_COURSES,
+  URL_TOTAL_COURSE_PAGE,
 } from "../constants/url";
 import http from "../utils/http";
 
@@ -18,6 +19,11 @@ const courseService = {
       params: {
         page: page,
       },
+    });
+  },
+  countTotalCoursePage() {
+    return http.get(URL_TOTAL_COURSE_PAGE, {
+      params: {},
     });
   },
   getMyCourse(page = 0) {

@@ -4,6 +4,7 @@ import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import ApprovalIcon from '@mui/icons-material/Approval';
 import { Link } from "react-router-dom";
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import React from "react";
 
 const AdminUseCases = [
   { to: "/admin", text: "Admin Home Page", icon: <HomeIcon /> },
@@ -39,8 +40,8 @@ const AdminDrawer = (props) => {
         </Link>
         <List>
           {AdminUseCases.map((usecase, index) => (
-            <>
-              <Link to={usecase.to} key={usecase + index} style={{ textDecoration: "none" }}>
+            <React.Fragment key={usecase + index} >
+              <Link to={usecase.to} style={{ textDecoration: "none" }}>
                 <ListItem disablePadding>
                   <ListItemButton>
                     <ListItemIcon>
@@ -51,7 +52,7 @@ const AdminDrawer = (props) => {
                 </ListItem>
               </Link>
               <Divider />
-            </>
+            </React.Fragment>
           ))}
         </List>
       </Box>
