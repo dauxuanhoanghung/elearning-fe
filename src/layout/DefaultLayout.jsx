@@ -24,7 +24,7 @@ const DefaultLayout = ({ children }) => {
       <Navbar />
       <Box sx={{ width: "90%", margin: "20px auto 30px" }}>{children}</Box>
       <Box>
-        <ChatContainer openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
+        {openDrawer && <ChatContainer openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />}
         <Box sx={{ position: "fixed", top: "50%", cursor: "pointer" }} onClick={handleOpenChat}>
           <MarkUnreadChatAltOutlinedIcon size="large" />
         </Box>
