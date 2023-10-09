@@ -37,7 +37,7 @@ const CourseContainer = ({ isFavoritePage = false }) => {
       ) : (
         <Grid container spacing={2}>
           {courses.length === 0 && (
-            <Box container sx={{ margin: "30px", width: "100%" }}>
+            <Box sx={{ margin: "30px", width: "100%" }}>
               <Alert severity="error" sx={{ width: "100%" }}>
                 Thers's no course for you !!! <Link to="/">Go to home</Link>
               </Alert>

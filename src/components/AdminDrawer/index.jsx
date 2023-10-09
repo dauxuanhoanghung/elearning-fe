@@ -11,7 +11,6 @@ const AdminUseCases = [
   { to: "/admin/approval", text: "Approval Page", icon: <ApprovalIcon /> },
 ];
 
-
 const AdminDrawer = (props) => {
   const { openDrawer, setOpenDrawer } = props;
   const toggleDrawer = (event) => {

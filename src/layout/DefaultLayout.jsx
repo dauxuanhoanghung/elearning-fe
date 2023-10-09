@@ -5,8 +5,11 @@ import { useState } from "react";
 import ChatContainer from "../components/Chat/ChatContainer";
 import MarkUnreadChatAltOutlinedIcon from '@mui/icons-material/MarkUnreadChatAltOutlined';
 import AdminDrawer from "../components/AdminDrawer";
+import { useSelector } from "react-redux";
+import { isAdmin } from "../utils/utils";
 
 const DefaultLayout = ({ children }) => {
+  const currentUser = useSelector(state => state.user.user);
   const [openDrawer, setOpenDrawer] = useState(false);
   const handleOpenChat = () => {
     setOpenDrawer(true);
@@ -26,12 +29,14 @@ const DefaultLayout = ({ children }) => {
           <MarkUnreadChatAltOutlinedIcon size="large" />
         </Box>
       </Box>
-      <Box>
-        <AdminDrawer openDrawer={openAdminDrawer} setOpenDrawer={setOpenAdminDrawer} />
-        <Box sx={{ position: "fixed", top: "50%", cursor: "pointer", right: "0" }} onClick={handleOpenAdminDrawer}>
-          <MarkUnreadChatAltOutlinedIcon size="large" />
+      {isAdmin(currentUser) && (
+        <Box>
+          <AdminDrawer openDrawer={openAdminDrawer} setOpenDrawer={setOpenAdminDrawer} />
+          <Box sx={{ position: "fixed", top: "50%", cursor: "pointer", right: "0" }} onClick={handleOpenAdminDrawer}>
+            <MarkUnreadChatAltOutlinedIcon size="large" />
+          </Box>
         </Box>
-      </Box>
+      )}
       <Footer />
     </>
   );

@@ -1,6 +1,5 @@
-import { getProfileFromLS } from "../utils/auth";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { isEmptyObject, isLecturer } from "../utils/utils";
+import { isAdmin, isEmptyObject, isLecturer } from "../utils/utils";
 import Home from "../pages/home";
 import Login from "../pages/login";
 import PageNotFound from "../pages/errors/notFound";
@@ -16,61 +15,96 @@ import AdminHomePage from "../pages/admin/home";
 import AdminStatsPage from "../pages/admin/stats";
 import AdminApprovalPage from "../pages/admin/approval";
 import CourseUpdatePage from "../pages/admin/course/update";
+import { useSelector } from "react-redux";
+import { useSnackbar } from "../contexts/SnackbarContext";
 
-const AuthenticatedRoute = ({ redirect = "/" }) => {
-  const user = getProfileFromLS();
+
+const AuthenticatedRoute = ({ redirect = "/login" }) => {
+  const currentUser = useSelector(state => state.user.user);
   const { state } = useLocation();
-  if (user === null || isEmptyObject(user))
-    return <Navigate to={state?.redirect || redirect} />;
-  return <Outlet />;
+  if (currentUser && !isEmptyObject(currentUser))
+    return <Outlet />;
+  const { showSnackbar } = useSnackbar();
+  showSnackbar({ message: "You must login to access this page!!!", severity: "error" });
+  return <Navigate to={state?.redirect || redirect} />;
+
 };
 
 const LecturerRoute = ({ redirect = "/" }) => {
-  const user = getProfileFromLS();
+  const currentUser = useSelector(state => state.user.user);
   const { state } = useLocation();
-  if (user != null && isLecturer(user)) return <Outlet />;
+  console.log(currentUser)
+  if (currentUser !== null && isLecturer(currentUser))
+    return <Outlet />;
+  const { showSnackbar } = useSnackbar();
+  showSnackbar({ message: "You must be a lecturer to access this page!!!", severity: "error" });
   return <Navigate to={state?.redirect || redirect} />;
 };
 
+const AdminRoute = ({ redirect = "/" }) => {
+  const currentUser = useSelector(state => state.user.user);
+  const { state } = useLocation();
+  if (currentUser !== null && isAdmin(currentUser))
+    return <Outlet />;
+  const { showSnackbar } = useSnackbar();
+  showSnackbar({ message: "You don't have permission to access this page!!!", severity: "error" });
+  return <Navigate to={state?.redirect || redirect} />;
+}
+
+const AnonymousRoute = ({ redirect = "/" }) => {
+  const currentUser = useSelector(state => state.user.user);
+  const { state } = useLocation();
+  if (!currentUser || isEmptyObject(currentUser))
+    return <Outlet />;
+  const { showSnackbar } = useSnackbar();
+  showSnackbar({ message: "You have already login, can access this page!!!", severity: "error" });
+  return <Navigate to={state?.redirect || redirect} />;
+}
+
 export const routers = [
   { path: "/", element: <Home /> },
-  { path: "login", element: <Login /> },
-  { path: "signup", element: <Signup /> },
-  {
-    path: "/my-business",
-    element: <LecturerRoute redirect="/login" />,
-    children: [{ index: true, element: <MyBusinessPage /> }],
-  },
+  { path: "login", element: <AnonymousRoute />, children: [{ index: true, element: <Login /> }] },
+  { path: "signup", element: <AnonymousRoute />, children: [{ index: true, element: <Signup /> }] },
+  { path: "/blog/:blogId", element: null },
   {
     path: "/my-favorite",
-    element: <AuthenticatedRoute redirect="/login" />,
+    element: <AuthenticatedRoute />,
     children: [{ index: true, element: <FavoritePage /> }],
   },
   {
     path: "/my-course",
-    element: <AuthenticatedRoute redirect="/login" />,
+    element: <AuthenticatedRoute />,
     children: [{ index: true, element: <MyCoursePage /> }],
   },
   {
-    path: "/course/create",
-    element: <AuthenticatedRoute redirect="/login" />,
-    children: [{ index: true, element: <CourseCreationPage /> }],
-  },
-  {
-    path: "/course/:courseId/update",
-    element: <AuthenticatedRoute redirect="/login" />,
-    children: [{ index: true, element: <CourseUpdatePage /> }],
-  },
-  { path: "/course/:courseId/learning", element: <LectureDetail /> },
-  { path: "/course/:courseId/view", element: <CourseDetail /> },
-  {
     path: "/register-lecturer",
-    element: <AuthenticatedRoute redirect="/login" />,
+    element: <AuthenticatedRoute />,
     children: [{ index: true, element: <RegisterLecturerPage /> }],
   },
-  { path: "/blog/:blogId", element: null },
-  { path: "/admin", element: <AdminHomePage /> },
-  { path: "/admin/stats", element: <AdminStatsPage /> },
-  { path: "/admin/approval", element: <AdminApprovalPage /> },
+  {
+    path: "/my-business",
+    element: <LecturerRoute />,
+    children: [{ index: true, element: <MyBusinessPage /> }],
+  },
+  {
+    path: "/course",
+    element: <LecturerRoute />,
+    children: [
+      { path: "create", element: <CourseCreationPage />, exactly: true },
+      { path: ":courseId/update", element: <CourseUpdatePage />, exactly: true },
+      { path: ":courseId/learning", element: <LectureDetail />, exactly: true },
+      { path: ":courseId/view", element: <CourseDetail />, exactly: true },
+      { index: true, element: <Navigate to="/" /> }
+    ]
+  },
+  {
+    path: "/admin",
+    element: <AdminRoute />,
+    children: [
+      { index: true, element: <AdminHomePage /> },
+      { path: "stats", element: <AdminStatsPage /> },
+      { path: "approval", element: <AdminApprovalPage /> }
+    ]
+  },
   { path: "*", element: <PageNotFound /> },
 ];
