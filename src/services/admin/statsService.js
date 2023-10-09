@@ -11,14 +11,14 @@ const statsService = {
   getCountUserByRole() {
     return http.get(URL_GET_USER_BY_ROLE);
   },
-  getCourseByMostLectures(limit) {
+  getCourseByMostLectures(limit = 5) {
     return http.get(URL_GET_COURSE_WITH_MOST_LECTURES, {
       params: {
         limit: limit,
       },
     });
   },
-  getCourseByMostRegistration(limit) {
+  getCourseByMostRegistration(limit = 5) {
     return http.get(URL_GET_COURSE_WITH_MOST_REGISTRATION, {
       params: {
         limit: limit,

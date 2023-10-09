@@ -1,10 +1,43 @@
-import { Breadcrumbs, Typography } from "@mui/material";
-import { useEffect } from "react";
+import { Box, Breadcrumbs, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import DefaultLayout from "../../../layout";
 import { Link } from "react-router-dom";
+import { titleStyle } from "../../../utils/styles";
+import MyLineChart from "./MyLineChart";
+import MyBarChart from "./MyBarChart";
+import { statsService } from "../../../services"
 
 const AdminStatsPage = () => {
-  useEffect(() => { }, []);
+  const [courseWithMostLecture, setCourseWithMostLecture] = useState([]);
+  const [courseWithMostRegistration, setCourseWithMostRegistration] = useState([]);
+  const [countUserByMonth, setCountUserByMonth] = useState([]);
+  const [countUserUntilMonth, setCountUserUntilMonth] = useState([]);
+  useEffect(() => {
+    const fetchCourseWithMostLecture = async () => {
+      const res = await statsService.getCourseByMostLectures();
+      console.log(res.data.data);
+      setCourseWithMostLecture(res.data.data);
+    }
+    const fetchCourseWithMostRegistration = async () => {
+      const res = await statsService.getCourseByMostRegistration();
+      console.log(res.data.data);
+      setCourseWithMostRegistration(res.data.data);
+    }
+    const fetchCountUserByMonth = async () => {
+      const res = await statsService.countNumberOfUserByMonth();
+      console.log(res.data.data);
+      setCountUserByMonth(res.data.data);
+    }
+    const fetchCountUserUntilMonth = async () => {
+      const res = await statsService.countUserRegisterUntilMonth();
+      console.log(res.data.data);
+      setCountUserUntilMonth(res.data.data);
+    }
+    fetchCourseWithMostLecture();
+    fetchCourseWithMostRegistration();
+    fetchCountUserByMonth();
+    fetchCountUserUntilMonth();
+  }, []);
   return (
     <>
       <DefaultLayout>
@@ -20,6 +53,39 @@ const AdminStatsPage = () => {
         <Typography variant="h4" style={titleStyle}>
           Stats Page
         </Typography>
+        <Box
+          display="grid"
+          gridTemplateColumns="repeat(12, 1fr)"
+          gridAutoRows="140px"
+          minHeight="400px"
+        >
+          <Box gridColumn="span 12" gridRow="span 2">
+            <Box mt="25px" p="0 30px" justifyContent="space-between" alignItems="center">
+              <Typography variant="h5" fontWeight="600">
+                User In System
+              </Typography>
+              <Box height="250px">
+                <MyLineChart
+                  countUserUntilMonth={countUserUntilMonth}
+                  countUserByMonth={countUserByMonth} />
+              </Box>
+            </Box>
+          </Box>
+          <Box gridColumn="span 12" gridRow="span 2">
+            <Box mt="25px" p="0 30px" justifyContent="space-between" alignItems="center">
+              <Typography variant="h5" fontWeight="600">
+                Course In System
+              </Typography>
+              <Box height="250px">
+                <MyBarChart
+                  courseWithMostLecture={courseWithMostLecture}
+                  courseWithMostRegistration={courseWithMostRegistration}
+                />
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+
       </DefaultLayout>
     </>
   );
