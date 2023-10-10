@@ -1,66 +1,106 @@
-import { Message } from "@mui/icons-material";
-import { Box } from "@mui/material";
+import { Avatar, Box, Grid, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
 import { addDoc, and, collection, limit, onSnapshot, or, orderBy, query, where } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import Message from "./Message";
+import { db } from "../../app/firebase/config";
+import SendIcon from '@mui/icons-material/Send';
+import firebaseService from "../../app/firebase/firebaseService";
 
 const MessageContainer = () => {
   const currentUser = useSelector(state => state.user.user);
   const selectedChatUser = useSelector(state => state.chat.selectedChatUser);
+  // #region Chat message input
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState([]);
   const sendMessage = async () => {
     if (message.trim() === '') {
       alert('Enter valid message');
       return;
     }
-    const { id, firstName, lastName, avatar } = currentUser;
-    await addDoc(collection(db, 'messages'), {
+    await firebaseService.addDocument("messages", {
       text: message,
       senderId: currentUser.id,
-      recipientId: [selectedChatUser.id]
+      recipientId: selectedChatUser.id
     });
     setMessage('');
   };
+  // #endregion
+  // #region messages show
+  const [messages, setMessages] = useState([]);
+  useEffect(() => {
+    if (!selectedChatUser)
+      return;
+    console.log('current user: ', currentUser);
+    console.log('selected chat user: ', selectedChatUser);
+    const callQuery = query(
+      collection(db, 'messages'),
+      or(
+        and(where('senderId', '==', currentUser.id), where('recipientId', '==', selectedChatUser.id)),
+        and(where('senderId', '==', selectedChatUser.id), where('recipientId', '==', currentUser.id))
+      ),
+      orderBy('createdAt', 'desc'),
+      limit(15)
+    );
+    console.log('callQuery', callQuery)
+    const unsubscribe = onSnapshot(callQuery, (QuerySnapshot) => {
+      console.log(QuerySnapshot);
+      const fetchedMessages = [];
+      QuerySnapshot.forEach((doc) => {
+        fetchedMessages.push({ ...doc.data(), id: doc.id });
+      });
+      setMessages([...fetchedMessages].reverse());
+    });
 
-  // useEffect(() => {
-  //   const callQuery = query(
-  //     collection(db, 'messages'),
-  //     or(
-  //       and(where('senderId', '==', profile.id), where('recipientId', '==', recipient.id)),
-  //       and(where('senderId', '==', recipient.id), where('recipientId', '==', profile.id))
-  //     ),
-  //     orderBy('createdAt', 'desc'),
-  //     limit(8)
-  //   );
+    return () => {
+      unsubscribe();
+    };
+  }, [selectedChatUser]);
+  // #endregion
+  if (!selectedChatUser)
+    return <>
+      <Typography>Choose a user to chat</Typography>
+    </>
 
-  //   const unsubscribe = onSnapshot(callQuery, (QuerySnapshot) => {
-  //     console.log(QuerySnapshot);
-  //     const fetchedMessages = [];
-  //     QuerySnapshot.forEach((doc) => {
-  //       fetchedMessages.push({ ...doc.data(), id: doc.id });
-  //     });
-  //     setMessages([...messages, ...fetchedMessages].reverse());
-  //   });
-
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // }, [selectedChatUser]);
   return <>
-    <Box padding={2} overflow={'scroll'} width="100%">
-      {messages.map((msg, index) => (
-        <Box sx={{ display: 'flex', width: '100%' }} justifyContent={msg.senderId === profile.id ? 'flex-end' : 'flex-start'}>
-          {msg.senderId !== profile.id && (<Avatar sx={{ bgcolor: 'red' }} aria-label='recipe' src={recipient.avatar} />)}
-          <Message key={index}
-            message={msg.text}
-            isMyMessage={msg.senderId === profile.id}
-            width="100%"
-          />
-          {msg.senderId === profile.id && (<Avatar sx={{ bgcolor: 'red' }} aria-label='recipe' src={profile.avatar} />)}
+    <Grid container>
+      <Grid sm={12} minHeight="80vh">
+        <Box overflowX={'scroll'} width="100%">
+          {messages.map((msg, index) => (
+            <React.Fragment key={index}>
+              <Message {...msg} />
+            </React.Fragment>
+          ))}
+          {messages?.length === 0 && <>
+            <Typography overflow="none" variant="subtitle2">Begin your chat with {selectedChatUser.firstName}</Typography>
+          </>}
         </Box>
-      ))}
-    </Box>
+      </Grid>
+      <Grid sm={12}>
+        <Box>
+          <TextField
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyUp={(e) => {
+              if (e.keyCode === 13) {
+                sendMessage();
+              }
+            }}
+            fullWidth
+            variant='outlined'
+            placeholder='Type your message...'
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position='end'>
+                  <IconButton onClick={sendMessage}>
+                    <SendIcon />
+                  </IconButton>
+                </InputAdornment>
+              )
+            }}
+          />
+        </Box>
+      </Grid>
+    </Grid>
   </>
 }
 

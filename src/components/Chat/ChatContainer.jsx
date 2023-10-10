@@ -5,18 +5,13 @@ import { useEffect, useState } from "react";
 import { db } from "../../app/firebase/config";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import firebaseService from "../../app/firebase/firebaseService";
+import MessageContainer from "./MessageContainer";
 
 const ChatContainer = (props) => {
   const currentUser = useSelector((state) => state.user.user);
   const [isUserSaved, setIsUserSaved] = useState(false);
   // #region container on-off
-  const { openDrawer, setOpenDrawer } = props
-  const toggleDrawer = (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-    setOpenDrawer(!openDrawer);
-  };
+  const { openDrawer, setOpenDrawer } = props;
   const closeDrawer = () => {
     setOpenDrawer(false);
   }
@@ -31,9 +26,10 @@ const ChatContainer = (props) => {
 
         if (existingUsers.empty) {
           await firebaseService.addDocument('users', {
-            userId: currentUser.id,
+            id: currentUser.id,
             username: currentUser.username,
-            avatar: currentUser.avatar || "https://www.shutterstock.com/vi/image-vector/default-avatar-profile-icon-social-media-1913928688",
+            avatar: currentUser.avatar
+              || "https://www.shutterstock.com/vi/image-vector/default-avatar-profile-icon-social-media-1913928688",
             displayName: `${currentUser.firstName} ${currentUser.lastName}`
           });
           setIsUserSaved(true);
@@ -50,14 +46,14 @@ const ChatContainer = (props) => {
     <Drawer
       anchor={"left"}
       open={openDrawer}
-      onClose={toggleDrawer}
+      onClose={closeDrawer}
     >
       <Box
         sx={{ width: 900, display: 'flex', height: "100vh" }}
         role="presentation"
-        onKeyDown={closeDrawer}
       >
         <UserChatList />
+        <MessageContainer />
       </Box>
     </Drawer>
   </>
