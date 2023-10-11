@@ -1,8 +1,8 @@
 import {
   URL_REGISTER,
-  URL_LOGIN_GOOGLE,
   URL_CURRENT_USER,
   URL_USER,
+  URL_USER_UPDATE_INFO,
 } from "../constants/url";
 import http from "../utils/http";
 const userService = {
@@ -21,8 +21,17 @@ const userService = {
       },
     });
   },
+  /**
+   *
+   * @param {username, firstName, lastName, email, avatarFile} body
+   * @returns
+   */
   updateAccount(body) {
-    return http.post(URL_USER, body);
+    return http.put(URL_USER_UPDATE_INFO, body, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   },
   /**
      *

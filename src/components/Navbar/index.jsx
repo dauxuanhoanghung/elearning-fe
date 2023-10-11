@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./Navbar.css";
+import ScrollAway from "../ScrollAway";
 import logo from "../../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
-import { Avatar } from "@mui/material";
+import { Avatar, ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -11,6 +12,7 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { isEmptyObject, isLecturer } from "../../utils/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../app/store/user/userSlice";
+import { AccountBox } from "@mui/icons-material";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -40,6 +42,15 @@ const Navbar = () => {
     window.addEventListener("keyup", handleEnter);
     return () => window.removeEventListener("keyup", handleEnter);
   });
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleAvatarClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleAvatarClose = () => {
+    setAnchorEl(null);
+  }
 
   return (
     <div className="navbar">
@@ -101,10 +112,24 @@ const Navbar = () => {
           <Avatar
             className="navbar__icon navbar__avatar"
             style={{ height: 32, width: 32 }}
+            src={currentUser.avatar}
+            alt={currentUser.firstName}
+            onClick={handleAvatarClick}
           />
-          <button className="navbar__logout" onClick={handleLogout}>
-            <p className="navbar__text navbar__ins">Log-Out</p>
-          </button>
+
+          <ScrollAway open={open} anchorElement={anchorEl} onClickAway={handleAvatarClose}>
+            <Link to="my-profile">
+              <MenuItem onClick={() => { }}>
+                <ListItemIcon>
+                  <AccountBox fontSize='small' />
+                </ListItemIcon>
+                <ListItemText primary='Profile' />
+              </MenuItem>
+            </Link>
+            <button className="navbar__logout" onClick={handleLogout}>
+              <p className="navbar__text navbar__ins">Log-Out</p>
+            </button>
+          </ScrollAway>
         </>
       )}
       {isEmptyObject(currentUser) && (

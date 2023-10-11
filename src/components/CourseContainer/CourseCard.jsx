@@ -89,7 +89,7 @@ const CourseCard = (props) => {
         </CardContent>
         <CardHeader
           avatar={
-            <Avatar sx={{ bgcolor: "#eee" }} aria-label="recipe">
+            <Avatar sx={{ bgcolor: "#eee" }} aria-label="recipe" src={user.avatar} alt={user.firstName}>
               {user?.avatar}
             </Avatar>
           }

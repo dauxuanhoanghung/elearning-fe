@@ -11,6 +11,7 @@ export const URL_LOGIN_GOOGLE = "/api/auth/login-google";
 export const URL_USER = "/api/users/";
 export const URL_CURRENT_USER = `${URL_USER}current-user`;
 export const URL_REGISTER = `${URL_USER}`;
+export const URL_USER_UPDATE_INFO = `${URL_USER}update-info`;
 // #endregion
 // #region User API
 export const URL_USER_NOTE = "/api/user-notes/";

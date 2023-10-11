@@ -17,6 +17,7 @@ import AdminApprovalPage from "../pages/admin/approval";
 import CourseUpdatePage from "../pages/admin/course/update";
 import { useSelector } from "react-redux";
 import { useSnackbar } from "../contexts/SnackbarContext";
+import ProfilePage from "../pages/profile";
 
 
 const AuthenticatedRoute = ({ redirect = "/login" }) => {
@@ -65,6 +66,7 @@ export const routers = [
   { path: "/", element: <Home /> },
   { path: "login", element: <AnonymousRoute />, children: [{ index: true, element: <Login /> }] },
   { path: "signup", element: <AnonymousRoute />, children: [{ index: true, element: <Signup /> }] },
+  { path: "my-profile", element: <AuthenticatedRoute />, children: [{ index: true, element: <ProfilePage /> }] },
   { path: "/blog/:blogId", element: null },
   {
     path: "/my-favorite",
