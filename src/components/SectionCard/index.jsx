@@ -21,7 +21,7 @@ const SectionCard = ({
   return (
     <Card>
       <CardContent sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography variant="h5">
+        <Typography variant="h6">
           Section {orderIndex}: {sectionName}
         </Typography>
         {!hideExpand && (

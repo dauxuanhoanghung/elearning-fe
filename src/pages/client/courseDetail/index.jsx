@@ -25,7 +25,6 @@ import { useSelector } from "react-redux";
 import { isEmptyObject } from "../../../utils/utils";
 import { useSnackbar } from "../../../contexts/SnackbarContext";
 import DefaultLayout from "../../../layout";
-import { getProfileFromLS } from "../../../utils/auth";
 
 const styles = {
   container: {
@@ -52,10 +51,6 @@ function CourseDetail() {
   const [countLectures, setCountLectures] = useState(0);
   const [countRegistrations, setCountRegistrations] = useState(0);
   useEffect(() => {
-    const getCourseByCourseId = async (courseId) => {
-      const res = await courseService.getCourseById(courseId);
-      setCourseData(res.data.data);
-    };
     const getCountLecturesByCourseId = async (courseId) => {
       const res = await courseService.countLecturesByCourseId(courseId);
       setCountLectures(res.data.data);
@@ -64,9 +59,19 @@ function CourseDetail() {
       const res = await courseService.countRegistrationsByCourseId(courseId);
       setCountRegistrations(res.data.data);
     };
+    const getCourseByCourseId = async (courseId) => {
+      const res = await courseService.getCourseById(courseId);
+      if (res.data.data) {
+        setCourseData(res.data.data);
+        getCountLecturesByCourseId(courseId);
+        getCountRegistrationsByCourseId(courseId);
+      }
+      else {
+        showSnackbar({ message: "Course not found!!!", severity: "error" });
+        navigate("/");
+      }
+    };
     getCourseByCourseId(courseId);
-    getCountLecturesByCourseId(courseId);
-    getCountRegistrationsByCourseId(courseId);
   }, [courseId]);
   // #endregion
   // #region criteria
@@ -108,24 +113,32 @@ function CourseDetail() {
   const [registration, setRegistration] = useState(false);
   const [url, setUrl] = useState("");
   const firstRender = useRef(true);
-
   useEffect(() => {
     if (firstRender.current && !registration && !isEmptyObject(currentUser)) {
       console.log("init")
       firstRender.current = false;
       const getInitialRegistration = async () => {
-        const res =
-          await registrationService.getInitialRegistration(courseId);
+        const res = await registrationService.getInitialRegistration(courseId);
         console.log(res)
-        if (true)
-          setRegistration(true);
-        setUrl(res?.data?.data.nextUrl)
+        const data = res.data;
+        if (data?.status === 200) {
+          if (data?.data?.transaction) {
+            setRegistration(true);
+            setUrl(`/course/${courseId}/learning?lectureId=${data?.data.nextUrl}`)
+          }
+          else {
+            setUrl(`/payment/${courseId}/make`);
+          }
+        }
+
       };
       getInitialRegistration();
     }
   }, []);
   const handleSeeContinue = () => {
-    navigate(`/course/${courseId}/learning?lectureId=${url}`);
+    // Nav to the first lecture
+    console.log("handleSeeContinue", url)
+    navigate(url);
   }
   const handleRegisterCourse = async () => {
     if (registration) return;
@@ -137,14 +150,19 @@ function CourseDetail() {
       navigate("/login");
       return;
     }
-    console.log("register course")
+    // Post course registration
     const res = await registrationService.register({ course: courseId });
     console.log(res);
-    if (res.data.status === 200) {
+    // Ko phí, code === 201
+    if (res.data.status === 201) {
       showSnackbar({ message: "Register course success!!!", severity: "success" })
+      // Nav to the first lecture
       navigate(`/course/${courseId}/learning?lectureId=${res?.data?.data.nextUrl}`);
     }
-
+    // nếu có tiền thì phải code === 200
+    else if (res.data.status === 200) {
+      navigate(`/payment/${courseId}/`);
+    }
   };
   // #endregion
   return (
@@ -214,7 +232,7 @@ function CourseDetail() {
             <Card>
               <CardContent>
                 <Typography
-                  variant="body2"
+                  variant="body1"
                   color="textSecondary"
                   sx={{ display: "flex", justifyContent: "space-between" }}
                 >
@@ -267,7 +285,7 @@ function CourseDetail() {
             >
               <Avatar
                 src={courseData.user?.avatar}
-                alt={courseData.user?.firstName + courseData.user?.lastName}
+                alt={`${courseData.user?.firstName} ${courseData.user?.lastName}`}
                 style={{ marginRight: "16px" }}
               />
               <Typography variant="body1">

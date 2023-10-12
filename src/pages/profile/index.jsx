@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Breadcrumbs, Button, Grid, TextField, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { userService } from "../../services";
 import Spinner from "../../components/Spinner";
@@ -7,6 +7,7 @@ import DefaultLayout from "../../layout";
 import { useSnackbar } from "../../contexts/SnackbarContext";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../app/store/user/userSlice";
+import { Link } from "react-router-dom";
 
 const ProfilePage = (props) => {
   // #region input avatar
@@ -88,10 +89,16 @@ const ProfilePage = (props) => {
   return (<>
     {loading ? <Spinner /> : (
       <DefaultLayout>
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link to="/" style={{ textDecoration: "none" }}>
+            Home
+          </Link>
+          <Typography color="textPrimary">My Profile</Typography>
+        </Breadcrumbs>
         <Box sx={{ width: "90%", margin: "10px auto" }}>
           <Grid item md={12} sx={{ display: 'flex', justifyContent: 'center' }}>
             <Typography variant="h4">
-              Your account profile
+              My Account profile
             </Typography>
           </Grid>
           <ValidatorForm onSubmit={handleSubmit}>

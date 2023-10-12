@@ -118,7 +118,7 @@ const Navbar = () => {
           />
 
           <ScrollAway open={open} anchorElement={anchorEl} onClickAway={handleAvatarClose}>
-            <Link to="my-profile">
+            <Link to="/my-profile">
               <MenuItem onClick={() => { }}>
                 <ListItemIcon>
                   <AccountBox fontSize='small' />
