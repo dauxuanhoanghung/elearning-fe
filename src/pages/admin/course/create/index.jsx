@@ -114,6 +114,7 @@ const CourseCreationPage = ({ }) => {
       formData.append("title", lecture.title);
       formData.append("content", lecture.content);
       formData.append("type", lecture.type);
+      formData.append("uploaderType", lecture.uploaderType);
       formData.append("orderIndex", lecture.orderIndex);
       formData.append("videoFile", lecture.videoFile);
       formData.append("section", sectionId);

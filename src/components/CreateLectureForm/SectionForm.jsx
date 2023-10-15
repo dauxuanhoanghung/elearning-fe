@@ -159,15 +159,37 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
           </FormControl>
         </Grid>
         {lectureFormData.type === "VIDEO" && (
-          <Grid item xs={12}>
-            <InputLabel>Upload Video</InputLabel>
-            <input
-              type="file"
-              name="videoFile"
-              accept="video/*"
-              onChange={handleLectureChange}
-            />
-          </Grid>
+          <>
+            <Grid item xs={12}>
+              <FormControl component="fieldset" >
+                <FormLabel component="legend">Upload to</FormLabel>
+                <RadioGroup
+                  sx={{ display: "flex" }}
+                  name="uploaderType"
+                  value={lectureFormData.uploaderType}
+                  onChange={handleLectureChange}
+                >
+                  <FormControlLabel
+                    value="YOUTUBE"
+                    control={<Radio />}
+                    label="Youtube" />
+                  <FormControlLabel
+                    value="AMAZONS3"
+                    control={<Radio />}
+                    label="Amazon" />
+                </RadioGroup>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <InputLabel>Upload Video</InputLabel>
+              <input
+                type="file"
+                name="videoFile"
+                accept="video/*"
+                onChange={handleLectureChange}
+              />
+            </Grid>
+          </>
         )}
         <Grid item xs={12}>
           <Button variant="contained" color="primary" onClick={addLecture}>

@@ -3,7 +3,7 @@ import http from "../utils/http";
 const registrationService = {
   /**
    *
-   * @param {course} body
+   * @param {course, amount, code} body
    * @returns
    */
   register(body) {

@@ -163,11 +163,14 @@ const RegisterLecturerPage = () => {
           <Box>
             <Typography variant="h6">Rules for Becoming a Lecturer:</Typography>
             <List>
-              <ListItem>
-                <ListItemText primary="Rule 1: Require your ID" />
+              <ListItem sx={{ paddingY: 0 }}>
+                <ListItemText primary="Rule 1: Require your ID card" />
               </ListItem>
-              <ListItem>
-                <ListItemText primary="Rule 2: Read about the rules, etc..." />
+              <ListItem sx={{ paddingY: 0 }}>
+                <ListItemText primary="Rule 2: Your information in account must match to your ID card" />
+              </ListItem>
+              <ListItem sx={{ paddingY: 0 }}>
+                <ListItemText primary="Rule 3: Confirm to my rules above." />
               </ListItem>
               {/* Add more list items as needed */}
             </List>

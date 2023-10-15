@@ -13,7 +13,7 @@ import FeedOutlinedIcon from "@mui/icons-material/FeedOutlined";
 import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import SectionCard from "../../../components/SectionCard";
 import CommentContainer from "../../../components/CommentContainer";
 import {
@@ -21,26 +21,17 @@ import {
   courseService,
   registrationService,
 } from "../../../services";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { isEmptyObject } from "../../../utils/utils";
 import { useSnackbar } from "../../../contexts/SnackbarContext";
 import DefaultLayout from "../../../layout";
-
-const styles = {
-  container: {
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    minHeight: "100vh",
-    alignItems: "center",
-  },
-  paper: {
-    padding: "16px",
-  },
-};
+import firebaseService from "../../../app/firebase/firebaseService";
+import { changeChatUser } from "../../../app/store/user/chatSlice";
 
 function CourseDetail() {
   const { courseId } = useParams();
   const currentUser = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
   const { showSnackbar } = useSnackbar();
   const navigate = useNavigate();
   // #region course detail
@@ -165,6 +156,19 @@ function CourseDetail() {
     }
   };
   // #endregion
+  // #region Chat
+  const handleChatToCreator = async () => {
+    const res = await firebaseService.getUserById(courseData?.user.id);
+    console.log(res);
+    if (res) {
+      dispatch(changeChatUser({ ...res, createdAt: res.createdAt.toDate().toString() }))
+    }
+  }
+  // #endregion
+  const handleEditCourse = () => {
+    navigate(`/course/${courseId}/update`);
+  }
+
   return (
     <>
       <DefaultLayout>
@@ -272,7 +276,7 @@ function CourseDetail() {
               >
                 {courseData?.price === 0
                   ? "Free. Register now"
-                  : courseData?.price}
+                  : `Register by ${courseData?.price}`}
               </Button>
             )}
             {/* Creator */}
@@ -291,14 +295,17 @@ function CourseDetail() {
               <Typography variant="body1">
                 {`${courseData.user?.firstName} ${courseData.user?.lastName}`}
               </Typography>
-              <Button onClick>Chat to creator</Button>
+
             </Box>
             {/* Created Date */}
             <Typography variant="body2" color="textSecondary">
               Created Date: {courseData.createdDate}
             </Typography>
             {courseData.user?.id === currentUser.id && <>
-              <Button>Edit your course</Button>
+              <Button onClick={handleEditCourse}>Edit your course</Button>
+            </>}
+            {courseData?.user?.id !== currentUser.id && <>
+              <Button onClick={handleChatToCreator}>Chat to creator</Button>
             </>}
           </Grid>
         </Grid>

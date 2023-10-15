@@ -46,7 +46,7 @@ const PaymentPage = () => {
   const handlePayment = async () => {
     const res = await registrationService.payment({ course: courseId });
     console.log("payment_res: ", res);
-    // window.location.href = res?.data.redirect_url;
+    window.location.href = res?.data.redirect_url;
   };
 
   return (

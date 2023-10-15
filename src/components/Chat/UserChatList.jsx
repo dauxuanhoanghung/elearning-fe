@@ -1,9 +1,7 @@
 import { Avatar, Box, Divider, List, ListItem, Typography } from "@mui/material";
-import { collection, getDocs, limit, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { db } from "../../app/firebase/config";
-import { changeUser } from "../../app/store/user/chatSlice";
+import { changeChatUser } from "../../app/store/user/chatSlice";
 import firebaseService from "../../app/firebase/firebaseService";
 import UserInfo from "./UserInfo";
 
@@ -11,7 +9,7 @@ const UserChatList = () => {
   const currentUser = useSelector(state => state.user.user);
   const dispatch = useDispatch();
   const handleChangeChatUser = (user) => {
-    dispatch(changeUser({ ...user, createdAt: user.createdAt.toDate().toString() }))
+    dispatch(changeChatUser({ ...user, createdAt: user.createdAt.toDate().toString() }))
   }
   const [chatUsers, setChatUsers] = useState([]);
   useEffect(() => {

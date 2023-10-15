@@ -69,6 +69,21 @@ const firebaseService = {
       console.error("Error getting users:", error);
     }
   },
+
+  async existUserById(userId) {
+    try {
+      const user = await getDocs(
+        query(collection(db, "users"), where("id", "==", userId))
+      );
+      return !user.empty;
+    } catch (error) {}
+  },
+  async getUserById(userId) {
+    const user = await getDocs(
+      query(collection(db, "users"), where("id", "==", userId))
+    );
+    return user.docs[0]?.data();
+  },
 };
 
 firebaseService.addDocument.propTypes = {

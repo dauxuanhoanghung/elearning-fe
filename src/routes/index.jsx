@@ -19,6 +19,7 @@ import { useSelector } from "react-redux";
 import { useSnackbar } from "../contexts/SnackbarContext";
 import ProfilePage from "../pages/profile";
 import PaymentPage from "../pages/payment";
+import ResultPaymentPage from "../pages/payment/result";
 
 
 const AuthenticatedRoute = ({ redirect = "/login" }) => {
@@ -69,6 +70,7 @@ export const routers = [
   { path: "signup", element: <AnonymousRoute />, children: [{ index: true, element: <Signup /> }] },
   { path: "my-profile", element: <AuthenticatedRoute />, children: [{ index: true, element: <ProfilePage /> }] },
   { path: "/payment/:courseId", element: <AuthenticatedRoute />, children: [{ index: true, element: <PaymentPage /> }] },
+  { path: "/payment/result", element: <ResultPaymentPage /> },
   { path: "/blog/:blogId", element: null },
   {
     path: "/my-favorite",
@@ -97,9 +99,12 @@ export const routers = [
       { path: "create", element: <CourseCreationPage />, exactly: true },
       { path: ":courseId/update", element: <CourseUpdatePage />, exactly: true },
       { path: ":courseId/learning", element: <LectureDetail />, exactly: true },
-      { path: ":courseId/view", element: <CourseDetail />, exactly: true },
       { index: true, element: <Navigate to="/" /> }
     ]
+  },
+  {
+    path: "/course/:courseId/view",
+    element: <CourseDetail />,
   },
   {
     path: "/admin",

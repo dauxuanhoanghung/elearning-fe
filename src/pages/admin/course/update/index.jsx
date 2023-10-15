@@ -8,7 +8,7 @@ import DefaultLayout from "../../../../layout";
 import Spinner from "../../../../components/Spinner";
 import SectionList from "./SectionList";
 import LectureForm from "./LectureForm";
-import { Breadcrumbs, Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
+import { Breadcrumbs, Button, Card, CardContent, CardMedia, Grid, TextField, Typography } from "@mui/material";
 
 const CourseUpdatePage = () => {
   const { showSnackbar } = useSnackbar();
@@ -43,6 +43,15 @@ const CourseUpdatePage = () => {
     };
     getCourseByCourseId(courseId);
   }, [courseId]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setCourseData({ ...courseData, [name]: value });
+    console.log(courseData)
+  }
+  const handleUpdate = () => {
+
+  }
   // #endregion
   const [openLectureForm, setOpenLectureForm] = useState(false);
   const [selectedSection, setSelectedSection] = useState(null);
@@ -93,6 +102,45 @@ const CourseUpdatePage = () => {
                     alt={courseData.name}
                   />
                   <CardContent>
+                    <Grid container spacing={1}>
+                      <Grid item xs={12}>
+                        <TextField
+                          label="Course Name"
+                          name="name"
+                          value={courseData.name}
+                          onChange={handleInputChange}
+                          fullWidth
+                          required
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          type="number"
+                          label="Price"
+                          name="price"
+                          value={courseData.price}
+                          onChange={handleInputChange}
+                          fullWidth
+                          required
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          label="Description"
+                          name="description"
+                          value={courseData.description}
+                          onChange={handleInputChange}
+                          fullWidth
+                          multiline
+                          rows={4}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Button variant="outlined" onClick={handleUpdate}>
+                          Update
+                        </Button>
+                      </Grid>
+                    </Grid>
                     <Typography variant="h5" component="div">
                       {courseData?.name}
                     </Typography>

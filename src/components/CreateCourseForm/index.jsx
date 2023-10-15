@@ -152,6 +152,7 @@ const CreateCourseForm = (props) => {
         </Grid>
         <Grid item xs={12}>
           <TextField
+            type="number"
             label="Price"
             name="price"
             value={courseData.price}
