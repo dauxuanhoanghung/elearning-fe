@@ -27,8 +27,10 @@ import { useSnackbar } from "../../../contexts/SnackbarContext";
 import DefaultLayout from "../../../layout";
 import firebaseService from "../../../app/firebase/firebaseService";
 import { changeChatUser } from "../../../app/store/user/chatSlice";
+import { useOpenChatDrawer } from "../../../contexts/OpenChatDrawerContext";
 
-function CourseDetail() {
+function CourseDetail(props) {
+  const { handleOpenChatDrawer } = useOpenChatDrawer();
   const { courseId } = useParams();
   const currentUser = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
@@ -163,6 +165,7 @@ function CourseDetail() {
     if (res) {
       dispatch(changeChatUser({ ...res, createdAt: res.createdAt.toDate().toString() }))
     }
+    handleOpenChatDrawer();
   }
   // #endregion
   const handleEditCourse = () => {
@@ -304,7 +307,7 @@ function CourseDetail() {
             {courseData.user?.id === currentUser.id && <>
               <Button onClick={handleEditCourse}>Edit your course</Button>
             </>}
-            {courseData?.user?.id !== currentUser.id && <>
+            {!isEmptyObject(currentUser) && courseData?.user?.id !== currentUser.id && <>
               <Button onClick={handleChatToCreator}>Chat to creator</Button>
             </>}
           </Grid>

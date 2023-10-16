@@ -7,11 +7,11 @@ import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "../../contexts/SnackbarContext";
 
 const Login = () => {
-  const user = useSelector((state) => state.user.user);
+  const currentUser = useSelector((state) => state.user.user);
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
   useEffect(() => {
-    if (!isEmptyObject(user)) {
+    if (!isEmptyObject(currentUser)) {
       showSnackbar({
         message: "Authenticated user can't go to this page",
         severity: "error",

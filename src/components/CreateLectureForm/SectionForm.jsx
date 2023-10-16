@@ -145,6 +145,7 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
           <FormControl component="fieldset">
             <FormLabel component="legend">Lecture Type</FormLabel>
             <RadioGroup
+              row
               name="type"
               value={lectureFormData.type}
               onChange={handleLectureChange}
@@ -164,7 +165,7 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
               <FormControl component="fieldset" >
                 <FormLabel component="legend">Upload to</FormLabel>
                 <RadioGroup
-                  sx={{ display: "flex" }}
+                  row
                   name="uploaderType"
                   value={lectureFormData.uploaderType}
                   onChange={handleLectureChange}

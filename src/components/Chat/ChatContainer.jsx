@@ -28,8 +28,7 @@ const ChatContainer = (props) => {
           await firebaseService.addDocument('users', {
             id: currentUser.id,
             username: currentUser.username,
-            avatar: currentUser.avatar
-              || "https://www.shutterstock.com/vi/image-vector/default-avatar-profile-icon-social-media-1913928688",
+            avatar: currentUser.avatar || "/default-avatar.jpg",
             displayName: `${currentUser.firstName} ${currentUser.lastName}`
           });
           setIsUserSaved(true);

@@ -8,6 +8,8 @@ import {
   Button,
   IconButton,
   InputAdornment,
+  Slider,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -18,6 +20,7 @@ import AddIcon from "@mui/icons-material/Add";
 import MyModal from "../MyModal";
 import UserNote from "./UserNote";
 import { secondsToMMSS } from "../../utils/utils";
+import { VolumeDown, VolumeUp } from "@mui/icons-material";
 
 const LectureDetail = () => {
   const [searchParams] = useSearchParams();
@@ -66,6 +69,10 @@ const LectureDetail = () => {
     player.current.seekTo(seconds, "seconds");
   };
   const [currentTime, setCurrentTime] = useState(0);
+
+  const handleChangeVolume = (event, newValue) => {
+    setPlayerState({ ...playerState, volume: newValue / 100 });
+  }
   // #endregion
   // #region Modal
   const [openModal, setOpenModal] = useState(false);
@@ -152,6 +159,13 @@ const LectureDetail = () => {
         onPlay={handlePlay}
         onSeek={handleSeek}
       />
+      {/* <Box>
+        <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
+          <VolumeDown />
+          <Slider aria-label="Volume" value={playerState?.volume * 100} onChange={handleChangeVolume} />
+          <VolumeUp />
+        </Stack>
+      </Box> */}
       <Box
         sx={{
           display: "flex",

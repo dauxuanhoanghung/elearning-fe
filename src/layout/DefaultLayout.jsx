@@ -1,39 +1,44 @@
 import { Box } from "@mui/material";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import { useRef, useState } from "react";
+import React, { useState } from "react";
 import ChatContainer from "../components/Chat/ChatContainer";
 import MarkUnreadChatAltOutlinedIcon from '@mui/icons-material/MarkUnreadChatAltOutlined';
+import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import AdminDrawer from "../components/AdminDrawer";
 import { useSelector } from "react-redux";
-import { isAdmin } from "../utils/utils";
+import { isAdmin, isEmptyObject } from "../utils/utils";
+import { useOpenChatDrawer } from "../contexts/OpenChatDrawerContext";
 
 const DefaultLayout = ({ children }) => {
   const currentUser = useSelector(state => state.user.user);
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const { openChatDrawer, setOpenChatDrawer } = useOpenChatDrawer();
   const handleOpenChat = () => {
-    setOpenDrawer(true);
+    setOpenChatDrawer(true);
   }
 
   const [openAdminDrawer, setOpenAdminDrawer] = useState(false);
   const handleOpenAdminDrawer = () => {
     setOpenAdminDrawer(true);
   }
+
   return (
     <>
       <Navbar />
       <Box sx={{ width: "90%", margin: "20px auto 30px" }}>{children}</Box>
-      <Box>
-        {(openDrawer) && <ChatContainer openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />}
-        <Box sx={{ position: "fixed", top: "50%", cursor: "pointer" }} onClick={handleOpenChat}>
-          <MarkUnreadChatAltOutlinedIcon size="large" />
+      {!isEmptyObject(currentUser) && (
+        <Box>
+          <ChatContainer openDrawer={openChatDrawer} setOpenDrawer={setOpenChatDrawer} />
+          <Box sx={{ position: "fixed", top: "50%", cursor: "pointer" }} onClick={handleOpenChat}>
+            <MarkUnreadChatAltOutlinedIcon fontSize="large" />
+          </Box>
         </Box>
-      </Box>
+      )}
       {isAdmin(currentUser) && (
         <Box>
           <AdminDrawer openDrawer={openAdminDrawer} setOpenDrawer={setOpenAdminDrawer} />
           <Box sx={{ position: "fixed", top: "50%", cursor: "pointer", right: "0" }} onClick={handleOpenAdminDrawer}>
-            <MarkUnreadChatAltOutlinedIcon size="large" />
+            <AdminPanelSettingsOutlinedIcon fontSize="large" />
           </Box>
         </Box>
       )}

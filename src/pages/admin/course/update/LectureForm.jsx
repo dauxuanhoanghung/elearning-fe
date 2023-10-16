@@ -114,6 +114,7 @@ const LectureForm = ({ selectedSection, setOpenLectureForm, fetchSectionsAndItsL
         <FormControl component="fieldset">
           <FormLabel component="legend">Lecture Type</FormLabel>
           <RadioGroup
+            row
             name="type"
             value={lectureFormData.type}
             onChange={handleLectureChange}
@@ -132,8 +133,7 @@ const LectureForm = ({ selectedSection, setOpenLectureForm, fetchSectionsAndItsL
           <Grid item xs={12}>
             <FormControl component="fieldset" >
               <FormLabel component="legend">Upload to</FormLabel>
-              <RadioGroup
-                sx={{ display: "flex" }}
+              <RadioGroup row
                 name="uploaderType"
                 value={lectureFormData.uploaderType}
                 onChange={handleLectureChange}
