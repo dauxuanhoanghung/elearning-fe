@@ -35,7 +35,6 @@ const PaymentPage = () => {
   useEffect(() => {
     const getCourseByCourseId = async (courseId) => {
       const res = await courseService.getCourseById(courseId);
-      console.log("course", courseData)
       setCourseData(res.data.data);
       setLoading(false);
     };
@@ -46,6 +45,7 @@ const PaymentPage = () => {
   const handlePayment = async () => {
     const res = await registrationService.payment({ course: courseId });
     console.log("payment_res: ", res);
+    localStorage.setItem("courseId", res.data.courseId);
     window.location.href = res?.data.redirect_url;
   };
 

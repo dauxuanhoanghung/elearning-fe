@@ -98,9 +98,13 @@ export const routers = [
     children: [
       { path: "create", element: <CourseCreationPage />, exactly: true },
       { path: ":courseId/update", element: <CourseUpdatePage />, exactly: true },
-      { path: ":courseId/learning", element: <LectureDetail />, exactly: true },
       { index: true, element: <Navigate to="/" /> }
     ]
+  },
+  {
+    path: "/course/:courseId/learning",
+    element: <AuthenticatedRoute />,
+    children: [{ index: true, element: <LectureDetail /> }]
   },
   {
     path: "/course/:courseId/view",
