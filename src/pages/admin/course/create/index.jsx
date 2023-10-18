@@ -44,6 +44,10 @@ const CourseCreationPage = ({ }) => {
         showSnackbar({ message: "Please enter full field", severity: "error" });
         return;
       }
+      else if (parseFloat(courseData.price) < 0) {
+        showSnackbar({ message: "Course price must be equal or greater than 0", severity: "error" });
+        return;
+      }
     }
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
@@ -66,6 +70,10 @@ const CourseCreationPage = ({ }) => {
         showSnackbar({ message: "Please enter full field", severity: "error" });
         return;
       }
+      else if (parseFloat(courseData.price) < 0) {
+        showSnackbar({ message: "Course price must be equal or greater than 0", severity: "error" });
+        return;
+      }
     }
     const newCompleted = completed;
     newCompleted[activeStep] = true;
@@ -81,7 +89,7 @@ const CourseCreationPage = ({ }) => {
   const [courseData, setCourseData] = useState({
     name: "",
     backgroundFile: null,
-    price: "",
+    price: "0",
     description: "",
     criteria: [],
     sections: [],
@@ -129,10 +137,7 @@ const CourseCreationPage = ({ }) => {
     console.log(courseRes.data.data);
     if (courseRes.data.status === 201) {
       // 2. create section
-      const sectionRequest = createSectionFormData(
-        courseData.sections,
-        courseRes?.data?.data.id
-      );
+      const sectionRequest = createSectionFormData(courseData.sections, courseRes?.data?.data.id);
       const sectionRes = await courseService.createSection(
         JSON.stringify({ sections: [...sectionRequest] })
       );
@@ -143,10 +148,7 @@ const CourseCreationPage = ({ }) => {
         sectionsResult.forEach((resultSection) => {
           if (section.orderIndex === resultSection.orderIndex) {
             section.lectures?.forEach(async (lecture) => {
-              const lectureRequest = createLectureForm(
-                lecture,
-                resultSection.id
-              );
+              const lectureRequest = createLectureForm(lecture, resultSection.id);
               finalRes = await lectureService.create(lectureRequest);
             });
           }
@@ -154,6 +156,9 @@ const CourseCreationPage = ({ }) => {
       });
       if (finalRes?.data?.status === 201) {
         navigate("/");
+      }
+      else {
+        showSnackbar({ message: "Something went wrong!!!", severity: "error" });
       }
     }
 

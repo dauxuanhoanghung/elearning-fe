@@ -7,6 +7,7 @@ import {
   Box,
   Paper,
   IconButton,
+  InputAdornment,
 } from "@mui/material";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import AddIcon from "@mui/icons-material/Add";
@@ -157,6 +158,9 @@ const CreateCourseForm = (props) => {
             name="price"
             value={courseData.price}
             onChange={handleInputChange}
+            InputProps={{
+              endAdornment: <InputAdornment position="end" >VND</InputAdornment>
+            }}
             fullWidth
             required
           />
@@ -261,7 +265,7 @@ const CreateCourseForm = (props) => {
           </Button>
         </Grid>
       </Grid>
-    </Box>
+    </Box >
   );
 };
 

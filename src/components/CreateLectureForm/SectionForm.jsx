@@ -14,24 +14,23 @@ import {
   Typography,
 } from "@mui/material";
 import SectionCard from "../SectionCard";
-import { useState } from "react";
+import React, { useRef, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
+import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 import { useSnackbar } from "../../contexts/SnackbarContext";
 
 const SectionForm = ({ section, courseData, setCourseData }) => {
-  // #region Snackbar
   const { showSnackbar } = useSnackbar();
-  // #endregion
   // #region lectureData
   const [lectures, setLectures] = useState(section?.lectures || []);
-  // new lecture  
+  const videoInputRef = useRef(null);
+  // new lecture
   const [lectureFormData, setLectureFormData] = useState({
     title: "",
     content: "",
     type: "VIDEO",
     orderIndex: "",
     uploaderType: "YOUTUBE",
-    videoFile: null,
   });
   const handleLectureChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -39,16 +38,17 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
       setLectureFormData({ ...lectureFormData, [name]: files[0] });
     } else {
       setLectureFormData({ ...lectureFormData, [name]: value });
-      if (name === "TEXT")
+      if (name === "TEXT") {
         setLectureFormData({ ...lectureFormData, ["videoFile"]: null });
+        videoInputRef.current.value = null;
+      }
     }
   };
   const addLecture = () => {
-    if (!lectureFormData.title.trim() || (lectureFormData.type === "VIDEO" && !lectureFormData.videoFile)) {
-      showSnackbar({
-        message: "Please choose the file and fill the data",
-        severity: "error",
-      });
+    console.log(videoInputRef?.current?.files[0])
+    if (!lectureFormData.title.trim() ||
+      (lectureFormData.type === "VIDEO" && !videoInputRef?.current?.files[0])) {
+      showSnackbar({ message: "Please choose the file and fill the data", severity: "error" });
       return;
     }
     const newLecture = {
@@ -57,7 +57,7 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
       type: lectureFormData.type,
       uploaderType: lectureFormData.uploaderType,
       orderIndex: lectures.length + 1,
-      videoFile: lectureFormData.videoFile,
+      videoFile: videoInputRef.current.files[0],
     };
     const updatedLectures = [...lectures, newLecture];
     setLectures(updatedLectures);
@@ -76,16 +76,19 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
       content: "",
       type: "VIDEO",
       orderIndex: "",
-      videoFile: null,
+      uploaderType: "YOUTUBE",
+      ["videoFile"]: null,
     });
+    videoInputRef.current.value = null;
   };
   const deleteLecture = (index) => {
     const updatedLectures = lectures.filter((_, i) => i !== index);
-    setLectures(updatedLectures);
+    const lecturesWithUpdatedIndexes = updatedLectures.map((lecture, index) => ({ ...lecture, orderIndex: index + 1 }));
+    setLectures(lecturesWithUpdatedIndexes);
     // Update the section's lectures in courseData
     const updatedSection = {
       ...section,
-      lectures: updatedLectures,
+      lectures: lecturesWithUpdatedIndexes,
     };
 
     const updatedSections = courseData.sections.map((sec) => {
@@ -101,14 +104,14 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
       sectionName={section.sectionName}
     >
       {lectures.map((lecture, index) => (
-        <>
-          <Card key={index}>
-            <CardContent>
+        <React.Fragment key={index}>
+          <Card>
+            <CardContent sx={{ display: "flex" }}>
               <Typography variant="h6" component="div">
                 <span style={{ fontWeight: "bold" }}>
-                  {lecture.orderIndex}:
-                </span>{" "}
-                {lecture.title}
+                  {`${lecture.orderIndex}. ${lecture.title}`}
+                </span>
+                <SlowMotionVideoIcon />
               </Typography>
               <IconButton onClick={() => deleteLecture(index)}>
                 <DeleteIcon />
@@ -116,7 +119,7 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
               {/* Add more content or props as needed */}
             </CardContent>
           </Card>
-        </>
+        </React.Fragment>
       ))}
       {/* Render your lecture form inputs here */}
       <Grid container spacing={1}>
@@ -183,11 +186,15 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
             </Grid>
             <Grid item xs={12}>
               <InputLabel>Upload Video</InputLabel>
-              <input
+              <TextField
+                fullWidth
                 type="file"
                 name="videoFile"
                 accept="video/*"
-                onChange={handleLectureChange}
+                ref={videoInputRef}
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
             </Grid>
           </>
