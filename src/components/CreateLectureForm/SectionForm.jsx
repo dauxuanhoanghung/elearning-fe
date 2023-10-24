@@ -23,7 +23,7 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
   const { showSnackbar } = useSnackbar();
   // #region lectureData
   const [lectures, setLectures] = useState(section?.lectures || []);
-  const videoInputRef = useRef(null);
+  const videoInputRef = useRef();
   // new lecture
   const [lectureFormData, setLectureFormData] = useState({
     title: "",
@@ -186,15 +186,13 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
             </Grid>
             <Grid item xs={12}>
               <InputLabel>Upload Video</InputLabel>
-              <TextField
+              <input
                 fullWidth
                 type="file"
                 name="videoFile"
                 accept="video/*"
                 ref={videoInputRef}
-                InputLabelProps={{
-                  shrink: true,
-                }}
+
               />
             </Grid>
           </>

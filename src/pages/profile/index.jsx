@@ -68,10 +68,12 @@ const ProfilePage = (props) => {
     setLoading(true)
     console.log(userInfo)
     const request = new FormData();
-    request.append("username", userInfo.username);
-    request.append("firstName", userInfo.firstName);
-    request.append("lastName", userInfo.lastName);
-    request.append("email", userInfo.email);
+    for (let field in userInfo)
+      request.append(field, userInfo[field])
+    // request.append("username", userInfo.username);
+    // request.append("firstName", userInfo.firstName);
+    // request.append("lastName", userInfo.lastName);
+    // request.append("email", userInfo.email);
     if (userInfo.avatarFile)
       request.append("avatarFile", userInfo.avatarFile);
     const res = await userService.updateAccount(request);
