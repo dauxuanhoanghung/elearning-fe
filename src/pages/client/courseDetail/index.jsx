@@ -1,3 +1,6 @@
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Avatar,
   Box,
@@ -12,22 +15,21 @@ import {
 import FeedOutlinedIcon from "@mui/icons-material/FeedOutlined";
 import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
-import React, { useEffect, useRef, useState } from "react";
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
-import SectionCard from "../../../components/SectionCard";
-import CommentContainer from "../../../components/CommentContainer";
+
 import {
   courseCommentService,
   courseService,
   registrationService,
-} from "../../../services";
-import { useDispatch, useSelector } from "react-redux";
-import { isEmptyObject } from "../../../utils/utils";
-import { useSnackbar } from "../../../contexts/SnackbarContext";
-import DefaultLayout from "../../../layout";
-import firebaseService from "../../../app/firebase/firebaseService";
-import { changeChatUser } from "../../../app/store/user/chatSlice";
-import { useOpenChatDrawer } from "../../../contexts/OpenChatDrawerContext";
+} from "@/services";
+import { isEmptyObject } from "@/utils/utils";
+import { useOpenChatDrawer } from "@/contexts/OpenChatDrawerContext";
+import { useSnackbar } from "@/contexts/SnackbarContext";
+import DefaultLayout from "@/layout";
+import firebaseService from "@/app/firebase/firebaseService";
+import { changeChatUser } from "@/app/store/user/chatSlice";
+
+import SectionCard from "@/components/SectionCard";
+import CommentContainer from "@/components/CommentContainer";
 
 function CourseDetail(props) {
   const { handleOpenChatDrawer } = useOpenChatDrawer();
@@ -58,8 +60,7 @@ function CourseDetail(props) {
         setCourseData(res.data.data);
         getCountLecturesByCourseId(courseId);
         getCountRegistrationsByCourseId(courseId);
-      }
-      else {
+      } else {
         showSnackbar({ message: "Course not found!!!", severity: "error" });
         navigate("/");
       }
@@ -108,31 +109,31 @@ function CourseDetail(props) {
   const firstRender = useRef(true);
   useEffect(() => {
     if (firstRender.current && !registration && !isEmptyObject(currentUser)) {
-      console.log("init")
+      console.log("init");
       firstRender.current = false;
       const getInitialRegistration = async () => {
         const res = await registrationService.getInitialRegistration(courseId);
-        console.log(res)
+        console.log(res);
         const data = res.data;
         if (data?.status === 200) {
           if (data?.data?.transaction) {
             setRegistration(true);
-            setUrl(`/course/${courseId}/learning?lectureId=${data?.data.nextUrl}`)
-          }
-          else {
+            setUrl(
+              `/course/${courseId}/learning?lectureId=${data?.data.nextUrl}`
+            );
+          } else {
             setUrl(`/payment/${courseId}/make`);
           }
         }
-
       };
       getInitialRegistration();
     }
   }, []);
   const handleSeeContinue = () => {
     // Nav to the first lecture
-    console.log("handleSeeContinue", url)
+    console.log("handleSeeContinue", url);
     navigate(url);
-  }
+  };
   const handleRegisterCourse = async () => {
     if (registration) return;
     if (isEmptyObject(currentUser)) {
@@ -148,9 +149,14 @@ function CourseDetail(props) {
     console.log(res);
     // Ko phí, code === 201
     if (res.data.status === 201) {
-      showSnackbar({ message: "Register course success!!!", severity: "success" })
+      showSnackbar({
+        message: "Register course success!!!",
+        severity: "success",
+      });
       // Nav to the first lecture
-      navigate(`/course/${courseId}/learning?lectureId=${res?.data?.data.nextUrl}`);
+      navigate(
+        `/course/${courseId}/learning?lectureId=${res?.data?.data.nextUrl}`
+      );
     }
     // nếu có tiền thì phải code === 200
     else if (res.data.status === 200) {
@@ -163,14 +169,16 @@ function CourseDetail(props) {
     const res = await firebaseService.getUserById(courseData?.user.id);
     console.log(res);
     if (res) {
-      dispatch(changeChatUser({ ...res, createdAt: res.createdAt.toDate().toString() }))
+      dispatch(
+        changeChatUser({ ...res, createdAt: res.createdAt.toDate().toString() })
+      );
     }
     handleOpenChatDrawer();
-  }
+  };
   // #endregion
   const handleEditCourse = () => {
     navigate(`/course/${courseId}/update`);
-  }
+  };
 
   return (
     <>
@@ -298,18 +306,22 @@ function CourseDetail(props) {
               <Typography variant="body1">
                 {`${courseData.user?.firstName} ${courseData.user?.lastName}`}
               </Typography>
-
             </Box>
             {/* Created Date */}
             <Typography variant="body2" color="textSecondary">
               Created Date: {courseData.createdDate}
             </Typography>
-            {courseData.user?.id === currentUser.id && <>
-              <Button onClick={handleEditCourse}>Edit your course</Button>
-            </>}
-            {!isEmptyObject(currentUser) && courseData?.user?.id !== currentUser.id && <>
-              <Button onClick={handleChatToCreator}>Chat to creator</Button>
-            </>}
+            {courseData.user?.id === currentUser.id && (
+              <>
+                <Button onClick={handleEditCourse}>Edit your course</Button>
+              </>
+            )}
+            {!isEmptyObject(currentUser) &&
+              courseData?.user?.id !== currentUser.id && (
+                <>
+                  <Button onClick={handleChatToCreator}>Chat to creator</Button>
+                </>
+              )}
           </Grid>
         </Grid>
       </DefaultLayout>

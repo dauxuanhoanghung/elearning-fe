@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import {
   Box,
   Divider,
@@ -10,9 +10,10 @@ import {
   List,
   Button,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
-import LectureItem from "../../../../components/LectureList/LectureItem";
-import { courseService } from "../../../../services";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+import LectureItem from "@/components/LectureList/LectureItem";
+import { courseService } from "@/services";
 
 const SectionList = (props) => {
   const {
@@ -22,7 +23,7 @@ const SectionList = (props) => {
     setSelectedSection,
     setSections,
     sections,
-    fetchSectionsAndItsLectures 
+    fetchSectionsAndItsLectures,
   } = props;
   const { courseId } = useParams();
   // #region fetch init data
@@ -34,7 +35,7 @@ const SectionList = (props) => {
   const handleOpenAddLecture = (section) => {
     setOpenLectureForm(true);
     setSelectedSection(section);
-  }
+  };
   return (
     <Box sx={{ width: "98%", marginLeft: "auto" }}>
       <Typography variant="h6">Course content:</Typography>
@@ -66,13 +67,18 @@ const SectionList = (props) => {
               ))}
             </List>
             {/* <LectureForm section={section} courseData={courseData} setCourseData={setCourseData} /> */}
-            <Button onClick={() => { handleOpenAddLecture(section) }}>Add lecture</Button>
+            <Button
+              onClick={() => {
+                handleOpenAddLecture(section);
+              }}
+            >
+              Add lecture
+            </Button>
           </AccordionDetails>
         </Accordion>
-      ))
-      }
-    </Box >
+      ))}
+    </Box>
   );
-}
+};
 
 export default SectionList;

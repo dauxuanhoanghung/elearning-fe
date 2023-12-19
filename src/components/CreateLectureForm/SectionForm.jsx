@@ -1,3 +1,6 @@
+import React, { useRef, useState } from "react";
+import DeleteIcon from "@mui/icons-material/Delete";
+import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 import {
   Button,
   Card,
@@ -13,11 +16,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+
 import SectionCard from "../SectionCard";
-import React, { useRef, useState } from "react";
-import DeleteIcon from "@mui/icons-material/Delete";
-import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
-import { useSnackbar } from "../../contexts/SnackbarContext";
+import { useSnackbar } from "@/contexts/SnackbarContext";
 
 const SectionForm = ({ section, courseData, setCourseData }) => {
   const { showSnackbar } = useSnackbar();
@@ -45,10 +46,15 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
     }
   };
   const addLecture = () => {
-    console.log(videoInputRef?.current?.files[0])
-    if (!lectureFormData.title.trim() ||
-      (lectureFormData.type === "VIDEO" && !videoInputRef?.current?.files[0])) {
-      showSnackbar({ message: "Please choose the file and fill the data", severity: "error" });
+    console.log(videoInputRef?.current?.files[0]);
+    if (
+      !lectureFormData.title.trim() ||
+      (lectureFormData.type === "VIDEO" && !videoInputRef?.current?.files[0])
+    ) {
+      showSnackbar({
+        message: "Please choose the file and fill the data",
+        severity: "error",
+      });
       return;
     }
     const newLecture = {
@@ -83,7 +89,9 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
   };
   const deleteLecture = (index) => {
     const updatedLectures = lectures.filter((_, i) => i !== index);
-    const lecturesWithUpdatedIndexes = updatedLectures.map((lecture, index) => ({ ...lecture, orderIndex: index + 1 }));
+    const lecturesWithUpdatedIndexes = updatedLectures.map(
+      (lecture, index) => ({ ...lecture, orderIndex: index + 1 })
+    );
     setLectures(lecturesWithUpdatedIndexes);
     // Update the section's lectures in courseData
     const updatedSection = {
@@ -165,7 +173,7 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
         {lectureFormData.type === "VIDEO" && (
           <>
             <Grid item xs={12}>
-              <FormControl component="fieldset" >
+              <FormControl component="fieldset">
                 <FormLabel component="legend">Upload to</FormLabel>
                 <RadioGroup
                   row
@@ -176,11 +184,13 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
                   <FormControlLabel
                     value="YOUTUBE"
                     control={<Radio />}
-                    label="Youtube" />
+                    label="Youtube"
+                  />
                   <FormControlLabel
                     value="AMAZONS3"
                     control={<Radio />}
-                    label="Amazon" />
+                    label="Amazon"
+                  />
                 </RadioGroup>
               </FormControl>
             </Grid>
@@ -192,7 +202,6 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
                 name="videoFile"
                 accept="video/*"
                 ref={videoInputRef}
-
               />
             </Grid>
           </>

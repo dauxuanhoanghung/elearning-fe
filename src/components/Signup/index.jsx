@@ -1,6 +1,5 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import {
   Container,
   Paper,
@@ -10,9 +9,10 @@ import {
   Typography,
   Input,
 } from "@mui/material";
-import "./SignUp.css";
 import { toast } from "react-toastify";
-import userService from "../../services/userService";
+
+import { userService } from "@/services";
+import "./Signup.css";
 
 const SignUp = () => {
   const navigate = useNavigate();

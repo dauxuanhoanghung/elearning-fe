@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
-import DefaultLayout from "../../layout";
-import LoginForm from "../../components/LoginForm";
 import { useSelector } from "react-redux";
-import { isEmptyObject } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
-import { useSnackbar } from "../../contexts/SnackbarContext";
+
+import DefaultLayout from "@/layout";
+import LoginForm from "@/components/LoginForm";
+import { isEmptyObject } from "@/utils/utils";
+import { useSnackbar } from "@/contexts/SnackbarContext";
 
 const Login = () => {
   const currentUser = useSelector((state) => state.user.user);

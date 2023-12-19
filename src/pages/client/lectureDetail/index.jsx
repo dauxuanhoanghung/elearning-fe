@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Grid } from "@mui/material";
-import LectureDetail from "../../../components/LectureDetail";
-import CommentContainer from "../../../components/CommentContainer";
-import LectureList from "../../../components/LectureList";
-import { lectureCommentService } from "../../../services";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import DefaultLayout from "../../../layout";
-import { useSnackbar } from "../../../contexts/SnackbarContext";
+import { Grid } from "@mui/material";
+
+import LectureDetail from "@/components/LectureDetail";
+import CommentContainer from "@/components/CommentContainer";
+import LectureList from "@/components/LectureList";
+import DefaultLayout from "@/layout";
+import { lectureCommentService } from "@/services";
+import { useSnackbar } from "@/contexts/SnackbarContext";
 
 const LectureDetailPage = () => {
   const navigate = useNavigate();
@@ -35,9 +36,9 @@ const LectureDetailPage = () => {
   useEffect(() => {
     if (!lectureId) {
       showSnackbar({ message: "Invalid route", severity: "error" });
-      navigate("/")
+      navigate("/");
     }
-  })
+  });
   return (
     <>
       <DefaultLayout>

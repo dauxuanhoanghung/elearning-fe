@@ -1,5 +1,5 @@
-import SignUp from "../../components/Signup";
-import DefaultLayout from "../../layout";
+import SignUp from "@/components/Signup";
+import DefaultLayout from "@/layout";
 
 const Signup = () => {
   return (

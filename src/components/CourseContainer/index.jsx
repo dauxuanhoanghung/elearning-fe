@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Alert, Box, Grid, Pagination } from "@mui/material";
-import CourseCard from "./CourseCard";
-import { courseService, favoriteService } from "../../services";
 import { Link } from "react-router-dom";
+import { Alert, Box, Grid, Pagination } from "@mui/material";
+import { courseService, favoriteService } from "@/services";
+import CourseCard from "./CourseCard";
 import MySkeleton from "../MySkeleton";
 
 const CourseContainer = ({ isFavoritePage = false }) => {
@@ -12,11 +12,11 @@ const CourseContainer = ({ isFavoritePage = false }) => {
   const [page, setPage] = useState(0);
   const handleChangePage = (event, value) => {
     setPage(value - 1);
-  }
+  };
   const [countPage, setCountPage] = useState(0);
   useEffect(() => {
     const getCourses = async () => {
-      setLoading(prev => true);
+      setLoading((prev) => true);
       try {
         if (!isFavoritePage) {
           const res = await courseService.getCourses(page);
@@ -27,7 +27,7 @@ const CourseContainer = ({ isFavoritePage = false }) => {
         }
       } catch (error) {
       } finally {
-        setLoading(prev => false);
+        setLoading((prev) => false);
       }
     };
     getCourses();
@@ -38,9 +38,9 @@ const CourseContainer = ({ isFavoritePage = false }) => {
         const res = await courseService.countTotalCoursePage();
         setCountPage(res.data.data);
       }
-    }
+    };
     countTotalCoursePage();
-  }, [isFavoritePage])
+  }, [isFavoritePage]);
   //#endregion
 
   return (
@@ -70,7 +70,8 @@ const CourseContainer = ({ isFavoritePage = false }) => {
                 page={page + 1}
                 variant="outlined"
                 color="secondary"
-                onChange={handleChangePage} />
+                onChange={handleChangePage}
+              />
             </Box>
           )}
         </>

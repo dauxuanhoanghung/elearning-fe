@@ -1,13 +1,13 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Alert, Box, Breadcrumbs, Card, Grid, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import DefaultLayout from "../../../layout";
-import Spinner from "../../../components/Spinner";
-import CourseCard from "../../../components/CourseContainer/CourseCard";
-import { useEffect, useState } from "react";
-import { courseService } from "../../../services";
-import { Link } from "react-router-dom";
-import { titleStyle } from "../../../utils/styles";
-import MySkeleton from "../../../components/MySkeleton";
+
+import DefaultLayout from "@/layout";
+import CourseCard from "@/components/CourseContainer/CourseCard";
+import { courseService } from "@/services";
+import { titleStyle } from "@/utils/styles";
+import MySkeleton from "@/components/MySkeleton";
 
 const MyBusinessPage = () => {
   const [loading, setLoading] = useState(true);
@@ -20,7 +20,6 @@ const MyBusinessPage = () => {
         setLoading(true);
         const res = await courseService.getMyCourse(page);
         setCourses(res.data.data);
-
       } catch {
       } finally {
         setLoading(false);

@@ -1,12 +1,11 @@
-import { Alert, Box, Breadcrumbs, Grid, Typography } from "@mui/material";
-import DefaultLayout from "../../../layout";
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { courseService } from "../../../services";
-import { titleStyle } from "../../../utils/styles";
-import Spinner from "../../../components/Spinner";
-import CourseCard from "../../../components/CourseContainer/CourseCard";
-import MySkeleton from "../../../components/MySkeleton";
+import { Link } from "react-router-dom";
+import { Alert, Box, Breadcrumbs, Grid, Typography } from "@mui/material";
+import DefaultLayout from "@/layout";
+import { courseService } from "@/services";
+import { titleStyle } from "@/utils/styles";
+import CourseCard from "@/components/CourseContainer/CourseCard";
+import MySkeleton from "@/components/MySkeleton";
 
 const MyCoursePage = () => {
   const [loading, setLoading] = useState(false);

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
-import LoginGoogleBtn from "../LoginGoogleBtn";
-import { userService, authService } from "../../services";
 import { useDispatch, useSelector } from "react-redux";
-import { login, setUser } from "../../app/store/user/userSlice";
+
+import { login, setUser } from "@/app/store/user/userSlice";
+import { userService, authService } from "@/services";
+import LoginGoogleBtn from "../LoginGoogleBtn";
+import "./Login.css";
 
 const LoginForm = () => {
   const navigate = useNavigate();

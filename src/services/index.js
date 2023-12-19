@@ -1,27 +1,12 @@
-import authService from "./authService";
-import blogService from "./blogService";
-import courseCommentService from "./courseCommentService";
-import courseService from "./courseService";
-import favoriteService from "./favoriteService";
-import lectureCommentService from "./lectureCommentService";
-import lecturerRegistrationService from "./lecturerRegistrationService";
-import lectureService from "./lectureService";
-import registrationService from "./registrationService";
-import userService from "./userService";
-import userNoteService from "./userNoteService";
-import statsService from "./admin/statsService";
-
-export {
-  authService,
-  blogService,
-  courseCommentService,
-  courseService,
-  favoriteService,
-  lectureCommentService,
-  lecturerRegistrationService,
-  lectureService,
-  registrationService,
-  userService,
-  userNoteService,
-  statsService
-};
+export { default as authService } from "./auth.service";
+export { default as blogService } from "./blog.service";
+export { default as courseCommentService } from "./course.comment.service";
+export { default as courseService } from "./course.service";
+export { default as favoriteService } from "./favorite.service";
+export { default as lectureCommentService } from "./lecture.comment.service";
+export { default as lecturerRegistrationService } from "./lecturer.registration.service";
+export { default as lectureService } from "./lecture.service";
+export { default as registrationService } from "./registration.service";
+export { default as userService } from "./user.service";
+export { default as userNoteService } from "./user.note.service";
+export { default as statsService } from "./admin/stats.service";

@@ -5,7 +5,7 @@ import {
   setAccessTokenToLS,
   setProfileToLS,
   setRefreshTokenToLS,
-} from "../../../utils/auth";
+} from "@/utils/auth";
 
 const initialState = {
   isLogin: false,

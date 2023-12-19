@@ -1,26 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
-import ReactPlayer from "react-player";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useSnackbar } from "../../contexts/SnackbarContext";
+import ReactPlayer from "react-player";
 import {
   Alert,
   Box,
   Button,
   IconButton,
   InputAdornment,
-  Slider,
-  Stack,
   TextField,
   Typography,
 } from "@mui/material";
-import lectureService from "../../services/lectureService";
-import userNoteService from "../../services/userNoteService";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import AddIcon from "@mui/icons-material/Add";
+
 import MyModal from "../MyModal";
 import UserNote from "./UserNote";
-import { secondsToMMSS } from "../../utils/utils";
-import { VolumeDown, VolumeUp } from "@mui/icons-material";
+import { useSnackbar } from "@/contexts/SnackbarContext";
+import { lectureService, userNoteService } from "@/services";
+import { secondsToMMSS } from "@/utils/utils";
 
 const LectureDetail = () => {
   const [searchParams] = useSearchParams();
@@ -72,7 +69,7 @@ const LectureDetail = () => {
 
   const handleChangeVolume = (event, newValue) => {
     setPlayerState({ ...playerState, volume: newValue / 100 });
-  }
+  };
   // #endregion
   // #region Modal
   const [openModal, setOpenModal] = useState(false);
@@ -136,7 +133,7 @@ const LectureDetail = () => {
       const res = await userNoteService.deleteById(id);
       if (res.data.status === 204) {
         showSnackbar({ message: res.data.message, severity: "info" });
-        const updatedUserNotes = userNotes.filter(u => u.id != id);
+        const updatedUserNotes = userNotes.filter((u) => u.id != id);
         setUserNotes([...updatedUserNotes]);
       }
     };
