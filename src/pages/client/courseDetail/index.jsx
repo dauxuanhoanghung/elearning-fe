@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+import FeedOutlinedIcon from "@mui/icons-material/FeedOutlined";
+import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 import {
   Avatar,
   Box,
@@ -12,24 +12,24 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import FeedOutlinedIcon from "@mui/icons-material/FeedOutlined";
-import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
-import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
+import firebaseService from "@/app/firebase/firebaseService";
+import { changeChatUser } from "@/app/store/chatSlice";
+import { useOpenChatDrawer } from "@/contexts/OpenChatDrawerContext";
+import { useSnackbar } from "@/contexts/SnackbarContext";
+import DefaultLayout from "@/layout";
 import {
   courseCommentService,
   courseService,
   registrationService,
 } from "@/services";
 import { isEmptyObject } from "@/utils/utils";
-import { useOpenChatDrawer } from "@/contexts/OpenChatDrawerContext";
-import { useSnackbar } from "@/contexts/SnackbarContext";
-import DefaultLayout from "@/layout";
-import firebaseService from "@/app/firebase/firebaseService";
-import { changeChatUser } from "@/app/store/user/chatSlice";
 
-import SectionCard from "@/components/SectionCard";
 import CommentContainer from "@/components/CommentContainer";
+import SectionCard from "@/components/SectionCard";
 
 function CourseDetail(props) {
   const { handleOpenChatDrawer } = useOpenChatDrawer();

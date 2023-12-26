@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
-import { login, setUser } from "@/app/store/user/userSlice";
-import { userService, authService } from "@/services";
+import { login, setUser } from "@/app/store/userSlice";
+import { authService, userService } from "@/services";
 import LoginGoogleBtn from "../LoginGoogleBtn";
 import "./Login.css";
 

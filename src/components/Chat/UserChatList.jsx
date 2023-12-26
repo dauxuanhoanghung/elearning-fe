@@ -1,16 +1,9 @@
+import { Box, Divider, List, ListItem } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Avatar,
-  Box,
-  Divider,
-  List,
-  ListItem,
-  Typography,
-} from "@mui/material";
 
-import { changeChatUser } from "@/app/store/user/chatSlice";
 import firebaseService from "@/app/firebase/firebaseService";
+import { changeChatUser } from "@/app/store/chatSlice";
 import UserInfo from "./UserInfo";
 
 const UserChatList = () => {

@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
-import { Avatar, ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 import { AccountBox } from "@mui/icons-material";
-import SearchIcon from "@mui/icons-material/Search";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MenuIcon from "@mui/icons-material/Menu";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import { Avatar, ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 
+import { logout } from "@/app/store/userSlice";
 import { isEmptyObject, isLecturer } from "@/utils/utils";
-import { logout } from "@/app/store/user/userSlice";
 import ScrollAway from "../ScrollAway";
 
 import logo from "@/assets/logo.png";
