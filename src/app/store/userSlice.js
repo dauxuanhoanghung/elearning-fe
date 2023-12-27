@@ -21,6 +21,10 @@ export const userSlice = createSlice({
       setRefreshTokenToLS(action?.payload?.token);
       state.isLogin = true;
     },
+    loginFailed: (state, action) => {
+      state.isLogin = false;
+      state.user = {};
+    },
     setUser: (state, action) => {
       setProfileToLS(action?.payload);
       state.user = action?.payload;
@@ -39,7 +43,7 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { login, logout, setUser, loadFromLocalStorage } =
+export const { login, loginFailed, logout, setUser, loadFromLocalStorage } =
   userSlice.actions;
 
 export default userSlice.reducer;

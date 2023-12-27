@@ -1,18 +1,17 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import {
+  Button,
   Container,
+  Grid,
+  Input,
   Paper,
   TextField,
-  Button,
-  Grid,
   Typography,
-  Input,
 } from "@mui/material";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { userService } from "@/services";
-import "./Signup.css";
 
 const SignUp = () => {
   const navigate = useNavigate();

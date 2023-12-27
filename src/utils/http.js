@@ -1,3 +1,4 @@
+import { URL_REFRESH_TOKEN, URL_SERVER } from "@/constants/url";
 import axios from "axios";
 import {
   clearLS,
@@ -5,7 +6,6 @@ import {
   getRefreshTokenFromLS,
   setAccessTokenToLS,
 } from "./auth";
-import { URL_REFRESH_TOKEN, URL_SERVER } from "../constants/url";
 
 class Http {
   constructor() {
