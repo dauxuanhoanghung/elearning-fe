@@ -8,5 +8,22 @@
     "signUp": " Đăng ký",
     "noAccount": "Bạn chưa có tài khoản?"
   },
-  "signup": {}
+  "signup": {
+    "title": "Đăng ký tài khoản mới",
+    "firstName": "Tên",
+    "lastName": "Họ",
+    "email": "Email",
+    "username": "Tên đăng nhập",
+    "password": "Mật khẩu",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "uploadAvatar": "Đăng ảnh đại diện",
+    "haveAccount": "Bạn đã có tài khoản?",
+    "login": "Đăng nhập",
+    "register": "Đăng ký"
+  },
+  "snackbar": {
+    "passwordNotMatch": "Mật khẩu và mật khẩu xác nhận không khớp!!!"
+  },
+  "footer": {},
+  "header": {}
 }

@@ -84,7 +84,7 @@ export const routers = [
   },
   {
     path: "signup",
-    element: <AnonymousRoute />,
+    element: <Signup />,
     children: [{ index: true, element: <Signup /> }],
   },
   {

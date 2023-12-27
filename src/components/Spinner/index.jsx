@@ -1,24 +1,15 @@
-import React from "react";
 import { CircularProgress } from "@mui/material";
+import React from "react";
 
 const Spinner = () => {
   return (
     <div>
       <div
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transition: "translateX(-50%, -50%)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          zIndex: 9999, // Ensure it's on top of other content
-        }}
+        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 
+        -translate-y-1/2 flex items-center justify-center z-50"
       >
         <CircularProgress color="success" />
       </div>
-      {/* Your other content goes here */}
     </div>
   );
 };

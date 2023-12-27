@@ -1,10 +1,10 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 import { login, setUser } from "@/app/store/userSlice";
 import { authService, userService } from "@/services";
-import { useTranslation } from "react-i18next";
 import LoginGoogleBtn from "../LoginGoogleBtn";
 
 const LoginForm = () => {

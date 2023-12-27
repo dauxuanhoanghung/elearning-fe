@@ -1,5 +1,5 @@
+import { Container, Grid, Typography } from "@mui/material";
 import React from "react";
-import { Typography, Container, Grid } from "@mui/material";
 
 import logo from "@/assets/logo.png";
 import "./Footer.css";

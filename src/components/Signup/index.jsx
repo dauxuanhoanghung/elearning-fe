@@ -8,12 +8,15 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
+import { useSnackbar } from "@/contexts/SnackbarContext";
 import { userService } from "@/services";
 
 const SignUp = () => {
+  const { t } = useTranslation();
+  const { showSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
@@ -56,7 +59,10 @@ const SignUp = () => {
     e.preventDefault();
     if (formData["password"] === formData["confirmPassword"]) process();
     else {
-      toast.error("Error");
+      showSnackbar({
+        message: t("snackbar.passwordNotMatch"),
+        severity: "error",
+      });
     }
   };
 

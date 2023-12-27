@@ -8,5 +8,22 @@
     "signUp": " Sign Up",
     "noAccount": "Don't have an account yet?"
   },
-  "signup": {}
+  "signup": {
+    "title": "Register your new account",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "username": "Username",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "uploadAvatar": "Upload avatar",
+    "haveAccount": "Already have an account?",
+    "login": "Log In",
+    "register": "Register"
+  },
+  "snackbar": {
+    "passwordNotMatch": "Password and confirm doesn't match!!!"
+  },
+  "footer": {},
+  "header": {}
 }

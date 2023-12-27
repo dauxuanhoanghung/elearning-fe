@@ -1,19 +1,19 @@
-import React, { useState } from "react";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import {
   Button,
-  InputAdornment,
-  TextField,
-  Typography,
-  List,
-  ListItem,
   Divider,
   IconButton,
+  InputAdornment,
+  List,
+  ListItem,
+  TextField,
+  Typography,
 } from "@mui/material";
+import React, { useState } from "react";
 
-import Comment from "./Comment";
-import { lectureCommentService, courseCommentService } from "@/services";
 import { useSnackbar } from "@/contexts/SnackbarContext";
+import { courseCommentService, lectureCommentService } from "@/services";
+import Comment from "./Comment";
 
 const CommentContainer = (props) => {
   const { showSnackbar } = useSnackbar();

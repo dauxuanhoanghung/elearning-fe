@@ -21,19 +21,9 @@ textarea {
   background-color: transparent;
   outline: none;
 }
-button {
-  cursor: pointer;
-  background-color: transparent;
-  outline: none;
-  border: 0;
-}
 body {
   min-height: 100vh;
   font-weight: 400;
   font-size: 16px;
   line-height: 1;
-}
-a {
-  text-decoration: none;
-  color: #000;
 }
