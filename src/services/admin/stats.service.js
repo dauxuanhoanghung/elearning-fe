@@ -4,8 +4,8 @@ import {
   URL_GET_USER_BY_ROLE,
   URL_GET_USER_REGISTER_BY_MONTH,
   URL_GET_USER_REGISTER_UNTIL_MONTH,
-} from "../../constants/url";
-import http from "../../utils/http";
+} from "@/constants/url";
+import http from "@/utils/http";
 
 const statsService = {
   getCountUserByRole() {

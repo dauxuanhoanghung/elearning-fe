@@ -1,8 +1,9 @@
-import { Box, Breadcrumbs, Typography } from "@mui/material";
-import CourseContainer from "../../../components/CourseContainer";
-import DefaultLayout from "../../../layout";
 import { Link } from "react-router-dom";
-import { titleStyle } from "../../../utils/styles";
+import { Breadcrumbs, Typography } from "@mui/material";
+
+import CourseContainer from "@/components/CourseContainer";
+import DefaultLayout from "@/layout";
+import { titleStyle } from "@/utils/styles";
 
 const FavoritePage = () => {
   return (

@@ -7,18 +7,21 @@ export const URL_LOGOUT = "/logout";
 export const URL_REFRESH_TOKEN = "/api/auth/refresh-token";
 export const URL_LOGIN_GOOGLE = "/api/auth/login-google";
 // #endregion
+
 // #region User API
 export const URL_USER = "/api/users/";
 export const URL_CURRENT_USER = `${URL_USER}current-user`;
 export const URL_REGISTER = `${URL_USER}`;
 export const URL_USER_UPDATE_INFO = `${URL_USER}update-info`;
 // #endregion
+
 // #region User API
 export const URL_USER_NOTE = "/api/user-notes/";
 export const URL_GET_NOTE_BY_LECTURE = (lectureId) =>
   `${URL_USER_NOTE}${lectureId}/get-note`;
 export const URL_DELETE_NOTE_BY_ID = (id) => `${URL_USER_NOTE}${id}/delete`;
 // #endregion
+
 // #region Course API
 export const URL_COURSE = "/api/courses/";
 export const URL_TOTAL_COURSE_PAGE = `${URL_COURSE}get-total-course-page`;
@@ -39,21 +42,25 @@ export const URL_GET_COUNT_LECTURES_BY_COURSE_ID = (courseId) =>
 export const URL_GET_COUNT_REGISTRATIONS_BY_COURSE_ID = (courseId) =>
   `${URL_COURSE}${courseId}/get-count-registration`;
 // #endregion
+
 // #region Course Comment API
 export const URL_COURSE_COMMENT = "/api/course-comments/";
 export const URL_GET_COMMENT_BY_COURSE_ID = (courseId) =>
   `${URL_COURSE_COMMENT}course/${courseId}`;
 // #endregion
+
 // #region Lecture API
 export const URL_LECTURE = "/api/lectures/";
 export const URL_GET_LECTURE_BY_ID = (id) => `${URL_LECTURE}${id}`;
 export const URL_DELETE_LECTURE_BY_ID = (id) => `${URL_LECTURE}${id}/delete`;
 // #endregion
+
 // #region Course Comment API
 export const URL_LECTURE_COMMENT = "/api/lecture-comments/";
 export const URL_GET_COMMENT_BY_LECTURE_ID = (lectureId) =>
   `${URL_LECTURE_COMMENT}lecture/${lectureId}`;
 // #endregion
+
 // #region Registration - Transaction
 export const URL_REGISTRATION = "/api/registration/";
 export const URL_REGISTRATION_INIT = (id) =>
@@ -64,6 +71,7 @@ export const URL_BLOG = "/api/blogs/";
 export const URL_GET_BLOG_BY_ID = (id) => `${URL_BLOG}/${id}`;
 export const URL_DELETE_BLOG_BY_ID = (id) => `${URL_BLOG}/${id}`;
 // #endregion
+
 // #region
 export const URL_LECTURER_REGISTRATION = `/api/lecturer-registration/`;
 export const URL_GET_LECTURER_FORM_BY_CURRENT_USER = `${URL_LECTURER_REGISTRATION}current-user`;

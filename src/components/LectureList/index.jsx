@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import LectureItem from "./LectureItem";
+import { useParams } from "react-router-dom";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Box,
@@ -10,8 +10,9 @@ import {
   Accordion,
   List,
 } from "@mui/material";
-import { courseService } from "../../services";
-import { useParams } from "react-router-dom";
+
+import { courseService } from "@/services";
+import LectureItem from "./LectureItem";
 
 const LectureList = () => {
   const { courseId } = useParams();
@@ -19,12 +20,12 @@ const LectureList = () => {
 
   useEffect(() => {
     const fetchSectionsAndItsLectures = async () => {
-      const res = await courseService.getSectionAndLecturesByCourseId(courseId)
-      console.log(res)
+      const res = await courseService.getSectionAndLecturesByCourseId(courseId);
+      console.log(res);
       if (res.data.status === 200) {
         setSections(res.data.data);
       }
-    }
+    };
     fetchSectionsAndItsLectures();
   }, []);
 

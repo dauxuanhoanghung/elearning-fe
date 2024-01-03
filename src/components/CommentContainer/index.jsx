@@ -1,24 +1,31 @@
-import React, { useState } from "react";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
-import Comment from "./Comment"; // Assuming you have a Comment component
 import {
   Button,
-  InputAdornment,
-  TextField,
-  Typography,
-  List,
-  ListItem,
   Divider,
   IconButton,
+  InputAdornment,
+  List,
+  ListItem,
+  TextField,
+  Typography,
 } from "@mui/material";
-import courseCommentService from "../../services/courseCommentService";
-import { lectureCommentService } from "../../services";
-import { useSnackbar } from "../../contexts/SnackbarContext";
+import React, { useState } from "react";
+
+import { useSnackbar } from "@/contexts/SnackbarContext";
+import { courseCommentService, lectureCommentService } from "@/services";
+import Comment from "./Comment";
 
 const CommentContainer = (props) => {
   const { showSnackbar } = useSnackbar();
-  const { comments = [], setComments, courseId, lectureId, blogId, getMoreComments, page } =
-    props;
+  const {
+    comments = [],
+    setComments,
+    courseId,
+    lectureId,
+    blogId,
+    getMoreComments,
+    page,
+  } = props;
   const [newComment, setNewComment] = useState("");
 
   const handleCommentChange = (event) => {
@@ -39,7 +46,10 @@ const CommentContainer = (props) => {
     }
     if (res?.data.status === 201) {
       setNewComment("");
-      showSnackbar({ message: "Comment successfully created", severity: "success" });
+      showSnackbar({
+        message: "Comment successfully created",
+        severity: "success",
+      });
     }
   };
 
@@ -70,7 +80,8 @@ const CommentContainer = (props) => {
       {page !== -1 && (
         <Button onClick={getMoreComments} variant="text">
           See more...
-        </Button>)}
+        </Button>
+      )}
       <List>
         {comments.map((comment, index) => (
           <React.Fragment key={comment.id}>

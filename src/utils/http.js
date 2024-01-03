@@ -1,13 +1,11 @@
+import { URL_REFRESH_TOKEN, URL_SERVER } from "@/constants/url";
 import axios from "axios";
 import {
   clearLS,
   getAccessTokenFromLS,
   getRefreshTokenFromLS,
   setAccessTokenToLS,
-  // setProfileToLS,
-  setRefreshTokenToLS,
 } from "./auth";
-import { URL_REFRESH_TOKEN, URL_SERVER } from "../constants/url";
 
 class Http {
   constructor() {
@@ -15,18 +13,18 @@ class Http {
     this.refreshToken = getRefreshTokenFromLS();
     this.refreshTokenRequest = null;
     this.instance = axios.create({
-      baseURL: `${URL_SERVER}`, // Replace with your base URL
-      // timeout: 10000,
+      baseURL: `${URL_SERVER}`,
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true, // send cookie headers
     });
     /** Request, gắn token vào headers */
     this.instance.interceptors.request.use(
-      (config) => {
+      async (config) => {
         let accessToken = getAccessTokenFromLS();
         if (accessToken && config.headers) {
-          config.headers.Authorization = "Bearer " + accessToken;
+          config.headers["Authorization"] = `Bearer ${accessToken}`;
           return config;
         }
         return config;

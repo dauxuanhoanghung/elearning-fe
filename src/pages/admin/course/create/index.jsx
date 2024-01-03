@@ -1,7 +1,5 @@
-import React, { useRef, useState } from "react";
-import CreateCourseForm from "../../../../components/CreateCourseForm";
-import CreateLectureForm from "../../../../components/CreateLectureForm";
-import Spinner from "../../../../components/Spinner";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -11,13 +9,16 @@ import {
   Stepper,
   Typography,
 } from "@mui/material";
-import { useSnackbar } from "../../../../contexts/SnackbarContext";
-import { courseService, lectureService } from "../../../../services";
-import { useNavigate } from "react-router-dom";
-import DefaultLayout from "../../../../layout";
+import CreateCourseForm from "@/components/CreateCourseForm";
+import CreateLectureForm from "@/components/CreateLectureForm";
+import Spinner from "@/components/Spinner";
+import { useSnackbar } from "@/contexts/SnackbarContext";
+import DefaultLayout from "@/layout";
+import { courseService, lectureService } from "@/services";
+
 const steps = ["Create Info Course", "Add Lecture"];
 
-const CourseCreationPage = ({ }) => {
+const CourseCreationPage = ({}) => {
   const { showSnackbar } = useSnackbar();
   const navigate = useNavigate();
   // #region Stepper
@@ -43,9 +44,11 @@ const CourseCreationPage = ({ }) => {
       if (courseData.name.trim() === "" || courseData.price.trim() === "") {
         showSnackbar({ message: "Please enter full field", severity: "error" });
         return;
-      }
-      else if (parseFloat(courseData.price) < 0) {
-        showSnackbar({ message: "Course price must be equal or greater than 0", severity: "error" });
+      } else if (parseFloat(courseData.price) < 0) {
+        showSnackbar({
+          message: "Course price must be equal or greater than 0",
+          severity: "error",
+        });
         return;
       }
     }
@@ -69,9 +72,11 @@ const CourseCreationPage = ({ }) => {
       if (courseData.name.trim() === "" || courseData.price.trim() === "") {
         showSnackbar({ message: "Please enter full field", severity: "error" });
         return;
-      }
-      else if (parseFloat(courseData.price) < 0) {
-        showSnackbar({ message: "Course price must be equal or greater than 0", severity: "error" });
+      } else if (parseFloat(courseData.price) < 0) {
+        showSnackbar({
+          message: "Course price must be equal or greater than 0",
+          severity: "error",
+        });
         return;
       }
     }
@@ -137,7 +142,10 @@ const CourseCreationPage = ({ }) => {
     console.log(courseRes.data.data);
     if (courseRes.data.status === 201) {
       // 2. create section
-      const sectionRequest = createSectionFormData(courseData.sections, courseRes?.data?.data.id);
+      const sectionRequest = createSectionFormData(
+        courseData.sections,
+        courseRes?.data?.data.id
+      );
       const sectionRes = await courseService.createSection(
         JSON.stringify({ sections: [...sectionRequest] })
       );
@@ -148,7 +156,10 @@ const CourseCreationPage = ({ }) => {
         sectionsResult.forEach((resultSection) => {
           if (section.orderIndex === resultSection.orderIndex) {
             section.lectures?.forEach(async (lecture) => {
-              const lectureRequest = createLectureForm(lecture, resultSection.id);
+              const lectureRequest = createLectureForm(
+                lecture,
+                resultSection.id
+              );
               finalRes = await lectureService.create(lectureRequest);
             });
           }
@@ -156,8 +167,7 @@ const CourseCreationPage = ({ }) => {
       });
       if (finalRes?.data?.status === 201) {
         navigate("/");
-      }
-      else {
+      } else {
         showSnackbar({ message: "Something went wrong!!!", severity: "error" });
       }
     }

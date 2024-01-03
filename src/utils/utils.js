@@ -57,9 +57,9 @@ export function removeVietnameseTones(str) {
 export const isEmptyObject = (obj) => !obj || Object.keys(obj).length === 0;
 export const isAuthenticated = (user) => Object.keys(user).length !== 0;
 export const isLecturer = (user) =>
-  isAuthenticated(user) && user?.roles.includes("ROLE_LECTURER");
+  isAuthenticated(user) && user?.roles?.includes("ROLE_LECTURER");
 export const isAdmin = (user) =>
-  isAuthenticated(user) && user?.roles.includes("ROLE_ADMIN");
+  isAuthenticated(user) && user?.roles?.includes("ROLE_ADMIN");
 
 export const objectToFormData = (obj, form, namespace) => {
   var fd = form || new FormData();
@@ -90,12 +90,22 @@ export const objectToFormData = (obj, form, namespace) => {
   return fd;
 };
 export function buildFormData(formData, data, parentKey) {
-  if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File) && !(data instanceof Blob)) {
-    Object.keys(data).forEach(key => {
-      buildFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
+  if (
+    data &&
+    typeof data === "object" &&
+    !(data instanceof Date) &&
+    !(data instanceof File) &&
+    !(data instanceof Blob)
+  ) {
+    Object.keys(data).forEach((key) => {
+      buildFormData(
+        formData,
+        data[key],
+        parentKey ? `${parentKey}[${key}]` : key
+      );
     });
   } else {
-    const value = data == null ? '' : data;
+    const value = data == null ? "" : data;
 
     formData.append(parentKey, value);
   }
@@ -108,6 +118,8 @@ export function secondsToMMSS(inputString) {
   }
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
-  const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  const formattedTime = `${String(minutes).padStart(2, "0")}:${String(
+    seconds
+  ).padStart(2, "0")}`;
   return formattedTime;
 }

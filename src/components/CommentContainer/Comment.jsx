@@ -1,9 +1,8 @@
 import React from "react";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import Rating from "@mui/material/Rating";
+
 /**
  *
  * @param {user, text, createdDate } param0

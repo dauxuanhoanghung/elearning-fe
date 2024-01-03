@@ -1,12 +1,14 @@
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { authService, userService } from "../../services";
-import Spinner from "../Spinner";
-import { removeVietnameseTones } from "../../utils/utils";
 import { useDispatch } from "react-redux";
-import { login, setUser } from "../../app/store/user/userSlice";
+import { useNavigate } from "react-router-dom";
+
+import { login, setUser } from "@/app/store/userSlice";
+import { authService, userService } from "@/services";
+import { removeVietnameseTones } from "@/utils/utils";
+import Spinner from "../Spinner";
+
 const client_id = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 const LoginGoogleBtn = () => {

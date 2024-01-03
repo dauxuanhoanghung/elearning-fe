@@ -1,3 +1,6 @@
+import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   Avatar,
   Button,
@@ -12,12 +15,10 @@ import {
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShareIcon from "@mui/icons-material/Share";
-import { useEffect, useRef, useState } from "react";
-import { isEmptyObject } from "../../utils/utils";
-import { useSnackbar } from "../../contexts/SnackbarContext";
-import { useSelector } from "react-redux";
-import { favoriteService } from "../../services";
-import { Link } from "react-router-dom";
+
+import { isEmptyObject } from "@/utils/utils";
+import { useSnackbar } from "@/contexts/SnackbarContext";
+import { favoriteService } from "@/services";
 
 /**
  *
@@ -89,7 +90,12 @@ const CourseCard = (props) => {
         </CardContent>
         <CardHeader
           avatar={
-            <Avatar sx={{ bgcolor: "#eee" }} aria-label="recipe" src={user.avatar} alt={user.firstName}>
+            <Avatar
+              sx={{ bgcolor: "#eee" }}
+              aria-label="recipe"
+              src={user.avatar}
+              alt={user.firstName}
+            >
               {user?.avatar}
             </Avatar>
           }

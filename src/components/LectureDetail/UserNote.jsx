@@ -9,8 +9,8 @@ import {
   DialogTitle,
   Typography,
 } from "@mui/material";
-import { secondsToMMSS } from "../../utils/utils";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { secondsToMMSS } from "@/utils/utils";
 
 const userNoteStyle = {
   backgroundColor: "#f0f0f0",

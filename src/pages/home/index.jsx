@@ -1,6 +1,6 @@
 import { useState } from "react";
-import CourseContainer from "../../components/CourseContainer";
-import DefaultLayout from "../../layout";
+import CourseContainer from "@/components/CourseContainer";
+import DefaultLayout from "@/layout";
 
 const Home = () => {
   //#region Blog

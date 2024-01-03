@@ -1,11 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
 import {
   clearLS,
   getProfileFromLS,
   setAccessTokenToLS,
   setProfileToLS,
   setRefreshTokenToLS,
-} from "../../../utils/auth";
+} from "@/utils/auth";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isLogin: false,
@@ -20,6 +20,10 @@ export const userSlice = createSlice({
       setAccessTokenToLS(action?.payload?.token);
       setRefreshTokenToLS(action?.payload?.token);
       state.isLogin = true;
+    },
+    loginFailed: (state, action) => {
+      state.isLogin = false;
+      state.user = {};
     },
     setUser: (state, action) => {
       setProfileToLS(action?.payload);
@@ -39,7 +43,7 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { login, logout, setUser, loadFromLocalStorage } =
+export const { login, loginFailed, logout, setUser, loadFromLocalStorage } =
   userSlice.actions;
 
 export default userSlice.reducer;

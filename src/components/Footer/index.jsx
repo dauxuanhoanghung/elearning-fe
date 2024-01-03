@@ -1,7 +1,8 @@
+import { Container, Grid, Typography } from "@mui/material";
 import React from "react";
-import logo from "../../assets/logo.png";
+
+import logo from "@/assets/logo.png";
 import "./Footer.css";
-import { Typography, Container, Grid, Paper } from "@mui/material";
 
 const Footer = () => {
   return (

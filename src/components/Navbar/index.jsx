@@ -1,18 +1,21 @@
-import React, { useContext, useEffect, useState } from "react";
-import "./Navbar.css";
-import ScrollAway from "../ScrollAway";
-import logo from "../../assets/logo.png";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { Avatar, ListItemIcon, ListItemText, MenuItem } from "@mui/material";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+
+import { AccountBox } from "@mui/icons-material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MenuIcon from "@mui/icons-material/Menu";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import { isEmptyObject, isLecturer } from "../../utils/utils";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../app/store/user/userSlice";
-import { AccountBox } from "@mui/icons-material";
+import { Avatar, ListItemIcon, ListItemText, MenuItem } from "@mui/material";
+
+import { logout } from "@/app/store/userSlice";
+import { isEmptyObject, isLecturer } from "@/utils/utils";
+import ScrollAway from "../ScrollAway";
+
+import logo from "@/assets/logo.png";
+import "./Navbar.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -50,7 +53,7 @@ const Navbar = () => {
   };
   const handleAvatarClose = () => {
     setAnchorEl(null);
-  }
+  };
 
   return (
     <div className="navbar">
@@ -117,13 +120,17 @@ const Navbar = () => {
             onClick={handleAvatarClick}
           />
 
-          <ScrollAway open={open} anchorElement={anchorEl} onClickAway={handleAvatarClose}>
+          <ScrollAway
+            open={open}
+            anchorElement={anchorEl}
+            onClickAway={handleAvatarClose}
+          >
             <Link to="/my-profile">
-              <MenuItem onClick={() => { }}>
+              <MenuItem onClick={() => {}}>
                 <ListItemIcon>
-                  <AccountBox fontSize='small' />
+                  <AccountBox fontSize="small" />
                 </ListItemIcon>
-                <ListItemText primary='Profile' />
+                <ListItemText primary="Profile" />
               </MenuItem>
             </Link>
             <button className="navbar__logout" onClick={handleLogout}>

@@ -1,12 +1,22 @@
-import { Button, Card, CardContent, CardMedia, Container, List, ListItem, Typography } from "@mui/material";
-import DefaultLayout from "../../layout";
 import { useEffect, useState } from "react";
-import { courseService, registrationService } from "../../services";
-import { useSnackbar } from "../../contexts/SnackbarContext";
-import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Spinner from "../../components/Spinner";
-import { isEmptyObject } from "../../utils/utils";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Container,
+  List,
+  ListItem,
+  Typography,
+} from "@mui/material";
+
+import DefaultLayout from "@/layout";
+import { courseService, registrationService } from "@/services";
+import { useSnackbar } from "@/contexts/SnackbarContext";
+import { isEmptyObject } from "@/utils/utils";
+import Spinner from "@/components/Spinner";
 
 const PaymentPage = () => {
   const { showSnackbar } = useSnackbar();
@@ -29,7 +39,7 @@ const PaymentPage = () => {
       navigate("/login");
       return;
     }
-  })
+  });
   const [loading, setLoading] = useState(true);
   const [courseData, setCourseData] = useState({});
   useEffect(() => {
@@ -52,9 +62,11 @@ const PaymentPage = () => {
   return (
     <DefaultLayout>
       {loading && <Spinner />}
-      {!loading &&
+      {!loading && (
         <Container>
-          <Typography variant="h2" sx={{ textAlign: "center" }}>PAYMENT</Typography>
+          <Typography variant="h2" sx={{ textAlign: "center" }}>
+            PAYMENT
+          </Typography>
           <Card>
             <CardMedia
               component="img"
@@ -63,7 +75,9 @@ const PaymentPage = () => {
               image={courseData.background}
             />
             <CardContent>
-              <Typography variant="body2" color="textSecondary">{courseData.description}</Typography>
+              <Typography variant="body2" color="textSecondary">
+                {courseData.description}
+              </Typography>
               <Typography variant="h6">Price: {courseData.price}</Typography>
               <Typography variant="h5">Course Sections:</Typography>
               <List>
@@ -82,9 +96,9 @@ const PaymentPage = () => {
             Pay
           </Button>
         </Container>
-      }
+      )}
     </DefaultLayout>
   );
-}
+};
 
 export default PaymentPage;

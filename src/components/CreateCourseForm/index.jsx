@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   TextField,
   Button,
@@ -13,14 +14,13 @@ import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import HomeIcon from "@mui/icons-material/Home";
-import { useNavigate } from "react-router-dom";
 
 const CreateCourseForm = (props) => {
   const { courseData, setCourseData, saveCourse } = props;
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleReturnHome = () => {
-    navigate("/")
-  }
+    navigate("/");
+  };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setCourseData({ ...courseData, [name]: value });
@@ -159,7 +159,7 @@ const CreateCourseForm = (props) => {
             value={courseData.price}
             onChange={handleInputChange}
             InputProps={{
-              endAdornment: <InputAdornment position="end" >VND</InputAdornment>
+              endAdornment: <InputAdornment position="end">VND</InputAdornment>,
             }}
             fullWidth
             required
@@ -265,7 +265,7 @@ const CreateCourseForm = (props) => {
           </Button>
         </Grid>
       </Grid>
-    </Box >
+    </Box>
   );
 };
 
