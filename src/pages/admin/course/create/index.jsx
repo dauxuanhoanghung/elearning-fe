@@ -118,7 +118,7 @@ const CourseCreationPage = ({}) => {
           sectionName: d.sectionName,
           orderIndex: d.orderIndex,
           course: courseId,
-        })
+        }),
       );
       return sections;
     };
@@ -144,10 +144,10 @@ const CourseCreationPage = ({}) => {
       // 2. create section
       const sectionRequest = createSectionFormData(
         courseData.sections,
-        courseRes?.data?.data.id
+        courseRes?.data?.data.id,
       );
       const sectionRes = await courseService.createSection(
-        JSON.stringify({ sections: [...sectionRequest] })
+        JSON.stringify({ sections: [...sectionRequest] }),
       );
       const sectionsResult = sectionRes.data.data;
       let finalRes = null;
@@ -158,7 +158,7 @@ const CourseCreationPage = ({}) => {
             section.lectures?.forEach(async (lecture) => {
               const lectureRequest = createLectureForm(
                 lecture,
-                resultSection.id
+                resultSection.id,
               );
               finalRes = await lectureService.create(lectureRequest);
             });

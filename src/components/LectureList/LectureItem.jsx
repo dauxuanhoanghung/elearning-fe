@@ -20,10 +20,11 @@ const LectureItem = (props) => {
           {`${orderIndex}. ${title}`}
         </Typography>
         <Box sx={{ display: "flex" }}>
-          {type === "VIDEO" && (<>
-            <SlowMotionVideoIcon />
-            <Typography variant="body2">{type}</Typography>
-          </>
+          {type === "VIDEO" && (
+            <>
+              <SlowMotionVideoIcon />
+              <Typography variant="body2">{type}</Typography>
+            </>
           )}
           {type === "TEXT" && (
             <>

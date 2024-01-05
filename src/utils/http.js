@@ -31,7 +31,7 @@ class Http {
       },
       (error) => {
         return Promise.reject(error);
-      }
+      },
     );
     /** Response */
     this.instance.interceptors.response.use(
@@ -94,7 +94,7 @@ class Http {
         // }
 
         return Promise.reject(error);
-      }
+      },
     );
   }
 

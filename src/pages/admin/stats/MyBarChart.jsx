@@ -1,20 +1,23 @@
 import { ResponsiveBar } from "@nivo/bar";
 
 const MyBarChart = ({ courseWithMostLecture, courseWithMostRegistration }) => {
-  const mergedData = courseWithMostLecture.map(lecture => {
-    const registration = courseWithMostRegistration.find(reg => reg.id === lecture.id);
+  const mergedData = courseWithMostLecture.map((lecture) => {
+    const registration = courseWithMostRegistration.find(
+      (reg) => reg.id === lecture.id,
+    );
     return {
       id: lecture.id,
       name: lecture.name,
       countLectures: lecture.countLectures,
-      countRegistration: registration ? registration.countRegistration : 0
+      countRegistration: registration ? registration.countRegistration : 0,
     };
   });
-  const data = mergedData.map(item => ({
-    id: item.name,
-    lectures: item.countLectures,
-    registrations: item.countRegistration,
-  })) || []
+  const data =
+    mergedData.map((item) => ({
+      id: item.name,
+      lectures: item.countLectures,
+      registrations: item.countRegistration,
+    })) || [];
   console.log(data);
   return (
     <ResponsiveBar
@@ -23,7 +26,7 @@ const MyBarChart = ({ courseWithMostLecture, courseWithMostRegistration }) => {
       indexBy="id"
       margin={{ top: 50, right: 60, bottom: 50, left: 60 }}
       padding={0.2}
-      colors={{ scheme: 'nivo' }}
+      colors={{ scheme: "nivo" }}
       enableLabel={false}
       groupMode="grouped"
       fill={[

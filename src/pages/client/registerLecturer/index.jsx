@@ -1,28 +1,28 @@
-import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import {
-  Paper,
-  IconButton,
-  Typography,
-  Breadcrumbs,
   Box,
+  Breadcrumbs,
+  Button,
+  Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
   List,
   ListItem,
   ListItemText,
-  Checkbox,
-  Button,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  Dialog,
-  DialogActions,
+  Paper,
+  Typography,
 } from "@mui/material";
-import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
+import { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-import DefaultLayout from "@/layout";
-import { titleStyle } from "@/utils/styles";
 import { useSnackbar } from "@/contexts/SnackbarContext";
+import DefaultLayout from "@/layout";
 import { lecturerRegistrationService } from "@/services";
+import { titleStyle } from "@/utils/styles";
 
 const RegisterLecturerPage = () => {
   const { showSnackbar } = useSnackbar();
@@ -93,7 +93,7 @@ const RegisterLecturerPage = () => {
     console.log("handleDeleteRegistrationForm");
     const res =
       await lecturerRegistrationService.deleteLecturerFormByCurrentUser(
-        currentUserForm?.id
+        currentUserForm?.id,
       );
     if (res.data.status === 204) {
       showSnackbar({ message: res.data.message, severity: "info" });

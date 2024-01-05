@@ -49,7 +49,7 @@ export function removeVietnameseTones(str) {
   // Bỏ dấu câu, kí tự đặc biệt
   str = str.replace(
     /!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g,
-    " "
+    " ",
   );
   return str;
 }
@@ -101,7 +101,7 @@ export function buildFormData(formData, data, parentKey) {
       buildFormData(
         formData,
         data[key],
-        parentKey ? `${parentKey}[${key}]` : key
+        parentKey ? `${parentKey}[${key}]` : key,
       );
     });
   } else {
@@ -119,7 +119,7 @@ export function secondsToMMSS(inputString) {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
   const formattedTime = `${String(minutes).padStart(2, "0")}:${String(
-    seconds
+    seconds,
   ).padStart(2, "0")}`;
   return formattedTime;
 }

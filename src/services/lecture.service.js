@@ -15,8 +15,8 @@ const lectureService = {
   create(body) {
     return http.post(URL_LECTURE, body, {
       headers: {
-        "Content-Type": "multipart/form-data"
-      }
+        "Content-Type": "multipart/form-data",
+      },
     });
   },
   deleteLectureById(id) {

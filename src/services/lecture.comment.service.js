@@ -1,4 +1,7 @@
-import { URL_LECTURE_COMMENT, URL_GET_COMMENT_BY_LECTURE_ID } from "../constants/url";
+import {
+  URL_LECTURE_COMMENT,
+  URL_GET_COMMENT_BY_LECTURE_ID,
+} from "../constants/url";
 import http from "../utils/http";
 
 const lectureCommentService = {

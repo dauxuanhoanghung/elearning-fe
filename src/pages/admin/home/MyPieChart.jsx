@@ -2,7 +2,9 @@ import { ResponsivePie } from "@nivo/pie";
 
 const MyPieChart = (props) => {
   const { data: oldData } = props;
-  const data = oldData.map(d => { return { id: d.id, value: d.countUser, label: d.roleName } })
+  const data = oldData.map((d) => {
+    return { id: d.id, value: d.countUser, label: d.roleName };
+  });
   return (
     <ResponsivePie
       data={data}
@@ -13,125 +15,115 @@ const MyPieChart = (props) => {
       activeOuterRadiusOffset={8}
       borderWidth={1}
       borderColor={{
-        from: 'color',
-        modifiers: [
-          [
-            'darker',
-            0.2
-          ]
-        ]
+        from: "color",
+        modifiers: [["darker", 0.2]],
       }}
       arcLinkLabelsSkipAngle={10}
       arcLinkLabelsTextColor="#333333"
       arcLinkLabelsThickness={2}
-      arcLinkLabelsColor={{ from: 'color' }}
+      arcLinkLabelsColor={{ from: "color" }}
       arcLabelsSkipAngle={10}
       arcLabelsTextColor={{
-        from: 'color',
-        modifiers: [
-          [
-            'darker',
-            2
-          ]
-        ]
+        from: "color",
+        modifiers: [["darker", 2]],
       }}
       defs={[
         {
-          id: 'dots',
-          type: 'patternDots',
-          background: 'inherit',
-          color: 'rgba(255, 255, 255, 0.3)',
+          id: "dots",
+          type: "patternDots",
+          background: "inherit",
+          color: "rgba(255, 255, 255, 0.3)",
           size: 4,
           padding: 1,
-          stagger: true
+          stagger: true,
         },
         {
-          id: 'lines',
-          type: 'patternLines',
-          background: 'inherit',
-          color: 'rgba(255, 255, 255, 0.3)',
+          id: "lines",
+          type: "patternLines",
+          background: "inherit",
+          color: "rgba(255, 255, 255, 0.3)",
           rotation: -45,
           lineWidth: 6,
-          spacing: 10
-        }
+          spacing: 10,
+        },
       ]}
       fill={[
         {
           match: {
-            id: 'ruby'
+            id: "ruby",
           },
-          id: 'dots'
+          id: "dots",
         },
         {
           match: {
-            id: 'c'
+            id: "c",
           },
-          id: 'dots'
+          id: "dots",
         },
         {
           match: {
-            id: 'go'
+            id: "go",
           },
-          id: 'dots'
+          id: "dots",
         },
         {
           match: {
-            id: 'python'
+            id: "python",
           },
-          id: 'dots'
+          id: "dots",
         },
         {
           match: {
-            id: 'scala'
+            id: "scala",
           },
-          id: 'lines'
+          id: "lines",
         },
         {
           match: {
-            id: 'lisp'
+            id: "lisp",
           },
-          id: 'lines'
+          id: "lines",
         },
         {
           match: {
-            id: 'elixir'
+            id: "elixir",
           },
-          id: 'lines'
+          id: "lines",
         },
         {
           match: {
-            id: 'javascript'
+            id: "javascript",
           },
-          id: 'lines'
-        }
+          id: "lines",
+        },
       ]}
       legends={[
         {
-          anchor: 'bottom',
-          direction: 'row',
+          anchor: "bottom",
+          direction: "row",
           justify: false,
           translateX: 0,
           translateY: 56,
           itemsSpacing: 0,
           itemWidth: 100,
           itemHeight: 18,
-          itemTextColor: '#999',
-          itemDirection: 'left-to-right',
+          itemTextColor: "#999",
+          itemDirection: "left-to-right",
           itemOpacity: 1,
           symbolSize: 18,
-          symbolShape: 'circle',
+          symbolShape: "circle",
           effects: [
             {
-              on: 'hover',
+              on: "hover",
               style: {
-                itemTextColor: '#000'
-              }
-            }
-          ]
-        }
+                itemTextColor: "#000",
+              },
+            },
+          ],
+        },
       ]}
     />
   );
-}
+};
 
 export default MyPieChart;
