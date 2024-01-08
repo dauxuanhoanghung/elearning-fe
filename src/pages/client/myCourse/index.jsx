@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
 import { Alert, Box, Breadcrumbs, Grid, Typography } from "@mui/material";
+
+import CourseCard from "@/components/CourseContainer/CourseCard";
+import { Skeleton } from "@/components/common";
 import DefaultLayout from "@/layout";
 import { courseService } from "@/services";
 import { titleStyle } from "@/utils/styles";
-import CourseCard from "@/components/CourseContainer/CourseCard";
-import MySkeleton from "@/components/MySkeleton";
 
 const MyCoursePage = () => {
   const [loading, setLoading] = useState(false);
@@ -39,7 +41,7 @@ const MyCoursePage = () => {
         My Learning Courses
       </Typography>
       {loading ? (
-        <MySkeleton />
+        <Skeleton />
       ) : (
         <>
           <Grid container spacing={2}>

@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -9,9 +7,12 @@ import {
   Stepper,
   Typography,
 } from "@mui/material";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import CreateCourseForm from "@/components/CreateCourseForm";
 import CreateLectureForm from "@/components/CreateLectureForm";
-import Spinner from "@/components/Spinner";
+import { Spinner } from "@/components/common";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import DefaultLayout from "@/layout";
 import { courseService, lectureService } from "@/services";

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import {
   Avatar,
   Box,
@@ -11,11 +11,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
+import { useState } from "react";
 
-import MyModal from "@/components/MyModal";
-import { lecturerRegistrationService } from "@/services";
+import { Modal } from "@/components/common";
 import { useSnackbar } from "@/contexts/SnackbarContext";
+import { lecturerRegistrationService } from "@/services";
 
 const RegistrationCard = (props) => {
   const { showSnackbar } = useSnackbar();
@@ -94,7 +94,7 @@ const RegistrationCard = (props) => {
               Decline
             </Button>
           </Box>
-          <MyModal
+          <Modal
             open={openModal}
             onClose={handleCloseModal}
             sx={{ height: "20%" }}
@@ -120,7 +120,7 @@ const RegistrationCard = (props) => {
                 }}
               />
             </>
-          </MyModal>
+          </Modal>
         </Paper>
       </Grid>
     </>

@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+
 import {
   Avatar,
   Box,
@@ -6,13 +10,10 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 
 import { setUser } from "@/app/store/userSlice";
-import Spinner from "@/components/Spinner";
+import { Spinner } from "@/components/common";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import DefaultLayout from "@/layout";
 import { userService } from "@/services";

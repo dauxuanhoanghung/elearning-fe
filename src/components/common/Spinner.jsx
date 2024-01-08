@@ -5,8 +5,8 @@ const Spinner = () => {
   return (
     <div>
       <div
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 
-        -translate-y-1/2 flex items-center justify-center z-50"
+        className="absolute left-1/2 top-1/2 z-50 flex 
+        -translate-x-1/2 -translate-y-1/2 transform items-center justify-center"
       >
         <CircularProgress color="success" />
       </div>

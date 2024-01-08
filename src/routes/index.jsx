@@ -25,6 +25,7 @@ const AuthenticatedRoute = ({ redirect = "/login" }) => {
   const currentUser = useSelector((state) => state.user.user);
   const { state } = useLocation();
   if (currentUser && !isEmptyObject(currentUser)) return <Outlet />;
+  console.log("routes.AuthenticatedRoute after");
   const { showSnackbar } = useSnackbar();
   showSnackbar({
     message: "You must login to access this page!!!",
@@ -64,10 +65,11 @@ const AdminRoute = ({ redirect = "/" }) => {
 };
 
 const AnonymousRoute = ({ redirect = "/" }) => {
-  const currentUser = useSelector((state) => state.user.user);
+  const { user: currentUser, isLogin } = useSelector((state) => state.user);
   const { state } = useLocation();
-  if (!currentUser || isEmptyObject(currentUser)) return <Outlet />;
+  if (isEmptyObject(currentUser)) return <Outlet />;
   const { showSnackbar } = useSnackbar();
+  console.warn("routes | index.AnonymousRoute");
   showSnackbar({
     message: "You have already login, can access this page!!!",
     severity: "error",

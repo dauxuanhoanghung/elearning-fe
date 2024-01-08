@@ -24,6 +24,42 @@
   "snackbar": {
     "passwordNotMatch": "Password and confirm doesn't match!!!"
   },
-  "footer": {},
-  "header": {}
+  "footer": {
+    "Solutions": "Solutions",
+    "Marketing": "Marketing",
+    "Analytics": "Analytics",
+    "Commerce": "Commerce",
+    "Insights": "Insights",
+    "Support": "Support",
+    "Pricing": "Pricing",
+    "Documentation": "Documentation",
+    "Guides": "Guides",
+    "APIStatus": "API Status",
+    "Company": "Company",
+    "About": "About",
+    "Blog": "Blog",
+    "Jobs": "Jobs",
+    "Press": "Press",
+    "Partners": "Partners",
+    "Legal": "Legal",
+    "Claim": "Claim",
+    "Privacy": "Privacy",
+    "Terms": "Terms",
+    "Subscribe": "Subscribe to our newsletter",
+    "Subscribe-detail": "The latest news, articles, and resources, sent to your inbox weekly.",
+    "EmailAddress": "Email Address",
+    "emailPlaceholder": "example@gmail.com...",
+    "Button": "Subscribe",
+    "User": "Dau Xuan Hoang Hung",
+    "copyright": "All right reserved"
+  },
+  "navbar": {
+    "login": "Log in",
+    "signup": "Sign up",
+    "logout": "Log out",
+    "searchPlaceholder": "Search for anything...",
+    "myBusiness": "My Business",
+    "registerLecturer": "Register lecturer",
+    "myLearning": "My learning"
+  }
 }
