@@ -47,9 +47,9 @@ const lecturerRegistrationService = {
     return http.post(URL_LECTURER_APRROVAL(id));
   },
   /**
-   * 
-   * @param {*} body 
-   * @returns 
+   *
+   * @param {*} body
+   * @returns
    */
   rejectForm(body) {
     return http.post(URL_LECTURER_REJECT, body);

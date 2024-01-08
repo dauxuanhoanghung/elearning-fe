@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -9,9 +7,12 @@ import {
   Stepper,
   Typography,
 } from "@mui/material";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import CreateCourseForm from "@/components/CreateCourseForm";
 import CreateLectureForm from "@/components/CreateLectureForm";
-import Spinner from "@/components/Spinner";
+import { Spinner } from "@/components/common";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import DefaultLayout from "@/layout";
 import { courseService, lectureService } from "@/services";
@@ -118,7 +119,7 @@ const CourseCreationPage = ({}) => {
           sectionName: d.sectionName,
           orderIndex: d.orderIndex,
           course: courseId,
-        })
+        }),
       );
       return sections;
     };
@@ -144,10 +145,10 @@ const CourseCreationPage = ({}) => {
       // 2. create section
       const sectionRequest = createSectionFormData(
         courseData.sections,
-        courseRes?.data?.data.id
+        courseRes?.data?.data.id,
       );
       const sectionRes = await courseService.createSection(
-        JSON.stringify({ sections: [...sectionRequest] })
+        JSON.stringify({ sections: [...sectionRequest] }),
       );
       const sectionsResult = sectionRes.data.data;
       let finalRes = null;
@@ -158,7 +159,7 @@ const CourseCreationPage = ({}) => {
             section.lectures?.forEach(async (lecture) => {
               const lectureRequest = createLectureForm(
                 lecture,
-                resultSection.id
+                resultSection.id,
               );
               finalRes = await lectureService.create(lectureRequest);
             });

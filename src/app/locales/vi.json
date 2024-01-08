@@ -24,6 +24,42 @@
   "snackbar": {
     "passwordNotMatch": "Mật khẩu và mật khẩu xác nhận không khớp!!!"
   },
-  "footer": {},
-  "header": {}
+  "footer": {
+    "Solutions": "Giải pháp",
+    "Marketing": "Marketing",
+    "Analytics": "Phân tích",
+    "Commerce": "Thương mại",
+    "Insights": "Chi tiết",
+    "Support": "Hỗ trợ",
+    "Pricing": "Chi phí",
+    "Documentation": "Tài liệu",
+    "Guides": "Hướng dẫn",
+    "APIStatus": "Thông tin API",
+    "Company": "Công ty",
+    "About": "Giới thiệu",
+    "Blog": "Blog",
+    "Jobs": "Công việc",
+    "Press": "Press",
+    "Partners": "Đối tác",
+    "Legal": "Pháp lý",
+    "Claim": "Claim",
+    "Privacy": "Bảo mật",
+    "Terms": "Điều khoản",
+    "Subscribe": "Đăng ký cho các thông báo mới nhất",
+    "Subscribe-detail": "Các thông báo, bài viết sẽ được gửi định kì hẳng tuần",
+    "EmailAddress": "Email",
+    "emailPlaceholder": "example@gmail.com...",
+    "Button": "Đăng ký",
+    "User": "Đậu Xuân Hoàng Hùng",
+    "copyright": "Đã đăng ký bản quyền"
+  },
+  "navbar": {
+    "login": "Đăng nhập",
+    "signup": "Đăng ký",
+    "logout": "Đăng xuất",
+    "searchPlaceholder": "Tìm kiếm khóa học...",
+    "myBusiness": "Khóa học đã đăng",
+    "registerLecturer": "Đăng ký làm giảng viên",
+    "myLearning": "Khóa học của tôi"
+  }
 }

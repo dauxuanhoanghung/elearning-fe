@@ -1,5 +1,5 @@
 import { Grid, Skeleton } from "@mui/material";
-import Spinner from "../Spinner";
+import Spinner from "./Spinner";
 
 const MySkeleton = () => {
   return (

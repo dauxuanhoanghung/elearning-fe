@@ -1,14 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-import { useSnackbar } from "@/contexts/SnackbarContext";
-import { courseService } from "@/services";
-import { isAdmin } from "@/utils/utils";
-import DefaultLayout from "@/layout";
-import Spinner from "@/components/Spinner";
-import SectionList from "./SectionList";
-import LectureForm from "./LectureForm";
 import {
   Breadcrumbs,
   Button,
@@ -19,6 +12,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+
+import { Spinner } from "@/components/common";
+import { useSnackbar } from "@/contexts/SnackbarContext";
+import DefaultLayout from "@/layout";
+import { courseService } from "@/services";
+import { isAdmin } from "@/utils/utils";
+import LectureForm from "./LectureForm";
+import SectionList from "./SectionList";
 
 const CourseUpdatePage = () => {
   const { showSnackbar } = useSnackbar();

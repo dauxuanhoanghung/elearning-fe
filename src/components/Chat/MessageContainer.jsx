@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import SendIcon from "@mui/icons-material/Send";
 import {
-  Avatar,
   Box,
   Grid,
   IconButton,
@@ -11,7 +8,6 @@ import {
   Typography,
 } from "@mui/material";
 import {
-  addDoc,
   and,
   collection,
   limit,
@@ -21,10 +17,12 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
-import Message from "./Message";
 import { db } from "@/app/firebase/config";
 import firebaseService from "@/app/firebase/firebaseService";
+import Message from "./Message";
 
 const MessageContainer = () => {
   const currentUser = useSelector((state) => state.user.user);
@@ -55,15 +53,15 @@ const MessageContainer = () => {
       or(
         and(
           where("senderId", "==", currentUser.id),
-          where("recipientId", "==", selectedChatUser.id)
+          where("recipientId", "==", selectedChatUser.id),
         ),
         and(
           where("senderId", "==", selectedChatUser.id),
-          where("recipientId", "==", currentUser.id)
-        )
+          where("recipientId", "==", currentUser.id),
+        ),
       ),
       orderBy("createdAt", "desc"),
-      limit(15)
+      limit(15),
     );
     console.log("callQuery", callQuery);
     const unsubscribe = onSnapshot(callQuery, (QuerySnapshot) => {

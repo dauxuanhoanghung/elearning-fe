@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+
 import {
   Button,
   Card,
@@ -12,11 +13,11 @@ import {
   Typography,
 } from "@mui/material";
 
+import { Spinner } from "@/components/common";
+import { useSnackbar } from "@/contexts/SnackbarContext";
 import DefaultLayout from "@/layout";
 import { courseService, registrationService } from "@/services";
-import { useSnackbar } from "@/contexts/SnackbarContext";
 import { isEmptyObject } from "@/utils/utils";
-import Spinner from "@/components/Spinner";
 
 const PaymentPage = () => {
   const { showSnackbar } = useSnackbar();

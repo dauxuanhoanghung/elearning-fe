@@ -7,8 +7,8 @@ import {
   serverTimestamp,
   where,
 } from "firebase/firestore";
-import { db } from "./config";
 import PropTypes from "prop-types";
+import { db } from "./config";
 
 const firebaseService = {
   async addDocument(collectionName, body) {
@@ -28,7 +28,7 @@ const firebaseService = {
       const interactedUserIds = [-1];
       const messagesRef = collection(db, "messages");
       const sentMessagesSnapshot = await getDocs(
-        query(messagesRef, where("senderId", "==", currentUserId))
+        query(messagesRef, where("senderId", "==", currentUserId)),
       );
 
       sentMessagesSnapshot.forEach((messageDoc) => {
@@ -43,8 +43,8 @@ const firebaseService = {
         query(
           messagesRef,
           where("recipientId", "==", currentUserId),
-          where("senderId", "not-in", interactedUserIds)
-        )
+          where("senderId", "not-in", interactedUserIds),
+        ),
       );
 
       receivedMessagesSnapshot.forEach((messageDoc) => {
@@ -54,7 +54,7 @@ const firebaseService = {
 
       // Query for user documents for the interacted user IDs
       const usersSnapshot = await getDocs(
-        query(collection(db, "users"), where("id", "in", interactedUserIds))
+        query(collection(db, "users"), where("id", "in", interactedUserIds)),
       );
 
       const userResults = [];
@@ -73,14 +73,14 @@ const firebaseService = {
   async existUserById(userId) {
     try {
       const user = await getDocs(
-        query(collection(db, "users"), where("id", "==", userId))
+        query(collection(db, "users"), where("id", "==", userId)),
       );
       return !user.empty;
     } catch (error) {}
   },
   async getUserById(userId) {
     const user = await getDocs(
-      query(collection(db, "users"), where("id", "==", userId))
+      query(collection(db, "users"), where("id", "==", userId)),
     );
     return user.docs[0]?.data();
   },

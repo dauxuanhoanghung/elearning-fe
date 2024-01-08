@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState } from "react";
 
 const OpenChatDrawerContext = createContext();
 
@@ -18,7 +18,14 @@ export const OpenChatDrawerProvider = ({ children }) => {
   };
 
   return (
-    <OpenChatDrawerContext.Provider value={{ openChatDrawer, handleOpenChatDrawer, handleCloseChatDrawer, setOpenChatDrawer }}>
+    <OpenChatDrawerContext.Provider
+      value={{
+        openChatDrawer,
+        handleOpenChatDrawer,
+        handleCloseChatDrawer,
+        setOpenChatDrawer,
+      }}
+    >
       {children}
     </OpenChatDrawerContext.Provider>
   );

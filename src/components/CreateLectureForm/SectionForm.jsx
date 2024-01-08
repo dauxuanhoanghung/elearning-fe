@@ -1,4 +1,3 @@
-import React, { useRef, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 import {
@@ -16,9 +15,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import React, { useRef, useState } from "react";
 
-import SectionCard from "../SectionCard";
 import { useSnackbar } from "@/contexts/SnackbarContext";
+import SectionCard from "../SectionCard";
 
 const SectionForm = ({ section, courseData, setCourseData }) => {
   const { showSnackbar } = useSnackbar();
@@ -90,7 +90,7 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
   const deleteLecture = (index) => {
     const updatedLectures = lectures.filter((_, i) => i !== index);
     const lecturesWithUpdatedIndexes = updatedLectures.map(
-      (lecture, index) => ({ ...lecture, orderIndex: index + 1 })
+      (lecture, index) => ({ ...lecture, orderIndex: index + 1 }),
     );
     setLectures(lecturesWithUpdatedIndexes);
     // Update the section's lectures in courseData

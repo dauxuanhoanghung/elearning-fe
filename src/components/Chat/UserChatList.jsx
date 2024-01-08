@@ -11,7 +11,10 @@ const UserChatList = () => {
   const dispatch = useDispatch();
   const handleChangeChatUser = (user) => {
     dispatch(
-      changeChatUser({ ...user, createdAt: user.createdAt.toDate().toString() })
+      changeChatUser({
+        ...user,
+        createdAt: user.createdAt.toDate().toString(),
+      }),
     );
   };
   const [chatUsers, setChatUsers] = useState([]);

@@ -1,17 +1,17 @@
+import { Box, Breadcrumbs, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Box, Breadcrumbs, Typography } from "@mui/material";
 
-import { titleStyle } from "@/utils/styles";
-import { statsService } from "@/services";
 import DefaultLayout from "@/layout";
-import MyLineChart from "./MyLineChart";
+import { statsService } from "@/services";
+import { titleStyle } from "@/utils/styles";
 import MyBarChart from "./MyBarChart";
+import MyLineChart from "./MyLineChart";
 
 const AdminStatsPage = () => {
   const [courseWithMostLecture, setCourseWithMostLecture] = useState([]);
   const [courseWithMostRegistration, setCourseWithMostRegistration] = useState(
-    []
+    [],
   );
   const [countUserByMonth, setCountUserByMonth] = useState([]);
   const [countUserUntilMonth, setCountUserUntilMonth] = useState([]);

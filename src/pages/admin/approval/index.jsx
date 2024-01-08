@@ -1,6 +1,3 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import {
   Alert,
   Box,
@@ -9,13 +6,16 @@ import {
   Pagination,
   Typography,
 } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
+import { Skeleton } from "@/components/common";
+import { useSnackbar } from "@/contexts/SnackbarContext";
 import DefaultLayout from "@/layout";
 import { lecturerRegistrationService } from "@/services";
 import { titleStyle } from "@/utils/styles";
 import { isAdmin } from "@/utils/utils";
-import { useSnackbar } from "@/contexts/SnackbarContext";
-import MySkeleton from "@/components/MySkeleton";
 import RegistrationCard from "./RegistrationCard";
 
 const AdminApprovalPage = () => {
@@ -62,7 +62,7 @@ const AdminApprovalPage = () => {
         <Typography variant="h4" style={titleStyle}>
           Approval Lecturer Registration Form
         </Typography>
-        {loading && <MySkeleton />}
+        {loading && <Skeleton />}
         {!loading && (
           <>
             <Grid container>

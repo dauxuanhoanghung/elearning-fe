@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
 import ReactPlayer from "react-player";
+import { useNavigate, useSearchParams } from "react-router-dom";
+
+import AddIcon from "@mui/icons-material/Add";
+import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import {
   Alert,
   Box,
@@ -10,14 +13,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
-import AddIcon from "@mui/icons-material/Add";
 
-import MyModal from "../MyModal";
-import UserNote from "./UserNote";
+import { Modal } from "@/components/common";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { lectureService, userNoteService } from "@/services";
 import { secondsToMMSS } from "@/utils/utils";
+import UserNote from "./UserNote";
 
 const LectureDetail = () => {
   const [searchParams] = useSearchParams();
@@ -183,7 +184,7 @@ const LectureDetail = () => {
         <Typography variant="h6">{lectureData.content}</Typography>
       </Box>
 
-      <MyModal open={openModal} onClose={handleCloseModal}>
+      <Modal open={openModal} onClose={handleCloseModal}>
         <>
           <Typography>
             Add a note on
@@ -235,7 +236,7 @@ const LectureDetail = () => {
             )}
           </Box>
         </>
-      </MyModal>
+      </Modal>
     </>
   );
 };

@@ -1,16 +1,21 @@
 import { ResponsiveLine } from "@nivo/line";
 
 const MyLineChart = ({ countUserUntilMonth, countUserByMonth }) => {
-  const data = [
-    {
-      id: "USER REGISTER BY MONTH",
-      data: countUserByMonth.map((d, id) => { return { x: d.month, y: d.countUser } })
-    },
-    {
-      id: "USER REGISTER UNTIL MONTH",
-      data: countUserUntilMonth.map((d, id) => { return { x: d.month, y: d.countUser } })
-    }
-  ] || [];
+  const data =
+    [
+      {
+        id: "USER REGISTER BY MONTH",
+        data: countUserByMonth.map((d, id) => {
+          return { x: d.month, y: d.countUser };
+        }),
+      },
+      {
+        id: "USER REGISTER UNTIL MONTH",
+        data: countUserUntilMonth.map((d, id) => {
+          return { x: d.month, y: d.countUser };
+        }),
+      },
+    ] || [];
   return (
     <ResponsiveLine
       data={data}
@@ -55,29 +60,29 @@ const MyLineChart = ({ countUserUntilMonth, countUserByMonth }) => {
       useMesh={true}
       legends={[
         {
-          anchor: 'top-center',
-          direction: 'column',
+          anchor: "top-center",
+          direction: "column",
           justify: false,
           translateX: 100,
           translateY: 0,
           itemsSpacing: 0,
-          itemDirection: 'left-to-right',
+          itemDirection: "left-to-right",
           itemWidth: 80,
           itemHeight: 20,
           itemOpacity: 0.75,
           symbolSize: 12,
-          symbolShape: 'circle',
-          symbolBorderColor: 'rgba(0, 0, 0, .5)',
+          symbolShape: "circle",
+          symbolBorderColor: "rgba(0, 0, 0, .5)",
           effects: [
             {
-              on: 'hover',
+              on: "hover",
               style: {
-                itemBackground: 'rgba(0, 0, 0, .03)',
-                itemOpacity: 1
-              }
-            }
-          ]
-        }
+                itemBackground: "rgba(0, 0, 0, .03)",
+                itemOpacity: 1,
+              },
+            },
+          ],
+        },
       ]}
     />
   );

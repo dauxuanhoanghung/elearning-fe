@@ -1,6 +1,6 @@
+import { Alert, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Alert, Typography } from "@mui/material";
 
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { registrationService } from "@/services";
@@ -25,7 +25,7 @@ const ResultPaymentPage = () => {
         const res = await registrationService.register(payload);
         setTimeout(() => {
           navigate(
-            `/course/${payload.course}/learning?lectureId=${res?.data?.data?.nextUrl}`
+            `/course/${payload.course}/learning?lectureId=${res?.data?.data?.nextUrl}`,
           );
         }, 1000);
       } else {

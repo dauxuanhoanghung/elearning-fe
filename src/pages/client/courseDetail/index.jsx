@@ -119,7 +119,7 @@ function CourseDetail(props) {
           if (data?.data?.transaction) {
             setRegistration(true);
             setUrl(
-              `/course/${courseId}/learning?lectureId=${data?.data.nextUrl}`
+              `/course/${courseId}/learning?lectureId=${data?.data.nextUrl}`,
             );
           } else {
             setUrl(`/payment/${courseId}/make`);
@@ -155,7 +155,7 @@ function CourseDetail(props) {
       });
       // Nav to the first lecture
       navigate(
-        `/course/${courseId}/learning?lectureId=${res?.data?.data.nextUrl}`
+        `/course/${courseId}/learning?lectureId=${res?.data?.data.nextUrl}`,
       );
     }
     // nếu có tiền thì phải code === 200
@@ -170,7 +170,10 @@ function CourseDetail(props) {
     console.log(res);
     if (res) {
       dispatch(
-        changeChatUser({ ...res, createdAt: res.createdAt.toDate().toString() })
+        changeChatUser({
+          ...res,
+          createdAt: res.createdAt.toDate().toString(),
+        }),
       );
     }
     handleOpenChatDrawer();

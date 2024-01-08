@@ -1,12 +1,12 @@
+import { Box, Drawer } from "@mui/material";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { Box, Drawer } from "@mui/material";
 
 import { db } from "@/app/firebase/config";
 import firebaseService from "@/app/firebase/firebaseService";
-import UserChatList from "./UserChatList";
 import MessageContainer from "./MessageContainer";
+import UserChatList from "./UserChatList";
 
 const ChatContainer = (props) => {
   const currentUser = useSelector((state) => state.user.user);
@@ -24,7 +24,7 @@ const ChatContainer = (props) => {
         const usersCollection = collection(db, "users");
         const userQuery = query(
           usersCollection,
-          where("username", "==", currentUser.username)
+          where("username", "==", currentUser.username),
         );
         const existingUsers = await getDocs(userQuery);
 

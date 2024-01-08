@@ -1,13 +1,13 @@
+import { Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Grid } from "@mui/material";
 
-import LectureDetail from "@/components/LectureDetail";
 import CommentContainer from "@/components/CommentContainer";
+import LectureDetail from "@/components/LectureDetail";
 import LectureList from "@/components/LectureList";
+import { useSnackbar } from "@/contexts/SnackbarContext";
 import DefaultLayout from "@/layout";
 import { lectureCommentService } from "@/services";
-import { useSnackbar } from "@/contexts/SnackbarContext";
 
 const LectureDetailPage = () => {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const LectureDetailPage = () => {
     if (page === -1) return;
     let res = await lectureCommentService.getCommentsByLectureId(
       lectureId,
-      page
+      page,
     );
     if (res.data.data.length > 0) {
       setComments([...comments, ...res.data.data]);

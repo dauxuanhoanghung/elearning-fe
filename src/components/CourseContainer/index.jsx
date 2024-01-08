@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
 import { Alert, Box, Grid, Pagination } from "@mui/material";
+
+import { Skeleton } from "@/components/common";
 import { courseService, favoriteService } from "@/services";
 import CourseCard from "./CourseCard";
-import MySkeleton from "../MySkeleton";
 
 const CourseContainer = ({ isFavoritePage = false }) => {
   const [loading, setLoading] = useState(true);
@@ -46,7 +48,7 @@ const CourseContainer = ({ isFavoritePage = false }) => {
   return (
     <>
       {loading ? (
-        <MySkeleton />
+        <Skeleton />
       ) : (
         <>
           <Grid container spacing={2}>
