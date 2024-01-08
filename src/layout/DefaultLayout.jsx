@@ -27,7 +27,7 @@ const DefaultLayout = ({ children }) => {
   return (
     <>
       <Navbar />
-      <Box sx={{ width: "90%", margin: "20px auto 30px" }}>{children}</Box>
+      <Box sx={{ margin: "20px auto 30px" }}>{children}</Box>
       {!isEmptyObject(currentUser) && (
         <Box>
           <ChatContainer

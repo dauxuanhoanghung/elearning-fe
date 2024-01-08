@@ -14,11 +14,11 @@ import { persistor, store } from "./app/store";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <BrowserRouter>
-        <I18nextProvider i18n={i18n}>
+      <I18nextProvider i18n={i18n}>
+        <BrowserRouter>
           <App />
-        </I18nextProvider>
-      </BrowserRouter>
+        </BrowserRouter>
+      </I18nextProvider>
     </PersistGate>
   </Provider>,
 );
