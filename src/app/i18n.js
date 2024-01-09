@@ -1,6 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
+import { UKFlag, VNFlag } from "@/components/Icons";
 import EN from "./locales/en.json";
 import VI from "./locales/vi.json";
 
@@ -25,3 +26,17 @@ i18n.use(initReactI18next).init({
 });
 
 export default i18n;
+export const languages = [
+  {
+    text: "English",
+    fullText: "English (US)",
+    icon: UKFlag,
+    lang: "en",
+  },
+  {
+    text: "Việt Nam",
+    fullText: "Việt Nam (VN)",
+    icon: VNFlag,
+    lang: "vi",
+  },
+];

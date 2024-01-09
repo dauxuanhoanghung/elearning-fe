@@ -60,8 +60,8 @@ const LoginForm = () => {
                   type="email"
                   name="email"
                   id="email"
-                  className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg 
-                    border border-gray-300 bg-gray-50 px-3.5 py-2.5 text-gray-900
+                  className="block w-full rounded-lg border border-gray-300 
+                    bg-gray-50 px-3.5 py-2.5 text-gray-900 focus:border-blue-600 focus:ring-blue-600
                     dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 
                     dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
                   placeholder="name@company.com"
@@ -85,17 +85,17 @@ const LoginForm = () => {
                   placeholder="••••••••"
                   onChange={(e) => setPassword(e.target.value)}
                   onKeyUp={handleKeyUp}
-                  className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border 
-                    border-gray-300 bg-gray-50 px-3.5 py-2.5 text-gray-900 dark:border-gray-600 
-                    dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 
-                    dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
+                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3.5 py-2.5 
+                  text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-600 
+                  dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 
+                  dark:focus:ring-blue-500 sm:text-sm"
                   required=""
                 />
               </div>
               <div className="flex items-center justify-between">
                 <Link
                   to="/forgot-password"
-                  className="text-primary-600 dark:text-primary-500 text-sm font-medium hover:underline"
+                  className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
                 >
                   {t("login.forgotPassword")}
                 </Link>
@@ -103,7 +103,7 @@ const LoginForm = () => {
               <button
                 onClick={handleSubmit}
                 onKeyUp={handleKeyUp}
-                className="focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 w-full rounded-lg bg-blue-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-4"
+                className="w-full rounded-lg bg-blue-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 {t("login.signIn")}
               </button>
@@ -111,7 +111,7 @@ const LoginForm = () => {
                 {t("login.noAccount")}
                 <Link
                   to="/signup"
-                  className="text-primary-600 dark:text-primary-500 font-medium hover:underline"
+                  className="font-medium text-blue-600 hover:underline dark:text-blue-500"
                 >
                   {t("login.signUp")}
                 </Link>

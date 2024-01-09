@@ -53,14 +53,18 @@
     "User": "Đậu Xuân Hoàng Hùng",
     "copyright": "Đã đăng ký bản quyền"
   },
-  "navbar": {
+  "header": {
     "login": "Đăng nhập",
     "signup": "Đăng ký",
     "logout": "Đăng xuất",
     "searchPlaceholder": "Tìm kiếm khóa học...",
-    "myBusiness": "Khóa học đã đăng",
-    "registerLecturer": "Đăng ký làm giảng viên",
-    "myLearning": "Khóa học của tôi"
+    "Home": "Trang chủ",
+    "my-business": "Khóa học đã đăng",
+    "register-lecturer": "Trở thành giảng viên",
+    "my-course": "Khóa học của tôi",
+    "my-favorite": "Khoá học ưu thích",
+    "profile": "Hồ sơ cá nhân",
+    "settings": "Thiết lập"
   },
   "home": {
     "customer-title": "Bạn sẽ có cơ hội làm việc trong công ty lớn.",

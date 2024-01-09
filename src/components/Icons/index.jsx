@@ -160,9 +160,9 @@ export const VIIcon = () => {
         transform="matrix(1.0498 0 0 1.0539 -.015 -2.623)"
         fill="none"
         stroke="#010000"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="3.018"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="3.018"
         className={`fill-sky-500 ${className}`}
       />
     </svg>
@@ -328,6 +328,127 @@ export const TEDIcon = ({ className, style }) => {
       <path
         d="M0.566406 0.625366V8.22062H8.86891V30.2547H17.9914V8.2172H26.2939V0.628783L0.566406 0.625366ZM27.7118 0.625366V30.2547H52.6877V22.6595H36.8412V18.9695H52.6842V11.9106H36.8412V8.22062H52.6842V0.625366H27.7118ZM54.2217 0.625366V30.2547H67.4203C77.7523 30.2547 82.5664 24.4874 82.5664 15.3956C82.5664 7.9302 79.078 0.625366 69.2004 0.625366H54.2217ZM63.3511 8.22062H66.2552C72.8528 8.22062 73.4371 13.4071 73.4371 15.2692C73.4371 18.0538 72.6068 22.6595 66.9215 22.6595H63.3511V8.22062Z"
         fill="currentColor"
+      ></path>
+    </svg>
+  );
+};
+
+export const UKFlag = ({ className = "", style = {} }) => {
+  return (
+    <svg
+      className={`mr-2 h-5 w-5 rounded-full ${className}`}
+      style={style}
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      viewBox="0 0 3900 3900"
+    >
+      <path fill="#b22234" d="M0 0h7410v3900H0z"></path>
+      <path
+        d="M0 450h7410m0 600H0m0 600h7410m0 600H0m0 600h7410m0 600H0"
+        stroke="#fff"
+        strokeWidth="300"
+      ></path>
+      <path fill="#3c3b6e" d="M0 0h2964v2100H0z"></path>
+      <g fill="#fff">
+        <g id="d">
+          <g id="c">
+            <g id="e">
+              <g id="b">
+                <path
+                  id="a"
+                  d="M247 90l70.534 217.082-184.66-134.164h228.253L176.466 307.082z"
+                ></path>
+                <use xlinkHref="#a" y="420"></use>
+                <use xlinkHref="#a" y="840"></use>
+                <use xlinkHref="#a" y="1260"></use>
+              </g>
+              <use xlinkHref="#a" y="1680"></use>
+            </g>
+            <use xlinkHref="#b" x="247" y="210"></use>
+          </g>
+          <use xlinkHref="#c" x="494"></use>
+        </g>
+        <use xlinkHref="#d" x="988"></use>
+        <use xlinkHref="#c" x="1976"></use>
+        <use xlinkHref="#e" x="2470"></use>
+      </g>
+    </svg>
+  );
+};
+
+export const VNFlag = ({ className, style }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      viewBox="0 0 64 64"
+      className={`mr-2 h-5 w-5 rounded-full ${className}`}
+      style={style}
+    >
+      <circle cx="32" cy="32" r="30" fill="#f42f4c" />
+      <path
+        fill="#ffe62e"
+        d="M32 39l9.9 7l-3.7-11.4l9.8-7.4H35.8L32 16l-3.7 11.2H16l9.8 7.4L22.1 46z"
+      />
+    </svg>
+  );
+};
+
+export const ArrowDown = ({ className, style }) => {
+  return (
+    <svg
+      className={`none h-4 w-4 fill-black md:inline ${className}`}
+      style={style}
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M19 9l-7 7-7-7"
+      ></path>
+    </svg>
+  );
+};
+
+export const ChevronDown = ({ className, style }) => {
+  return (
+    <svg
+      className={`ml-1 h-4 w-4 ${className}`}
+      style={style}
+      fill="currentColor"
+      viewBox="0 0 20 20"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fillRule="evenodd"
+        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+        clipRule="evenodd"
+      ></path>
+    </svg>
+  );
+};
+
+export const FindIcon = (
+  { className = "", style = {} } = { className: "", style: {} },
+) => {
+  return (
+    <svg
+      className={`h-5 w-5 ${className}`}
+      style={style}
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
       ></path>
     </svg>
   );

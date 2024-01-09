@@ -53,14 +53,18 @@
     "User": "Dau Xuan Hoang Hung",
     "copyright": "All right reserved"
   },
-  "navbar": {
+  "header": {
     "login": "Log in",
     "signup": "Sign up",
     "logout": "Log out",
     "searchPlaceholder": "Search for anything...",
-    "myBusiness": "My Business",
-    "registerLecturer": "Register lecturer",
-    "myLearning": "My learning"
+    "Home": "Home",
+    "my-business": "My Business",
+    "register-lecturer": "Be lecturer",
+    "my-course": "My Learning",
+    "my-favorite": "My Favorite",
+    "profile": "Profile",
+    "settings": "Settings"
   },
   "home": {
     "customer-title": "You'll be in good company",

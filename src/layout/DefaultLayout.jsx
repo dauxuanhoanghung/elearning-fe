@@ -7,8 +7,8 @@ import { Box } from "@mui/material";
 
 import AdminDrawer from "@/components/AdminDrawer";
 import ChatContainer from "@/components/Chat/ChatContainer";
-import Navbar from "@/components/Navbar";
-import { Footer } from "@/components/common";
+
+import { Footer, Header } from "@/components/common";
 import { useOpenChatDrawer } from "@/contexts/OpenChatDrawerContext";
 import { isAdmin, isEmptyObject } from "@/utils/utils";
 
@@ -26,8 +26,8 @@ const DefaultLayout = ({ children }) => {
 
   return (
     <>
-      <Navbar />
-      <Box sx={{ margin: "20px auto 30px" }}>{children}</Box>
+      <Header />
+      <Box>{children}</Box>
       {!isEmptyObject(currentUser) && (
         <Box>
           <ChatContainer

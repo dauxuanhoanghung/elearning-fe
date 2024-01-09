@@ -103,7 +103,7 @@ const Footer = () => {
             ))}
           </div>
         </div>
-        <div className="mt-8 border-t border-gray-700 border-opacity-10 pt-8 sm:mt-12 lg:mt-12 lg:flex lg:items-center lg:justify-between">
+        <div className="mt-8 border-t border-gray-700  border-opacity-10 pt-8 dark:border-gray-200 sm:mt-12 lg:mt-12 lg:flex lg:items-center lg:justify-between">
           <div>
             <h3 className="text-xs font-semibold leading-6 text-gray-700 dark:text-white">
               {t("footer.Subscribe")}
@@ -143,7 +143,7 @@ const Footer = () => {
             </div>
           </form>
         </div>
-        <div className="mt-8 border-t border-gray-700 border-opacity-10 pt-8 md:flex md:items-center md:justify-between">
+        <div className="mt-8 border-t border-gray-700 border-opacity-10 pt-8 dark:border-gray-200 md:flex md:items-center md:justify-between">
           <div className="order-2 flex">
             {socialMediaData.map((platform, index) => (
               <Link
