@@ -1,11 +1,20 @@
 import defaultAvatar from "@/assets/default-avatar.jpg";
 
-const Avatar = ({ src, isCircle = true, isSignalShown = true }) => {
+const Avatar = ({
+  src,
+  isCircle = true,
+  isSignalShown = true,
+  className = "",
+  style = {},
+}) => {
   src = src?.length > 0 ? src : defaultAvatar;
   return (
     <div className="relative px-2 hover:cursor-pointer">
       <img
-        className={`h-8 w-8 ${isCircle ? "rounded-full" : "rounded"}`}
+        className={`inline-block h-8 w-8 border-none
+            ${className} 
+            ${isCircle ? "rounded-full" : "rounded"}`}
+        style={{ borderRadius: "100%", ...style }}
         src={src}
         alt=""
       />

@@ -135,7 +135,7 @@ const Header = () => {
               Education
             </span>
           </Link>
-          <div className="flex items-center">
+          <div className="flex flex-wrap items-center">
             {socialMedia.map((social, idx) => (
               <Link
                 key={idx}
@@ -148,7 +148,7 @@ const Header = () => {
             ))}
             <span className="ml-1 mr-0 h-5 w-0.5 bg-gray-200 dark:bg-gray-600 lg:ml-3 lg:mr-1.5 lg:inline"></span>
             <LanguageSwitcher />
-            <span className="ml-1 mr-0 h-5 w-0.5 bg-gray-200 dark:bg-gray-600 lg:ml-3 lg:mr-1.5 lg:inline"></span>
+            <span className="mx-0 h-5 w-0.5 bg-gray-200 dark:bg-gray-600 lg:mx-1.5 lg:inline"></span>
             {isEmptyObject(currentUser) ? (
               <>
                 <Link
@@ -174,8 +174,8 @@ const Header = () => {
               >
                 <Avatar src={currentUser.avatar} />
                 <div
-                  className="absolute z-10 hidden w-44 divide-y divide-gray-100 rounded-lg 
-                  bg-white shadow dark:divide-gray-600 dark:bg-gray-700"
+                  className="absolute left-[-100%] top-[110%] z-10 hidden w-32 divide-y divide-gray-100 rounded-lg bg-white shadow 
+                  dark:divide-gray-600 dark:bg-gray-700 md:left-0 md:w-44"
                   style={{ display: openAvatar && "block" }}
                 >
                   <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
@@ -189,7 +189,7 @@ const Header = () => {
                       <li key={idx}>
                         <Link
                           to={opt.href}
-                          className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          className="block px-4 py-2 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600"
                         >
                           {t(`header.${opt.key}`)}
                         </Link>
