@@ -453,3 +453,155 @@ export const FindIcon = (
     </svg>
   );
 };
+
+export const MoreHorizonIcon = ({ className = "", style = {} }) => {
+  return (
+    <svg
+      className={`h-4 w-4 ${className}`}
+      style={style}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor"
+      viewBox="0 0 16 3"
+    >
+      <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+    </svg>
+  );
+};
+
+export const ChatIcon = ({ className = "", style = {} }) => {
+  return (
+    <svg
+      className={`mr-1.5 h-4 w-4 ${className}`}
+      style={style}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 20 18"
+    >
+      <path
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M5 5h5M5 8h2m6-3h2m-5 3h6m2-7H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h3v5l5-5h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"
+      />
+    </svg>
+  );
+};
+
+export const EditIcon = ({ className = "", style = {} }) => {
+  return (
+    <svg
+      className={`mr-1.5 h-4 w-4 ${className}`}
+      style={style}
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+    </svg>
+  );
+};
+
+export const RemoveIcon = ({ className = "", style = {} }) => {
+  return (
+    <svg
+      className={`mr-1.5 h-4 w-4 ${className}`}
+      style={style}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
+    </svg>
+  );
+};
+
+export const AlertCircleIcon = ({ className = "", style = {} }) => {
+  return (
+    <svg
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      viewBox="0 0 24 24"
+      className={`mr-1.5 h-4 w-4 ${className}`}
+      style={style}
+    >
+      <path d="M22 12 A10 10 0 0 1 12 22 A10 10 0 0 1 2 12 A10 10 0 0 1 22 12 z" />
+      <path d="M12 8v4M12 16h.01" />
+    </svg>
+  );
+};
+
+export const FavoriteIcon = ({ className = "", style }) => {
+  return (
+    <svg
+      className={`mr-1.5 h-4 w-4 ${className}`}
+      style={style}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor"
+      viewBox="0 0 20 18"
+    >
+      <path d="M17.947 2.053a5.209 5.209 0 0 0-3.793-1.53A6.414 6.414 0 0 0 10 2.311 6.482 6.482 0 0 0 5.824.5a5.2 5.2 0 0 0-3.8 1.521c-1.915 1.916-2.315 5.392.625 8.333l7 7a.5.5 0 0 0 .708 0l7-7a6.6 6.6 0 0 0 2.123-4.508 5.179 5.179 0 0 0-1.533-3.793Z"></path>
+    </svg>
+  );
+};
+
+export const FavoriteFullIcon = ({ className = "", style }) => {
+  return (
+    <svg
+      className={`mr-1.5 h-4 w-4 fill-red-600 ${className}`}
+      style={style}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor"
+      viewBox="0 0 20 18"
+    >
+      <path d="M17.947 2.053a5.209 5.209 0 0 0-3.793-1.53A6.414 6.414 0 0 0 10 2.311 6.482 6.482 0 0 0 5.824.5a5.2 5.2 0 0 0-3.8 1.521c-1.915 1.916-2.315 5.392.625 8.333l7 7a.5.5 0 0 0 .708 0l7-7a6.6 6.6 0 0 0 2.123-4.508 5.179 5.179 0 0 0-1.533-3.793Z"></path>
+    </svg>
+  );
+};
+
+export const ImageIcon = ({ className = "", style }) => {
+  return (
+    <svg
+      className={`h-4 w-4 ${className}`}
+      style={style}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor"
+      viewBox="0 0 16 20"
+    >
+      <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM10.5 6a1.5 1.5 0 1 1 0 2.999A1.5 1.5 0 0 1 10.5 6Zm2.221 10.515a1 1 0 0 1-.858.485h-8a1 1 0 0 1-.9-1.43L5.6 10.039a.978.978 0 0 1 .936-.57 1 1 0 0 1 .9.632l1.181 2.981.541-1a.945.945 0 0 1 .883-.522 1 1 0 0 1 .879.529l1.832 3.438a1 1 0 0 1-.031.988Z"></path>
+      <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z"></path>
+    </svg>
+  );
+};
+
+export const AttachmentIcon = ({ className = "", style }) => {
+  return (
+    <svg
+      className={`h-4 w-4 ${className}`}
+      style={style}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 12 20"
+    >
+      <path
+        stroke="currentColor"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M1 6v8a5 5 0 1 0 10 0V4.5a3.5 3.5 0 1 0-7 0V13a2 2 0 0 0 4 0V6"
+      ></path>
+    </svg>
+  );
+};

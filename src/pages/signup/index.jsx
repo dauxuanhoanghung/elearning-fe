@@ -1,11 +1,11 @@
-import SignUp from "@/components/Signup";
+import { SignupForm } from "@/components/auth";
 import DefaultLayout from "@/layout";
 
 const Signup = () => {
   return (
     <>
       <DefaultLayout>
-        <SignUp />
+        <SignupForm />
       </DefaultLayout>
     </>
   );

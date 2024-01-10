@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { login, setUser } from "@/app/store/userSlice";
 import { authService, userService } from "@/services";
-import LoginGoogleBtn from "../LoginGoogleBtn";
+import LoginGoogleBtn from "./LoginGoogleBtn";
 
 const LoginForm = () => {
   const { t } = useTranslation();
@@ -35,7 +35,7 @@ const LoginForm = () => {
   };
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900">
+    <section className="w-full bg-gray-50 dark:bg-gray-900">
       <div className="mx-auto flex flex-col items-center justify-center px-6 py-8 lg:py-0">
         <div
           className="w-full rounded-lg bg-white shadow dark:border dark:border-gray-700 
@@ -103,7 +103,9 @@ const LoginForm = () => {
               <button
                 onClick={handleSubmit}
                 onKeyUp={handleKeyUp}
-                className="w-full rounded-lg bg-blue-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="w-full rounded-lg bg-blue-600 px-5 py-2.5 text-center text-sm font-medium 
+                text-white hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 
+                dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 {t("login.signIn")}
               </button>
@@ -119,7 +121,9 @@ const LoginForm = () => {
             </form>
             <div className="mt-1 flex items-center">
               <div className="h-[2px] w-full bg-gray-200"></div>
-              <div className="flex items-center justify-center px-2">or</div>
+              <div className="flex items-center justify-center px-2 dark:text-gray-50">
+                or
+              </div>
               <div className="h-[2px] w-full bg-gray-200"></div>
             </div>
             <LoginGoogleBtn />

@@ -69,5 +69,20 @@
   "home": {
     "customer-title": "Bạn sẽ có cơ hội làm việc trong công ty lớn.",
     "customer-detail": "Chúng tôi sử dụng phương pháp Agile để tiếp cận linh hoạt, kiểm tra các giả định và kết nối sớm và thường xuyên với nhu cầu của người dùng."
+  },
+  "comment": {
+    "edit": "Chỉnh sửa",
+    "remove": "Xóa",
+    "report": "Báo cáo",
+    "reply": "Phản hồi",
+    "like": "Thích"
+  },
+  "commentContainer": {
+    "discussion": "Thảo luận",
+    "subscribe": "Đăng ký",
+    "placeholder": "Để lại bình luận...",
+    "please": "Vui lòng",
+    "login": " đăng nhập ",
+    "behindLogin": "trước khi để lại bình luận."
   }
 }

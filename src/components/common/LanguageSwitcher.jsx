@@ -34,7 +34,6 @@ const LanguageSwitcher = () => {
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
-      console.log("handleOutsideClick");
       if (langBtnRef.current && !langBtnRef.current.contains(event.target))
         setOpenLanguage(false);
     };

@@ -153,13 +153,15 @@ const Header = () => {
               <>
                 <Link
                   to="/login"
-                  className="ml-2 w-20 text-sm font-medium text-sky-600 hover:bg-gray-50 hover:underline dark:text-sky-500"
+                  className="ml-2 w-20 text-sm font-medium text-sky-600 hover:bg-gray-50 
+                  hover:underline dark:text-sky-500 dark:hover:bg-gray-700"
                 >
                   {t("header.login")}
                 </Link>
                 <Link
                   to="/signup"
-                  className="ml-2 w-16 text-sm font-medium text-sky-600 hover:bg-gray-50 hover:underline dark:text-sky-500"
+                  className="ml-2 w-16 text-sm font-medium text-sky-600 hover:bg-gray-50 
+                  hover:underline dark:text-sky-500 dark:hover:bg-gray-700"
                 >
                   {t("header.signup")}
                 </Link>

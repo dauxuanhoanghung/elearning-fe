@@ -14,7 +14,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { userService } from "@/services";
 
-const SignUp = () => {
+const SignupForm = () => {
   const { t } = useTranslation();
   const { showSnackbar } = useSnackbar();
   const navigate = useNavigate();
@@ -190,4 +190,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignupForm;

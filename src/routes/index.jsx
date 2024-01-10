@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
+
 import { useSnackbar } from "../contexts/SnackbarContext";
 import AdminApprovalPage from "../pages/admin/approval";
 import CourseCreationPage from "../pages/admin/course/create";
@@ -76,6 +77,31 @@ const AnonymousRoute = ({ redirect = "/" }) => {
   });
   return <Navigate to={state?.redirect || redirect} />;
 };
+
+const comments = [
+  {
+    user: {
+      firstName: "Adam",
+    },
+    content: "Hello world!!!",
+    createdDate: new Date().toDateString(),
+  },
+  {
+    user: {
+      firstName: "Adam",
+    },
+    content: "Hello world!!!",
+    createdDate: new Date().toDateString(),
+  },
+  {
+    user: {
+      firstName: "Adam",
+    },
+    content: "Hello world!!!",
+    createdDate: new Date().toDateString(),
+    level: 1,
+  },
+];
 
 export const routers = [
   { path: "/", element: <Home /> },
