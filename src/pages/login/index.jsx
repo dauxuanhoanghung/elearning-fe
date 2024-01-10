@@ -1,29 +1,22 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-
-import LoginForm from "@/components/LoginForm";
-import { useSnackbar } from "@/contexts/SnackbarContext";
-import DefaultLayout from "@/layout";
-import { isEmptyObject } from "@/utils/utils";
+import background from "@/assets/bg.png";
+import { LoginForm } from "@/components/auth";
 
 const Login = () => {
-  const currentUser = useSelector((state) => state.user.user);
-  const navigate = useNavigate();
-  const { showSnackbar } = useSnackbar();
-  // useEffect(() => {
-  //   if (!isEmptyObject(currentUser)) {
-  //     showSnackbar({
-  //       message: "Authenticated user can't go to this page",
-  //       severity: "error",
-  //     });
-  //     navigate("/");
-  //   }
-  // }, []);
   return (
-    <DefaultLayout>
-      <LoginForm />
-    </DefaultLayout>
+    <div className="flex h-screen items-center justify-center dark:bg-gray-900">
+      <section className="relative h-full w-2/3">
+        <img src={background} className="h-full w-full object-cover" />
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform gap-2 text-center">
+          <h1 className="text-6xl font-bold text-white">Welcome to Page</h1>
+          <p className="text-2xl text-gray-300">
+            Login to have the best experiments.
+          </p>
+        </div>
+      </section>
+      <section className="w-1/3">
+        <LoginForm />
+      </section>
+    </div>
   );
 };
 

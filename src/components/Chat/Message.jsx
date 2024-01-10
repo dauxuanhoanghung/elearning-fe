@@ -1,12 +1,21 @@
-import { Avatar, Box, Typography } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
+
+import { Avatar, Box, Typography } from "@mui/material";
 
 const Message = (props) => {
   const currentUser = useSelector((state) => state.user.user);
   const selectedChatUser = useSelector((state) => state.chat.selectedChatUser);
   const { text: message, senderId, recipientId } = props;
   const isMyMessage = senderId === currentUser.id;
+  return (
+    <></>
+  );
+};
+
+export default Message;
+
+const Old = () => {
   return (
     <Box
       sx={{ display: "flex", width: "100%" }}
@@ -38,7 +47,5 @@ const Message = (props) => {
         />
       )}
     </Box>
-  );
-};
-
-export default Message;
+  )
+}

@@ -1,5 +1,8 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
+
+import UserInfo from "@/components/Chat/UserInfo";
+import DefaultLayout from "@/layout/DefaultLayout";
 import { useSnackbar } from "../contexts/SnackbarContext";
 import AdminApprovalPage from "../pages/admin/approval";
 import CourseCreationPage from "../pages/admin/course/create";
@@ -20,6 +23,7 @@ import ResultPaymentPage from "../pages/payment/result";
 import ProfilePage from "../pages/profile";
 import Signup from "../pages/signup";
 import { isAdmin, isEmptyObject, isLecturer } from "../utils/utils";
+import UserChatList from "@/components/Chat/UserChatList";
 
 const AuthenticatedRoute = ({ redirect = "/login" }) => {
   const currentUser = useSelector((state) => state.user.user);
@@ -151,6 +155,16 @@ export const routers = [
       { path: "stats", element: <AdminStatsPage /> },
       { path: "approval", element: <AdminApprovalPage /> },
     ],
+  },
+  {
+    path: "/test",
+    element: (
+      <DefaultLayout>
+        <div className="dark:bg-gray-700">
+          <UserChatList />
+        </div>
+      </DefaultLayout>
+    ),
   },
   { path: "*", element: <PageNotFound /> },
 ];
