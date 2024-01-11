@@ -12,7 +12,8 @@ import {
   InstagramIcon,
   TwitterIcon,
 } from "@/components/Icons";
-import { Avatar, LanguageSwitcher, ThemeSwitcher } from "@/components/common";
+import { LanguageSwitcher, ThemeSwitcher } from "@/components/common";
+import { Avatar } from "@/components/ui";
 import { isEmptyObject, isLecturer } from "@/utils/utils";
 
 const socialMedia = [
@@ -92,7 +93,6 @@ const Header = () => {
 
   const avatarRef = useRef(null);
   const handleAvatarBlur = (event) => {
-    console.log("handleAvatarBlur");
     if (avatarRef.current && !avatarRef.current.contains(event.target))
       setOpenAvatar(false);
   };
@@ -125,6 +125,7 @@ const Header = () => {
     setOpenCategories(false);
   };
   // #endregion
+
   return (
     <header className="shadow-md">
       <nav className="border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-800">

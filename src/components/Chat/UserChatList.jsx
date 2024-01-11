@@ -1,9 +1,9 @@
-import { Box, Divider, List, ListItem } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import firebaseService from "@/app/firebase/firebaseService";
 import { changeChatUser } from "@/app/store/chatSlice";
+import { isEmptyObject } from "@/utils/utils";
 import { EditIcon, FindIcon } from "../Icons/index";
 import UserInfo from "./UserInfo";
 
@@ -12,31 +12,32 @@ const UserChatList = () => {
   const dispatch = useDispatch();
 
   const handleChangeChatUser = (user) => {
-    // dispatch(
-    //   changeChatUser({
-    //     ...user,
-    //     createdAt: user.createdAt.toDate().toString(),
-    //   }),
-    // );
+    dispatch(
+      changeChatUser({
+        ...user,
+        createdAt: user.createdAt.toDate().toString(),
+      }),
+    );
   };
-  const [chatUsers, setChatUsers] = useState([{}, {}, {}, {}, {}]);
-  // useEffect(() => {
-  //   const fetchUsers = async () => {
-  //     try {
-  //       const usersHaveChatWithCurrentUser =
-  //         await firebaseService.getUsersHaveChatWithCurrentUser(currentUser.id);
-  //       setChatUsers(usersHaveChatWithCurrentUser || []);
-  //     } catch (error) {
-  //       console.error("Error fetching users: ", error);
-  //     }
-  //   };
+  const [chatUsers, setChatUsers] = useState(Array(10).fill({}));
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        if (isEmptyObject(currentUser)) return;
+        const usersHaveChatWithCurrentUser =
+          await firebaseService.getUsersHaveChatWithCurrentUser(currentUser.id);
+        setChatUsers(usersHaveChatWithCurrentUser || []);
+      } catch (error) {
+        console.error("Error fetching users: ", error);
+      }
+    };
+    fetchUsers();
+  }, [currentUser.id]);
 
-  //   fetchUsers();
-  // }, [currentUser.id]);
   return (
     <aside
-      className="xs:w-full xs:px-5 xs:grow-1 xs:overflow-y-scroll scrollbar-hidden flex h-[50rem] max-w-xl flex-col 
-      overflow-visible transition-all duration-500 dark:bg-gray-800 md:grow-0 md:overflow-visible md:p-0"
+      className="grow-1 scrollbar-hidden flex h-screen w-full max-w-[33%] flex-col overflow-visible overflow-y-scroll 
+      px-5 transition-all duration-500 dark:bg-gray-800 md:grow-0 md:overflow-visible md:p-0"
     >
       <div className="flex h-full flex-col">
         <div className="flex max-h-fit min-h-[5rem] w-full items-center justify-between px-5 py-6">
@@ -54,7 +55,7 @@ const UserChatList = () => {
             </button>
           </div>
         </div>
-        <div className="xs:pb-6 px-5 md:pb-5">
+        <div className="px-5 pb-6 md:pb-5">
           <div className="relative">
             <i className="absolute left-0 top-1/2 mx-2 translate-y-[-50%] text-center">
               <FindIcon className="text-black opacity-40 dark:text-white dark:opacity-70" />
@@ -72,11 +73,13 @@ const UserChatList = () => {
         </div>
         <section
           data-section="conversations"
-          className="h-full w-full scroll-smooth"
+          className="scrollbar-hidden w-full scroll-smooth"
           style={{ overflow: "visible scroll" }}
         >
           {chatUsers.map((user, idx) => (
-            <UserInfo {...user} key={idx} />
+            <div onClick={() => handleChangeChatUser(user)} key={idx}>
+              <UserInfo {...user} />
+            </div>
           ))}
         </section>
       </div>
@@ -97,11 +100,11 @@ const ComposeModal = () => {
     >
       <div
         className="fixed inset-0 bg-black bg-opacity-60 transition-opacity"
-        // style="display: none;"
+        style={{ display: "none" }}
       ></div>
       <div
         className="fixed inset-0 z-10 h-full overflow-y-auto"
-        // style="display: none;"
+        style={{ display: "none" }}
       >
         <div
           id="close-modal"
@@ -110,7 +113,7 @@ const ComposeModal = () => {
           <div className="w-[18.75rem] rounded bg-white pt-6 dark:bg-gray-800">
             <div className="mb-6 flex items-center justify-between px-5">
               <p
-                className="default-outline text-xl leading-4 tracking-[.01rem] text-black opacity-60 dark:text-white"
+                className=" text-xl leading-4 tracking-[.01rem] text-black opacity-60 dark:text-white"
                 id="modal-title"
                 tabindex="0"
               >

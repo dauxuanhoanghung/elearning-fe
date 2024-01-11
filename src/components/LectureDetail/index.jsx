@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import { Modal } from "@/components/common";
+import { Modal } from "@/components/ui";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { lectureService, userNoteService } from "@/services";
 import { secondsToMMSS } from "@/utils/utils";

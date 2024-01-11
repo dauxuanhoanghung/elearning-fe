@@ -1,4 +1,5 @@
 import defaultAvatar from "@/assets/default-avatar.jpg";
+import classNames from "classnames";
 
 const Avatar = ({
   src,
@@ -9,11 +10,15 @@ const Avatar = ({
 }) => {
   src = src?.length > 0 ? src : defaultAvatar;
   return (
-    <div className="relative px-2 hover:cursor-pointer">
+    <div className="relative mx-auto px-2 hover:cursor-pointer">
       <img
-        className={`inline-block h-8 w-8 border-none
-            ${className} 
-            ${isCircle ? "rounded-full" : "rounded"}`}
+        className={classNames(
+          `inline-block h-8 w-8 border-none ${className} `,
+          {
+            "rounded-full": isCircle,
+            rounded: !isCircle,
+          },
+        )}
         style={{ borderRadius: "100%", ...style }}
         src={src}
         alt=""

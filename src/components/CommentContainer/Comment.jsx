@@ -12,7 +12,7 @@ import {
   MoreHorizonIcon,
   RemoveIcon,
 } from "@/components/Icons";
-import { Avatar } from "@/components/common";
+import { Avatar } from "@/components/ui";
 import { isEmptyObject } from "@/utils/utils";
 
 const actions = [

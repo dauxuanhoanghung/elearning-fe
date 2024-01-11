@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
 import classNames from "classnames";
-import { DeleteIcon, InfoIcon } from "../Icons";
-import { Avatar } from "../common";
+
+import { DeleteIcon, InfoIcon } from "@/components/Icons";
+import { Avatar } from "@/components/ui";
 
 const UserInfo = (props) => {
   const {
@@ -46,7 +47,7 @@ const UserInfo = (props) => {
         dark:focus:bg-gray-600 dark:active:bg-gray-600"
       >
         <div className="mr-4">
-          <Avatar src={avatar} style={{ width: "2.5rem", height: "2.5rem" }} />
+          <Avatar src={avatar} style={{ width: "3.2rem", height: "2.5rem" }} />
         </div>
         <div className="flex w-full flex-col">
           <div className="w-full">

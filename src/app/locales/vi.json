@@ -84,5 +84,17 @@
     "please": "Vui lòng",
     "login": " đăng nhập ",
     "behindLogin": "trước khi để lại bình luận."
+  },
+  "messageContainer": {
+    "nochat": "Chưa có đoạn chat được chọn",
+    "detail": "Vui lòng chọn đoạn từ menu để bắt đầu cuộc hội thoại",
+    "block": "Chặn liên hệ",
+    "call": "Gọi âm thanh",
+    "profile": "Thông tin hồ sơ"
+  },
+  "message": {
+    "reply": "Phản hồi",
+    "copy": "Sao chép",
+    "delete": "Xóa"
   }
 }
