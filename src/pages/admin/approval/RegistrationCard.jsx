@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-import { Modal } from "@/components/common";
+import { Modal } from "@/components/ui";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { lecturerRegistrationService } from "@/services";
 

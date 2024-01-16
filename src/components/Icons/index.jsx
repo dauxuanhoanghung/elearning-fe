@@ -417,7 +417,7 @@ export const ArrowDown = ({ className, style }) => {
 export const ChevronDown = ({ className, style }) => {
   return (
     <svg
-      className={`ml-1 h-4 w-4 ${className}`}
+      className={`h-4 w-4 ${className}`}
       style={style}
       fill="currentColor"
       viewBox="0 0 20 20"
@@ -427,6 +427,26 @@ export const ChevronDown = ({ className, style }) => {
         fillRule="evenodd"
         d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
         clipRule="evenodd"
+      ></path>
+    </svg>
+  );
+};
+
+export const ChevronLeft = ({ className, style }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="currentColor"
+      className={`h-4 w-4 text-gray-300 group-hover:text-indigo-300 ${className}`}
+      style={style}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M15.75 19.5L8.25 12l7.5-7.5"
       ></path>
     </svg>
   );
@@ -464,6 +484,25 @@ export const MoreHorizonIcon = ({ className = "", style = {} }) => {
       viewBox="0 0 16 3"
     >
       <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+    </svg>
+  );
+};
+
+export const MoreVerticalIcon = ({ className = "", style = {} }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="currentColor"
+      className={`open-top-menu h-4 w-4 text-gray-400 group-hover:text-indigo-300 ${className}`}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+      ></path>
     </svg>
   );
 };
@@ -606,7 +645,7 @@ export const AttachmentIcon = ({ className = "", style }) => {
   );
 };
 
-export const InfoIcon = () => {
+export const InfoIcon = ({ className = "", style }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -614,7 +653,8 @@ export const InfoIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       stroke="currentColor"
-      className="mr-3 h-5 w-5"
+      className={`h-4 w-4 ${className}`}
+      style={style}
     >
       <path
         strokeLinecap="round"
@@ -625,7 +665,7 @@ export const InfoIcon = () => {
   );
 };
 
-export const DeleteIcon = () => {
+export const DeleteIcon = ({ className = "", style }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -633,12 +673,150 @@ export const DeleteIcon = () => {
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       stroke="currentColor"
-      className="mr-3 h-5 w-5"
+      className={`h-4 w-4 ${className}`}
+      style={style}
     >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
         d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+      ></path>
+    </svg>
+  );
+};
+
+export const ChatCircleIcon = ({ className = "", style }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={`h-12 w-12 text-gray-400 dark:text-white dark:opacity-70 ${className}`}
+      style={style}
+    >
+      <path
+        fillRule="evenodd"
+        d="M5.337 21.718a6.707 6.707 0 01-.533-.074.75.75 0 01-.44-1.223 3.73 3.73 0 00.814-1.686c.023-.115-.022-.317-.254-.543C3.274 16.587 2.25 14.41 2.25 12c0-5.03 4.428-9 9.75-9s9.75 3.97 9.75 9c0 5.03-4.428 9-9.75 9-.833 0-1.643-.097-2.417-.279a6.721 6.721 0 01-4.246.997z"
+        clipRule="evenodd"
+      ></path>
+    </svg>
+  );
+};
+
+export const MicrophoneIcon = ({ className = "", style }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="currentColor"
+      className={`h-6 w-6 text-gray-400 group-hover:text-indigo-300 dark:text-white 
+      dark:opacity-70 ${className}`}
+      style={style}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"
+      ></path>
+    </svg>
+  );
+};
+
+export const BlockIcon = ({ className = "", style }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="currentColor"
+      className={`h-5 w-5 ${className}`}
+      style={style}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+      ></path>
+    </svg>
+  );
+};
+
+export const CallIcon = ({ className = "", style }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="currentColor"
+      className={`h-5 w-5 ${className}`}
+      style={style}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"
+      ></path>
+    </svg>
+  );
+};
+
+export const ReplyIcon = ({ className = "", style }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="currentColor"
+      className={`h-5 w-5 ${className}`}
+      style={style}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
+      ></path>
+    </svg>
+  );
+};
+
+export const CopyIcon = ({ className = "", style }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      className={`h-5 w-5 ${className}`}
+      style={style}
+    >
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M19.5 16.5L19.5 4.5L18.75 3.75H9L8.25 4.5L8.25 7.5L5.25 7.5L4.5 8.25V20.25L5.25 21H15L15.75 20.25V17.25H18.75L19.5 16.5ZM15.75 15.75L15.75 8.25L15 7.5L9.75 7.5V5.25L18 5.25V15.75H15.75ZM6 9L14.25 9L14.25 19.5L6 19.5L6 9Z"
+      />
+    </svg>
+  );
+};
+
+export const SendIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="currentColor"
+      className="h-5 w-5"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
       ></path>
     </svg>
   );

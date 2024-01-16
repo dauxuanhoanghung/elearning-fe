@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 
 import { db } from "@/app/firebase/config";
 import firebaseService from "@/app/firebase/firebaseService";
+import { isEmptyObject } from "@/utils/utils";
 import MessageContainer from "./MessageContainer";
 import UserChatList from "./UserChatList";
 
@@ -20,7 +21,7 @@ const ChatContainer = (props) => {
   // #region chat
   useEffect(() => {
     const saveUserToFirestore = async () => {
-      if (currentUser && !isUserSaved) {
+      if (!isEmptyObject(currentUser) && !isUserSaved) {
         const usersCollection = collection(db, "users");
         const userQuery = query(
           usersCollection,
@@ -46,15 +47,13 @@ const ChatContainer = (props) => {
   }, [currentUser]);
   return (
     <>
-      <Drawer anchor={"left"} open={openDrawer} onClose={closeDrawer}>
-        <Box
-          sx={{ width: 900, display: "flex", height: "100vh" }}
-          role="presentation"
-        >
-          <UserChatList />
-          <MessageContainer />
-        </Box>
-      </Drawer>
+      {/* <Drawer anchor={"left"} open={openDrawer} onClose={closeDrawer}> */}
+      <div className="flex h-full w-full">
+        <UserChatList />
+        <span className="w-0 bg-slate-300 dark:bg-slate-700 md:w-[2px]"></span>
+        <MessageContainer />
+      </div>
+      {/* </Drawer> */}
     </>
   );
 };

@@ -84,5 +84,17 @@
     "please": "Please",
     "login": " log in ",
     "behindLogin": "first to leave a comment."
+  },
+  "messageContainer": {
+    "nochat": "No chat selected",
+    "detail": "Select a conversation from the conversation menu.",
+    "block": "Block contact",
+    "call": "Voice call",
+    "profile": "Profile Information"
+  },
+  "message": {
+    "reply": "Reply",
+    "copy": "Copy",
+    "delete": "Delete"
   }
 }

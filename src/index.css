@@ -32,7 +32,7 @@ a {
 li {
   list-style: none;
 }
-::-webkit-scrollbar {
+.scrollbar-hidden::-webkit-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
   display: none;
