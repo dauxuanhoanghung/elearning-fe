@@ -6,11 +6,9 @@ import { useSnackbar } from "@/contexts/SnackbarContext";
 import DefaultLayout from "@/layout/DefaultLayout";
 import { LoginPage, SignupPage } from "@/pages/auth";
 import { NotFoundPage } from "@/pages/errors";
-import AdminApprovalPage from "../pages/admin/approval";
+import ForbiddenPage from "@/pages/errors/ForbiddenPage";
 import CourseCreationPage from "../pages/admin/course/create";
 import CourseUpdatePage from "../pages/admin/course/update";
-import AdminHomePage from "../pages/admin/home";
-import AdminStatsPage from "../pages/admin/stats";
 import CourseDetail from "../pages/client/courseDetail";
 import FavoritePage from "../pages/client/favorite";
 import LectureDetail from "../pages/client/lectureDetail";
@@ -21,7 +19,7 @@ import Home from "../pages/home";
 import PaymentPage from "../pages/payment";
 import ResultPaymentPage from "../pages/payment/result";
 import ProfilePage from "../pages/profile";
-import { isAdmin, isEmptyObject, isLecturer } from "../utils/utils";
+import { isEmptyObject, isLecturer } from "../utils/utils";
 
 const AuthenticatedRoute = ({ redirect = "/login" }) => {
   const currentUser = useSelector((state) => state.user.user);
@@ -49,18 +47,6 @@ const LecturerRoute = ({ redirect = "/" }) => {
   const { showSnackbar } = useSnackbar();
   showSnackbar({
     message: "You must be a lecturer to access this page!!!",
-    severity: "error",
-  });
-  return <Navigate to={state?.redirect || redirect} />;
-};
-
-const AdminRoute = ({ redirect = "/" }) => {
-  const currentUser = useSelector((state) => state.user.user);
-  const { state } = useLocation();
-  if (currentUser !== null && isAdmin(currentUser)) return <Outlet />;
-  const { showSnackbar } = useSnackbar();
-  showSnackbar({
-    message: "You don't have permission to access this page!!!",
     severity: "error",
   });
   return <Navigate to={state?.redirect || redirect} />;
@@ -146,15 +132,6 @@ export const routers = [
     element: <CourseDetail />,
   },
   {
-    path: "/admin",
-    element: <AdminRoute />,
-    children: [
-      { index: true, element: <AdminHomePage /> },
-      { path: "stats", element: <AdminStatsPage /> },
-      { path: "approval", element: <AdminApprovalPage /> },
-    ],
-  },
-  {
     path: "/test",
     element: (
       <DefaultLayout>
@@ -163,6 +140,10 @@ export const routers = [
         </div>
       </DefaultLayout>
     ),
+  },
+  {
+    path: "/auth",
+    element: <ForbiddenPage />,
   },
   { path: "*", element: <NotFoundPage /> },
 ];

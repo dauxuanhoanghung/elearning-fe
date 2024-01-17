@@ -14,9 +14,10 @@ const SignupPage = () => {
       <section className="w-full md:w-1/2 lg:w-2/5">
         <button
           type="button"
-          className="mx-auto my-2 flex w-1/2 items-center justify-center gap-x-2 rounded-lg border bg-slate-50 
-        px-5 py-2 text-sm text-gray-700 transition-colors duration-200 hover:bg-gray-100
-      dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 sm:w-auto"
+          className="mx-auto my-2 flex w-1/2 items-center justify-center gap-x-2 rounded-lg border 
+            bg-slate-50 px-5 py-2 text-sm text-gray-700 transition-colors duration-200 
+            hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200
+            dark:hover:bg-gray-700 sm:w-auto"
           onClick={() => navigate(-1)} // go back to previous url
         >
           <ArrowLeft />

@@ -107,5 +107,10 @@
     "reply": "Phản hồi",
     "copy": "Sao chép",
     "delete": "Xóa"
+  },
+  "forbidden": {
+    "message": "Bạn chưa được ủy quyền",
+    "description": "Bạn đang cố vào trang bảo mật mà chưa được ủy quyền trước đó.",
+    "backhome": "Về trang chủ"
   }
 }
