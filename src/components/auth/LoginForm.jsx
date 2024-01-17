@@ -64,7 +64,7 @@ const LoginForm = () => {
                     bg-gray-50 px-3.5 py-2.5 text-gray-900 focus:border-blue-600 focus:ring-blue-600
                     dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 
                     dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                  placeholder="name@company.com"
+                  placeholder="example@gmail.com"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   required=""

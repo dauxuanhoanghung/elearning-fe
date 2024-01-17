@@ -1,9 +1,10 @@
+import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import React from "react";
-import { Box, Button, Container, Typography, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+
 import DefaultLayout from "@/layout";
 
-const PageNotFound = () => {
+const NotFoundPage = () => {
   const navigate = useNavigate();
   return (
     <>
@@ -43,4 +44,4 @@ const PageNotFound = () => {
   );
 };
 
-export default PageNotFound;
+export default NotFoundPage;

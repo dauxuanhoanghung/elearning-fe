@@ -394,6 +394,26 @@ export const VNFlag = ({ className, style }) => {
   );
 };
 
+export const ArrowLeft = ({ className, style }) => {
+  return (
+    <svg
+      className={`none h-4 w-4 fill-black rtl:rotate-180 md:inline ${className}`}
+      style={style}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
+      />
+    </svg>
+  );
+};
+
 export const ArrowDown = ({ className, style }) => {
   return (
     <svg
@@ -818,6 +838,26 @@ export const SendIcon = () => {
         strokeLinejoin="round"
         d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
       ></path>
+    </svg>
+  );
+};
+
+export const UploadIcon = ({ className = "", style }) => {
+  return (
+    <svg
+      className={`h-5 w-5 ${className}`}
+      style={style}
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 20 16"
+    >
+      <path
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+      />
     </svg>
   );
 };

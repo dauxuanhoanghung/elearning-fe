@@ -8,6 +8,11 @@
     "signUp": " Sign Up",
     "noAccount": "Don't have an account yet?"
   },
+  "loginPage": {
+    "welcome": "Welcome to Page",
+    "description": "Login to have the best experiments.",
+    "back": "Go back"
+  },
   "signup": {
     "title": "Register your new account",
     "firstName": "First name",
@@ -16,10 +21,16 @@
     "username": "Username",
     "password": "Password",
     "confirmPassword": "Confirm password",
-    "uploadAvatar": "Upload avatar",
-    "haveAccount": "Already have an account?",
+    "click": "Click to upload ",
+    "dnd": "or drag and drop",
+    "type": "PNG, JPG, JPEG, BIT or GIF",
+    "haveAccount": "Already have an account? ",
     "login": "Log In",
     "register": "Register"
+  },
+  "signupPage": {
+    "welcome": "Welcome to Sign up Page",
+    "description": "Sign up your account before using our services."
   },
   "snackbar": {
     "passwordNotMatch": "Password and confirm doesn't match!!!"

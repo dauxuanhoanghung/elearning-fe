@@ -2,10 +2,10 @@ import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 import ChatContainer from "@/components/Chat/ChatContainer";
-import UserChatList from "@/components/Chat/UserChatList";
-import UserInfo from "@/components/Chat/UserInfo";
+import { useSnackbar } from "@/contexts/SnackbarContext";
 import DefaultLayout from "@/layout/DefaultLayout";
-import { useSnackbar } from "../contexts/SnackbarContext";
+import { LoginPage, SignupPage } from "@/pages/auth";
+import { NotFoundPage } from "@/pages/errors";
 import AdminApprovalPage from "../pages/admin/approval";
 import CourseCreationPage from "../pages/admin/course/create";
 import CourseUpdatePage from "../pages/admin/course/update";
@@ -17,13 +17,10 @@ import LectureDetail from "../pages/client/lectureDetail";
 import MyBusinessPage from "../pages/client/myBusiness";
 import MyCoursePage from "../pages/client/myCourse";
 import RegisterLecturerPage from "../pages/client/registerLecturer";
-import PageNotFound from "../pages/errors/notFound";
 import Home from "../pages/home";
-import Login from "../pages/login";
 import PaymentPage from "../pages/payment";
 import ResultPaymentPage from "../pages/payment/result";
 import ProfilePage from "../pages/profile";
-import Signup from "../pages/signup";
 import { isAdmin, isEmptyObject, isLecturer } from "../utils/utils";
 
 const AuthenticatedRoute = ({ redirect = "/login" }) => {
@@ -87,12 +84,12 @@ export const routers = [
   {
     path: "login",
     element: <AnonymousRoute />,
-    children: [{ index: true, element: <Login /> }],
+    children: [{ index: true, element: <LoginPage /> }],
   },
   {
     path: "signup",
-    element: <Signup />,
-    children: [{ index: true, element: <Signup /> }],
+    element: <AnonymousRoute />,
+    children: [{ index: true, element: <SignupPage /> }],
   },
   {
     path: "my-profile",
@@ -167,5 +164,5 @@ export const routers = [
       </DefaultLayout>
     ),
   },
-  { path: "*", element: <PageNotFound /> },
+  { path: "*", element: <NotFoundPage /> },
 ];

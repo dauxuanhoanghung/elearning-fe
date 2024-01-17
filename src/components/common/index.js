@@ -4,3 +4,4 @@ export { default as LanguageSwitcher } from "./LanguageSwitcher";
 export { default as Skeleton } from "./Skeleton";
 export { default as Spinner } from "./Spinner";
 export { default as ThemeSwitcher } from "./ThemeSwitcher";
+export { default as AdminSidebar } from "./AdminSidebar"

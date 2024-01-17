@@ -48,10 +48,12 @@ const ChatContainer = (props) => {
   return (
     <>
       {/* <Drawer anchor={"left"} open={openDrawer} onClose={closeDrawer}> */}
-      <div className="flex h-full w-full">
-        <UserChatList />
-        <span className="w-0 bg-slate-300 dark:bg-slate-700 md:w-[2px]"></span>
-        <MessageContainer />
+      <div className="w-full dark:bg-gray-700">
+        <div className="flex h-full w-full">
+          <UserChatList />
+          <span className="w-0 bg-slate-300 dark:bg-slate-700 md:w-[2px]"></span>
+          <MessageContainer />
+        </div>
       </div>
       {/* </Drawer> */}
     </>

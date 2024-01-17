@@ -8,6 +8,11 @@
     "signUp": " Đăng ký",
     "noAccount": "Bạn chưa có tài khoản?"
   },
+  "loginPage": {
+    "welcome": "Chào mừng đến với đăng nhập",
+    "description": "Đăng nhập để có trải nghiệm tốt nhất",
+    "back": "Về trang trước"
+  },
   "signup": {
     "title": "Đăng ký tài khoản mới",
     "firstName": "Tên",
@@ -16,10 +21,16 @@
     "username": "Tên đăng nhập",
     "password": "Mật khẩu",
     "confirmPassword": "Xác nhận mật khẩu",
-    "uploadAvatar": "Đăng ảnh đại diện",
-    "haveAccount": "Bạn đã có tài khoản?",
+    "click": "Bấm để đăng ảnh ",
+    "dnd": "hoặc kéo thả",
+    "type": "PNG, JPG, JPEG, BIT hoặc GIF",
+    "haveAccount": "Bạn đã có tài khoản? ",
     "login": "Đăng nhập",
     "register": "Đăng ký"
+  },
+  "signupPage": {
+    "welcome": "Chào mừng đến trang đăng ký",
+    "description": "Đăng ký tài khoản mới trước khi sử dụng các dịch vụ khác của chúng tôi."
   },
   "snackbar": {
     "passwordNotMatch": "Mật khẩu và mật khẩu xác nhận không khớp!!!"
