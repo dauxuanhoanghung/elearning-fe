@@ -112,5 +112,24 @@
     "message": "Bạn chưa được ủy quyền",
     "description": "Bạn đang cố vào trang bảo mật mà chưa được ủy quyền trước đó.",
     "backhome": "Về trang chủ"
+  },
+  "admin": {
+    "home": {
+      "profile": "Hồ sơ",
+      "settings": "Thiết lập",
+      "logout": "Đăng xuất",
+      "users": "Người dùng",
+      "invoices": "Hóa đơn"
+    },
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "users": "Người dùng",
+      "profile": "Hồ sơ",
+      "settings": "Thiết lập",
+      "invoices": "Hóa đơn",
+      "inbox": "Hộp thư",
+      "courses": "Khóa học",
+      "stats": "Thống kê"
+    }
   }
 }

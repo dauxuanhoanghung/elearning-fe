@@ -50,7 +50,7 @@ const CourseContainer = ({ isFavoritePage = false }) => {
       {loading ? (
         <Skeleton />
       ) : (
-        <>
+        <div className="relative h-40">
           <Grid container spacing={2}>
             {courses.length === 0 && (
               <Box sx={{ margin: "30px", width: "100%" }}>
@@ -76,7 +76,7 @@ const CourseContainer = ({ isFavoritePage = false }) => {
               />
             </Box>
           )}
-        </>
+        </div>
       )}
     </>
   );

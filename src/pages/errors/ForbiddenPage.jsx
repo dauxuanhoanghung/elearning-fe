@@ -9,7 +9,7 @@ const LockIcon = () => {
     <svg
       className="h-32 w-32 fill-black dark:fill-gray-200 lg:h-64 lg:w-64"
       xmlns="http://www.w3.org/2000/svg"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 512 512"
     >
       <g>

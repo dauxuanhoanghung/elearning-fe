@@ -71,7 +71,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="border-t border-t-gray-300 dark:border-t-gray-500 dark:bg-gray-800">
+    <footer className="w-full border-t border-t-gray-300 transition-all dark:border-t-gray-500 dark:bg-gray-800">
       <div className="mx-auto max-w-7xl px-6 pb-8 pt-8  sm:pt-12 lg:px-8 lg:pt-20">
         <div className="lg:grid lg:grid-cols-3 xl:gap-8">
           <img className="h-12 lg:h-40" src={logo} alt={t("footer.User")} />

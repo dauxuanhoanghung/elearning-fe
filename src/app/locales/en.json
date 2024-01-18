@@ -112,5 +112,24 @@
     "message": "You are not authorized",
     "description": "You tried to access a page you did not have prior authorization for.",
     "backhome": "Go back home"
+  },
+  "admin": {
+    "home": {
+      "profile": "Profile",
+      "settings": "Settings",
+      "logout": "Logout",
+      "users": "Users",
+      "invoices": "Invoices"
+    },
+    "sidebar": {
+      "dashboard": "Dashboard",
+      "users": "Users",
+      "profile": "Profile",
+      "settings": "Settings",
+      "invoices": "Invoices",
+      "inbox": "Inbox",
+      "courses": "Courses",
+      "stats": "Stats"
+    }
   }
 }

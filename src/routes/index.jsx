@@ -3,10 +3,11 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 import ChatContainer from "@/components/Chat/ChatContainer";
 import { useSnackbar } from "@/contexts/SnackbarContext";
+import AdminLayout from "@/layout/AdminLayout";
 import DefaultLayout from "@/layout/DefaultLayout";
+import { AdminHomePage } from "@/pages/admin/index";
 import { LoginPage, SignupPage } from "@/pages/auth";
 import { NotFoundPage } from "@/pages/errors";
-import ForbiddenPage from "@/pages/errors/ForbiddenPage";
 import CourseCreationPage from "../pages/admin/course/create";
 import CourseUpdatePage from "../pages/admin/course/update";
 import CourseDetail from "../pages/client/courseDetail";
@@ -143,7 +144,8 @@ export const routers = [
   },
   {
     path: "/auth",
-    element: <ForbiddenPage />,
+    element: <AdminLayout />,
+    children: [{ index: true, element: <AdminHomePage /> }],
   },
   { path: "*", element: <NotFoundPage /> },
 ];

@@ -27,7 +27,7 @@ const DefaultLayout = ({ children }) => {
   return (
     <>
       <Header />
-      <Box>{children}</Box>
+      <div className="bg-white transition-all dark:bg-gray-800">{children}</div>
       {!isEmptyObject(currentUser) && (
         <Box>
           <ChatContainer
