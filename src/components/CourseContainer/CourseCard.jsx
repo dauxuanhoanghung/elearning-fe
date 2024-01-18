@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import ShareIcon from "@mui/icons-material/Share";
 import {
   Avatar,
   Button,
@@ -12,13 +16,10 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import ShareIcon from "@mui/icons-material/Share";
 
-import { isEmptyObject } from "@/utils/utils";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { favoriteService } from "@/services";
+import { isEmptyObject } from "@/utils/utils";
 
 /**
  *
@@ -59,8 +60,7 @@ const CourseCard = (props) => {
         severity: fav ? "success" : "info",
       });
     } else {
-      setSnackState({
-        open: true,
+      showSnackbar({
         message: "Please login first",
         severity: "error",
       });

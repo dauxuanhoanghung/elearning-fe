@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import classNames from "classnames";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -14,6 +15,7 @@ import {
 } from "@/components/Icons";
 import { LanguageSwitcher, ThemeSwitcher } from "@/components/common";
 import { Avatar } from "@/components/ui";
+import useDropdown from "@/hooks/useDropdown";
 import { isEmptyObject, isLecturer } from "@/utils/utils";
 
 const socialMedia = [
@@ -79,6 +81,23 @@ const Header = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
+  // #region sticky
+  const [isSticky, setSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Set isSticky to true when scrolling down, and false when scrolling up
+      setSticky(window.scrollY > 177);
+    };
+    // Attach the event listener to the scroll event
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // #endregion
+
   // #region action user
   const currentUser = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
@@ -86,24 +105,7 @@ const Header = () => {
     dispatch(logout());
     navigate("/login");
   };
-  const [openAvatar, setOpenAvatar] = useState(false);
-  const toggleOpenAvatar = () => {
-    setOpenAvatar((prev) => !prev);
-  };
-
-  const avatarRef = useRef(null);
-  const handleAvatarBlur = (event) => {
-    if (avatarRef.current && !avatarRef.current.contains(event.target))
-      setOpenAvatar(false);
-  };
-  useEffect(() => {
-    if (openAvatar) {
-      document.addEventListener("click", handleAvatarBlur);
-    }
-    return () => {
-      document.removeEventListener("click", handleAvatarBlur);
-    };
-  }, [openAvatar]);
+  const [openAvatar, toggleOpenAvatar, avatarRef] = useDropdown();
   // #endregion
   // #region search
   const [searchKw, setSearchKw] = useState("");
@@ -126,9 +128,14 @@ const Header = () => {
   };
   // #endregion
 
-  return (
-    <header className="shadow-md">
-      <nav className="border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-800">
+  const FirstNav = ({ classes }) => {
+    return (
+      <nav
+        className={classNames(
+          "border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-800",
+          classes,
+        )}
+      >
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between px-4 py-2.5 md:px-6">
           <Link to="/" className="flex items-center">
             <img src={logo} className="mr-3 h-6 sm:h-9" />
@@ -152,20 +159,19 @@ const Header = () => {
             <span className="mx-0 h-5 w-0.5 bg-gray-200 dark:bg-gray-600 lg:mx-1.5 lg:inline"></span>
             {isEmptyObject(currentUser) ? (
               <>
-                <Link
-                  to="/login"
-                  className="ml-2 w-20 text-sm font-medium text-sky-600 hover:bg-gray-50 
-                  hover:underline dark:text-sky-500 dark:hover:bg-gray-700"
-                >
-                  {t("header.login")}
-                </Link>
-                <Link
-                  to="/signup"
-                  className="ml-2 w-16 text-sm font-medium text-sky-600 hover:bg-gray-50 
-                  hover:underline dark:text-sky-500 dark:hover:bg-gray-700"
-                >
-                  {t("header.signup")}
-                </Link>
+                {[
+                  { href: "/login", key: "header.login" },
+                  { href: "/signup", key: "header.signup" },
+                ].map((link, idx) => (
+                  <Link
+                    key={idx}
+                    to={link.href}
+                    className="ml-2 w-20 text-sm font-medium text-sky-600 hover:bg-gray-50 
+                    hover:underline dark:text-sky-500 dark:hover:bg-gray-700"
+                  >
+                    {t(link.key)}
+                  </Link>
+                ))}
               </>
             ) : (
               <div
@@ -214,6 +220,13 @@ const Header = () => {
           </div>
         </div>
       </nav>
+    );
+  };
+
+  return (
+    <header className="shadow-md transition-all">
+      {isSticky && <FirstNav classes="fixed top-0 z-50 w-full shadow" />}
+      <FirstNav />
       <nav className="border-b border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-700">
         <div className="mx-auto grid max-w-7xl px-4 py-4 md:px-6 lg:grid-cols-2">
           <form className="mb-4 flex lg:order-2 lg:mb-0">
@@ -270,10 +283,10 @@ const Header = () => {
                 onChange={handleSearchChange}
                 onKeyDown={handleEnter}
                 type="search"
-                className="border-l-1 md:border-l-6 z-20 block w-full rounded-lg border border-gray-300
-                bg-gray-50 p-2.5 text-sm text-black focus:border-sky-500 focus:ring-blue-500 
-                dark:border-gray-800 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-400 
-                dark:focus:border-sky-500 md:rounded-l-none md:border-l-gray-50"
+                className="z-20 block w-full rounded-lg border border-gray-300 bg-gray-50
+                p-2.5 text-sm text-black focus:border-sky-500 dark:border-gray-800 
+                dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-sky-500 
+                md:border-l-4 md:border-l-gray-50"
                 placeholder={t("header.searchPlaceholder")}
                 required
               />

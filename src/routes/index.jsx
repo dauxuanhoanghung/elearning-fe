@@ -2,29 +2,25 @@ import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 import ChatContainer from "@/components/Chat/ChatContainer";
-import UserChatList from "@/components/Chat/UserChatList";
-import UserInfo from "@/components/Chat/UserInfo";
+import { useSnackbar } from "@/contexts/SnackbarContext";
+import AdminLayout from "@/layout/AdminLayout";
 import DefaultLayout from "@/layout/DefaultLayout";
-import { useSnackbar } from "../contexts/SnackbarContext";
-import AdminApprovalPage from "../pages/admin/approval";
+import { AdminHomePage } from "@/pages/admin/index";
+import { LoginPage, SignupPage } from "@/pages/auth";
+import { NotFoundPage } from "@/pages/errors";
 import CourseCreationPage from "../pages/admin/course/create";
 import CourseUpdatePage from "../pages/admin/course/update";
-import AdminHomePage from "../pages/admin/home";
-import AdminStatsPage from "../pages/admin/stats";
 import CourseDetail from "../pages/client/courseDetail";
 import FavoritePage from "../pages/client/favorite";
 import LectureDetail from "../pages/client/lectureDetail";
 import MyBusinessPage from "../pages/client/myBusiness";
 import MyCoursePage from "../pages/client/myCourse";
 import RegisterLecturerPage from "../pages/client/registerLecturer";
-import PageNotFound from "../pages/errors/notFound";
 import Home from "../pages/home";
-import Login from "../pages/login";
 import PaymentPage from "../pages/payment";
 import ResultPaymentPage from "../pages/payment/result";
 import ProfilePage from "../pages/profile";
-import Signup from "../pages/signup";
-import { isAdmin, isEmptyObject, isLecturer } from "../utils/utils";
+import { isEmptyObject, isLecturer } from "../utils/utils";
 
 const AuthenticatedRoute = ({ redirect = "/login" }) => {
   const currentUser = useSelector((state) => state.user.user);
@@ -57,18 +53,6 @@ const LecturerRoute = ({ redirect = "/" }) => {
   return <Navigate to={state?.redirect || redirect} />;
 };
 
-const AdminRoute = ({ redirect = "/" }) => {
-  const currentUser = useSelector((state) => state.user.user);
-  const { state } = useLocation();
-  if (currentUser !== null && isAdmin(currentUser)) return <Outlet />;
-  const { showSnackbar } = useSnackbar();
-  showSnackbar({
-    message: "You don't have permission to access this page!!!",
-    severity: "error",
-  });
-  return <Navigate to={state?.redirect || redirect} />;
-};
-
 const AnonymousRoute = ({ redirect = "/" }) => {
   const { user: currentUser, isLogin } = useSelector((state) => state.user);
   const { state } = useLocation();
@@ -87,12 +71,12 @@ export const routers = [
   {
     path: "login",
     element: <AnonymousRoute />,
-    children: [{ index: true, element: <Login /> }],
+    children: [{ index: true, element: <LoginPage /> }],
   },
   {
     path: "signup",
-    element: <Signup />,
-    children: [{ index: true, element: <Signup /> }],
+    element: <AnonymousRoute />,
+    children: [{ index: true, element: <SignupPage /> }],
   },
   {
     path: "my-profile",
@@ -149,15 +133,6 @@ export const routers = [
     element: <CourseDetail />,
   },
   {
-    path: "/admin",
-    element: <AdminRoute />,
-    children: [
-      { index: true, element: <AdminHomePage /> },
-      { path: "stats", element: <AdminStatsPage /> },
-      { path: "approval", element: <AdminApprovalPage /> },
-    ],
-  },
-  {
     path: "/test",
     element: (
       <DefaultLayout>
@@ -167,5 +142,10 @@ export const routers = [
       </DefaultLayout>
     ),
   },
-  { path: "*", element: <PageNotFound /> },
+  {
+    path: "/auth",
+    element: <AdminLayout />,
+    children: [{ index: true, element: <AdminHomePage /> }],
+  },
+  { path: "*", element: <NotFoundPage /> },
 ];

@@ -1,10 +1,9 @@
+import { Box, Breadcrumbs, Card, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Box, Breadcrumbs, Card, Grid, Typography } from "@mui/material";
 
-import DefaultLayout from "@/layout";
-import { titleStyle } from "@/utils/styles";
 import { statsService } from "@/services";
+import { titleStyle } from "@/utils/styles";
 import MyPieChart from "./MyPieChart";
 
 const AdminHomePage = () => {
@@ -22,27 +21,25 @@ const AdminHomePage = () => {
   }, []);
   return (
     <>
-      <DefaultLayout>
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link to="/" style={{ textDecoration: "none" }}>
-            Home
-          </Link>
-          <Typography color="textPrimary">Admin</Typography>
-        </Breadcrumbs>
-        <Typography variant="h4" style={titleStyle}>
-          Admin Page
-        </Typography>
-        <Grid container>
-          <Grid item md={6} lg={6}>
-            <Card>
-              <Typography variant="h4">Count User By Role</Typography>
-              <Box height="60vh">
-                <MyPieChart data={countUserByRole} />
-              </Box>
-            </Card>
-          </Grid>
+      <Breadcrumbs aria-label="breadcrumb">
+        <Link to="/" style={{ textDecoration: "none" }}>
+          Home
+        </Link>
+        <Typography color="textPrimary">Admin</Typography>
+      </Breadcrumbs>
+      <Typography variant="h4" style={titleStyle}>
+        Admin Page
+      </Typography>
+      <Grid container>
+        <Grid item md={6} lg={6}>
+          <Card>
+            <Typography variant="h4">Count User By Role</Typography>
+            <Box height="60vh">
+              <MyPieChart data={countUserByRole} />
+            </Box>
+          </Card>
         </Grid>
-      </DefaultLayout>
+      </Grid>
     </>
   );
 };
