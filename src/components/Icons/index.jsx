@@ -1,9 +1,14 @@
+import { twMerge } from "tailwind-merge";
+
 export const FacebookIcon = ({ className = "", style }) => (
   <svg
     fill="currentColor"
     viewBox="0 0 24 24"
     style={style}
-    className={`h-8 w-8 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white ${className}`}
+    className={twMerge(
+      "h-8 w-8 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white",
+      className,
+    )}
     aria-hidden="true"
   >
     <path
@@ -19,7 +24,10 @@ export const InstagramIcon = ({ className = "", style }) => (
     fill="currentColor"
     viewBox="0 0 24 24"
     style={style}
-    className={`h-8 w-8 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white ${className}`}
+    className={twMerge(
+      "h-8 w-8 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white",
+      className,
+    )}
     aria-hidden="true"
   >
     <path
@@ -35,7 +43,10 @@ export const TwitterIcon = ({ className = "", style }) => (
     fill="currentColor"
     viewBox="0 0 24 24"
     style={style}
-    className={`h-8 w-8 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white ${className}`}
+    className={twMerge(
+      "h-8 w-8 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white",
+      className,
+    )}
     aria-hidden="true"
   >
     <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
@@ -47,7 +58,10 @@ export const GithubIcon = ({ className = "", style }) => (
     fill="currentColor"
     viewBox="0 0 24 24"
     style={style}
-    className={`h-8 w-8 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white ${className}`}
+    className={twMerge(
+      "h-8 w-8 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white",
+      className,
+    )}
     aria-hidden="true"
   >
     <path
@@ -63,7 +77,10 @@ export const YoutubeIcon = ({ className = "", style }) => (
     fill="currentColor"
     viewBox="0 0 24 24"
     style={style}
-    className={`h-8 w-8 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white ${className}`}
+    className={twMerge(
+      "h-8 w-8 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white",
+      className,
+    )}
     aria-hidden="true"
   >
     <path
@@ -75,22 +92,27 @@ export const YoutubeIcon = ({ className = "", style }) => (
 );
 
 export const DarkThemeIcon = ({ className = "", style }) => (
-  <svg viewBox="0 0 24 24" fill="none" className="h-6 w-6" style={style}>
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    className={twMerge("h-6 w-6", className)}
+    style={style}
+  >
     <path
       fillRule="evenodd"
       clipRule="evenodd"
       d="M17.715 15.15A6.5 6.5 0 0 1 9 6.035C6.106 6.922 4 9.645 4 12.867c0 3.94 3.153 7.136 7.042 7.136 3.101 0 5.734-2.032 6.673-4.853Z"
-      className={`fill-sky-400/20 ${className}`}
+      className={twMerge("fill-sky-400/20", className)}
     ></path>
     <path
       d="m17.715 15.15.95.316a1 1 0 0 0-1.445-1.185l.495.869ZM9 6.035l.846.534a1 1 0 0 0-1.14-1.49L9 6.035Zm8.221 8.246a5.47 5.47 0 0 1-2.72.718v2a7.47 7.47 0 0 0 3.71-.98l-.99-1.738Zm-2.72.718A5.5 5.5 0 0 1 9 9.5H7a7.5 7.5 0 0 0 7.5 7.5v-2ZM9 9.5c0-1.079.31-2.082.845-2.93L8.153 5.5A7.47 7.47 0 0 0 7 9.5h2Zm-4 3.368C5 10.089 6.815 7.75 9.292 6.99L8.706 5.08C5.397 6.094 3 9.201 3 12.867h2Zm6.042 6.136C7.718 19.003 5 16.268 5 12.867H3c0 4.48 3.588 8.136 8.042 8.136v-2Zm5.725-4.17c-.81 2.433-3.074 4.17-5.725 4.17v2c3.552 0 6.553-2.327 7.622-5.537l-1.897-.632Z"
-      className={`fill-sky-500 ${className}`}
+      className={twMerge("fill-sky-500", className)}
     ></path>
     <path
       fillRule="evenodd"
       clipRule="evenodd"
       d="M17 3a1 1 0 0 1 1 1 2 2 0 0 0 2 2 1 1 0 1 1 0 2 2 2 0 0 0-2 2 1 1 0 1 1-2 0 2 2 0 0 0-2-2 1 1 0 1 1 0-2 2 2 0 0 0 2-2 1 1 0 0 1 1-1Z"
-      className={`fill-sky-500 ${className}`}
+      className={twMerge("fill-sky-500", className)}
     ></path>
   </svg>
 );
@@ -102,58 +124,26 @@ export const LightThemeIcon = ({ className, style }) => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className={`h-6 w-6 ${className}`}
+    className={twMerge("h-6 w-6", className)}
     style={style}
   >
     <path
       d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-      className={`fill-sky-400/20 stroke-sky-500 ${className}`}
+      className={twMerge("fill-sky-400/20 stroke-sky-500", className)}
     ></path>
     <path
       d="M12 4v1M17.66 6.344l-.828.828M20.005 12.004h-1M17.66 17.664l-.828-.828M12 20.01V19M6.34 17.664l.835-.836M3.995 12.004h1.01M6 6l.835.836"
-      className={`stroke-sky-500 ${className}`}
+      className={twMerge("stroke-sky-500", className)}
     ></path>
-  </svg>
-);
-
-export const ENIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    className={`h-6 w-6 ${className}`}
-    style={style}
-  >
-    <path fill="none" d="M0 0h24v24H0z" />
-    <path
-      className={`fill-sky-500 ${className}`}
-      d="M14 10h2v.757a4.5 4.5 0 0 1 7 3.743V20h-2v-5.5c0-1.43-1.175-2.5-2.5-2.5S16 13.07 16 14.5V20h-2V10zm-2-6v2H4v5h8v2H4v5h8v2H2V4h10z"
-    />
-  </svg>
-);
-
-export const VIIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 50.8 50.8"
-    className={`h-6 w-6 ${className}`}
-    style={style}
-  >
-    <path
-      d="m5.556 17.462 8.731 18.256 7.938-18.256m6.35 18.257V17.463l14.288 18.256V17.463"
-      transform="matrix(1.0498 0 0 1.0539 -.015 -2.623)"
-      fill="none"
-      stroke="#010000"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="3.018"
-      className={`fill-sky-500 ${className}`}
-    />
   </svg>
 );
 
 export const GoogleIcon = ({ className, style }) => (
   <svg
-    className={`h-9 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white ${className}`}
+    className={twMerge(
+      "h-9 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white",
+      className,
+    )}
     style={style}
     viewBox="0 0 86 29"
     fill="currentColor"
@@ -170,7 +160,10 @@ export const GoogleIcon = ({ className, style }) => (
 
 export const MicrosoftIcon = ({ className, style }) => (
   <svg
-    className={`h-9 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white ${className}`}
+    className={twMerge(
+      "h-9 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white",
+      className,
+    )}
     style={style}
     viewBox="0 0 151 34"
     fill="currentColor"
@@ -197,7 +190,10 @@ export const MicrosoftIcon = ({ className, style }) => (
 
 export const SpotifyIcon = ({ className, style }) => (
   <svg
-    className={`h-9 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white ${className}`}
+    className={twMerge(
+      "h-9 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white",
+      className,
+    )}
     style={style}
     viewBox="0 0 124 38"
     fill="currentColor"
@@ -212,7 +208,10 @@ export const SpotifyIcon = ({ className, style }) => (
 
 export const AppleIcon = ({ className, style }) => (
   <svg
-    className={`h-9 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white ${className}`}
+    className={twMerge(
+      "h-9 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white",
+      className,
+    )}
     style={style}
     viewBox="0 0 41 50"
     fill="currentColor"
@@ -227,7 +226,10 @@ export const AppleIcon = ({ className, style }) => (
 
 export const SlackIcon = ({ className, style }) => (
   <svg
-    className={`h-9 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white ${className}`}
+    className={twMerge(
+      "h-9 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white",
+      className,
+    )}
     style={style}
     viewBox="0 0 123 32"
     fill="none"
@@ -290,7 +292,10 @@ export const SlackIcon = ({ className, style }) => (
 
 export const TEDIcon = ({ className, style }) => (
   <svg
-    className={`h-9 hover:text-gray-900 dark:text-gray-300 hover:dark:text-white ${className}`}
+    className={twMerge(
+      "h-9 hover:text-gray-900 dark:text-gray-300 hover:dark:text-white",
+      className,
+    )}
     style={style}
     viewBox="0 0 83 31"
     fill="currentColor"
@@ -305,7 +310,7 @@ export const TEDIcon = ({ className, style }) => (
 
 export const UKFlag = ({ className = "", style = {} }) => (
   <svg
-    className={`h-5 w-5 rounded-full ${className}`}
+    className={twMerge("h-5 w-5 rounded-full", className)}
     style={style}
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -349,7 +354,7 @@ export const VNFlag = ({ className, style }) => (
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
     viewBox="0 0 64 64"
-    className={`h-5 w-5 rounded-full ${className}`}
+    className={twMerge("h-5 w-5 rounded-full", className)}
     style={style}
   >
     <circle cx="32" cy="32" r="30" fill="#f42f4c" />
@@ -362,7 +367,10 @@ export const VNFlag = ({ className, style }) => (
 
 export const ArrowLeft = ({ className, style }) => (
   <svg
-    className={`none h-4 w-4 fill-black rtl:rotate-180 md:inline ${className}`}
+    className={twMerge(
+      "none h-4 w-4 fill-black rtl:rotate-180 md:inline",
+      className,
+    )}
     style={style}
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -380,7 +388,7 @@ export const ArrowLeft = ({ className, style }) => (
 
 export const ArrowDown = ({ className, style }) => (
   <svg
-    className={`none h-4 w-4 fill-black md:inline ${className}`}
+    className={twMerge("none h-4 w-4 fill-black md:inline", className)}
     style={style}
     fill="none"
     stroke="currentColor"
@@ -398,7 +406,7 @@ export const ArrowDown = ({ className, style }) => (
 
 export const ChevronDown = ({ className, style }) => (
   <svg
-    className={`h-4 w-4 ${className}`}
+    className={twMerge("h-4 w-4", className)}
     style={style}
     fill="currentColor"
     viewBox="0 0 20 20"
@@ -419,7 +427,10 @@ export const ChevronLeft = ({ className, style }) => (
     viewBox="0 0 24 24"
     strokeWidth="1.5"
     stroke="currentColor"
-    className={`h-4 w-4 text-gray-300 group-hover:text-indigo-300 ${className}`}
+    className={twMerge(
+      "h-4 w-4 text-gray-300 group-hover:text-indigo-300",
+      className,
+    )}
     style={style}
   >
     <path
@@ -434,7 +445,7 @@ export const FindIcon = (
   { className = "", style = {} } = { className: "", style: {} },
 ) => (
   <svg
-    className={`h-5 w-5 ${className}`}
+    className={twMerge("h-5 w-5", className)}
     style={style}
     fill="none"
     stroke="currentColor"
@@ -452,7 +463,7 @@ export const FindIcon = (
 
 export const MoreHorizonIcon = ({ className = "", style = {} }) => (
   <svg
-    className={`h-4 w-4 ${className}`}
+    className={twMerge("h-4 w-4", className)}
     style={style}
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"
@@ -469,7 +480,10 @@ export const MoreVerticalIcon = ({ className = "", style = {} }) => (
     viewBox="0 0 24 24"
     strokeWidth="1.5"
     stroke="currentColor"
-    className={`open-top-menu h-4 w-4 text-gray-400 group-hover:text-indigo-300 ${className}`}
+    className={twMerge(
+      "open-top-menu h-4 w-4 text-gray-400 group-hover:text-indigo-300",
+      className,
+    )}
   >
     <path
       strokeLinecap="round"
@@ -481,7 +495,7 @@ export const MoreVerticalIcon = ({ className = "", style = {} }) => (
 
 export const ChatIcon = ({ className = "", style = {} }) => (
   <svg
-    className={`mr-1.5 h-4 w-4 ${className}`}
+    className={twMerge("mr-1.5 h-4 w-4", className)}
     style={style}
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -499,7 +513,7 @@ export const ChatIcon = ({ className = "", style = {} }) => (
 
 export const EditIcon = ({ className = "", style = {} }) => (
   <svg
-    className={`h-4 w-4 ${className}`}
+    className={twMerge("h-4 w-4", className)}
     style={style}
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
@@ -516,7 +530,7 @@ export const EditIcon = ({ className = "", style = {} }) => (
 
 export const RemoveIcon = ({ className = "", style = {} }) => (
   <svg
-    className={`h-4 w-4 ${className}`}
+    className={twMerge("h-4 w-4", className)}
     style={style}
     fill="none"
     viewBox="0 0 24 24"
@@ -539,7 +553,7 @@ export const AlertCircleIcon = ({ className = "", style = {} }) => (
     strokeLinejoin="round"
     strokeWidth={2}
     viewBox="0 0 24 24"
-    className={`mr-1.5 h-4 w-4 ${className}`}
+    className={twMerge("mr-1.5 h-4 w-4", className)}
     style={style}
   >
     <path d="M22 12 A10 10 0 0 1 12 22 A10 10 0 0 1 2 12 A10 10 0 0 1 22 12 z" />
@@ -549,7 +563,7 @@ export const AlertCircleIcon = ({ className = "", style = {} }) => (
 
 export const FavoriteIcon = ({ className = "", style }) => (
   <svg
-    className={`mr-1.5 h-4 w-4 ${className}`}
+    className={twMerge("mr-1.5 h-4 w-4", className)}
     style={style}
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"
@@ -561,7 +575,7 @@ export const FavoriteIcon = ({ className = "", style }) => (
 
 export const FavoriteFullIcon = ({ className = "", style }) => (
   <svg
-    className={`mr-1.5 h-4 w-4 fill-red-600 ${className}`}
+    className={twMerge("mr-1.5 h-4 w-4 fill-red-600", className)}
     style={style}
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"
@@ -573,7 +587,7 @@ export const FavoriteFullIcon = ({ className = "", style }) => (
 
 export const ImageIcon = ({ className = "", style }) => (
   <svg
-    className={`h-4 w-4 ${className}`}
+    className={twMerge("h-4 w-4", className)}
     style={style}
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"
@@ -586,7 +600,7 @@ export const ImageIcon = ({ className = "", style }) => (
 
 export const AttachmentIcon = ({ className = "", style }) => (
   <svg
-    className={`h-4 w-4 ${className}`}
+    className={twMerge("h-4 w-4", className)}
     style={style}
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -608,7 +622,7 @@ export const InfoIcon = ({ className = "", style }) => (
     viewBox="0 0 24 24"
     strokeWidth="1.5"
     stroke="currentColor"
-    className={`h-4 w-4 ${className}`}
+    className={twMerge("h-4 w-4", className)}
     style={style}
   >
     <path
@@ -626,7 +640,7 @@ export const DeleteIcon = ({ className = "", style }) => (
     viewBox="0 0 24 24"
     strokeWidth="1.5"
     stroke="currentColor"
-    className={`h-4 w-4 ${className}`}
+    className={twMerge("h-4 w-4", className)}
     style={style}
   >
     <path
@@ -642,7 +656,10 @@ export const ChatCircleIcon = ({ className = "", style }) => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     fill="currentColor"
-    className={`h-12 w-12 text-gray-400 dark:text-white dark:opacity-70 ${className}`}
+    className={twMerge(
+      "h-12 w-12 text-gray-400 dark:text-white dark:opacity-70",
+      className,
+    )}
     style={style}
   >
     <path
@@ -660,8 +677,10 @@ export const MicrophoneIcon = ({ className = "", style }) => (
     viewBox="0 0 24 24"
     strokeWidth="1.5"
     stroke="currentColor"
-    className={`h-6 w-6 text-gray-400 group-hover:text-indigo-300 dark:text-white 
-      dark:opacity-70 ${className}`}
+    className={twMerge(
+      "h-6 w-6 text-gray-400 group-hover:text-indigo-300 dark:text-white dark:opacity-70",
+      className,
+    )}
     style={style}
   >
     <path
@@ -679,7 +698,7 @@ export const BlockIcon = ({ className = "", style }) => (
     viewBox="0 0 24 24"
     strokeWidth="1.5"
     stroke="currentColor"
-    className={`h-5 w-5 ${className}`}
+    className={twMerge("h-5 w-5", className)}
     style={style}
   >
     <path
@@ -697,7 +716,7 @@ export const CallIcon = ({ className = "", style }) => (
     viewBox="0 0 24 24"
     strokeWidth="1.5"
     stroke="currentColor"
-    className={`h-5 w-5 ${className}`}
+    className={twMerge("h-5 w-5", className)}
     style={style}
   >
     <path
@@ -715,7 +734,7 @@ export const ReplyIcon = ({ className = "", style }) => (
     viewBox="0 0 24 24"
     strokeWidth="1.5"
     stroke="currentColor"
-    className={`h-5 w-5 ${className}`}
+    className={twMerge("h-5 w-5", className)}
     style={style}
   >
     <path
@@ -732,7 +751,7 @@ export const CopyIcon = ({ className = "", style }) => (
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
-    className={`h-5 w-5 ${className}`}
+    className={twMerge("h-5 w-5", className)}
     style={style}
   >
     <path
@@ -762,7 +781,7 @@ export const SendIcon = () => (
 
 export const UploadIcon = ({ className = "", style }) => (
   <svg
-    className={`h-5 w-5 ${className}`}
+    className={twMerge("h-5 w-5", className)}
     style={style}
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -780,7 +799,7 @@ export const UploadIcon = ({ className = "", style }) => (
 
 export const SidebarIcon = ({ className = "", style }) => (
   <svg
-    className={`h-6 w-6 ${className}`}
+    className={twMerge("h-6 w-6", className)}
     style={style}
     fill="currentColor"
     viewBox="0 0 20 20"
@@ -796,7 +815,7 @@ export const SidebarIcon = ({ className = "", style }) => (
 
 export const NotificationIcon = ({ className = "", style }) => (
   <svg
-    className={`h-6 w-6 ${className}`}
+    className={twMerge("h-6 w-6", className)}
     style={style}
     fill="currentColor"
     viewBox="0 0 20 20"
@@ -808,7 +827,7 @@ export const NotificationIcon = ({ className = "", style }) => (
 
 export const AppsIcon = ({ className = "", style }) => (
   <svg
-    className={`h-6 w-6 ${className}`}
+    className={twMerge("h-6 w-6", className)}
     style={style}
     fill="currentColor"
     viewBox="0 0 20 20"
@@ -820,7 +839,7 @@ export const AppsIcon = ({ className = "", style }) => (
 
 export const LogoutIcon = ({ className = "", style }) => (
   <svg
-    className={`h-7 w-7 ${className}`}
+    className={twMerge("h-7 w-7", className)}
     style={style}
     fill="none"
     stroke="currentColor"
@@ -838,7 +857,7 @@ export const LogoutIcon = ({ className = "", style }) => (
 
 export const BillingsIcon = ({ className = "", style }) => (
   <svg
-    className={`h-7 w-7 ${className}`}
+    className={twMerge("h-7 w-7", className)}
     style={style}
     fill="currentColor"
     viewBox="0 0 20 20"
@@ -854,7 +873,7 @@ export const BillingsIcon = ({ className = "", style }) => (
 
 export const SettingsIcon = ({ className = "", style }) => (
   <svg
-    className={`h-7 w-7 ${className}`}
+    className={twMerge("h-7 w-7", className)}
     style={style}
     fill="currentColor"
     viewBox="0 0 20 20"
@@ -870,7 +889,7 @@ export const SettingsIcon = ({ className = "", style }) => (
 
 export const ProfileIcon = ({ className = "", style }) => (
   <svg
-    className={`h-7 w-7 ${className}`}
+    className={twMerge("h-7 w-7", className)}
     style={style}
     fill="currentColor"
     viewBox="0 0 20 20"
@@ -886,7 +905,7 @@ export const ProfileIcon = ({ className = "", style }) => (
 
 export const MultiUsersIcon = ({ className = "", style }) => (
   <svg
-    className={`h-7 w-7 ${className}`}
+    className={twMerge("h-7 w-7", className)}
     style={style}
     fill="currentColor"
     viewBox="0 0 20 20"
@@ -898,10 +917,9 @@ export const MultiUsersIcon = ({ className = "", style }) => (
 
 export const HomeIcon = ({ className = "", style }) => (
   <svg
-    className={`h-7 w-7 ${className}`}
+    className={twMerge("h-7 w-7", className)}
     style={style}
     viewBox="0 0 45 40"
-    version="1.1"
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
   >
@@ -931,7 +949,7 @@ export const HomeIcon = ({ className = "", style }) => (
 
 export const InboxIcon = ({ className = "", style }) => (
   <svg
-    className={`h-7 w-7 ${className}`}
+    className={twMerge("h-7 w-7", className)}
     style={style}
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"
@@ -944,13 +962,13 @@ export const InboxIcon = ({ className = "", style }) => (
 
 export const StatsIcon = ({ className = "", style }) => (
   <svg
-    className={`h-7 w-7 ${className}`}
+    className={twMerge("h-7 w-7", className)}
     style={style}
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
-    fill="#000000"
     viewBox="0 0 512 512"
     xmlSpace="preserve"
+    fill="currentColor"
   >
     <g>
       <g strokeWidth="2">
@@ -962,13 +980,13 @@ export const StatsIcon = ({ className = "", style }) => (
 
 export const CourseIcon = ({ className = "", style }) => (
   <svg
-    className={`h-7 w-7 ${className}`}
+    className={twMerge("h-7 w-7", className)}
     style={style}
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 18 18"
+    fill="currentColor"
   >
     <path
-      fill="none"
       stroke="#494C4E"
       strokeWidth="2"
       strokeLinecap="round"
@@ -977,7 +995,6 @@ export const CourseIcon = ({ className = "", style }) => (
       d="M1 2h16v11H1z"
     />
     <path
-      fill="none"
       stroke="#494C4E"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -985,7 +1002,6 @@ export const CourseIcon = ({ className = "", style }) => (
       d="M4 5.5v5s3-1 5 0v-5s-2-2-5 0zM9 5.5v5s3-1 5 0v-5s-2-2-5 0z"
     />
     <path
-      fill="#494C4E"
       stroke="#494C4E"
       strokeWidth="2"
       strokeLinecap="round"
