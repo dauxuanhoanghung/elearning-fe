@@ -313,7 +313,6 @@ export const UKFlag = ({ className = "", style = {} }) => (
     className={twMerge("h-5 w-5 rounded-full", className)}
     style={style}
     xmlns="http://www.w3.org/2000/svg"
-    xmlnsXlink="http://www.w3.org/1999/xlink"
     viewBox="0 0 3900 3900"
   >
     <path fill="#b22234" d="M0 0h7410v3900H0z"></path>
@@ -352,7 +351,6 @@ export const UKFlag = ({ className = "", style = {} }) => (
 export const VNFlag = ({ className, style }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    xmlnsXlink="http://www.w3.org/1999/xlink"
     viewBox="0 0 64 64"
     className={twMerge("h-5 w-5 rounded-full", className)}
     style={style}
@@ -495,7 +493,7 @@ export const MoreVerticalIcon = ({ className = "", style = {} }) => (
 
 export const ChatIcon = ({ className = "", style = {} }) => (
   <svg
-    className={twMerge("mr-1.5 h-4 w-4", className)}
+    className={twMerge("h-4 w-4", className)}
     style={style}
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -553,7 +551,7 @@ export const AlertCircleIcon = ({ className = "", style = {} }) => (
     strokeLinejoin="round"
     strokeWidth={2}
     viewBox="0 0 24 24"
-    className={twMerge("mr-1.5 h-4 w-4", className)}
+    className={twMerge("h-4 w-4", className)}
     style={style}
   >
     <path d="M22 12 A10 10 0 0 1 12 22 A10 10 0 0 1 2 12 A10 10 0 0 1 22 12 z" />
@@ -563,7 +561,7 @@ export const AlertCircleIcon = ({ className = "", style = {} }) => (
 
 export const FavoriteIcon = ({ className = "", style }) => (
   <svg
-    className={twMerge("mr-1.5 h-4 w-4", className)}
+    className={twMerge("h-6 w-6", className)}
     style={style}
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"
@@ -573,9 +571,23 @@ export const FavoriteIcon = ({ className = "", style }) => (
   </svg>
 );
 
+export const OutlinedFavoriteIcon = ({ className = "", style }) => (
+  <svg
+    className={twMerge("h-6 w-6", className)}
+    style={style}
+    xmlns="http://www.w3.org/2000/svg"
+    fill="#000000"
+    viewBox="0 0 378.94 378.94"
+  >
+    <g>
+      <path d="M348.151,54.514c-19.883-19.884-46.315-30.826-74.435-30.826c-28.124,0-54.559,10.942-74.449,30.826l-9.798,9.8l-9.798-9.8   c-19.884-19.884-46.325-30.826-74.443-30.826c-28.117,0-54.56,10.942-74.442,30.826c-41.049,41.053-41.049,107.848,0,148.885   l147.09,147.091c2.405,2.414,5.399,3.892,8.527,4.461c1.049,0.207,2.104,0.303,3.161,0.303c4.161,0,8.329-1.587,11.498-4.764   l147.09-147.091C389.203,162.362,389.203,95.567,348.151,54.514z M325.155,180.404L189.47,316.091L53.782,180.404   c-28.368-28.364-28.368-74.514,0-102.893c13.741-13.739,32.017-21.296,51.446-21.296c19.431,0,37.702,7.557,51.438,21.296   l21.305,21.312c6.107,6.098,16.897,6.098,23.003,0l21.297-21.312c13.737-13.739,32.009-21.296,51.446-21.296   c19.431,0,37.701,7.557,51.438,21.296C353.526,105.89,353.526,152.039,325.155,180.404z" />
+    </g>
+  </svg>
+);
+
 export const FavoriteFullIcon = ({ className = "", style }) => (
   <svg
-    className={twMerge("mr-1.5 h-4 w-4 fill-red-600", className)}
+    className={twMerge("h-4 w-4 fill-red-600", className)}
     style={style}
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"
@@ -921,7 +933,6 @@ export const HomeIcon = ({ className = "", style }) => (
     style={style}
     viewBox="0 0 45 40"
     xmlns="http://www.w3.org/2000/svg"
-    xmlnsXlink="http://www.w3.org/1999/xlink"
   >
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g
@@ -965,7 +976,6 @@ export const StatsIcon = ({ className = "", style }) => (
     className={twMerge("h-7 w-7", className)}
     style={style}
     xmlns="http://www.w3.org/2000/svg"
-    xmlnsXlink="http://www.w3.org/1999/xlink"
     viewBox="0 0 512 512"
     xmlSpace="preserve"
     fill="currentColor"
@@ -1009,5 +1019,80 @@ export const CourseIcon = ({ className = "", style }) => (
       strokeMiterlimit="10"
       d="M8.5 14l-3 3h7l-3-3z"
     />
+  </svg>
+);
+
+export const VideoIcon = ({ className = "", style }) => (
+  <svg
+    className={twMerge("h-7 w-7", className)}
+    style={style}
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 490 490"
+    xmlSpace="preserve"
+    fill="currentColor"
+  >
+    <g>
+      <g>
+        <path d="M464.979,334.57H25.024C11.226,334.57,0,323.349,0,309.553V72.987c0-13.795,11.226-25.018,25.024-25.018h439.955    c13.793,0,25.021,11.223,25.021,25.018v236.566C490,323.349,478.772,334.57,464.979,334.57z M25.024,68.178    c-2.654,0-4.817,2.157-4.817,4.809v236.566c0,2.652,2.163,4.81,4.817,4.81h439.955c2.653,0,4.813-2.158,4.813-4.81V72.987    c0-2.652-2.159-4.809-4.813-4.809H25.024z" />
+      </g>
+      <g>
+        <path d="M192.69,268.058c-3.318-1.815-5.476-5.198-5.476-8.978V123.461c0-3.782,2.114-7.245,5.476-8.98    c3.36-1.734,7.404-1.445,10.486,0.747l95.358,67.809c2.668,1.896,4.248,4.964,4.248,8.234c0,3.271-1.58,6.339-4.248,8.235    c0,0-71.522,50.854-95.358,67.807C201.434,268.552,197.679,270.789,192.69,268.058z M207.425,143.045v96.451l67.817-48.225    L207.425,143.045z" />
+      </g>
+      <path d="M479.897,391.927H286.767c-4.485-17.18-20.137-29.894-38.702-29.894c-18.563,0-34.211,12.714-38.697,29.894H10.104   C4.525,391.927,0,396.452,0,402.031c0,5.581,4.525,10.104,10.104,10.104h199.265c4.486,17.18,20.135,29.896,38.697,29.896   c18.565,0,34.217-12.717,38.702-29.896h193.129c5.575,0,10.103-4.522,10.103-10.104C490,396.452,485.472,391.927,479.897,391.927z    M248.065,421.821c-10.908,0-19.788-8.878-19.788-19.791c0-10.911,8.88-19.788,19.788-19.788c10.913,0,19.791,8.877,19.791,19.788   C267.856,412.944,258.978,421.821,248.065,421.821z" />
+    </g>
+  </svg>
+);
+
+export const MobileIcon = ({ className = "", style }) => (
+  <svg
+    className={twMerge("h-7 w-7", className)}
+    style={style}
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 14 20"
+  >
+    <path
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M1 14h12M1 4h12M6.5 16.5h1M2 1h10a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1Z"
+    />
+  </svg>
+);
+
+export const InfiniteIcon = ({ className = "", style }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    className={twMerge("h-7 w-7", className)}
+    style={style}
+    fill="currentColor"
+    stroke="currentColor"
+  >
+    <path d="M20.288 9.463a4.856 4.856 0 0 0-4.336-2.3 4.586 4.586 0 0 0-3.343 1.767c.071.116.148.226.212.347l.879 1.652.134-.254a2.71 2.71 0 0 1 2.206-1.519 2.845 2.845 0 1 1 0 5.686 2.708 2.708 0 0 1-2.205-1.518L13.131 12l-1.193-2.26a4.709 4.709 0 0 0-3.89-2.581 4.845 4.845 0 1 0 0 9.682 4.586 4.586 0 0 0 3.343-1.767c-.071-.116-.148-.226-.212-.347l-.879-1.656-.134.254a2.71 2.71 0 0 1-2.206 1.519 2.855 2.855 0 0 1-2.559-1.369 2.825 2.825 0 0 1 0-2.946 2.862 2.862 0 0 1 2.442-1.374h.121a2.708 2.708 0 0 1 2.205 1.518l.7 1.327 1.193 2.26a4.709 4.709 0 0 0 3.89 2.581h.209a4.846 4.846 0 0 0 4.127-7.378z" />
+  </svg>
+);
+
+export const CircleAvatarIcon = () => (
+  <svg
+    className="me-3 h-10 w-10 text-gray-200 dark:text-gray-700"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+    viewBox="0 0 20 20"
+  >
+    <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z" />
+  </svg>
+);
+
+export const LoadingImageIcon = () => (
+  <svg
+    className="h-10 w-10 text-gray-200 dark:text-gray-600"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+    viewBox="0 0 16 20"
+  >
+    <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM10.5 6a1.5 1.5 0 1 1 0 2.999A1.5 1.5 0 0 1 10.5 6Zm2.221 10.515a1 1 0 0 1-.858.485h-8a1 1 0 0 1-.9-1.43L5.6 10.039a.978.978 0 0 1 .936-.57 1 1 0 0 1 .9.632l1.181 2.981.541-1a.945.945 0 0 1 .883-.522 1 1 0 0 1 .879.529l1.832 3.438a1 1 0 0 1-.031.988Z" />
+    <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z" />
   </svg>
 );

@@ -4,13 +4,11 @@ import { SnackbarProvider } from "./SnackbarContext";
 
 export function AppProvider({ children }) {
   return (
-    <>
-      <DarkModeProvider>
-        <SnackbarProvider>
-          <OpenChatDrawerProvider>{children}</OpenChatDrawerProvider>
-        </SnackbarProvider>
-      </DarkModeProvider>
-    </>
+    <DarkModeProvider>
+      <SnackbarProvider>
+        <OpenChatDrawerProvider>{children}</OpenChatDrawerProvider>
+      </SnackbarProvider>
+    </DarkModeProvider>
   );
 }
 

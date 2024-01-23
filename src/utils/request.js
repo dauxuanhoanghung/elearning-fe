@@ -1,5 +1,9 @@
 import http from "./http";
 
+function delay(ms = 10000) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 /**
  * Method GET
  * @param url
@@ -13,9 +17,11 @@ export async function get(url, params = {}, headers = {}) {
       params,
       headers,
     });
+    console.log(response);
+    await delay();
     return response.data;
   } catch (error) {
-    console.error("http.get: ", error);
+    console.error(`http.get: ${url}`, error);
     throw error;
   }
 }
@@ -30,9 +36,10 @@ export async function get(url, params = {}, headers = {}) {
 export async function post(url, data = {}, config = {}) {
   try {
     const response = await http.post(url, data, config);
+    await delay();
     return response.data;
   } catch (error) {
-    console.error("http.post: ", error);
+    console.error(`http.post: ${url}`, error);
     throw error;
   }
 }
@@ -47,9 +54,10 @@ export async function post(url, data = {}, config = {}) {
 export async function deletes(url, data = {}, config = {}) {
   try {
     const response = await http.delete(url, data, config);
+    await delay();
     return response.data;
   } catch (error) {
-    console.error("http.delete: ", error);
+    console.error(`http.delete: ${url}`, error);
     throw error;
   }
 }
@@ -64,9 +72,10 @@ export async function deletes(url, data = {}, config = {}) {
 export async function put(url, data = {}, config = {}) {
   try {
     const response = await http.put(url, data, config);
+    await delay();
     return response.data;
   } catch (error) {
-    console.error("http.put: ", error);
+    console.error(`http.put: ${url}`, error);
     throw error;
   }
 }
@@ -81,9 +90,10 @@ export async function put(url, data = {}, config = {}) {
 export async function patch(url, data = {}, config = {}) {
   try {
     const response = await http.patch(url, data, config);
+    await delay(500);
     return response.data;
   } catch (error) {
-    console.error("http.patch: ", error);
+    console.error(`http.patch: ${url}`, error);
     throw error;
   }
 }

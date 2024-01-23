@@ -1,33 +1,29 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { Outlet } from "react-router-dom";
 
-import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import MarkUnreadChatAltOutlinedIcon from "@mui/icons-material/MarkUnreadChatAltOutlined";
 import { Box } from "@mui/material";
 
-import AdminDrawer from "@/components/AdminDrawer";
 import ChatContainer from "@/components/Chat/ChatContainer";
 
 import { Footer, Header } from "@/components/common";
 import { useOpenChatDrawer } from "@/contexts/OpenChatDrawerContext";
-import { isAdmin, isEmptyObject } from "@/utils/utils";
+import { isEmptyObject } from "@/utils/utils";
 
-const DefaultLayout = ({ children }) => {
+const DefaultLayout = () => {
   const currentUser = useSelector((state) => state.user.user);
   const { openChatDrawer, setOpenChatDrawer } = useOpenChatDrawer();
   const handleOpenChat = () => {
     setOpenChatDrawer(true);
   };
 
-  const [openAdminDrawer, setOpenAdminDrawer] = useState(false);
-  const handleOpenAdminDrawer = () => {
-    setOpenAdminDrawer(true);
-  };
-
   return (
     <>
       <Header />
-      <div className="bg-white transition-all dark:bg-gray-800">{children}</div>
+      <div className="bg-white transition-all dark:bg-gray-800">
+        <Outlet />
+      </div>
       {!isEmptyObject(currentUser) && (
         <Box>
           <ChatContainer
@@ -39,25 +35,6 @@ const DefaultLayout = ({ children }) => {
             onClick={handleOpenChat}
           >
             <MarkUnreadChatAltOutlinedIcon fontSize="large" />
-          </Box>
-        </Box>
-      )}
-      {isAdmin(currentUser) && (
-        <Box>
-          <AdminDrawer
-            openDrawer={openAdminDrawer}
-            setOpenDrawer={setOpenAdminDrawer}
-          />
-          <Box
-            sx={{
-              position: "fixed",
-              top: "50%",
-              cursor: "pointer",
-              right: "0",
-            }}
-            onClick={handleOpenAdminDrawer}
-          >
-            <AdminPanelSettingsOutlinedIcon fontSize="large" />
           </Box>
         </Box>
       )}

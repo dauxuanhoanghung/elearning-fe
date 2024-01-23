@@ -225,7 +225,9 @@ const Header = () => {
 
   return (
     <header className="shadow-md transition-all">
-      {isSticky && <FirstNav classes="fixed top-0 z-50 w-full shadow" />}
+      {isSticky && (
+        <FirstNav classes="fixed top-0 z-50 w-full shadow opacity-95" />
+      )}
       <FirstNav />
       <nav className="border-b border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-700">
         <div className="mx-auto grid max-w-7xl px-4 py-4 md:px-6 lg:grid-cols-2">
@@ -236,10 +238,9 @@ const Header = () => {
             >
               Search
             </label>
-            <button
+            <div
               onBlur={handleOpenCategoriesBlur}
               onClick={toggleOpenCategories}
-              type="button"
               className="relative z-10 hidden shrink-0 items-center rounded-l-lg border border-gray-300 
               bg-gray-100 px-4 py-2.5 text-center text-sm font-medium text-black hover:bg-gray-200 
               dark:border-gray-600 dark:bg-gray-900 dark:text-white dark:hover:bg-gray-800 md:block"
@@ -276,7 +277,7 @@ const Header = () => {
                   </li>
                 </ul>
               </div>
-            </button>
+            </div>
             <div className="relative w-full">
               <input
                 value={searchKw}
@@ -285,8 +286,8 @@ const Header = () => {
                 type="search"
                 className="z-20 block w-full rounded-lg border border-gray-300 bg-gray-50
                 p-2.5 text-sm text-black focus:border-sky-500 dark:border-gray-800 
-                dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-sky-500 
-                md:border-l-4 md:border-l-gray-50"
+                dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-400 
+                dark:focus:border-sky-500 md:rounded-l-none md:border-l-4 md:border-l-gray-50"
                 placeholder={t("header.searchPlaceholder")}
                 required
               />

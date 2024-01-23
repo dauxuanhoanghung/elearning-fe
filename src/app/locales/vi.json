@@ -113,6 +113,12 @@
     "description": "Bạn đang cố vào trang bảo mật mà chưa được ủy quyền trước đó.",
     "backhome": "Về trang chủ"
   },
+  "detail": {
+    "registrations": "người đăng ký",
+    "lectures": "bài giảng",
+    "access": "Truy cập trên điện thoại và TV",
+    "time": "Truy cập mọi lúc mọi nơi"
+  },
   "admin": {
     "home": {
       "profile": "Hồ sơ",

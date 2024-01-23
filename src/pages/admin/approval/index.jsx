@@ -12,7 +12,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { Skeleton } from "@/components/common";
 import { useSnackbar } from "@/contexts/SnackbarContext";
-import DefaultLayout from "@/layout";
 import { lecturerRegistrationService } from "@/services";
 import { titleStyle } from "@/utils/styles";
 import { isAdmin } from "@/utils/utils";
@@ -47,55 +46,53 @@ const AdminApprovalPage = () => {
   // #endregion
   return (
     <>
-      <DefaultLayout>
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link to="/" style={{ textDecoration: "none" }}>
-            Home
-          </Link>
-          <Link to="/admin" style={{ textDecoration: "none" }}>
-            Admin
-          </Link>
-          <Typography color="textPrimary">
-            Approval Lecturer Registration Form
-          </Typography>
-        </Breadcrumbs>
-        <Typography variant="h4" style={titleStyle}>
+      <Breadcrumbs aria-label="breadcrumb">
+        <Link to="/" style={{ textDecoration: "none" }}>
+          Home
+        </Link>
+        <Link to="/admin" style={{ textDecoration: "none" }}>
+          Admin
+        </Link>
+        <Typography color="textPrimary">
           Approval Lecturer Registration Form
         </Typography>
-        {loading && <Skeleton />}
-        {!loading && (
-          <>
-            <Grid container>
-              {registrationForms?.length === 0 && (
-                <>
-                  <Box container sx={{ margin: "30px", width: "100%" }}>
-                    <Alert severity="info" sx={{ width: "100%" }}>
-                      There are no registration form !!!
-                    </Alert>
-                  </Box>
-                </>
-              )}
-              {registrationForms.map((form) => (
-                <React.Fragment key={form.id}>
-                  <RegistrationCard
-                    form={form}
-                    setRegistrationForms={setRegistrationForms}
-                    registrationForms={registrationForms}
-                  />
-                </React.Fragment>
-              ))}
-            </Grid>
-
-            {page > 1 && (
-              <Pagination
-                count={countPage}
-                variant="outlined"
-                color="secondary"
-              />
+      </Breadcrumbs>
+      <Typography variant="h4" style={titleStyle}>
+        Approval Lecturer Registration Form
+      </Typography>
+      {loading && <Skeleton />}
+      {!loading && (
+        <>
+          <Grid container>
+            {registrationForms?.length === 0 && (
+              <>
+                <Box container sx={{ margin: "30px", width: "100%" }}>
+                  <Alert severity="info" sx={{ width: "100%" }}>
+                    There are no registration form !!!
+                  </Alert>
+                </Box>
+              </>
             )}
-          </>
-        )}
-      </DefaultLayout>
+            {registrationForms.map((form) => (
+              <React.Fragment key={form.id}>
+                <RegistrationCard
+                  form={form}
+                  setRegistrationForms={setRegistrationForms}
+                  registrationForms={registrationForms}
+                />
+              </React.Fragment>
+            ))}
+          </Grid>
+
+          {page > 1 && (
+            <Pagination
+              count={countPage}
+              variant="outlined"
+              color="secondary"
+            />
+          )}
+        </>
+      )}
     </>
   );
 };

@@ -113,6 +113,12 @@
     "description": "You tried to access a page you did not have prior authorization for.",
     "backhome": "Go back home"
   },
+  "detail": {
+    "registrations": "registrations",
+    "lectures": "lectures",
+    "access": "Access on mobile and TV",
+    "time": "Full lifetime access"
+  },
   "admin": {
     "home": {
       "profile": "Profile",

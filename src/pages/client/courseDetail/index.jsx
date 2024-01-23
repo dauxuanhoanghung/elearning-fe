@@ -1,23 +1,31 @@
+import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { twMerge } from "tailwind-merge";
+
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
-import FeedOutlinedIcon from "@mui/icons-material/FeedOutlined";
-import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 import {
   Avatar,
   Box,
   Breadcrumbs,
   Button,
-  Card,
-  CardContent,
-  CardMedia,
   Grid,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
 
 import firebaseService from "@/app/firebase/firebaseService";
 import { changeChatUser } from "@/app/store/chatSlice";
+import CommentContainer from "@/components/CommentContainer";
+import {
+  FavoriteFullIcon,
+  FavoriteIcon,
+  InfiniteIcon,
+  MobileIcon,
+  MultiUsersIcon,
+  VideoIcon,
+} from "@/components/Icons/index";
+import SectionCard from "@/components/SectionCard";
 import { useOpenChatDrawer } from "@/contexts/OpenChatDrawerContext";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import DefaultLayout from "@/layout";
@@ -28,10 +36,8 @@ import {
 } from "@/services";
 import { isEmptyObject } from "@/utils/utils";
 
-import CommentContainer from "@/components/CommentContainer";
-import SectionCard from "@/components/SectionCard";
-
-function CourseDetail(props) {
+const CourseDetailPage = (props) => {
+  const { t } = useTranslation();
   const { handleOpenChatDrawer } = useOpenChatDrawer();
   const { courseId } = useParams();
   const currentUser = useSelector((state) => state.user.user);
@@ -48,16 +54,16 @@ function CourseDetail(props) {
   useEffect(() => {
     const getCountLecturesByCourseId = async (courseId) => {
       const res = await courseService.countLecturesByCourseId(courseId);
-      setCountLectures(res.data.data);
+      setCountLectures(res.data);
     };
     const getCountRegistrationsByCourseId = async (courseId) => {
       const res = await courseService.countRegistrationsByCourseId(courseId);
-      setCountRegistrations(res.data.data);
+      setCountRegistrations(res.data);
     };
     const getCourseByCourseId = async (courseId) => {
       const res = await courseService.getCourseById(courseId);
-      if (res.data.data) {
-        setCourseData(res.data.data);
+      if (res.data) {
+        setCourseData(res.data);
         getCountLecturesByCourseId(courseId);
         getCountRegistrationsByCourseId(courseId);
       } else {
@@ -73,7 +79,7 @@ function CourseDetail(props) {
   useEffect(() => {
     const getListCriteriaByCourseId = async (courseId) => {
       const res = await courseService.getCriteriaByCourseId(courseId);
-      setListCriteria([...res.data.data]);
+      setListCriteria([...res.data]);
     };
     getListCriteriaByCourseId(courseId);
   }, []);
@@ -83,7 +89,7 @@ function CourseDetail(props) {
   useEffect(() => {
     const getSectionsByCourseId = async (courseId) => {
       const res = await courseService.getSection(courseId);
-      setSections([...res.data.data]);
+      setSections([...res.data]);
     };
     getSectionsByCourseId(courseId);
   }, []);
@@ -183,17 +189,41 @@ function CourseDetail(props) {
     navigate(`/course/${courseId}/update`);
   };
 
+  const IncludeFeature = (props) => {
+    const { className } = props;
+    const features = [
+      {
+        icon: MultiUsersIcon,
+        text: `${countRegistrations} ${t("detail.registrations")}`,
+      },
+      { icon: VideoIcon, text: `${countLectures} ${t("detail.lectures")}` },
+      { icon: MobileIcon, text: t("detail.access") },
+      { icon: InfiniteIcon, text: t("detail.time") },
+    ];
+    return (
+      <div className={twMerge("w-full", className)}>
+        <h1 className="mb-3 text-xl font-bold">This course includes:</h1>
+        <div className="flex flex-col gap-2">
+          {features.map((f, idx) => (
+            <h2 key={idx} className="flex items-center gap-3">
+              <f.icon />
+              <span className="ml-4 text-lg">{f.text}</span>
+            </h2>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
       <DefaultLayout>
-        <CardMedia
-          component="img"
-          height="400"
-          image={
+        <img
+          src={
             courseData.background ||
             "https://i.ytimg.com/vi/7PCkvCPvDXk/hqdefault.jpg"
           }
-          alt="green iguana"
+          className="max-h-[60vh] w-full object-cover"
         />
         {/* Content */}
         <Grid container spacing={3}>
@@ -247,89 +277,81 @@ function CourseDetail(props) {
             />
           </Grid>
           <Grid item xs={12} sm={4}>
-            <Card>
-              <CardContent>
-                <Typography
-                  variant="body1"
-                  color="textSecondary"
-                  sx={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <Typography sx={{ alignItems: "center" }}>
-                    <GroupAddOutlinedIcon />
-                    <span style={{ marginBottom: "5px" }}>Registrations: </span>
-                  </Typography>
-                  <Typography>{countRegistrations || 0}</Typography>
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="textSecondary"
-                  sx={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <Typography>
-                    <FeedOutlinedIcon />
-                    Lectures:
-                  </Typography>
-                  <Typography>{countLectures || 0}</Typography>
-                </Typography>
-              </CardContent>
-            </Card>
-            {registration && (
-              <Button
-                variant="contained"
-                sx={{ width: "100%", backgroundColor: "#f1c40f" }}
-                onClick={handleSeeContinue}
-              >
-                Continue see course
-              </Button>
-            )}
-            {!registration && (
-              <Button
-                variant="contained"
-                sx={{ width: "100%", backgroundColor: "#3498db" }}
-                onClick={handleRegisterCourse}
-              >
-                {courseData?.price === 0
-                  ? "Free. Register now"
-                  : `Register by ${courseData?.price}`}
-              </Button>
-            )}
-            {/* Creator */}
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                margin: "10px auto",
-              }}
-            >
-              <Avatar
-                src={courseData.user?.avatar}
-                alt={`${courseData.user?.firstName} ${courseData.user?.lastName}`}
-                style={{ marginRight: "16px" }}
-              />
-              <Typography variant="body1">
-                {`${courseData.user?.firstName} ${courseData.user?.lastName}`}
-              </Typography>
-            </Box>
-            {/* Created Date */}
-            <Typography variant="body2" color="textSecondary">
-              Created Date: {courseData.createdDate}
-            </Typography>
-            {courseData.user?.id === currentUser.id && (
-              <>
-                <Button onClick={handleEditCourse}>Edit your course</Button>
-              </>
-            )}
-            {!isEmptyObject(currentUser) &&
-              courseData?.user?.id !== currentUser.id && (
-                <>
-                  <Button onClick={handleChatToCreator}>Chat to creator</Button>
-                </>
-              )}
+            <div className="w-full bg-gray-200 p-6 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
+              <h1 className="mb-3 text-4xl">{courseData.price} VNĐ</h1>
+              <div className="flex flex-col gap-3">
+                <div className="flex gap-4">
+                  <button
+                    className="w-4/5 bg-gray-700 p-3 font-semibold text-gray-50 transition-all
+                   dark:bg-white dark:text-gray-800 hover:dark:bg-gray-200"
+                    onClick={() => {}}
+                  >
+                    Add to cart
+                  </button>
+                  <button
+                    className="flex w-1/5 justify-center border border-solid border-white p-3 font-semibold 
+                    transition-all dark:border-white dark:text-white dark:hover:bg-gray-500"
+                    onClick={() => {}}
+                  >
+                    <FavoriteIcon className="h-6 w-6" />
+                    <FavoriteFullIcon className="h-6 w-6" />
+                  </button>
+                </div>
+                <div className="flex w-full gap-4">
+                  <button
+                    className="w-full border border-solid p-3 font-semibold transition-all dark:border-white
+                   dark:text-white dark:hover:bg-gray-500"
+                    onClick={
+                      registration ? handleSeeContinue : handleRegisterCourse
+                    }
+                  >
+                    {registration ? t("Watch continue") : t("Buy now")}
+                  </button>
+                </div>
+                <IncludeFeature />
+              </div>
+            </div>
           </Grid>
         </Grid>
       </DefaultLayout>
     </>
   );
-}
+};
 
-export default CourseDetail;
+export default CourseDetailPage;
+
+const Old = () => (
+  <>
+    {/* Creator */}
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        margin: "10px auto",
+      }}
+    >
+      <Avatar
+        src={courseData.user?.avatar}
+        alt={`${courseData.user?.firstName} ${courseData.user?.lastName}`}
+        style={{ marginRight: "16px" }}
+      />
+      <Typography variant="body1">
+        {`${courseData.user?.firstName} ${courseData.user?.lastName}`}
+      </Typography>
+    </Box>
+    {/* Created Date */}
+    <Typography variant="body2" color="textSecondary">
+      Created Date: {courseData.createdDate}
+    </Typography>
+    {courseData.user?.id === currentUser.id && (
+      <>
+        <Button onClick={handleEditCourse}>Edit your course</Button>
+      </>
+    )}
+    {!isEmptyObject(currentUser) && courseData?.user?.id !== currentUser.id && (
+      <>
+        <Button onClick={handleChatToCreator}>Chat to creator</Button>
+      </>
+    )}
+  </>
+);
