@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React, { Suspense } from "react";
-import { createBrowserRouter, useRoutes } from "react-router-dom";
+import { useRoutes } from "react-router-dom";
 
 import AppProvider from "./contexts";
 import { routers } from "./routes";

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 
@@ -11,7 +11,7 @@ import { Footer, Header } from "@/components/common";
 import { useOpenChatDrawer } from "@/contexts/OpenChatDrawerContext";
 import { isEmptyObject } from "@/utils/utils";
 
-const DefaultLayout = () => {
+const DefaultLayout = ({ children }) => {
   const currentUser = useSelector((state) => state.user.user);
   const { openChatDrawer, setOpenChatDrawer } = useOpenChatDrawer();
   const handleOpenChat = () => {
@@ -23,6 +23,7 @@ const DefaultLayout = () => {
       <Header />
       <div className="bg-white transition-all dark:bg-gray-800">
         <Outlet />
+        {children}
       </div>
       {!isEmptyObject(currentUser) && (
         <Box>

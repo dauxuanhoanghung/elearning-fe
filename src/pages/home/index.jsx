@@ -72,7 +72,7 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-      <section className="mx-auto my-4 max-w-[90%]">
+      <section className="mx-auto my-4 w-full md:max-w-[90%]">
         <CourseContainer />
       </section>
     </>

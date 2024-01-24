@@ -2,21 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import ShareIcon from "@mui/icons-material/Share";
-import {
-  Avatar,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  CardMedia,
-  IconButton,
-  Typography,
-} from "@mui/material";
-
+import Avatar from "@/components/ui/Avatar";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { favoriteService } from "@/services";
 import { isEmptyObject } from "@/utils/utils";
@@ -70,57 +56,39 @@ const CourseCard = (props) => {
   // #endregion
 
   return (
-    <>
-      <Card sx={{ maxWidth: 345 }}>
-        <Link
-          style={{ cursor: "pointer", textDecoration: "none" }}
-          to={`/course/${id}/view`}
-        >
-          <CardMedia
-            component="img"
-            height="194"
-            image={background}
+    <div
+      title={name}
+      className="relative w-full rounded border border-gray-200 shadow dark:border-gray-700 dark:bg-gray-600"
+    >
+      <Link to={`/course/${id}/view`}>
+        <div className="mb-2 flex h-36 items-center justify-center rounded bg-gray-300 dark:bg-gray-700">
+          <img
+            className="h-full w-full object-cover"
+            src={background}
             alt={name}
           />
-        </Link>
-        <CardContent sx={{ paddingY: 0 }}>
-          <Typography variant="h6" color="text.primary">
+        </div>
+        <div className="p-2 text-gray-900 dark:text-gray-50">
+          <div className="min-h-12 mb-2 text-justify text-lg font-extrabold">
             {name}
-          </Typography>
-        </CardContent>
-        <CardHeader
-          avatar={
+          </div>
+          <div className="mb-2 max-h-[5rem] min-h-[3rem] overflow-hidden text-justify text-sm">
+            {description}
+          </div>
+          <div className="mt-4 flex flex-wrap items-center justify-start">
             <Avatar
-              sx={{ bgcolor: "#eee" }}
-              aria-label="recipe"
               src={user.avatar}
-              alt={user.firstName}
-            >
-              {user?.avatar}
-            </Avatar>
-          }
-          title={`${user?.firstName} ${user?.lastName}`}
-          sx={{ paddingY: 0 }}
-        />
-        <CardActions disableSpacing>
-          <IconButton
-            aria-label="add to favorites"
-            onClick={handleToggleFavorite}
-          >
-            {favorites ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-          </IconButton>
-          <IconButton aria-label="share">
-            <ShareIcon />
-          </IconButton>
-          <Link
-            style={{ cursor: "pointer", textDecoration: "none" }}
-            to={`/course/${id}/view`}
-          >
-            <Button>Go to course</Button>
-          </Link>
-        </CardActions>
-      </Card>
-    </>
+              isSignalShown={true}
+              className="mx-4 h-10 w-10 "
+            />
+            <div className="flex h-10 items-center text-xl font-semibold">{`${user.firstName} ${user.lastName}`}</div>
+          </div>
+          <div className="mt-4 flex items-center">
+            <div className="h-8 w-full rounded-full bg-gray-200 dark:bg-gray-700"></div>
+          </div>
+        </div>
+      </Link>
+    </div>
   );
 };
 

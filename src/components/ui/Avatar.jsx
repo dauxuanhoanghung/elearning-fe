@@ -1,5 +1,6 @@
 import defaultAvatar from "@/assets/default-avatar.jpg";
 import classNames from "classnames";
+import { twMerge } from "tailwind-merge";
 
 const Avatar = ({
   src,
@@ -10,25 +11,32 @@ const Avatar = ({
 }) => {
   src = src?.length > 0 ? src : defaultAvatar;
   return (
-    <div className="relative mx-auto px-2 hover:cursor-pointer">
-      <img
-        className={classNames(
-          `inline-block h-8 w-8 border-none ${className} `,
-          {
-            "rounded-full": isCircle,
-            rounded: !isCircle,
-          },
-        )}
-        style={{ borderRadius: "100%", ...style }}
-        src={src}
-        alt=""
-      />
-      {isSignalShown && (
-        <span
-          className="absolute bottom-0 left-8 h-3.5 w-3.5 translate-y-1/4 transform 
-        rounded-full border-2 border-white bg-green-400 dark:border-gray-800"
-        ></span>
+    <div
+      className={twMerge(
+        "relative mx-auto h-8 w-8 hover:cursor-pointer",
+        className,
       )}
+    >
+      <div className="relative mx-auto h-full w-full hover:cursor-pointer">
+        <img
+          className={classNames(
+            `block h-full w-full border-none object-cover`,
+            {
+              "rounded-full": isCircle,
+              rounded: !isCircle,
+            },
+          )}
+          style={{ borderRadius: "100%", ...style }}
+          src={src}
+          alt=""
+        />
+        {isSignalShown && (
+          <span
+            className="absolute bottom-0 left-full h-3.5 w-3.5 -translate-x-full translate-y-1/4 
+          transform rounded-full border-2 border-white bg-green-400 dark:border-gray-800"
+          ></span>
+        )}
+      </div>
     </div>
   );
 };

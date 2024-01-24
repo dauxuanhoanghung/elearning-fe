@@ -72,20 +72,6 @@ const ClientRouter = [
         element: <HomePage />,
       },
       {
-        path: "/",
-        element: <AuthenticatedRoute />,
-        children: [
-          { path: "profile", element: <ProfilePage /> },
-          { path: "settings", element: <SettingsPage /> },
-          { path: "my-favorite", element: <FavoritePage /> },
-          { path: "my-course", element: <MyCoursePage /> },
-          { path: "register-lecturer", element: <RegisterLecturerPage /> },
-          { path: "my-business", element: <MyBusinessPage /> },
-          { path: "payment/:courseId", element: <PaymentPage /> },
-          { path: "payment/result", element: <ResultPaymentPage /> },
-        ],
-      },
-      {
         path: "blog",
         children: [
           { index: true, element: null },
@@ -124,7 +110,21 @@ const ClientRouter = [
     ],
   },
   {
-    path: "*",
+    path: "/",
+    element: <AuthenticatedRoute />,
+    children: [
+      { path: "profile", element: <ProfilePage /> },
+      { path: "settings", element: <SettingsPage /> },
+      { path: "my-favorite", element: <FavoritePage /> },
+      { path: "my-course", element: <MyCoursePage /> },
+      { path: "register-lecturer", element: <RegisterLecturerPage /> },
+      { path: "my-business", element: <MyBusinessPage /> },
+      { path: "payment/:courseId", element: <PaymentPage /> },
+      { path: "payment/result", element: <ResultPaymentPage /> },
+    ],
+  },
+  {
+    path: "/",
     element: <AnonymousRoute />,
     children: [
       { path: "login", element: <LoginPage /> },

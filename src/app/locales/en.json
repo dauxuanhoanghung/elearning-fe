@@ -113,6 +113,12 @@
     "description": "You tried to access a page you did not have prior authorization for.",
     "backhome": "Go back home"
   },
+  "notFound": {
+    "home": "Home",
+    "contact": "Contact us",
+    "title": "oops! Page not found",
+    "description": "Oops! The page you are looking for does not exist. It might have been moved or deleted."
+  },
   "detail": {
     "registrations": "registrations",
     "lectures": "lectures",

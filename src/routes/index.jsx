@@ -12,11 +12,19 @@ export const routers = [
     path: "/test",
     element: (
       <DefaultLayout>
-        <Pagination page={1} totalPage={10} />
+        <Pagination page={8} totalPage={10} />
         <Skeleton />
         <Skeleton isRow={false} />
       </DefaultLayout>
     ),
   },
-  { path: "*", element: <NotFoundPage /> },
+  {
+    path: "*",
+    exact: false,
+    element: (
+      <DefaultLayout>
+        <NotFoundPage />
+      </DefaultLayout>
+    ),
+  },
 ];
