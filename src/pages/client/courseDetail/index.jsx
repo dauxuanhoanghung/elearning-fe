@@ -28,7 +28,6 @@ import {
 import SectionCard from "@/components/SectionCard";
 import { useOpenChatDrawer } from "@/contexts/OpenChatDrawerContext";
 import { useSnackbar } from "@/contexts/SnackbarContext";
-import DefaultLayout from "@/layout";
 import {
   courseCommentService,
   courseService,
@@ -217,103 +216,101 @@ const CourseDetailPage = (props) => {
 
   return (
     <>
-      <DefaultLayout>
-        <img
-          src={
-            courseData.background ||
-            "https://i.ytimg.com/vi/7PCkvCPvDXk/hqdefault.jpg"
-          }
-          className="max-h-[60vh] w-full object-cover"
-        />
-        {/* Content */}
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={8}>
-            <Breadcrumbs aria-label="breadcrumb">
-              <Link to="/" style={{ textDecoration: "none" }}>
-                Home
-              </Link>
-              <Typography color="textPrimary">{courseData.name}</Typography>
-            </Breadcrumbs>
-            {/* Course Title */}
-            <Typography variant="h4" gutterBottom>
-              {courseData.name}
-            </Typography>
-            {/* Course Description */}
-            <Typography variant="h6" gutterBottom>
-              {courseData.description}
-            </Typography>
-            {/* Course Sections */}
-            <Typography variant="h5" gutterBottom>
-              <Typography variant="h5">Criteria:</Typography>
-              {listCriteria?.map((criteria, index) => (
-                <React.Fragment key={index}>
-                  <Typography variant="body1">
-                    <ArrowForwardIosRoundedIcon style={{ fontSize: "14px" }} />{" "}
-                    {criteria.text}
-                  </Typography>
-                </React.Fragment>
-              ))}
-            </Typography>
-            {/* Course Sections */}
-            <Typography variant="subtitle1" gutterBottom>
-              <Typography variant="h5">Course sections:</Typography>
-              {sections?.map((section, index) => (
-                <React.Fragment key={index}>
-                  <SectionCard
-                    orderIndex={section.orderIndex}
-                    sectionName={section.sectionName}
-                    hideExpand={true}
-                  />
-                </React.Fragment>
-              ))}
-            </Typography>
+      <img
+        src={
+          courseData.background ||
+          "https://i.ytimg.com/vi/7PCkvCPvDXk/hqdefault.jpg"
+        }
+        className="max-h-[60vh] w-full object-cover"
+      />
+      {/* Content */}
+      <Grid container spacing={3}>
+        <Grid item xs={12} sm={8}>
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link to="/" style={{ textDecoration: "none" }}>
+              Home
+            </Link>
+            <Typography color="textPrimary">{courseData.name}</Typography>
+          </Breadcrumbs>
+          {/* Course Title */}
+          <Typography variant="h4" gutterBottom>
+            {courseData.name}
+          </Typography>
+          {/* Course Description */}
+          <Typography variant="h6" gutterBottom>
+            {courseData.description}
+          </Typography>
+          {/* Course Sections */}
+          <Typography variant="h5" gutterBottom>
+            <Typography variant="h5">Criteria:</Typography>
+            {listCriteria?.map((criteria, index) => (
+              <React.Fragment key={index}>
+                <Typography variant="body1">
+                  <ArrowForwardIosRoundedIcon style={{ fontSize: "14px" }} />{" "}
+                  {criteria.text}
+                </Typography>
+              </React.Fragment>
+            ))}
+          </Typography>
+          {/* Course Sections */}
+          <Typography variant="subtitle1" gutterBottom>
+            <Typography variant="h5">Course sections:</Typography>
+            {sections?.map((section, index) => (
+              <React.Fragment key={index}>
+                <SectionCard
+                  orderIndex={section.orderIndex}
+                  sectionName={section.sectionName}
+                  hideExpand={true}
+                />
+              </React.Fragment>
+            ))}
+          </Typography>
 
-            {/* Render comments section here */}
-            <CommentContainer
-              courseId={courseId}
-              comments={comments}
-              setComments={setComments}
-              getMoreComments={getCommentsByCourseId}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <div className="w-full bg-gray-200 p-6 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
-              <h1 className="mb-3 text-4xl">{courseData.price} VNĐ</h1>
-              <div className="flex flex-col gap-3">
-                <div className="flex gap-4">
-                  <button
-                    className="w-4/5 bg-gray-700 p-3 font-semibold text-gray-50 transition-all
-                   dark:bg-white dark:text-gray-800 hover:dark:bg-gray-200"
-                    onClick={() => {}}
-                  >
-                    Add to cart
-                  </button>
-                  <button
-                    className="flex w-1/5 justify-center border border-solid border-white p-3 font-semibold 
-                    transition-all dark:border-white dark:text-white dark:hover:bg-gray-500"
-                    onClick={() => {}}
-                  >
-                    <FavoriteIcon className="h-6 w-6" />
-                    <FavoriteFullIcon className="h-6 w-6" />
-                  </button>
-                </div>
-                <div className="flex w-full gap-4">
-                  <button
-                    className="w-full border border-solid p-3 font-semibold transition-all dark:border-white
-                   dark:text-white dark:hover:bg-gray-500"
-                    onClick={
-                      registration ? handleSeeContinue : handleRegisterCourse
-                    }
-                  >
-                    {registration ? t("Watch continue") : t("Buy now")}
-                  </button>
-                </div>
-                <IncludeFeature />
-              </div>
-            </div>
-          </Grid>
+          {/* Render comments section here */}
+          <CommentContainer
+            courseId={courseId}
+            comments={comments}
+            setComments={setComments}
+            getMoreComments={getCommentsByCourseId}
+          />
         </Grid>
-      </DefaultLayout>
+        <Grid item xs={12} sm={4}>
+          <div className="w-full bg-gray-200 p-6 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
+            <h1 className="mb-3 text-4xl">{courseData.price} VNĐ</h1>
+            <div className="flex flex-col gap-3">
+              <div className="flex gap-4">
+                <button
+                  className="w-4/5 bg-gray-700 p-3 font-semibold text-gray-50 transition-all
+                   dark:bg-white dark:text-gray-800 hover:dark:bg-gray-200"
+                  onClick={() => {}}
+                >
+                  Add to cart
+                </button>
+                <button
+                  className="flex w-1/5 justify-center border border-solid border-white p-3 font-semibold 
+                    transition-all dark:border-white dark:text-white dark:hover:bg-gray-500"
+                  onClick={() => {}}
+                >
+                  <FavoriteIcon className="h-6 w-6" />
+                  <FavoriteFullIcon className="h-6 w-6" />
+                </button>
+              </div>
+              <div className="flex w-full gap-4">
+                <button
+                  className="w-full border border-solid p-3 font-semibold transition-all dark:border-white
+                   dark:text-white dark:hover:bg-gray-500"
+                  onClick={
+                    registration ? handleSeeContinue : handleRegisterCourse
+                  }
+                >
+                  {registration ? t("Watch continue") : t("Buy now")}
+                </button>
+              </div>
+              <IncludeFeature />
+            </div>
+          </div>
+        </Grid>
+      </Grid>
     </>
   );
 };
