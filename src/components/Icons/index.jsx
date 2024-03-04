@@ -366,7 +366,7 @@ export const VNFlag = ({ className, style }) => (
 export const ArrowLeft = ({ className, style }) => (
   <svg
     className={twMerge(
-      "none h-4 w-4 fill-black rtl:rotate-180 md:inline",
+      "none h-4 w-4 fill-black md:inline rtl:rotate-180",
       className,
     )}
     style={style}

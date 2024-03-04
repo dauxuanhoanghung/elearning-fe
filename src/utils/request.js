@@ -1,6 +1,6 @@
 import http from "./http";
 
-function delay(ms = 4000) {
+function delay(ms = 0) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 

@@ -18,13 +18,14 @@ const BASE = {
 };
 
 const endpoints = {
-  authLogin: `${BASE.auth}/authenticate`,
-  authLogout: "/logout",
-  authRefreshToken: `${BASE.auth}/refresh-token`,
-  authLoginGoogle: `${BASE.auth}/login-google`,
+  login: `${BASE.auth}/authenticate`,
+  logout: "/logout",
+  register: `${BASE.auth}/register`,
+  refreshToken: `${BASE.auth}/refresh-token`,
+  loginGoogle: `${BASE.auth}/login-google`,
 
   userBase: BASE.users,
-  userCurrent: `${BASE.users}/current-user`,
+  currentUser: `${BASE.users}/current-user`,
   userRegister: BASE.users,
   userUpdateInfo: `${BASE.users}/update-info`,
 

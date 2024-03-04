@@ -69,7 +69,7 @@ const CourseCard = (props) => {
           />
         </div>
         <div className="p-2 text-gray-900 dark:text-gray-50">
-          <div className="min-h-12 mb-2 text-justify text-lg font-extrabold">
+          <div className="mb-2 min-h-12 text-justify text-lg font-extrabold">
             {name}
           </div>
           <div className="mb-2 max-h-[5rem] min-h-[3rem] overflow-hidden text-justify text-sm">

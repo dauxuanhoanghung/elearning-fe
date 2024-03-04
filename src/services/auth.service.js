@@ -1,5 +1,6 @@
-import { URL_LOGIN, URL_LOGIN_GOOGLE, URL_LOGOUT } from "@/constants/url";
-import http from "@/utils/http";
+import endpoints from "@/constants/endpoint";
+import { post } from "@/utils/request";
+
 const authService = {
   /**
    *
@@ -7,10 +8,10 @@ const authService = {
    * @returns
    */
   login(body) {
-    return http.post(URL_LOGIN, body);
+    return post(endpoints.login, body);
   },
   logout() {
-    return http.post(URL_LOGOUT);
+    return post(endpoints.logout);
   },
   /**
    *
@@ -18,7 +19,14 @@ const authService = {
    * @returns
    */
   loginGoogle(body) {
-    return http.post(URL_LOGIN_GOOGLE, body, {
+    return post(endpoints.loginGoogle, body, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  },
+  register() {
+    return post(endpoints.register, body, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
