@@ -3,7 +3,7 @@ module.exports = {
     node: true,
     es2021: true,
   },
-  extends: ["eslint:recommended", "plugin:react/recommended"],
+  extends: ["plugin:react/recommended"],
   overrides: [
     {
       env: {
@@ -20,5 +20,9 @@ module.exports = {
     sourceType: "module",
   },
   plugins: ["react"],
-  rules: {},
+  rules: {
+    "react/prop-types": 0,
+    "react/react-in-jsx-scope": 0,
+    "react/no-unknown-property": 0,
+  },
 };

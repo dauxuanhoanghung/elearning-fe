@@ -7,7 +7,7 @@ import DefaultLayout from "@/layout/DefaultLayout";
 import CourseCreationPage from "@/pages/admin/course/create";
 import CourseUpdatePage from "@/pages/admin/course/update";
 import { ForgotPasswordPage, LoginPage, SignupPage } from "@/pages/auth";
-import CourseDetailPage from "@/pages/client/courseDetail";
+import CourseDetailPage from "@/pages/client/course-detail";
 import FavoritePage from "@/pages/client/favorite";
 import MyBusinessPage from "@/pages/client/myBusiness";
 import MyCoursePage from "@/pages/client/myCourse";
@@ -16,7 +16,7 @@ import HomePage from "@/pages/home";
 import PaymentPage from "@/pages/payment";
 import ResultPaymentPage from "@/pages/payment/result";
 import { ProfilePage, SettingsPage } from "@/pages/profile";
-import { isEmptyObject } from "@/utils/utils";
+import { isEmptyObject, isLecturer } from "@/utils/utils";
 
 const AnonymousRoute = ({ redirect = "/" }) => {
   const { user: currentUser, isLogin } = useSelector((state) => state.user);

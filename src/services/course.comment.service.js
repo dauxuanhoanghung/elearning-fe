@@ -1,18 +1,15 @@
-import {
-  URL_COURSE_COMMENT,
-  URL_GET_COMMENT_BY_COURSE_ID,
-} from "../constants/url";
+import { get } from "@/utils/request";
+import { URL_COURSE_COMMENT } from "../constants/url";
 import http from "../utils/http";
+import endpoints from "@/constants/endpoint";
 
 const courseCommentService = {
   createComment(body) {
     return http.post(URL_COURSE_COMMENT, body);
   },
   getCommentsByCourseId(courseId, page = 0) {
-    return http.get(URL_GET_COMMENT_BY_COURSE_ID(courseId), {
-      params: {
-        page: page,
-      },
+    return get(endpoints.courseCommentById(courseId), {
+      page: page,
     });
   },
   deleteCommentsById(courseId) {

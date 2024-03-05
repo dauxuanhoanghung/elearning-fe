@@ -25,7 +25,7 @@ const authService = {
       },
     });
   },
-  register() {
+  register(body) {
     return post(endpoints.register, body, {
       headers: {
         "Content-Type": "multipart/form-data",

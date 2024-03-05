@@ -21,7 +21,7 @@ const DefaultLayout = ({ children }) => {
   return (
     <>
       <Header />
-      <div className="bg-white transition-all dark:bg-gray-800">
+      <div className="bg-white text-gray-900 transition-all dark:bg-gray-800 dark:text-gray-50">
         <Outlet />
         {children}
       </div>

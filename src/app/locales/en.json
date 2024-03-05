@@ -123,7 +123,14 @@
     "registrations": "registrations",
     "lectures": "lectures",
     "access": "Access on mobile and TV",
-    "time": "Full lifetime access"
+    "time": "Full lifetime access",
+    "courseInclude": "This course includes:",
+    "watchContinue": "Watch continue",
+    "buyNow": "Buy now",
+    "addToCart": "Add to cart",
+    "editCourse": "Edit your course",
+    "createdDate": "Created date:",
+    "chatCreator": "Chat to creator"
   },
   "admin": {
     "home": {

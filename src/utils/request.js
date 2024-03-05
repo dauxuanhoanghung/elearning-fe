@@ -17,7 +17,6 @@ export async function get(url, params = {}, headers = {}) {
       params,
       headers,
     });
-    console.log(response);
     await delay();
     return response.data;
   } catch (error) {

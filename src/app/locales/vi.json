@@ -123,7 +123,14 @@
     "registrations": "người đăng ký",
     "lectures": "bài giảng",
     "access": "Truy cập trên điện thoại và TV",
-    "time": "Truy cập mọi lúc mọi nơi"
+    "time": "Truy cập mọi lúc mọi nơi",
+    "courseInclude": "Khoá học bao gồm:",
+    "watchContinue": "Tiếp tục xem",
+    "buyNow": "Mua khoá học ngay",
+    "addToCart": "Thêm vào giỏ",
+    "editCourse": "Chỉnh sửa khoá học của bạn",
+    "createdDate": "Ngày tạo:",
+    "chatCreator": "Nhắn tin với giảng viên"
   },
   "admin": {
     "home": {

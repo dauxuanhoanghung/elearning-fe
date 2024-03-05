@@ -17,7 +17,6 @@ const LoginForm = () => {
   const processLogin = async () => {
     // Auth
     const res = await authService.login({ username, password });
-    console.log(res);
     dispatch(login(res.data));
     // Get user Info
     userService.getCurrentUser().then((res) => {

@@ -4,15 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 
-import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
-import {
-  Avatar,
-  Box,
-  Breadcrumbs,
-  Button,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Breadcrumbs, Typography } from "@mui/material";
 
 import firebaseService from "@/app/firebase/firebaseService";
 import { changeChatUser } from "@/app/store/chatSlice";
@@ -23,6 +15,7 @@ import {
   InfiniteIcon,
   MobileIcon,
   MultiUsersIcon,
+  TickIcon,
   VideoIcon,
 } from "@/components/Icons/index";
 import SectionCard from "@/components/SectionCard";
@@ -34,6 +27,7 @@ import {
   registrationService,
 } from "@/services";
 import { isEmptyObject } from "@/utils/utils";
+import Avatar from "@/components/ui/Avatar";
 
 const CourseDetailPage = (props) => {
   const { t } = useTranslation();
@@ -99,8 +93,10 @@ const CourseDetailPage = (props) => {
   const getCommentsByCourseId = async () => {
     if (page === -1) return;
     let res = await courseCommentService.getCommentsByCourseId(courseId, page);
-    if (res.data.data.length > 0) {
-      setComments([...comments, ...res.data.data]);
+    console.log("course details:", res);
+
+    if (res.data.length > 0) {
+      setComments([...comments, ...res.data]);
       setPage(page + 1);
     } else setPage(-1);
   };
@@ -201,7 +197,7 @@ const CourseDetailPage = (props) => {
     ];
     return (
       <div className={twMerge("w-full", className)}>
-        <h1 className="mb-3 text-xl font-bold">This course includes:</h1>
+        <h1 className="mb-3 text-xl font-bold">{t("detail.courseInclude")}</h1>
         <div className="flex flex-col gap-2">
           {features.map((f, idx) => (
             <h2 key={idx} className="flex items-center gap-3">
@@ -215,7 +211,7 @@ const CourseDetailPage = (props) => {
   };
 
   return (
-    <>
+    <main className="w-full" data-page="course-details">
       <img
         src={
           courseData.background ||
@@ -224,131 +220,126 @@ const CourseDetailPage = (props) => {
         className="max-h-[60vh] w-full object-cover"
       />
       {/* Content */}
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={8}>
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link to="/" style={{ textDecoration: "none" }}>
-              Home
-            </Link>
-            <Typography color="textPrimary">{courseData.name}</Typography>
-          </Breadcrumbs>
-          {/* Course Title */}
-          <Typography variant="h4" gutterBottom>
-            {courseData.name}
-          </Typography>
-          {/* Course Description */}
-          <Typography variant="h6" gutterBottom>
-            {courseData.description}
-          </Typography>
-          {/* Course Sections */}
-          <Typography variant="h5" gutterBottom>
-            <Typography variant="h5">Criteria:</Typography>
-            {listCriteria?.map((criteria, index) => (
-              <React.Fragment key={index}>
-                <Typography variant="body1">
-                  <ArrowForwardIosRoundedIcon style={{ fontSize: "14px" }} />{" "}
-                  {criteria.text}
-                </Typography>
-              </React.Fragment>
-            ))}
-          </Typography>
-          {/* Course Sections */}
-          <Typography variant="subtitle1" gutterBottom>
-            <Typography variant="h5">Course sections:</Typography>
-            {sections?.map((section, index) => (
-              <React.Fragment key={index}>
-                <SectionCard
-                  orderIndex={section.orderIndex}
-                  sectionName={section.sectionName}
-                  hideExpand={true}
-                />
-              </React.Fragment>
-            ))}
-          </Typography>
-
-          {/* Render comments section here */}
-          <CommentContainer
-            courseId={courseId}
-            comments={comments}
-            setComments={setComments}
-            getMoreComments={getCommentsByCourseId}
-          />
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <div className="w-full bg-gray-200 p-6 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
-            <h1 className="mb-3 text-4xl">{courseData.price} VNĐ</h1>
-            <div className="flex flex-col gap-3">
-              <div className="flex gap-4">
-                <button
-                  className="w-4/5 bg-gray-700 p-3 font-semibold text-gray-50 transition-all
+      <div
+        className="container text-gray-900 dark:text-gray-50"
+        data-role="course-detail-content"
+      >
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-12">
+          <div className="col-span-12 sm:col-span-8">
+            <Breadcrumbs aria-label="breadcrumb">
+              <Link to="/" style={{ textDecoration: "none" }}>
+                Home
+              </Link>
+              <p className="text-lg">{courseData.name}</p>
+            </Breadcrumbs>
+            <p className="py-3 text-5xl">{courseData.name}</p>
+            <p className="py-3 text-lg">{courseData.description}</p>
+            <div data-role="course-detail-criteria-content">
+              <p className="py-2 text-4xl">Criteria:</p>
+              <div className="pl-4 lg:pl-8">
+                {listCriteria?.map((criteria, index) => (
+                  <div className="flex items-center gap-2 py-1" key={index}>
+                    <TickIcon className="text-gray-900 dark:text-gray-50" />
+                    <span className="text-lg">{criteria.text}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* Course Sections */}
+            <div data-role="course-detail-section-content">
+              <p className="py-2 text-4xl">Sections:</p>
+              {sections?.map((section, index) => (
+                <React.Fragment key={index}>
+                  <SectionCard
+                    orderIndex={section.orderIndex}
+                    sectionName={section.sectionName}
+                    hideExpand={true}
+                  />
+                </React.Fragment>
+              ))}
+            </div>
+            <CommentContainer
+              courseId={courseId}
+              comments={comments}
+              setComments={setComments}
+              getMoreComments={getCommentsByCourseId}
+            />
+          </div>
+          <div className="col-span-12 sm:col-span-4">
+            <div className="w-full bg-gray-200 p-6 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
+              <h1 className="mb-3 text-4xl">{courseData.price} VNĐ</h1>
+              <div className="flex flex-col gap-3">
+                <div className="flex gap-4">
+                  <button
+                    className="w-4/5 bg-gray-700 p-3 font-semibold text-gray-50 transition-all
                    dark:bg-white dark:text-gray-800 hover:dark:bg-gray-200"
-                  onClick={() => {}}
-                >
-                  Add to cart
-                </button>
-                <button
-                  className="flex w-1/5 justify-center border border-solid border-white p-3 font-semibold 
+                    onClick={() => {}}
+                  >
+                    {t("detail.addToCart")}
+                  </button>
+                  <button
+                    className="flex w-1/5 justify-center border border-solid border-white p-3 font-semibold 
                     transition-all dark:border-white dark:text-white dark:hover:bg-gray-500"
-                  onClick={() => {}}
-                >
-                  <FavoriteIcon className="h-6 w-6" />
-                  <FavoriteFullIcon className="h-6 w-6" />
-                </button>
-              </div>
-              <div className="flex w-full gap-4">
-                <button
-                  className="w-full border border-solid p-3 font-semibold transition-all dark:border-white
+                    onClick={() => {}}
+                  >
+                    <FavoriteIcon className="h-6 w-6" />
+                  </button>
+                </div>
+                <div className="flex w-full gap-4">
+                  <button
+                    className="w-full border border-solid p-3 font-semibold transition-all dark:border-white
                    dark:text-white dark:hover:bg-gray-500"
-                  onClick={
-                    registration ? handleSeeContinue : handleRegisterCourse
-                  }
-                >
-                  {registration ? t("Watch continue") : t("Buy now")}
-                </button>
+                    onClick={
+                      registration ? handleSeeContinue : handleRegisterCourse
+                    }
+                  >
+                    {registration
+                      ? t("detail.watchContinue")
+                      : t("detail.buyNow")}
+                  </button>
+                </div>
+                <IncludeFeature />
               </div>
-              <IncludeFeature />
+            </div>
+            <div className="my-2 w-full bg-gray-200 px-6 py-2 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
+              <div className="flex items-center">
+                <Avatar
+                  src={courseData.user?.avatar}
+                  alt={`${courseData.user?.lastName} ${courseData.user?.firstName}`}
+                />
+                <p className="mx-auto text-base">
+                  {`${courseData.user?.firstName} ${courseData.user?.lastName}`}
+                </p>
+              </div>
+              <p className="text-sm text-gray-500">
+                {t("detail.createdDate")} {courseData.createdDate}
+              </p>
+              {courseData.user?.id === currentUser.id && (
+                <button
+                  onClick={handleEditCourse}
+                  className="mt-2 w-full border border-solid p-3 font-semibold transition-all dark:border-white
+                  dark:text-white dark:hover:bg-gray-500"
+                >
+                  {t("detail.editCourse")}
+                </button>
+              )}
+              {!isEmptyObject(currentUser) &&
+                courseData?.user?.id !== currentUser.id && (
+                  <button
+                    onClick={handleChatToCreator}
+                    className="mt-2 w-full border border-solid p-3 font-semibold transition-all dark:border-white
+                  dark:text-white dark:hover:bg-gray-500"
+                  >
+                    {t("detail.chatCreator")}
+                  </button>
+                )}
             </div>
           </div>
-        </Grid>
-      </Grid>
-    </>
+        </div>
+      </div>
+      <div className="container" data-role="detail-related-section"></div>
+    </main>
   );
 };
 
 export default CourseDetailPage;
-
-const Old = () => (
-  <>
-    {/* Creator */}
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        margin: "10px auto",
-      }}
-    >
-      <Avatar
-        src={courseData.user?.avatar}
-        alt={`${courseData.user?.firstName} ${courseData.user?.lastName}`}
-        style={{ marginRight: "16px" }}
-      />
-      <Typography variant="body1">
-        {`${courseData.user?.firstName} ${courseData.user?.lastName}`}
-      </Typography>
-    </Box>
-    {/* Created Date */}
-    <Typography variant="body2" color="textSecondary">
-      Created Date: {courseData.createdDate}
-    </Typography>
-    {courseData.user?.id === currentUser.id && (
-      <>
-        <Button onClick={handleEditCourse}>Edit your course</Button>
-      </>
-    )}
-    {!isEmptyObject(currentUser) && courseData?.user?.id !== currentUser.id && (
-      <>
-        <Button onClick={handleChatToCreator}>Chat to creator</Button>
-      </>
-    )}
-  </>
-);

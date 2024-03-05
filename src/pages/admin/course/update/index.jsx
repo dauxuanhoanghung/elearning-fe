@@ -15,7 +15,6 @@ import {
 
 import { Spinner } from "@/components/common";
 import { useSnackbar } from "@/contexts/SnackbarContext";
-import DefaultLayout from "@/layout";
 import { courseService } from "@/services";
 import { isAdmin } from "@/utils/utils";
 import LectureForm from "./LectureForm";
