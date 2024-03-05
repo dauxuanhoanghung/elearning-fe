@@ -9,9 +9,9 @@ import CourseUpdatePage from "@/pages/admin/course/update";
 import { ForgotPasswordPage, LoginPage, SignupPage } from "@/pages/auth";
 import CourseDetailPage from "@/pages/client/course-detail";
 import FavoritePage from "@/pages/client/favorite";
-import MyBusinessPage from "@/pages/client/myBusiness";
+import MyBusinessPage from "@/pages/client/my-business";
 import MyCoursePage from "@/pages/client/myCourse";
-import RegisterLecturerPage from "@/pages/client/registerLecturer";
+import RegisterLecturerPage from "@/pages/client/register-lecturer";
 import HomePage from "@/pages/home";
 import PaymentPage from "@/pages/payment";
 import ResultPaymentPage from "@/pages/payment/result";
@@ -111,7 +111,11 @@ const ClientRouter = [
   },
   {
     path: "/",
-    element: <AuthenticatedRoute />,
+    element: (
+      <DefaultLayout>
+        <AuthenticatedRoute />
+      </DefaultLayout>
+    ),
     children: [
       { path: "profile", element: <ProfilePage /> },
       { path: "settings", element: <SettingsPage /> },

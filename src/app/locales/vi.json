@@ -132,6 +132,9 @@
     "createdDate": "Ngày tạo:",
     "chatCreator": "Nhắn tin với giảng viên"
   },
+  "business": {
+    "addNew": "Tạo khoá học mới"
+  },
   "admin": {
     "home": {
       "profile": "Hồ sơ",
