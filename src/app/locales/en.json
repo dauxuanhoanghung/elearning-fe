@@ -113,6 +113,25 @@
     "description": "You tried to access a page you did not have prior authorization for.",
     "backhome": "Go back home"
   },
+  "notFound": {
+    "home": "Home",
+    "contact": "Contact us",
+    "title": "oops! Page not found",
+    "description": "Oops! The page you are looking for does not exist. It might have been moved or deleted."
+  },
+  "detail": {
+    "registrations": "registrations",
+    "lectures": "lectures",
+    "access": "Access on mobile and TV",
+    "time": "Full lifetime access",
+    "courseInclude": "This course includes:",
+    "watchContinue": "Watch continue",
+    "buyNow": "Buy now",
+    "addToCart": "Add to cart",
+    "editCourse": "Edit your course",
+    "createdDate": "Created date:",
+    "chatCreator": "Chat to creator"
+  },
   "admin": {
     "home": {
       "profile": "Profile",

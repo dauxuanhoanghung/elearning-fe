@@ -1,46 +1,37 @@
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import React from "react";
-import { useNavigate } from "react-router-dom";
-
-import DefaultLayout from "@/layout";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 const NotFoundPage = () => {
-  const navigate = useNavigate();
+  const { t } = useTranslation();
+
   return (
-    <>
-      <DefaultLayout>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            minHeight: "100vh",
-          }}
-        >
-          <Container maxWidth="md">
-            <Grid container spacing={2}>
-              <Grid xs={6}>
-                <Typography variant="h1">404</Typography>
-                <Typography variant="h6">
-                  The page you’re looking for doesn’t exist.
-                </Typography>
-                <Button onClick={() => navigate("/")} variant="contained">
-                  Back Home
-                </Button>
-              </Grid>
-              <Grid xs={6}>
-                <img
-                  src="https://cdn.pixabay.com/photo/2017/03/09/12/31/error-2129569__340.jpg"
-                  alt=""
-                  width={500}
-                  height={250}
-                />
-              </Grid>
-            </Grid>
-          </Container>
-        </Box>
-      </DefaultLayout>
-    </>
+    <div
+      className="m-auto flex min-h-screen w-9/12 items-center justify-center py-16
+     text-gray-800 dark:text-gray-100"
+    >
+      <div className="overflow-hidden pb-8 shadow sm:rounded-lg">
+        <div className="pt-8 text-center">
+          <h1 className="text-[12rem] font-bold text-purple-400">404</h1>
+          <h1 className="py-8 text-6xl font-medium">{t("notFound.title")}</h1>
+          <p className="px-12 pb-8 text-2xl font-medium">
+            {t("notFound.description")}
+          </p>
+          <Link
+            to="/"
+            className="mr-6 rounded-md bg-gradient-to-r from-purple-400 to-blue-500 px-8 py-4 font-semibold text-white hover:from-pink-500 hover:to-orange-500"
+          >
+            {t("notFound.home")}
+          </Link>
+          <Link
+            to="/contact-us"
+            className="rounded-md bg-gradient-to-r from-red-300 to-red-500 px-8 py-4 font-semibold text-white hover:from-red-600 hover:to-yellow-600"
+          >
+            {t("notFound.contact")}
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 };
 

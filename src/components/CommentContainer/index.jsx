@@ -30,7 +30,6 @@ const CommentContainer = (props) => {
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
-    console.log(newComment);
     let res = null;
     if (courseId) {
       const request = { content: newComment, course: courseId };

@@ -1,5 +1,6 @@
 // SERVER ORIGIN
-export const URL_SERVER = "http://localhost:8080";
+const SERVER_HOST = import.meta.env.VITE_SERVER_HOSTNAME;
+export const URL_SERVER = `http://${SERVER_HOST}:8080`;
 
 // #region Authentication
 export const URL_LOGIN = "/api/auth/authenticate";

@@ -1,4 +1,4 @@
-import { URL_REFRESH_TOKEN, URL_SERVER } from "@/constants/url";
+import { URL_LOGOUT, URL_REFRESH_TOKEN, URL_SERVER } from "@/constants/url";
 import axios from "axios";
 import {
   clearLS,
@@ -36,7 +36,7 @@ class Http {
     /** Response */
     this.instance.interceptors.response.use(
       (response) => {
-        // const { url } = response.config;
+        const { url } = response.config;
         // if (url === URL_LOGIN) {
         //   //|| url === URL_REGISTER
         //   const data = response.data;
@@ -45,11 +45,12 @@ class Http {
         //   setAccessTokenToLS(this.accessToken);
         //   setRefreshTokenToLS(this.refreshToken);
         //   // setProfileToLS(data.data.user);
-        // } else if (url === URL_LOGOUT) {
-        //   this.accessToken = "";
-        //   this.refreshToken = "";
-        //   clearLS();
-        // }
+        // } else
+        if (url === URL_LOGOUT) {
+          this.accessToken = "";
+          this.refreshToken = "";
+          clearLS();
+        }
         return response;
       },
       (error) => {

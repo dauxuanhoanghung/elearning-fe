@@ -14,7 +14,6 @@ import CreateCourseForm from "@/components/CreateCourseForm";
 import CreateLectureForm from "@/components/CreateLectureForm";
 import { Spinner } from "@/components/common";
 import { useSnackbar } from "@/contexts/SnackbarContext";
-import DefaultLayout from "@/layout";
 import { courseService, lectureService } from "@/services";
 
 const steps = ["Create Info Course", "Add Lecture"];
@@ -179,88 +178,86 @@ const CourseCreationPage = ({}) => {
 
   return (
     <>
-      <DefaultLayout>
-        {loading ? (
-          <Spinner />
-        ) : (
-          <Container sx={{ marginY: "20px", minHeight: "500px" }}>
-            <Stepper nonLinear activeStep={activeStep}>
-              {steps.map((label, index) => (
-                <Step key={label} completed={completed[index]}>
-                  <StepButton color="inherit" onClick={handleStep(index)}>
-                    {label}
-                  </StepButton>
-                </Step>
-              ))}
-            </Stepper>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <Container sx={{ marginY: "20px", minHeight: "500px" }}>
+          <Stepper nonLinear activeStep={activeStep}>
+            {steps.map((label, index) => (
+              <Step key={label} completed={completed[index]}>
+                <StepButton color="inherit" onClick={handleStep(index)}>
+                  {label}
+                </StepButton>
+              </Step>
+            ))}
+          </Stepper>
 
-            <div>
-              {allStepsCompleted() ? (
-                <>
-                  <Typography sx={{ mt: 2, mb: 1 }}>
-                    All steps completed - you're finished
-                  </Typography>
-                  <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                    <Box sx={{ flex: "1 1 auto" }} />
-                    <Button onClick={handleReset}>Reset</Button>
-                    <Button onClick={handleFetchToSaveData}>Complete</Button>
-                  </Box>
-                </>
-              ) : (
-                <>
-                  <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
-                    {activeStep === 0 && (
-                      <CreateCourseForm
-                        courseData={courseData}
-                        setCourseData={setCourseData}
-                      />
-                    )}
-                    {activeStep === 1 && (
-                      <CreateLectureForm
-                        courseData={courseData}
-                        setCourseData={setCourseData}
-                      />
-                    )}
-                  </Typography>
-                  <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                    <Button
-                      color="inherit"
-                      disabled={activeStep === 0}
-                      onClick={handleBack}
-                      sx={{ mr: 1 }}
-                    >
-                      Back
-                    </Button>
-                    <Box sx={{ flex: "1 1 auto" }} />
-                    <Button
-                      onClick={handleNext}
-                      disabled={activeStep === steps.length - 1}
-                      sx={{ mr: 1 }}
-                    >
-                      Next
-                    </Button>
-                    {activeStep !== steps.length &&
-                      (completed[activeStep] ? (
-                        <Typography
-                          variant="caption"
-                          sx={{ display: "inline-block" }}
-                        >
-                          Step {activeStep + 1} already completed
-                        </Typography>
-                      ) : (
-                        <Button onClick={handleComplete}>
-                          {completedSteps() === totalSteps() - 1
-                            ? "Finish"
-                            : "Complete Step"}
-                        </Button>
-                      ))}
-                  </Box>
-                </>
-              )}
-            </div>
-          </Container>
-        )}
-      </DefaultLayout>
+          <div>
+            {allStepsCompleted() ? (
+              <>
+                <Typography sx={{ mt: 2, mb: 1 }}>
+                  All steps completed - you're finished
+                </Typography>
+                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                  <Box sx={{ flex: "1 1 auto" }} />
+                  <Button onClick={handleReset}>Reset</Button>
+                  <Button onClick={handleFetchToSaveData}>Complete</Button>
+                </Box>
+              </>
+            ) : (
+              <>
+                <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
+                  {activeStep === 0 && (
+                    <CreateCourseForm
+                      courseData={courseData}
+                      setCourseData={setCourseData}
+                    />
+                  )}
+                  {activeStep === 1 && (
+                    <CreateLectureForm
+                      courseData={courseData}
+                      setCourseData={setCourseData}
+                    />
+                  )}
+                </Typography>
+                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                  <Button
+                    color="inherit"
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    sx={{ mr: 1 }}
+                  >
+                    Back
+                  </Button>
+                  <Box sx={{ flex: "1 1 auto" }} />
+                  <Button
+                    onClick={handleNext}
+                    disabled={activeStep === steps.length - 1}
+                    sx={{ mr: 1 }}
+                  >
+                    Next
+                  </Button>
+                  {activeStep !== steps.length &&
+                    (completed[activeStep] ? (
+                      <Typography
+                        variant="caption"
+                        sx={{ display: "inline-block" }}
+                      >
+                        Step {activeStep + 1} already completed
+                      </Typography>
+                    ) : (
+                      <Button onClick={handleComplete}>
+                        {completedSteps() === totalSteps() - 1
+                          ? "Finish"
+                          : "Complete Step"}
+                      </Button>
+                    ))}
+                </Box>
+              </>
+            )}
+          </div>
+        </Container>
+      )}
     </>
   );
 };

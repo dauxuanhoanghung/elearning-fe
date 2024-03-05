@@ -39,6 +39,7 @@ const LectureDetail = () => {
     const fetchLectureData = async () => {
       if (!lectureId) return;
       const res = await lectureService.getLectureById(lectureId);
+      console.log(res.data.data);
       setLectureData(res.data.data);
     };
     fetchLectureData();
@@ -146,7 +147,8 @@ const LectureDetail = () => {
       <ReactPlayer
         className="react-player"
         controls
-        url={`${lectureData.videoUrl}`}
+        url={lectureData?.videoUrl}
+        // url={"https://www.youtube.com/watch?v=S2JVtEwa-kU"}
         width="100%"
         height="550px"
         playing={playerState?.playing}

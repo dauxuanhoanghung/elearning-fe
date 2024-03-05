@@ -19,7 +19,7 @@ const MyCoursePage = () => {
       try {
         setLoading(true);
         const res = await courseService.getMyCourse(page);
-        setCourses(res.data.data);
+        setCourses(res.data);
       } catch {
       } finally {
         setLoading(false);

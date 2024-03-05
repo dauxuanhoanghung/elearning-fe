@@ -1,13 +1,10 @@
-import {
-  URL_REGISTER,
-  URL_CURRENT_USER,
-  URL_USER,
-  URL_USER_UPDATE_INFO,
-} from "../constants/url";
+import endpoints from "@/constants/endpoint";
+import { get } from "@/utils/request";
+import { URL_REGISTER, URL_USER_UPDATE_INFO } from "../constants/url";
 import http from "../utils/http";
 const userService = {
   getCurrentUser() {
-    return http.get(`${URL_CURRENT_USER}`);
+    return get(endpoints.currentUser);
   },
   /**
    *

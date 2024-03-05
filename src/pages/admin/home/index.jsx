@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 import { statsService } from "@/services";
 import { titleStyle } from "@/utils/styles";
-import MyPieChart from "./MyPieChart";
 
 const AdminHomePage = () => {
   const [countUserByRole, setCountUserByRole] = useState([]);
@@ -34,9 +33,7 @@ const AdminHomePage = () => {
         <Grid item md={6} lg={6}>
           <Card>
             <Typography variant="h4">Count User By Role</Typography>
-            <Box height="60vh">
-              <MyPieChart data={countUserByRole} />
-            </Box>
+            <Box height="60vh"></Box>
           </Card>
         </Grid>
       </Grid>

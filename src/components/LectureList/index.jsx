@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {
-  Box,
-  Divider,
-  Typography,
-  AccordionSummary,
-  AccordionDetails,
-  Accordion,
-  List,
-} from "@mui/material";
+import { Box, Divider, Typography, List } from "@mui/material";
 
 import { courseService } from "@/services";
 import LectureItem from "./LectureItem";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const LectureList = () => {
   const { courseId } = useParams();
@@ -32,36 +29,33 @@ const LectureList = () => {
   return (
     <Box sx={{ width: "98%", marginLeft: "auto" }}>
       <Typography variant="h6">Course content:</Typography>
-      {sections.map((section) => (
-        <Accordion key={section.id} sx={{ margin: "0 !important" }}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            sx={{ paddingY: "0px", cursor: "pointer", marginY: 0 }}
-          >
-            <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+      <Accordion type="multiple">
+        {sections.map((section, idx) => (
+          <AccordionItem value="item-1" key={idx}>
+            <AccordionTrigger>
               {section.orderIndex}. {section.sectionName}
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <List>
-              {section.lectures.map((lecture, index) => (
-                <React.Fragment key={lecture.id}>
-                  <LectureItem
-                    id={lecture.id}
-                    orderIndex={lecture.orderIndex}
-                    title={lecture.title}
-                    type={lecture.type}
-                    courseId={courseId}
-                  />
-                  {index < section.lectures.length - 1 && (
-                    <Divider variant="inset" component="li" />
-                  )}
-                </React.Fragment>
-              ))}
-            </List>
-          </AccordionDetails>
-        </Accordion>
-      ))}
+            </AccordionTrigger>
+            <AccordionContent>
+              <List>
+                {section.lectures.map((lecture, index) => (
+                  <React.Fragment key={lecture.id}>
+                    <LectureItem
+                      id={lecture.id}
+                      orderIndex={lecture.orderIndex}
+                      title={lecture.title}
+                      type={lecture.type}
+                      courseId={courseId}
+                    />
+                    {index < section.lectures.length - 1 && (
+                      <Divider variant="inset" component="li" />
+                    )}
+                  </React.Fragment>
+                ))}
+              </List>
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
     </Box>
   );
 };

@@ -15,10 +15,12 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
 
   const processLogin = async () => {
+    // Auth
     const res = await authService.login({ username, password });
-    dispatch(login(res.data.data));
+    dispatch(login(res.data));
+    // Get user Info
     userService.getCurrentUser().then((res) => {
-      dispatch(setUser(res.data.data));
+      dispatch(setUser(res.data));
       navigate("/");
     });
   };

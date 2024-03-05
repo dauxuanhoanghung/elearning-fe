@@ -5,8 +5,6 @@ import { Link } from "react-router-dom";
 import DefaultLayout from "@/layout";
 import { statsService } from "@/services";
 import { titleStyle } from "@/utils/styles";
-import MyBarChart from "./MyBarChart";
-import MyLineChart from "./MyLineChart";
 
 const AdminStatsPage = () => {
   const [courseWithMostLecture, setCourseWithMostLecture] = useState([]);
@@ -72,12 +70,7 @@ const AdminStatsPage = () => {
               <Typography variant="h5" fontWeight="600">
                 User In System
               </Typography>
-              <Box height="250px">
-                <MyLineChart
-                  countUserUntilMonth={countUserUntilMonth}
-                  countUserByMonth={countUserByMonth}
-                />
-              </Box>
+              <Box height="250px"></Box>
             </Box>
           </Box>
           <Box gridColumn="span 12" gridRow="span 2">

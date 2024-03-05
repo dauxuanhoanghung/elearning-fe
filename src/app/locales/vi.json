@@ -113,6 +113,25 @@
     "description": "Bạn đang cố vào trang bảo mật mà chưa được ủy quyền trước đó.",
     "backhome": "Về trang chủ"
   },
+  "notFound": {
+    "home": "Trang chủ",
+    "contact": "Liên hệ",
+    "title": "oops! Không tìm thấy",
+    "description": "Oops! Trang web bạn đang tìm kiếm không tồn tại. Trang web có thể đã bị xóa hoặc chuyển sang đường dẫn khác."
+  },
+  "detail": {
+    "registrations": "người đăng ký",
+    "lectures": "bài giảng",
+    "access": "Truy cập trên điện thoại và TV",
+    "time": "Truy cập mọi lúc mọi nơi",
+    "courseInclude": "Khoá học bao gồm:",
+    "watchContinue": "Tiếp tục xem",
+    "buyNow": "Mua khoá học ngay",
+    "addToCart": "Thêm vào giỏ",
+    "editCourse": "Chỉnh sửa khoá học của bạn",
+    "createdDate": "Ngày tạo:",
+    "chatCreator": "Nhắn tin với giảng viên"
+  },
   "admin": {
     "home": {
       "profile": "Hồ sơ",

@@ -263,10 +263,11 @@ const AdminNavbar = (props) => {
                   <Link
                     key={idx}
                     to={opt.href}
-                    className="block rounded-2xl p-4 text-center text-gray-500 hover:bg-gray-100 dark:text-gray-300"
+                    className="block rounded-2xl p-4 text-center text-gray-500 
+                    hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600"
                   >
                     <opt.icon className="mx-auto mb-1" />
-                    <div className="text-sm font-medium text-gray-900">
+                    <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
                       {t(opt.key)}
                     </div>
                   </Link>

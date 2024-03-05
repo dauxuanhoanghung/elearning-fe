@@ -1,10 +1,5 @@
 import { useSelector } from "react-redux";
-import {
-  Navigate,
-  Route,
-  createRoutesFromElements,
-  useLocation,
-} from "react-router-dom";
+import { Navigate, useLocation, Outlet } from "react-router-dom";
 
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import AdminLayout from "@/layout/AdminLayout";
@@ -27,23 +22,45 @@ const AdminRoute = ({ redirect = "/" }) => {
   return <Navigate to={state?.redirect || redirect} />;
 };
 
-const AdminRoutes = createRoutesFromElements(
-  <Route
-    path="/admin"
-    element={
+const AdminRouter = [
+  {
+    path: "/admin",
+    element: (
       <AdminRoute>
         <AdminLayout />
       </AdminRoute>
-    }
-  >
-    <Route index element={<AdminHomePage />} />
-    <Route path="/blogs" element={null} />
-    <Route path="/users" element={null} />
-    <Route path="/courses" element={null} />
-    <Route path="/invoices" element={null} />
-    <Route path="/stats" element={<AdminStatsPage />} />
-    <Route path="/approval" element={<AdminApprovalPage />} />
-  </Route>,
-);
+    ),
+    children: [
+      {
+        index: true,
+        element: <AdminHomePage />,
+      },
+      {
+        path: "blogs",
+        element: null,
+      },
+      {
+        path: "users",
+        element: null,
+      },
+      {
+        path: "courses",
+        element: null,
+      },
+      {
+        path: "invoices",
+        element: null,
+      },
+      {
+        path: "stats",
+        element: <AdminStatsPage />,
+      },
+      {
+        path: "approval",
+        element: <AdminApprovalPage />,
+      },
+    ],
+  },
+];
 
-export default AdminRoutes;
+export default AdminRouter;

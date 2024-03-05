@@ -15,7 +15,6 @@ import {
 
 import { Spinner } from "@/components/common";
 import { useSnackbar } from "@/contexts/SnackbarContext";
-import DefaultLayout from "@/layout";
 import { courseService } from "@/services";
 import { isAdmin } from "@/utils/utils";
 import LectureForm from "./LectureForm";
@@ -69,116 +68,114 @@ const CourseUpdatePage = () => {
   const [selectedSection, setSelectedSection] = useState(null);
   return (
     <>
-      <DefaultLayout>
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link to="/" style={{ textDecoration: "none" }}>
-            Home
-          </Link>
-          <Link to="/admin" style={{ textDecoration: "none" }}>
-            Admin
-          </Link>
-          <Typography color="textPrimary">Edit Course</Typography>
-        </Breadcrumbs>
-        {loading ? (
-          <Spinner />
-        ) : (
-          <>
-            <Grid container>
-              <Grid item sm={12} md={12} lg={3}>
-                <SectionList
+      <Breadcrumbs aria-label="breadcrumb">
+        <Link to="/" style={{ textDecoration: "none" }}>
+          Home
+        </Link>
+        <Link to="/admin" style={{ textDecoration: "none" }}>
+          Admin
+        </Link>
+        <Typography color="textPrimary">Edit Course</Typography>
+      </Breadcrumbs>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <>
+          <Grid container>
+            <Grid item sm={12} md={12} lg={3}>
+              <SectionList
+                courseData={courseData}
+                setCourseData={setCourseData}
+                setOpenLectureForm={setOpenLectureForm}
+                setSelectedSection={setSelectedSection}
+                fetchSectionsAndItsLectures={fetchSectionsAndItsLectures}
+                sections={sections}
+                setSections={setSections}
+              />
+            </Grid>
+
+            <Grid item sm={12} md={12} lg={9} padding={"20px"}>
+              {openLectureForm && (
+                <LectureForm
                   courseData={courseData}
                   setCourseData={setCourseData}
+                  selectedSection={selectedSection}
                   setOpenLectureForm={setOpenLectureForm}
-                  setSelectedSection={setSelectedSection}
                   fetchSectionsAndItsLectures={fetchSectionsAndItsLectures}
-                  sections={sections}
-                  setSections={setSections}
                 />
-              </Grid>
-
-              <Grid item sm={12} md={12} lg={9} padding={"20px"}>
-                {openLectureForm && (
-                  <LectureForm
-                    courseData={courseData}
-                    setCourseData={setCourseData}
-                    selectedSection={selectedSection}
-                    setOpenLectureForm={setOpenLectureForm}
-                    fetchSectionsAndItsLectures={fetchSectionsAndItsLectures}
-                  />
-                )}
-                {!openLectureForm && (
-                  <>
-                    <Card>
-                      <CardMedia
-                        component="img"
-                        height="400"
-                        image={courseData.background}
-                        alt={courseData.name}
-                      />
-                      <CardContent>
-                        <Grid container spacing={1}>
-                          <Grid item xs={12}>
-                            <TextField
-                              label="Course Name"
-                              name="name"
-                              value={courseData.name}
-                              onChange={handleInputChange}
-                              fullWidth
-                              required
-                            />
-                          </Grid>
-                          <Grid item xs={12}>
-                            <TextField
-                              type="number"
-                              label="Price"
-                              name="price"
-                              value={courseData.price}
-                              onChange={handleInputChange}
-                              fullWidth
-                              required
-                            />
-                          </Grid>
-                          <Grid item xs={12}>
-                            <TextField
-                              label="Description"
-                              name="description"
-                              value={courseData.description}
-                              onChange={handleInputChange}
-                              fullWidth
-                              multiline
-                              rows={4}
-                            />
-                          </Grid>
-                          <Grid item xs={12}>
-                            <Button variant="outlined" onClick={handleUpdate}>
-                              Update
-                            </Button>
-                          </Grid>
+              )}
+              {!openLectureForm && (
+                <>
+                  <Card>
+                    <CardMedia
+                      component="img"
+                      height="400"
+                      image={courseData.background}
+                      alt={courseData.name}
+                    />
+                    <CardContent>
+                      <Grid container spacing={1}>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Course Name"
+                            name="name"
+                            value={courseData.name}
+                            onChange={handleInputChange}
+                            fullWidth
+                            required
+                          />
                         </Grid>
-                        <Typography variant="h5" component="div">
-                          {courseData?.name}
-                        </Typography>
-                        <Typography variant="subtitle1" color="textSecondary">
-                          {courseData?.description}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary">
-                          Price:{" "}
-                          {courseData?.price === 0
-                            ? "Free"
-                            : `$${courseData?.price}`}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary">
-                          Published on {courseData?.publishDate}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </>
-                )}
-              </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            type="number"
+                            label="Price"
+                            name="price"
+                            value={courseData.price}
+                            onChange={handleInputChange}
+                            fullWidth
+                            required
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            label="Description"
+                            name="description"
+                            value={courseData.description}
+                            onChange={handleInputChange}
+                            fullWidth
+                            multiline
+                            rows={4}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Button variant="outlined" onClick={handleUpdate}>
+                            Update
+                          </Button>
+                        </Grid>
+                      </Grid>
+                      <Typography variant="h5" component="div">
+                        {courseData?.name}
+                      </Typography>
+                      <Typography variant="subtitle1" color="textSecondary">
+                        {courseData?.description}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        Price:{" "}
+                        {courseData?.price === 0
+                          ? "Free"
+                          : `$${courseData?.price}`}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        Published on {courseData?.publishDate}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </>
+              )}
             </Grid>
-          </>
-        )}
-      </DefaultLayout>
+          </Grid>
+        </>
+      )}
     </>
   );
 };
