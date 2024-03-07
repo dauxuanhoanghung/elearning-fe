@@ -1,4 +1,3 @@
-import { Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -6,7 +5,6 @@ import CommentContainer from "@/components/CommentContainer";
 import LectureDetail from "@/components/LectureDetail";
 import LectureList from "@/components/LectureList";
 import { useSnackbar } from "@/contexts/SnackbarContext";
-import DefaultLayout from "@/layout";
 import { lectureCommentService } from "@/services";
 
 const LectureDetailPage = () => {
@@ -39,26 +37,25 @@ const LectureDetailPage = () => {
       navigate("/");
     }
   });
+
   return (
-    <>
-      <DefaultLayout>
-        <Grid container>
-          <Grid item xs={12} sm={9}>
-            <LectureDetail />
-            <CommentContainer
-              comments={comments}
-              setComments={setComments}
-              lectureId={lectureId}
-              getMoreComments={getCommentsByLectureId}
-              page={page}
-            />
-          </Grid>
-          <Grid item xs={12} sm={3}>
-            <LectureList />
-          </Grid>
-        </Grid>
-      </DefaultLayout>
-    </>
+    <main data-component="lecture-detail-page">
+      <div className="grid grid-cols-1 sm:grid-cols-3">
+        <div className="sm:col-span-2">
+          <LectureDetail />
+          <CommentContainer
+            comments={comments}
+            setComments={setComments}
+            lectureId={lectureId}
+            getMoreComments={getCommentsByLectureId}
+            page={page}
+          />
+        </div>
+        <div className="sm:col-span-1">
+          <LectureList />
+        </div>
+      </div>
+    </main>
   );
 };
 

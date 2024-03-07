@@ -45,8 +45,10 @@ const endpoints = {
   courseUpdate: `${BASE.courses}/update`,
   courseDeleteById: (id) => `${BASE.courses}/${id}/delete`,
   courseCriteriaById: (id) => `${BASE.courses}/${id}/get-criteria`,
+
   favoriteBase: BASE.favorite,
-  favoriteGet: `${BASE.favorite}/get-favorite-courses`,
+  getWishlist: `${BASE.favorite}/get-favorite-courses`,
+
   courseCountLecturesById: (courseId) =>
     `${BASE.courses}/${courseId}/get-count-lectures`,
   courseCountRegistrationsById: (courseId) =>

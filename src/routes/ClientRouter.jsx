@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
-import LectureDetail from "@/components/LectureDetail";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import DefaultLayout from "@/layout/DefaultLayout";
 import CourseCreationPage from "@/pages/admin/course/create";
@@ -17,6 +16,7 @@ import PaymentPage from "@/pages/payment";
 import ResultPaymentPage from "@/pages/payment/result";
 import { ProfilePage, SettingsPage } from "@/pages/profile";
 import { isEmptyObject, isLecturer } from "@/utils/utils";
+import LectureDetailPage from "@/pages/client/lecture-detail";
 
 const AnonymousRoute = ({ redirect = "/" }) => {
   const { user: currentUser, isLogin } = useSelector((state) => state.user);
@@ -86,7 +86,7 @@ const ClientRouter = [
           {
             path: ":courseId/learning",
             element: <AuthenticatedRoute />,
-            children: [{ index: true, element: <LectureDetail /> }],
+            children: [{ index: true, element: <LectureDetailPage /> }],
           },
           {
             path: "*",
