@@ -24,5 +24,6 @@ module.exports = {
     "react/prop-types": 0,
     "react/react-in-jsx-scope": 0,
     "react/no-unknown-property": 0,
+    "react/no-unescaped-entities": 0,
   },
 };

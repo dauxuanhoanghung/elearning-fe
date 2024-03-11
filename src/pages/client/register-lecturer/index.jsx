@@ -20,7 +20,6 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useSnackbar } from "@/contexts/SnackbarContext";
-import DefaultLayout from "@/layout";
 import { lecturerRegistrationService } from "@/services";
 import { titleStyle } from "@/utils/styles";
 
@@ -102,24 +101,22 @@ const RegisterLecturerPage = () => {
   };
   // #endregion
   return (
-    <DefaultLayout>
+    <main className="container">
       <Breadcrumbs aria-label="breadcrumb">
         <Link to="/" style={{ textDecoration: "none" }}>
           Home
         </Link>
         <Typography color="textPrimary">Register Lecturer</Typography>
       </Breadcrumbs>
-      <Typography variant="h4" style={titleStyle}>
-        Register Lecturer
-      </Typography>
+      <p className="text-4xl">Register Lecturer</p>
       <Box>
         {currentUserForm && (
           <>
             <Box>
-              <Typography>
+              <p>
                 Your application haven't approved yet. Wait for admin or contact
                 on: ...
-              </Typography>
+              </p>
               <Typography>You have already register. See below:</Typography>
               <Typography>{currentUserForm?.registrationDate}</Typography>
               <Paper
@@ -248,7 +245,7 @@ const RegisterLecturerPage = () => {
           </Box>
         )}
       </Box>
-    </DefaultLayout>
+    </main>
   );
 };
 

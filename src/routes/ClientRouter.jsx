@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 
-import LectureDetail from "@/components/LectureDetail";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import DefaultLayout from "@/layout/DefaultLayout";
 import CourseCreationPage from "@/pages/admin/course/create";
@@ -9,14 +8,15 @@ import CourseUpdatePage from "@/pages/admin/course/update";
 import { ForgotPasswordPage, LoginPage, SignupPage } from "@/pages/auth";
 import CourseDetailPage from "@/pages/client/course-detail";
 import FavoritePage from "@/pages/client/favorite";
-import MyBusinessPage from "@/pages/client/myBusiness";
+import MyBusinessPage from "@/pages/client/my-business";
 import MyCoursePage from "@/pages/client/myCourse";
-import RegisterLecturerPage from "@/pages/client/registerLecturer";
+import RegisterLecturerPage from "@/pages/client/register-lecturer";
 import HomePage from "@/pages/home";
 import PaymentPage from "@/pages/payment";
 import ResultPaymentPage from "@/pages/payment/result";
 import { ProfilePage, SettingsPage } from "@/pages/profile";
 import { isEmptyObject, isLecturer } from "@/utils/utils";
+import LectureDetailPage from "@/pages/client/lecture-detail";
 
 const AnonymousRoute = ({ redirect = "/" }) => {
   const { user: currentUser, isLogin } = useSelector((state) => state.user);
@@ -86,7 +86,7 @@ const ClientRouter = [
           {
             path: ":courseId/learning",
             element: <AuthenticatedRoute />,
-            children: [{ index: true, element: <LectureDetail /> }],
+            children: [{ index: true, element: <LectureDetailPage /> }],
           },
           {
             path: "*",
@@ -111,7 +111,11 @@ const ClientRouter = [
   },
   {
     path: "/",
-    element: <AuthenticatedRoute />,
+    element: (
+      <DefaultLayout>
+        <AuthenticatedRoute />
+      </DefaultLayout>
+    ),
     children: [
       { path: "profile", element: <ProfilePage /> },
       { path: "settings", element: <SettingsPage /> },

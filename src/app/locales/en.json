@@ -132,6 +132,9 @@
     "createdDate": "Created date:",
     "chatCreator": "Chat to creator"
   },
+  "business": {
+    "addNew": "Add a new course"
+  },
   "admin": {
     "home": {
       "profile": "Profile",
