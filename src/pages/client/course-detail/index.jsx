@@ -28,6 +28,14 @@ import {
 } from "@/services";
 import { isEmptyObject } from "@/utils/utils";
 import Avatar from "@/components/ui/Avatar";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 const CourseDetailPage = (props) => {
   const { t } = useTranslation();
@@ -225,13 +233,18 @@ const CourseDetailPage = (props) => {
         data-role="course-detail-content"
       >
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-12">
-          <div className="col-span-12 sm:col-span-8">
-            <Breadcrumbs aria-label="breadcrumb">
-              <Link to="/" style={{ textDecoration: "none" }}>
-                Home
-              </Link>
-              <p className="text-lg">{courseData.name}</p>
-            </Breadcrumbs>
+          <div className="col-span-12 py-2 sm:col-span-8">
+            <Breadcrumb>
+              <BreadcrumbList className="text-lg">
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>{courseData.name}</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
             <p className="py-3 text-5xl">{courseData.name}</p>
             <p className="py-3 text-lg">{courseData.description}</p>
             <div data-role="course-detail-criteria-content">
