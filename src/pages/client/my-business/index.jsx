@@ -4,7 +4,14 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import AddIcon from "@mui/icons-material/Add";
-import { Breadcrumbs, Typography } from "@mui/material";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 import { Skeleton } from "@/components/common";
 import { courseService } from "@/services";
@@ -45,12 +52,18 @@ const MyBusinessPage = () => {
 
   return (
     <main className="container" data-component="my-business-page">
-      <Breadcrumbs aria-label="breadcrumb">
-        <Link to="/" style={{ textDecoration: "none" }}>
-          Home
-        </Link>
-        <Typography color="textPrimary">My Business</Typography>
-      </Breadcrumbs>
+      <Breadcrumb>
+        <BreadcrumbList className="text-lg">
+          <BreadcrumbItem>
+            <Link></Link>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>My Business</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
       <p className="text-4xl">My Courses</p>
 
       <div data-role="add-new-course">

@@ -1,11 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-
-import { Breadcrumbs, Typography } from "@mui/material";
 
 import CourseContainer from "@/components/CourseContainer";
 import { favoriteService } from "@/services";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 const FavoritePage = () => {
   const { t } = useTranslation();
@@ -39,13 +46,20 @@ const FavoritePage = () => {
   };
 
   return (
-    <main data-component="wishlist-component">
-      <Breadcrumbs aria-label="breadcrumb">
-        <Link to="/" style={{ textDecoration: "none" }}>
-          Home
-        </Link>
-        <Typography color="textPrimary">My Favorite Courses</Typography>
-      </Breadcrumbs>
+    <main data-component="wishlist-component" className="container">
+      <Breadcrumb>
+        <BreadcrumbList className="text-lg">
+          <BreadcrumbItem>
+            <Link></Link>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>My Favorite Courses</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
       <p className="text-4xl">My Wishlist</p>
       <CourseContainer
         courses={courses}

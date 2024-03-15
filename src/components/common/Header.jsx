@@ -15,6 +15,15 @@ import {
 } from "@/components/Icons";
 import { LanguageSwitcher, ThemeSwitcher } from "@/components/common";
 import { Avatar } from "@/components/ui";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import useDropdown from "@/hooks/useDropdown";
 import { isEmptyObject, isLecturer } from "@/utils/utils";
 
@@ -174,45 +183,28 @@ const Header = () => {
                 ))}
               </>
             ) : (
-              <div
-                ref={avatarRef}
-                className="relative"
-                onClick={toggleOpenAvatar}
-              >
-                <Avatar src={currentUser.avatar} />
-                <div
-                  className="absolute left-[-100%] top-[110%] z-10 hidden w-32 divide-y divide-gray-100 rounded-lg bg-white shadow 
-                  dark:divide-gray-600 dark:bg-gray-700 md:left-0 md:w-44"
-                  style={{ display: openAvatar && "block" }}
-                >
-                  <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
-                    <div>{currentUser.firstName}</div>
-                    <div className="truncate font-medium">
-                      {currentUser.email}
-                    </div>
-                  </div>
-                  <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
-                    {avtOptions.map((opt, idx) => (
-                      <li key={idx}>
-                        <Link
-                          to={opt.href}
-                          className="block px-4 py-2 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600"
-                        >
-                          {t(`header.${opt.key}`)}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="py-1">
-                    <button
-                      onClick={handleLogout}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200
-                     dark:hover:bg-gray-600 dark:hover:text-white"
-                    >
-                      Sign out
-                    </button>
-                  </div>
-                </div>
+              <div className="home">
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <Avatar src={currentUser.avatar} />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56">
+                    <DropdownMenuLabel>
+                      <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
+                        <div>{currentUser.firstName}</div>
+                        <div className="truncate font-medium">
+                          {currentUser.email}
+                        </div>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem>Profile</DropdownMenuItem>
+                      <DropdownMenuItem>Settings</DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem>Log out</DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             )}
             <span className="ml-1 mr-0 h-5 w-0.5 bg-gray-200 dark:bg-gray-600 lg:ml-3 lg:mr-1.5 lg:inline"></span>
@@ -328,3 +320,33 @@ const Header = () => {
 };
 
 export default Header;
+
+{
+  /* <div
+                  className="absolute left-[-100%] top-[110%] z-10 hidden w-32 divide-y divide-gray-100 rounded-lg bg-white shadow 
+                  dark:divide-gray-600 dark:bg-gray-700 md:left-0 md:w-44"
+                  style={{ display: openAvatar && "block" }}
+                >
+                  <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
+                    {avtOptions.map((opt, idx) => (
+                      <li key={idx}>
+                        <Link
+                          to={opt.href}
+                          className="block px-4 py-2 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600"
+                        >
+                          {t(`header.${opt.key}`)}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="py-1">
+                    <button
+                      onClick={handleLogout}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200
+                     dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      Sign out
+                    </button>
+                  </div>
+                </div> */
+}

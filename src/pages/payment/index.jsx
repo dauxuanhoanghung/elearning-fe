@@ -15,7 +15,6 @@ import {
 
 import { Spinner } from "@/components/common";
 import { useSnackbar } from "@/contexts/SnackbarContext";
-import DefaultLayout from "@/layout";
 import { courseService, registrationService } from "@/services";
 import { isEmptyObject } from "@/utils/utils";
 
@@ -61,7 +60,7 @@ const PaymentPage = () => {
   };
 
   return (
-    <DefaultLayout>
+    <>
       {loading && <Spinner />}
       {!loading && (
         <Container>
@@ -98,7 +97,7 @@ const PaymentPage = () => {
           </Button>
         </Container>
       )}
-    </DefaultLayout>
+    </>
   );
 };
 

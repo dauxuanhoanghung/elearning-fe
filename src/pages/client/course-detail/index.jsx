@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 
-import { Breadcrumbs, Typography } from "@mui/material";
 
 import firebaseService from "@/app/firebase/firebaseService";
 import { changeChatUser } from "@/app/store/chatSlice";
