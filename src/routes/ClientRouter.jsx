@@ -17,6 +17,8 @@ import ResultPaymentPage from "@/pages/payment/result";
 import { ProfilePage, SettingsPage } from "@/pages/profile";
 import { isEmptyObject, isLecturer } from "@/utils/utils";
 import LectureDetailPage from "@/pages/client/lecture-detail";
+import BlogsPage from "@/pages/client/blog";
+import BlogDetailsPage from "@/pages/client/blog/blog-detail";
 
 const AnonymousRoute = ({ redirect = "/" }) => {
   const { user: currentUser, isLogin } = useSelector((state) => state.user);
@@ -74,9 +76,9 @@ const ClientRouter = [
       {
         path: "blog",
         children: [
-          { index: true, element: null },
+          { index: true, element: <BlogsPage /> },
           { path: "post", element: <AuthenticatedRoute></AuthenticatedRoute> },
-          { path: ":blogId", element: null },
+          { path: ":slug", element: <BlogDetailsPage /> },
         ],
       },
       {
