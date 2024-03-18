@@ -9,7 +9,7 @@ import { ForgotPasswordPage, LoginPage, SignupPage } from "@/pages/auth";
 import CourseDetailPage from "@/pages/client/course-detail";
 import FavoritePage from "@/pages/client/favorite";
 import MyBusinessPage from "@/pages/client/my-business";
-import MyCoursePage from "@/pages/client/myCourse";
+import MyCoursePage from "@/pages/client/my-course";
 import RegisterLecturerPage from "@/pages/client/register-lecturer";
 import HomePage from "@/pages/home";
 import PaymentPage from "@/pages/payment";

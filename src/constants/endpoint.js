@@ -36,6 +36,7 @@ const endpoints = {
 
   courseBase: BASE.courses,
   courseTotalPage: `${BASE.courses}/get-total-course-page`,
+  courseMyLearning: `${BASE.courses}/get-my-learning`,
   courseMyBusiness: `${BASE.courses}/my-business`,
   courseCreateSection: `${BASE.courses}/after-create-course`,
   courseSectionById: (id) => `${BASE.courses}/${id}/get-section`,

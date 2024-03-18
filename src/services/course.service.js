@@ -10,7 +10,13 @@ const courseService = {
   countTotalCoursePage() {
     return get(endpoints.courseTotalPage);
   },
-  getMyCourse(page = 0) {
+  getMyLearningCourse(page = 0) {
+    return get(endpoints.courseMyLearning, {
+      page: page,
+      learning: true,
+    });
+  },
+  getMyBusinessCourse(page = 0) {
     return get(endpoints.courseMyBusiness, {
       page: page,
       business: true,

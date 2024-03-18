@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
 
-import AddIcon from "@mui/icons-material/Add";
+import { Alert, Box, Grid } from "@mui/material";
+
+import { Skeleton } from "@/components/common";
+import CourseContainer from "@/components/CourseContainer";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -12,12 +15,9 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-
-import { Skeleton } from "@/components/common";
 import { courseService } from "@/services";
-import CourseContainer from "@/components/CourseContainer/index";
 
-const MyBusinessPage = () => {
+const MyCoursePage = () => {
   const { t } = useTranslation();
 
   //#region Course
@@ -36,7 +36,7 @@ const MyBusinessPage = () => {
   const [page, setPage] = useState(0);
   const courseQuery = useQuery({
     queryKey: ["mybusiness:courses", page], // The query key is an array with the page number
-    queryFn: () => courseService.getMyBusinessCourse(page), // The query function returns a promise
+    queryFn: () => courseService.getMyLearningCourse(page), // The query function returns a promise
     keepPreviousData: true,
   });
 
@@ -51,7 +51,7 @@ const MyBusinessPage = () => {
   //#endregion
 
   return (
-    <main className="container" data-component="my-business-page">
+    <main className="container" data-component="my-learning-page">
       <Breadcrumb>
         <BreadcrumbList className="text-lg">
           <BreadcrumbItem>
@@ -59,41 +59,25 @@ const MyBusinessPage = () => {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>My Business</BreadcrumbPage>
+            <BreadcrumbPage>My Learning Courses</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <p className="text-4xl">My Courses</p>
-
-      <div data-role="add-new-course">
-        <div className="my-4 bg-gray-300 dark:bg-gray-700 ">
-          <Link
-            to="/course/create"
-            className="text-decoration-none block text-center"
-          >
-            <div className="flex items-center justify-center rounded-lg p-4 text-black shadow-md transition duration-300 dark:text-white">
-              <h6 className="text-lg font-semibold text-black dark:text-white">
-                {t("business.addNew")}
-              </h6>
-              <AddIcon className="h-10 w-10 " />
-            </div>
-          </Link>
-        </div>
-      </div>
-
+      <p className="text-4xl">My Learning Courses</p>
       {isLoading ? (
         <Skeleton />
       ) : (
-        <div data-role="courses pt-5">
-          <div className="">
-            {courses.length === 0 && (
-              <div className="m-8 w-full">
-                <div className="rounded-lg bg-red-200 p-4">
-                  <p className="text-red-600">
-                    You never created a course before!!!
-                  </p>
-                </div>
-              </div>
+        <>
+          <Grid container spacing={2}>
+            {courses?.length === 0 && (
+              <>
+                <Box container sx={{ margin: "30px", width: "100%" }}>
+                  <Alert severity="error" sx={{ width: "100%" }}>
+                    Your never Learning before !!! Go back to choose a course
+                    <Link to="/"> Go to home</Link>
+                  </Alert>
+                </Box>
+              </>
             )}
             <CourseContainer
               courses={courses}
@@ -102,11 +86,10 @@ const MyBusinessPage = () => {
               onPageChange={handleChangePage}
               isError={isError || paginationError}
             />
-          </div>
-        </div>
+          </Grid>
+        </>
       )}
     </main>
   );
 };
-
-export default MyBusinessPage;
+export default MyCoursePage;
