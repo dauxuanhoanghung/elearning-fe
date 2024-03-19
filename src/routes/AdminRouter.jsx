@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Navigate, useLocation, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import AdminLayout from "@/layout/AdminLayout";

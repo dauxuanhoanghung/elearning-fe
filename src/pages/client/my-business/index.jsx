@@ -1,9 +1,8 @@
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
-import AddIcon from "@mui/icons-material/Add";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -12,10 +11,11 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import AddIcon from "@mui/icons-material/Add";
 
+import CourseContainer from "@/components/CourseContainer/index";
 import { Skeleton } from "@/components/common";
 import { courseService } from "@/services";
-import CourseContainer from "@/components/CourseContainer/index";
 
 const MyBusinessPage = () => {
   const { t } = useTranslation();
@@ -23,7 +23,7 @@ const MyBusinessPage = () => {
   //#region Course
   const pageQuery = useQuery({
     queryKey: ["mybusiness:totalPage"],
-    queryFn: () => courseService.countTotalCoursePage(),
+    queryFn: () => courseService.countTotalPage(),
   });
   const {
     isLoading: paginationLoading,

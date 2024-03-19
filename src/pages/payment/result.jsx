@@ -1,6 +1,7 @@
-import { Alert, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+
+import { Alert } from "@mui/material";
 
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { registrationService } from "@/services";
@@ -11,6 +12,7 @@ const ResultPaymentPage = () => {
   const [loading, setLoading] = useState(true);
   const vnp_ResponseCode = params.get("vnp_ResponseCode");
   const navigate = useNavigate();
+
   useEffect(() => {
     console.log(params);
     const handleRegister = async () => {
@@ -37,8 +39,8 @@ const ResultPaymentPage = () => {
   }, []);
 
   return (
-    <div>
-      {loading && <Typography severity="success">Loading</Typography>}
+    <div className="container">
+      {loading && <p className="text-green-600">Loading</p>}
       {!loading && vnp_ResponseCode !== "00" ? (
         <Alert severity="error">Payment Fail!</Alert>
       ) : (

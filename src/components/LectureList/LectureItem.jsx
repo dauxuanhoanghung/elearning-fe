@@ -1,38 +1,22 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
-import EditNoteIcon from "@mui/icons-material/EditNote";
-/**
- *
- * @param {id, orderIndex, title, content, type, videos(id, video_url), courseId} props
- * @returns
- */
+
+import { EditNoteIcon, SlowMotionVideoIcon } from "@mui/icons-material";
+
 const LectureItem = (props) => {
   const { id, orderIndex, title, type, videos, courseId } = props;
   return (
     <>
       <Link
         to={`/course/${courseId}/learning?lectureId=${id}`}
-        style={{ textDecoration: "none", color: "#000", padding: "2px" }}
+        className="block w-full p-2 text-black no-underline"
       >
-        <Typography variant="h6" component="div">
-          {`${orderIndex}. ${title}`}
-        </Typography>
-        <Box sx={{ display: "flex" }}>
-          {type === "VIDEO" && (
-            <>
-              <SlowMotionVideoIcon />
-              <Typography variant="body2">{type}</Typography>
-            </>
-          )}
-          {type === "TEXT" && (
-            <>
-              <EditNoteIcon />
-              <Typography>{type}</Typography>
-            </>
-          )}
-        </Box>
+        <h6 className="text-lg font-bold">{`${orderIndex}. ${title}`}</h6>
+        <div className="flex items-center">
+          {type === "VIDEO" && <SlowMotionVideoIcon className="mr-1 h-6 w-6" />}
+          {type === "TEXT" && <EditNoteIcon className="mr-1 h-6 w-6" />}
+          <p className="text-sm">{type}</p>
+        </div>
       </Link>
     </>
   );

@@ -2,13 +2,16 @@ import endpoints from "@/constants/endpoint";
 import { deletes, get, post, put } from "@/utils/request";
 
 const courseService = {
-  getCourses(page = 0) {
+  getCourses(page = 0, params = {}) {
     return get(endpoints.courseBase, {
       page: page,
+      ...params,
     });
   },
-  countTotalCoursePage() {
-    return get(endpoints.courseTotalPage);
+  countTotalPage(params = {}) {
+    return get(endpoints.courseTotalPage, {
+      ...params,
+    });
   },
   getMyLearningCourse(page = 0) {
     return get(endpoints.courseMyLearning, {

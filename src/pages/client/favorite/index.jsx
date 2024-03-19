@@ -1,10 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 
 import CourseContainer from "@/components/CourseContainer";
-import { favoriteService } from "@/services";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,13 +11,14 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { favoriteService } from "@/services";
 
 const FavoritePage = () => {
   const { t } = useTranslation();
 
   const pageQuery = useQuery({
-    queryKey: ["totalPage", "wishlist"],
-    queryFn: () => courseService.countTotalCoursePage(),
+    queryKey: ["wishlist", "totalPage"],
+    queryFn: () => courseService.countTotalPage(),
   });
   const {
     isLoading: paginationLoading,

@@ -23,7 +23,7 @@ const MyCoursePage = () => {
   //#region Course
   const pageQuery = useQuery({
     queryKey: ["mybusiness:totalPage"],
-    queryFn: () => courseService.countTotalCoursePage(),
+    queryFn: () => courseService.countTotalPage(),
   });
   const {
     isLoading: paginationLoading,

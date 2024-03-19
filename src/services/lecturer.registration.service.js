@@ -1,3 +1,4 @@
+import { get } from "@/utils/request";
 import {
   URL_DELETE_LECTURER_FORM_BY_ID,
   URL_GET_LECTURER_FORM_BY_CURRENT_USER,
@@ -36,11 +37,9 @@ const lecturerRegistrationService = {
       },
     });
   },
-  getRegistrationForms(page = 0) {
-    return http.get(URL_LECTURER_REGISTRATION, {
-      params: {
-        page: page,
-      },
+  getAllForms(page = 0) {
+    return get(URL_LECTURER_REGISTRATION, {
+      page: page,
     });
   },
   approvalForm(id) {

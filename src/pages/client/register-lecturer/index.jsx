@@ -21,7 +21,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { lecturerRegistrationService } from "@/services";
-import { titleStyle } from "@/utils/styles";
 
 const RegisterLecturerPage = () => {
   const { showSnackbar } = useSnackbar();
