@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { EditNoteIcon, SlowMotionVideoIcon } from "@mui/icons-material";
+import EditNoteIcon from "@mui/icons-material/EditNote";
+import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 
 const LectureItem = (props) => {
   const { id, orderIndex, title, type, videos, courseId } = props;

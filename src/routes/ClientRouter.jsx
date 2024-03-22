@@ -14,9 +14,9 @@ import LectureDetailPage from "@/pages/client/lecture-detail";
 import MyBusinessPage from "@/pages/client/my-business";
 import MyCoursePage from "@/pages/client/my-course";
 import RegisterLecturerPage from "@/pages/client/register-lecturer";
+import SearchCoursePage from "@/pages/client/search";
 import HomePage from "@/pages/home";
-import PaymentPage from "@/pages/payment";
-import ResultPaymentPage from "@/pages/payment/result";
+import { PaymentPage, ResultPaymentPage } from "@/pages/payment";
 import { ProfilePage, SettingsPage } from "@/pages/profile";
 import { isEmptyObject, isLecturer } from "@/utils/utils";
 
@@ -74,6 +74,10 @@ const ClientRouter = [
         element: <HomePage />,
       },
       {
+        path: "search",
+        element: <SearchCoursePage />,
+      },
+      {
         path: "blog",
         children: [
           { index: true, element: <BlogsPage /> },
@@ -106,6 +110,15 @@ const ClientRouter = [
               },
               { index: true, element: <Navigate to="/" /> },
             ],
+          },
+        ],
+      },
+      {
+        path: "user",
+        children: [
+          {
+            path: ":userId",
+            element: null,
           },
         ],
       },

@@ -7,7 +7,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { logout } from "@/app/store/userSlice";
 import logo from "@/assets/logo.png";
 import {
-  ChevronDown,
   FacebookIcon,
   FindIcon,
   InstagramIcon,
@@ -230,46 +229,14 @@ const Header = () => {
             >
               Search
             </label>
-            <div
-              onBlur={handleOpenCategoriesBlur}
-              onClick={toggleOpenCategories}
+            <Link
+              to="/search"
               className="relative z-10 hidden shrink-0 items-center rounded-l-lg border border-gray-300 
               bg-gray-100 px-4 py-2.5 text-center text-sm font-medium text-black hover:bg-gray-200 
               dark:border-gray-600 dark:bg-gray-900 dark:text-white dark:hover:bg-gray-800 md:block"
             >
-              <span className="md:inline-flex">
-                All categories
-                <ChevronDown />
-              </span>
-              <div
-                className="absolute left-[-1rem] top-12 z-10 hidden w-44 divide-y-[1px] rounded-sm 
-                border-gray-300 bg-white shadow dark:bg-gray-700"
-                style={{
-                  display: openCategories && "block",
-                }}
-              >
-                <ul className="p-1 text-sm text-gray-700 dark:text-gray-200">
-                  <li>
-                    <button
-                      type="button"
-                      className="inline-flex w-full px-4 py-2 hover:bg-gray-100 
-                        dark:hover:bg-gray-600 dark:hover:text-white"
-                    >
-                      Mockups
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                      className="inline-flex w-full px-4 py-2 hover:bg-gray-100 
-                        dark:hover:bg-gray-600 dark:hover:text-white"
-                    >
-                      Templates
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            </div>
+              <span className="md:inline-flex">Advanced Search</span>
+            </Link>
             <div className="relative w-full">
               <input
                 value={searchKw}

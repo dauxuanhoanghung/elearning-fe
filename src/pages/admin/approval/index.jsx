@@ -30,9 +30,13 @@ const AdminApprovalPage = () => {
     isLoading,
     data: registrationForms,
     error,
-  } = useQuery(["admin", "registrationForms", page], async () => {
-    const res = await lecturerRegistrationService.getAllForms(page);
-    return res.data;
+  } = useQuery({
+    queryKey: ["admin", "registrationForms", page],
+    queryFn: async () => {
+      const res = await lecturerRegistrationService.getAllForms(page);
+      return res.data;
+    },
+  
   });
 
   useEffect(() => {
