@@ -5,8 +5,6 @@ import { Outlet } from "react-router-dom";
 
 import AdminNavbar from "@/components/common/AdminNavbar";
 import AdminSidebar from "@/components/common/AdminSidebar";
-import { ForbiddenPage } from "@/pages/errors";
-import { isAdmin } from "@/utils/utils";
 
 const AdminLayout = () => {
   const currentUser = useSelector((state) => state.user.user);
@@ -21,9 +19,9 @@ const AdminLayout = () => {
         <AdminSidebar open={openSidebar} />
         <main
           className={classNames(
-            "relative h-full w-full overflow-y-auto bg-gray-50 p-4 transition-all",
+            "relative min-h-screen w-full overflow-y-auto bg-gray-50 p-4 transition-all dark:bg-gray-800",
             {
-              " lg:ml-64": openSidebar,
+              "lg:ml-64": openSidebar,
               "lg:ml-16": !openSidebar,
             },
           )}

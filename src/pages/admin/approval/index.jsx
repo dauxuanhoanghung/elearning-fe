@@ -36,7 +36,6 @@ const AdminApprovalPage = () => {
       const res = await lecturerRegistrationService.getAllForms(page);
       return res.data;
     },
-  
   });
 
   useEffect(() => {

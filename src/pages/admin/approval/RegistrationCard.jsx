@@ -1,19 +1,24 @@
-import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import {
   Avatar,
   Box,
   Button,
   CardMedia,
   Grid,
-  IconButton,
-  InputAdornment,
   Paper,
-  TextField,
   Typography,
 } from "@mui/material";
 import { useState } from "react";
 
-import { Modal } from "@/components/ui";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { lecturerRegistrationService } from "@/services";
 
@@ -94,33 +99,35 @@ const RegistrationCard = (props) => {
               Decline
             </Button>
           </Box>
-          <Modal
+          <Dialog
             open={openModal}
             onClose={handleCloseModal}
             sx={{ height: "20%" }}
           >
-            <>
-              <Typography>Tell the users why you reject them</Typography>
-              <TextField
-                label="Reason to reject"
-                variant="outlined"
-                fullWidth
-                value={reason}
-                onChange={handleReasonChange}
-                onKeyUp={(e) => e.keyCode === 13 && handleDeclineRegistration()}
-                style={{ marginTop: "16px" }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton onClick={handleDeclineRegistration}>
-                        <SendOutlinedIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </>
-          </Modal>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Reject to be the lecturer</DialogTitle>
+                <DialogDescription>
+                  Tell the users why you reject them
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="name" className="text-right">
+                    Name
+                  </Label>
+                  <Input
+                    id="name"
+                    defaultValue="Pedro Duarte"
+                    className="col-span-3"
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button type="submit">Save changes</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </Paper>
       </Grid>
     </>
