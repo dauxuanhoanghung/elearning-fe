@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Box, Divider, Typography, List } from "@mui/material";
 
-import { courseService } from "@/services";
-import LectureItem from "./LectureItem";
+import { Divider, List, Typography } from "@mui/material";
+
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { courseService } from "@/services";
+import LectureItem from "./LectureItem";
 
 const LectureList = () => {
   const { courseId } = useParams();
@@ -18,7 +19,6 @@ const LectureList = () => {
   useEffect(() => {
     const fetchSectionsAndItsLectures = async () => {
       const res = await courseService.getSectionAndLecturesByCourseId(courseId);
-      console.log(res);
       if (res.data.status === 200) {
         setSections(res.data.data);
       }
@@ -27,7 +27,7 @@ const LectureList = () => {
   }, []);
 
   return (
-    <Box sx={{ width: "98%", marginLeft: "auto" }}>
+    <div className="mx-auto w-full">
       <Typography variant="h6">Course content:</Typography>
       <Accordion type="multiple">
         {sections.map((section, idx) => (
@@ -56,7 +56,7 @@ const LectureList = () => {
           </AccordionItem>
         ))}
       </Accordion>
-    </Box>
+    </div>
   );
 };
 

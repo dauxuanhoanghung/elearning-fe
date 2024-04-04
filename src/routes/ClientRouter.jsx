@@ -6,17 +6,25 @@ import DefaultLayout from "@/layout/DefaultLayout";
 import CourseCreationPage from "@/pages/admin/course/create";
 import CourseUpdatePage from "@/pages/admin/course/update";
 import { ForgotPasswordPage, LoginPage, SignupPage } from "@/pages/auth";
+import BlogsPage from "@/pages/client/blog";
+import BlogDetailsPage from "@/pages/client/blog/blog-detail";
 import CourseDetailPage from "@/pages/client/course-detail";
 import FavoritePage from "@/pages/client/favorite";
-import MyBusinessPage from "@/pages/client/my-business";
-import MyCoursePage from "@/pages/client/myCourse";
-import RegisterLecturerPage from "@/pages/client/register-lecturer";
-import HomePage from "@/pages/home";
-import PaymentPage from "@/pages/payment";
-import ResultPaymentPage from "@/pages/payment/result";
-import { ProfilePage, SettingsPage } from "@/pages/profile";
-import { isEmptyObject, isLecturer } from "@/utils/utils";
 import LectureDetailPage from "@/pages/client/lecture-detail";
+import MyBusinessPage from "@/pages/client/my-business";
+import MyCoursePage from "@/pages/client/my-course";
+import RegisterLecturerPage from "@/pages/client/register-lecturer";
+import SearchCoursePage from "@/pages/client/search";
+import HomePage from "@/pages/home";
+import FAQPage from "@/pages/marketing/faq";
+import { PaymentPage, ResultPaymentPage } from "@/pages/payment";
+import {
+  DeleteAccountPage,
+  EditPasswordPage,
+  ProfilePage,
+  SettingsPage,
+} from "@/pages/profile";
+import { isEmptyObject, isLecturer } from "@/utils/utils";
 
 const AnonymousRoute = ({ redirect = "/" }) => {
   const { user: currentUser, isLogin } = useSelector((state) => state.user);
@@ -72,11 +80,15 @@ const ClientRouter = [
         element: <HomePage />,
       },
       {
+        path: "search",
+        element: <SearchCoursePage />,
+      },
+      {
         path: "blog",
         children: [
-          { index: true, element: null },
+          { index: true, element: <BlogsPage /> },
           { path: "post", element: <AuthenticatedRoute></AuthenticatedRoute> },
-          { path: ":blogId", element: null },
+          { path: ":slug", element: <BlogDetailsPage /> },
         ],
       },
       {
@@ -107,6 +119,15 @@ const ClientRouter = [
           },
         ],
       },
+      {
+        path: "user",
+        children: [
+          {
+            path: ":userId",
+            element: null,
+          },
+        ],
+      },
     ],
   },
   {
@@ -119,6 +140,8 @@ const ClientRouter = [
     children: [
       { path: "profile", element: <ProfilePage /> },
       { path: "settings", element: <SettingsPage /> },
+      { path: "edit-password", element: <EditPasswordPage /> },
+      { path: "delete-account", element: <DeleteAccountPage /> },
       { path: "my-favorite", element: <FavoritePage /> },
       { path: "my-course", element: <MyCoursePage /> },
       { path: "register-lecturer", element: <RegisterLecturerPage /> },
@@ -135,6 +158,11 @@ const ClientRouter = [
       { path: "signup", element: <SignupPage /> },
       { path: "forgot-password", element: <ForgotPasswordPage /> },
     ],
+  },
+  {
+    path: "/",
+    element: <DefaultLayout />,
+    children: [{ path: "faq", element: <FAQPage /> }],
   },
 ];
 

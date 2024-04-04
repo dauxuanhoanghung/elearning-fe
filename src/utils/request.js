@@ -6,10 +6,10 @@ function delay(ms = 0) {
 
 /**
  * Method GET
- * @param url
- * @param params
- * @param headers
- * @returns { Promise }
+ * @param {string} url - the url to make the GET request to
+ * @param {Object} [params={}] - the parameters to be included in the request
+ * @param {Object} [headers={}] - the headers to be included in the request
+ * @returns {Promise} the response data
  */
 export async function get(url, params = {}, headers = {}) {
   try {

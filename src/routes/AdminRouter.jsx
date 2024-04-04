@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Navigate, useLocation, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import AdminLayout from "@/layout/AdminLayout";
@@ -8,6 +8,7 @@ import {
   AdminHomePage,
   AdminStatsPage,
 } from "@/pages/admin";
+import { AdminListUserPage } from "@/pages/admin/user";
 import { isAdmin } from "@/utils/utils";
 
 const AdminRoute = ({ redirect = "/" }) => {
@@ -26,9 +27,9 @@ const AdminRouter = [
   {
     path: "/admin",
     element: (
-      <AdminRoute>
-        <AdminLayout />
-      </AdminRoute>
+      <AdminLayout>
+        <AdminRoute></AdminRoute>
+      </AdminLayout>
     ),
     children: [
       {
@@ -41,7 +42,7 @@ const AdminRouter = [
       },
       {
         path: "users",
-        element: null,
+        element: <AdminListUserPage />,
       },
       {
         path: "courses",

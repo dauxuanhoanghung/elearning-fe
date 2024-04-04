@@ -1,22 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-
-import {
-  Avatar,
-  Box,
-  Breadcrumbs,
-  Button,
-  Grid,
-  Typography,
-} from "@mui/material";
-import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 
 import { setUser } from "@/app/store/userSlice";
 import { Spinner } from "@/components/common";
 import { useSnackbar } from "@/contexts/SnackbarContext";
-import DefaultLayout from "@/layout";
 import { userService } from "@/services";
+import ProfileLayout from "./ProfileLayout";
 
 const ProfilePage = (props) => {
   // #region input avatar
@@ -100,131 +89,93 @@ const ProfilePage = (props) => {
       {loading ? (
         <Spinner />
       ) : (
-        <DefaultLayout>
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link to="/" style={{ textDecoration: "none" }}>
-              Home
-            </Link>
-            <Typography color="textPrimary">My Profile</Typography>
-          </Breadcrumbs>
-          <Box sx={{ width: "90%", margin: "10px auto" }}>
-            <Grid
-              item
-              md={12}
-              sx={{ display: "flex", justifyContent: "center" }}
-            >
-              <Typography variant="h4">My Account profile</Typography>
-            </Grid>
-            <ValidatorForm onSubmit={handleSubmit}>
-              <Grid container spacing={2} sx={{ width: "100%" }}>
-                <Grid item sm={12} xs={12}>
-                  <TextValidator
-                    style={{ width: "100%" }}
+        <ProfileLayout title="Profile">
+          <div className="mx-auto w-[90%]">
+            <form onSubmit={handleSubmit}>
+              <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                  <input
+                    className="w-full rounded-md bg-gray-100 px-4 py-2"
                     type="text"
                     name="username"
                     value={userInfo?.username}
                     disabled
                     onChange={handleInputChange}
-                    label={
-                      <Typography variant="subtitle2">Your username</Typography>
-                    }
-                    validators={["required"]}
-                    errorMessages={["Trường này không được để trống"]}
+                    placeholder="Your username"
+                    required
                   />
-                </Grid>
-                <Grid item sm={12} md={6}>
-                  <TextValidator
-                    style={{ width: "100%" }}
+                </div>
+                <div>
+                  <input
+                    className="w-full rounded-md bg-gray-100 px-4 py-2"
                     type="text"
                     name="firstName"
                     value={userInfo?.firstName}
                     onChange={handleInputChange}
-                    label={
-                      <Typography variant="subtitle2">
-                        <span style={{ color: "red" }}>*</span>
-                        Your first name
-                      </Typography>
-                    }
-                    validators={["required"]}
-                    errorMessages={["This can be not blank"]}
+                    placeholder="Your first name"
+                    required
                   />
-                </Grid>
-                <Grid item sm={12} md={6}>
-                  <TextValidator
-                    style={{ width: "100%" }}
+                </div>
+                <div>
+                  <input
+                    className="w-full rounded-md bg-gray-100 px-4 py-2"
                     type="text"
                     name="lastName"
                     value={userInfo?.lastName}
                     onChange={handleInputChange}
-                    label={
-                      <Typography variant="subtitle2">
-                        <span style={{ color: "red" }}>*</span>
-                        Your last name
-                      </Typography>
-                    }
-                    validators={["required"]}
-                    errorMessages={["This can be not blank"]}
+                    placeholder="Your last name"
+                    required
                   />
-                </Grid>
-                <Grid item sm={12} md={12}>
-                  <TextValidator
-                    style={{ width: "100%" }}
-                    className="input-text"
+                </div>
+                <div>
+                  <input
+                    className="w-full rounded-md bg-gray-100 px-4 py-2"
                     type="text"
                     name="email"
                     value={userInfo?.email}
                     onChange={handleInputChange}
-                    label={
-                      <Typography variant="subtitle2">Your Email</Typography>
-                    }
+                    placeholder="Your Email"
                   />
-                </Grid>
-                <Grid item sm={12} md={12}>
+                </div>
+                <div>
                   <input
-                    style={{ width: "100%", display: "none" }}
+                    className="hidden"
                     type="file"
                     id="avatarInput"
                     accept="image/*"
                     onChange={handleBackgroundImageUpload}
                   />
-                  <label htmlFor="avatarInput">
-                    <Typography variant="subtitle2">
-                      {backgroundImageURL ? (
-                        <>
-                          <Typography variant="subtitle2">
-                            Your avatar
-                          </Typography>
-                          <Avatar
-                            src={backgroundImageURL}
-                            alt="Avatar Preview"
-                            style={{ width: "200px", height: "200px" }}
-                          />
-                        </>
-                      ) : (
-                        <Box sx={{ border: "solid 1px", height: "100px" }}>
-                          <Typography variant="subtitle2">
-                            Add your new avatar here
-                          </Typography>
-                        </Box>
-                      )}
-                    </Typography>
+                  <label htmlFor="avatarInput" className="cursor-pointer">
+                    {backgroundImageURL ? (
+                      <>
+                        <span className="text-sm">Your avatar</span>
+                        <img
+                          src={backgroundImageURL}
+                          alt="Avatar Preview"
+                          className="mt-2 h-48 w-48 rounded-full object-cover"
+                        />
+                      </>
+                    ) : (
+                      <div className="flex h-24 items-center justify-center rounded-md border border-gray-300">
+                        <span className="text-sm">
+                          Add your new avatar here
+                        </span>
+                      </div>
+                    )}
                   </label>
-                </Grid>
-                <Grid item sm={12} xs={12}>
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    sx={{ margin: "10px 0", width: "100%" }}
-                    className="btn btn--e-transparent-brand-b-2"
+                </div>
+                <div className="sm:col-span-2">
+                  <button
                     type="submit"
+                    className="w-full rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-600"
                   >
                     Update Info
-                  </Button>
-                </Grid>
-              </Grid>
-            </ValidatorForm>
-          </Box>
-        </DefaultLayout>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </ProfileLayout>
       )}
     </>
   );

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import ReactPlayer from "react-player";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -7,7 +8,6 @@ import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import {
   Alert,
   Box,
-  Button,
   IconButton,
   InputAdornment,
   TextField,
@@ -21,6 +21,7 @@ import { secondsToMMSS } from "@/utils/utils";
 import UserNote from "./UserNote";
 
 const LectureDetail = () => {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const lectureId = searchParams.get("lectureId");
   const navigate = useNavigate();
@@ -159,32 +160,19 @@ const LectureDetail = () => {
         onPlay={handlePlay}
         onSeek={handleSeek}
       />
-      {/* <Box>
-        <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
-          <VolumeDown />
-          <Slider aria-label="Volume" value={playerState?.volume * 100} onChange={handleChangeVolume} />
-          <VolumeUp />
-        </Stack>
-      </Box> */}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          margin: "10px auto",
-        }}
-      >
-        <Typography variant="h6">{lectureData?.title}</Typography>
-        <Button
+      <div className="mx-auto my-10 flex justify-between">
+        <h6 className="text-xl">{lectureData?.title}</h6>
+        <button
           onClick={handleOpenModal}
-          sx={{ backgroundColor: "#ebebeb", padding: "10px", color: "#000" }}
+          className="flex items-center bg-gray-300 px-4 py-2"
         >
-          <AddIcon />
+          <AddIcon className="mr-1 h-6 w-6" />
           Add a note
-        </Button>
-      </Box>
-      <Box>
-        <Typography variant="h6">{lectureData.content}</Typography>
-      </Box>
+        </button>
+      </div>
+      <div>
+        <h6 className="text-xl">{lectureData.content}</h6>
+      </div>
 
       <Modal open={openModal} onClose={handleCloseModal}>
         <>

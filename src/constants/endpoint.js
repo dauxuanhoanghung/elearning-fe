@@ -29,13 +29,15 @@ const endpoints = {
   currentUser: `${BASE.users}/current-user`,
   userRegister: BASE.users,
   userUpdateInfo: `${BASE.users}/update-info`,
+  countUsers: `${BASE.users}/count`,
 
   userNoteBase: BASE.userNotes,
   userNoteByLecture: (lectureId) => `${BASE.userNotes}/${lectureId}/get-note`,
   userNoteDeleteById: (id) => `${BASE.userNotes}/${id}/delete`,
 
   courseBase: BASE.courses,
-  courseTotalPage: `${BASE.courses}/get-total-course-page`,
+  courseTotalPage: `${BASE.courses}/get-total-page`,
+  courseMyLearning: `${BASE.courses}/get-my-learning`,
   courseMyBusiness: `${BASE.courses}/my-business`,
   courseCreateSection: `${BASE.courses}/after-create-course`,
   courseSectionById: (id) => `${BASE.courses}/${id}/get-section`,
