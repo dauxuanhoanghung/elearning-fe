@@ -16,8 +16,14 @@ import MyCoursePage from "@/pages/client/my-course";
 import RegisterLecturerPage from "@/pages/client/register-lecturer";
 import SearchCoursePage from "@/pages/client/search";
 import HomePage from "@/pages/home";
+import FAQPage from "@/pages/marketing/faq";
 import { PaymentPage, ResultPaymentPage } from "@/pages/payment";
-import { ProfilePage, SettingsPage } from "@/pages/profile";
+import {
+  DeleteAccountPage,
+  EditPasswordPage,
+  ProfilePage,
+  SettingsPage,
+} from "@/pages/profile";
 import { isEmptyObject, isLecturer } from "@/utils/utils";
 
 const AnonymousRoute = ({ redirect = "/" }) => {
@@ -134,6 +140,8 @@ const ClientRouter = [
     children: [
       { path: "profile", element: <ProfilePage /> },
       { path: "settings", element: <SettingsPage /> },
+      { path: "edit-password", element: <EditPasswordPage /> },
+      { path: "delete-account", element: <DeleteAccountPage /> },
       { path: "my-favorite", element: <FavoritePage /> },
       { path: "my-course", element: <MyCoursePage /> },
       { path: "register-lecturer", element: <RegisterLecturerPage /> },
@@ -150,6 +158,11 @@ const ClientRouter = [
       { path: "signup", element: <SignupPage /> },
       { path: "forgot-password", element: <ForgotPasswordPage /> },
     ],
+  },
+  {
+    path: "/",
+    element: <DefaultLayout />,
+    children: [{ path: "faq", element: <FAQPage /> }],
   },
 ];
 

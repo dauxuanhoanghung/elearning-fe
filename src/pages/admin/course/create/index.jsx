@@ -263,3 +263,106 @@ const CourseCreationPage = ({}) => {
 };
 
 export default CourseCreationPage;
+
+{
+  /* <div className="container mx-auto my-20 min-h-500"></div>
+          <div className="space-y-4"></div>
+            <div className="flex items-center space-x-4"></div>
+              {steps.map((label, index) => (
+                <button
+                  key={label}
+                  className={`${
+                    activeStep === index
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-200 text-gray-700"
+                  } px-4 py-2 rounded-md`}
+                  onClick={handleStep(index)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <div></div>
+              {allStepsCompleted() ? (
+                <></>
+                  <p className="mt-2 mb-1"></p>
+                    All steps completed - you're finished
+                  </p>
+                  <div className="flex items-center space-x-2 pt-2">
+                    <div className="flex-1"></div>
+                    <button
+                      className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md"
+                      onClick={handleReset}
+                    >
+                      Reset
+                    </button>
+                    <button
+                      className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                      onClick={handleFetchToSaveData}
+                    >
+                      Complete
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p className="mt-2 mb-1 py-1">
+                    {activeStep === 0 && (
+                      <CreateCourseForm
+                        courseData={courseData}
+                        setCourseData={setCourseData}
+                      />
+                    )}
+                    {activeStep === 1 && (
+                      <CreateLectureForm
+                        courseData={courseData}
+                        setCourseData={setCourseData}
+                      />
+                    )}
+                  </p>
+                  <div className="flex items-center space-x-2 pt-2">
+                    <button
+                      className={`${
+                        activeStep === 0
+                          ? "bg-gray-200 text-gray-700"
+                          : "bg-blue-500 text-white"
+                      } px-4 py-2 rounded-md`}
+                      disabled={activeStep === 0}
+                      onClick={handleBack}
+                    >
+                      Back
+                    </button>
+                    <div className="flex-1"></div>
+                    <button
+                      className={`${
+                        activeStep === steps.length - 1
+                          ? "bg-gray-200 text-gray-700"
+                          : "bg-blue-500 text-white"
+                      } px-4 py-2 rounded-md`}
+                      onClick={handleNext}
+                      disabled={activeStep === steps.length - 1}
+                    >
+                      Next
+                    </button>
+                    {activeStep !== steps.length &&
+                      (completed[activeStep] ? (
+                        <p className="inline-block">
+                          Step {activeStep + 1} already completed
+                        </p>
+                      ) : (
+                        <button
+                          className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                          onClick={handleComplete}
+                        >
+                          {completedSteps() === totalSteps() - 1
+                            ? "Finish"
+                            : "Complete Step"}
+                        </button>
+                      ))}
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </div> */
+}

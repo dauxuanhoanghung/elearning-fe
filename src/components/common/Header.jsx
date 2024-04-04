@@ -197,10 +197,24 @@ const Header = () => {
                       </div>
                     </DropdownMenuLabel>
                     <DropdownMenuGroup>
-                      <DropdownMenuItem>Profile</DropdownMenuItem>
-                      <DropdownMenuItem>Settings</DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Link to="/profile">
+                          <span className=" text-gray-700 dark:text-white">
+                            Profile
+                          </span>
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Link to="settings">
+                          <span className=" text-gray-700 dark:text-white">
+                            Settings
+                          </span>
+                        </Link>
+                      </DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem>Log out</DropdownMenuItem>
+                      <DropdownMenuItem onClick={handleLogout}>
+                        Log out
+                      </DropdownMenuItem>
                     </DropdownMenuGroup>
                   </DropdownMenuContent>
                 </DropdownMenu>

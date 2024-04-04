@@ -36,7 +36,7 @@ const endpoints = {
   userNoteDeleteById: (id) => `${BASE.userNotes}/${id}/delete`,
 
   courseBase: BASE.courses,
-  courseTotalPage: `${BASE.courses}/get-total-course-page`,
+  courseTotalPage: `${BASE.courses}/get-total-page`,
   courseMyLearning: `${BASE.courses}/get-my-learning`,
   courseMyBusiness: `${BASE.courses}/my-business`,
   courseCreateSection: `${BASE.courses}/after-create-course`,
