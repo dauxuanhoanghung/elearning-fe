@@ -198,7 +198,7 @@ const Header = () => {
                     </DropdownMenuLabel>
                     <DropdownMenuGroup>
                       <DropdownMenuItem>
-                        <Link to="/profile">
+                        <Link to="profile">
                           <span className=" text-gray-700 dark:text-white">
                             Profile
                           </span>

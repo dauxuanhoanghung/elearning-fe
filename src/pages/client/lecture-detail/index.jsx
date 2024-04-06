@@ -41,7 +41,7 @@ const LectureDetailPage = () => {
   return (
     <main data-component="lecture-detail-page">
       <div className="grid grid-cols-1 sm:grid-cols-3">
-        <div className="sm:col-span-2">
+        <div className="border-r border-black dark:border-white sm:col-span-2">
           <LectureDetail />
           <CommentContainer
             comments={comments}
@@ -52,7 +52,7 @@ const LectureDetailPage = () => {
           />
         </div>
         <div className="sm:col-span-1">
-          <LectureList />
+          <LectureList isCourseDetailPage={false} />
         </div>
       </div>
     </main>
