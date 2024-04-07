@@ -15,6 +15,7 @@ import MyBusinessPage from "@/pages/client/my-business";
 import MyCoursePage from "@/pages/client/my-course";
 import RegisterLecturerPage from "@/pages/client/register-lecturer";
 import SearchCoursePage from "@/pages/client/search";
+import { InstructorProfilePage } from "@/pages/client/user";
 import HomePage from "@/pages/home";
 import FAQPage from "@/pages/marketing/faq";
 import { PaymentPage, ResultPaymentPage } from "@/pages/payment";
@@ -82,6 +83,15 @@ const ClientRouter = [
       {
         path: "search",
         element: <SearchCoursePage />,
+      },
+      {
+        path: "user",
+        children: [
+          {
+            path: ":username",
+            element: <InstructorProfilePage />,
+          },
+        ],
       },
       {
         path: "blog",

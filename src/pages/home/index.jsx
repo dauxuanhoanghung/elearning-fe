@@ -58,7 +58,6 @@ const HomePage = () => {
     data: pageQueryData,
   } = pageQuery;
   const totalPage = pageQueryData?.data;
-  console.log("pageQuery: ", pageQuery);
 
   const [page, setPage] = useState(0);
   const courseQuery = useQuery({
@@ -69,7 +68,6 @@ const HomePage = () => {
 
   // Use the query result object to render the data
   const { isLoading, isError, data: res } = courseQuery;
-  console.log("courseQuery", courseQuery);
   const courses = res?.data;
 
   const handleChangePage = (page) => {
@@ -85,7 +83,6 @@ const HomePage = () => {
     queryKey: ["users", "top-lecturers"],
     queryFn: async () => {
       const res = await userService.getTopLectures({});
-      console.log(res);
       return res.data;
     },
     initialData: [],

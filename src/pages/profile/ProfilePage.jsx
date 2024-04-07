@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
+import { Loader } from "lucide-react";
+
 import { setUser } from "@/app/store/userSlice";
 import { Spinner } from "@/components/common";
 import { useSnackbar } from "@/contexts/SnackbarContext";
@@ -35,8 +37,8 @@ const ProfilePage = (props) => {
   });
   const getUser = async () => {
     const res = await userService.getCurrentUser();
-    const data = res.data.data;
-    if (res.data.status === 200) {
+    const data = res.data;
+    if (res.status === 200) {
       setUserInfo({
         id: data.id,
         firstName: data.firstName,
@@ -64,14 +66,11 @@ const ProfilePage = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log(userInfo);
     const request = new FormData();
-    for (let field in userInfo) request.append(field, userInfo[field]);
-    // request.append("username", userInfo.username);
-    // request.append("firstName", userInfo.firstName);
-    // request.append("lastName", userInfo.lastName);
-    // request.append("email", userInfo.email);
-    if (userInfo.avatarFile) request.append("avatarFile", userInfo.avatarFile);
+    for (let field in userInfo)
+      if (field !== "avatarFile") request.append(field, userInfo[field]);
+    if (userInfo["avatarFile"])
+      request.append("avatarFile", userInfo.avatarFile);
     const res = await userService.updateAccount(request);
     setLoading(false);
     if (res.data.status === 200) {
@@ -90,12 +89,14 @@ const ProfilePage = (props) => {
         <Spinner />
       ) : (
         <ProfileLayout title="Profile">
-          <div className="mx-auto w-[90%]">
+          <div className="mx-auto my-4 w-[90%]">
             <form onSubmit={handleSubmit}>
               <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <input
-                    className="w-full rounded-md bg-gray-100 px-4 py-2"
+                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3.5 py-2.5 text-gray-900 focus:border-blue-600
+                     focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500
+                      dark:focus:ring-blue-500 sm:text-sm"
                     type="text"
                     name="username"
                     value={userInfo?.username}
@@ -107,7 +108,9 @@ const ProfilePage = (props) => {
                 </div>
                 <div>
                   <input
-                    className="w-full rounded-md bg-gray-100 px-4 py-2"
+                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3.5 py-2.5 text-gray-900 focus:border-blue-600
+                    focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500
+                     dark:focus:ring-blue-500 sm:text-sm"
                     type="text"
                     name="firstName"
                     value={userInfo?.firstName}
@@ -118,7 +121,9 @@ const ProfilePage = (props) => {
                 </div>
                 <div>
                   <input
-                    className="w-full rounded-md bg-gray-100 px-4 py-2"
+                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3.5 py-2.5 text-gray-900 focus:border-blue-600
+                    focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500
+                     dark:focus:ring-blue-500 sm:text-sm"
                     type="text"
                     name="lastName"
                     value={userInfo?.lastName}
@@ -129,7 +134,9 @@ const ProfilePage = (props) => {
                 </div>
                 <div>
                   <input
-                    className="w-full rounded-md bg-gray-100 px-4 py-2"
+                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3.5 py-2.5 text-gray-900 focus:border-blue-600
+                    focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500
+                     dark:focus:ring-blue-500 sm:text-sm"
                     type="text"
                     name="email"
                     value={userInfo?.email}
@@ -167,8 +174,10 @@ const ProfilePage = (props) => {
                 <div className="sm:col-span-2">
                   <button
                     type="submit"
-                    className="w-full rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-600"
+                    className="flex w-full justify-center rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-600"
+                    disabled={loading}
                   >
+                    {loading && <Loader />}
                     Update Info
                   </button>
                 </div>

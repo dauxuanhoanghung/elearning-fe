@@ -29,7 +29,6 @@ const MyCoursePage = () => {
     data: pageQueryData,
   } = pageQuery;
   const totalPage = pageQueryData?.data;
-  console.log("pageQuery: ", pageQuery);
 
   const [page, setPage] = useState(0);
   const courseQuery = useQuery({
@@ -40,7 +39,6 @@ const MyCoursePage = () => {
 
   // Use the query result object to render the data
   const { isLoading, isError, data: res } = courseQuery;
-  console.log("my-course:courseQuery", courseQuery);
   const courses = res?.data;
 
   const handleChangePage = (page) => {

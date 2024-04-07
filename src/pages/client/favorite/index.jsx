@@ -26,7 +26,6 @@ const FavoritePage = () => {
     data: pageQueryData,
   } = pageQuery;
   const totalPage = pageQueryData?.data;
-  console.log("pageQuery: ", pageQuery);
 
   const [page, setPage] = useState(0);
   const courseQuery = useQuery({
@@ -37,7 +36,6 @@ const FavoritePage = () => {
 
   // Use the query result object to render the data
   const { isLoading, isError, data: res } = courseQuery;
-  console.log("courseQuery", courseQuery);
   const courses = res?.data;
 
   const handleChangePage = (page) => {
