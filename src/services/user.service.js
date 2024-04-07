@@ -41,6 +41,9 @@ const userService = {
   count(params) {
     return get(endpoints.countUsers, { ...params });
   },
+  getTopLectures(params = {}) {
+    return get(endpoints.getTopLectures, { top: 5, ...params });
+  },
 };
 
 export default userService;

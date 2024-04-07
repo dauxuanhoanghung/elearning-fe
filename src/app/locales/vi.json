@@ -79,7 +79,8 @@
   },
   "home": {
     "customer-title": "Bạn sẽ có cơ hội làm việc trong công ty lớn.",
-    "customer-detail": "Chúng tôi sử dụng phương pháp Agile để tiếp cận linh hoạt, kiểm tra các giả định và kết nối sớm và thường xuyên với nhu cầu của người dùng."
+    "customer-detail": "Chúng tôi sử dụng phương pháp Agile để tiếp cận linh hoạt, kiểm tra các giả định và kết nối sớm và thường xuyên với nhu cầu của người dùng.",
+    "popular-lecturer": "Giảng viên phổ biến"
   },
   "comment": {
     "edit": "Chỉnh sửa",

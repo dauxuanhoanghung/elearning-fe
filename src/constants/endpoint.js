@@ -30,6 +30,7 @@ const endpoints = {
   currentUser: `${BASE.users}/current-user`,
   userRegister: BASE.users,
   userUpdateInfo: `${BASE.users}/update-info`,
+  getTopLectures: `${BASE.users}/top-lecturers`,
   countUsers: `${BASE.users}/count`,
 
   userNoteBase: BASE.userNotes,
