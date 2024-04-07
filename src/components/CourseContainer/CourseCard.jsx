@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -20,20 +20,7 @@ const CourseCard = (props) => {
   // #endregion
   // #region Favorites
   const [favorites, setFavorites] = useState(false);
-  const firstRender = useRef(true);
-  useEffect(() => {
-    if (firstRender.current && !favorites) {
-      firstRender.current = false;
-      const getInitialFavorite = async () => {
-        const res = await favoriteService.fetchInitialFavorite(id);
-        if (res.data.data) {
-          setFavorites(true);
-        }
-      };
-      getInitialFavorite();
-      return;
-    }
-  }, [favorites]);
+
   const handleToggleFavorite = async () => {
     if (!isEmptyObject(currentUser)) {
       setFavorites((prev) => !prev);

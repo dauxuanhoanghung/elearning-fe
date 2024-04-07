@@ -12,7 +12,8 @@ import {
   SpotifyIcon,
   TEDIcon,
 } from "@/components/Icons";
-import { courseService } from "@/services";
+import { LecturerContainer } from "@/components/lecturer";
+import { courseService, userService } from "@/services";
 
 const icons = [
   {
@@ -74,8 +75,22 @@ const HomePage = () => {
   const handleChangePage = (page) => {
     setPage(page - 1);
   };
-
   //#endregion
+
+  const {
+    data: lecturers,
+    isLoading: isLecturerLoading,
+    isError: isLecturerError,
+  } = useQuery({
+    queryKey: ["users", "top-lecturers"],
+    queryFn: async () => {
+      const res = await userService.getTopLectures({});
+      console.log(res);
+      return res.data;
+    },
+    initialData: [],
+  });
+
   return (
     <main data-component="home-page">
       <section className="bg-white dark:bg-gray-800" data-role="ads">
@@ -111,6 +126,17 @@ const HomePage = () => {
           totalPage={totalPage}
           onPageChange={handleChangePage}
           isError={isError || paginationError}
+        />
+      </section>
+      <section
+        className="mx-auto my-4 w-full md:max-w-[90%]"
+        data-roles="top-lecturers"
+      >
+        <h1 className="my-4 text-3xl">{t("home.popular-lecturer")}</h1>
+        <LecturerContainer
+          isError={isLecturerError}
+          isLoading={isLecturerLoading}
+          data={lecturers}
         />
       </section>
     </main>

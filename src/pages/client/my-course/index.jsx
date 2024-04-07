@@ -1,9 +1,7 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
-
-import { Alert, Box, Grid } from "@mui/material";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 import { Skeleton } from "@/components/common";
 import CourseContainer from "@/components/CourseContainer";
@@ -35,14 +33,14 @@ const MyCoursePage = () => {
 
   const [page, setPage] = useState(0);
   const courseQuery = useQuery({
-    queryKey: ["mybusiness:courses", page], // The query key is an array with the page number
+    queryKey: ["my-course:courses", page], // The query key is an array with the page number
     queryFn: () => courseService.getMyLearningCourse(page), // The query function returns a promise
     keepPreviousData: true,
   });
 
   // Use the query result object to render the data
   const { isLoading, isError, data: res } = courseQuery;
-  console.log("mybusiness:courseQuery", courseQuery);
+  console.log("my-course:courseQuery", courseQuery);
   const courses = res?.data;
 
   const handleChangePage = (page) => {
@@ -67,17 +65,17 @@ const MyCoursePage = () => {
       {isLoading ? (
         <Skeleton />
       ) : (
-        <>
-          <Grid container spacing={2}>
-            {courses?.length === 0 && (
-              <>
-                <Box container sx={{ margin: "30px", width: "100%" }}>
-                  <Alert severity="error" sx={{ width: "100%" }}>
+        <div data-role="courses pt-5">
+          <div className="">
+            {courses.length === 0 && (
+              <div className="m-8 w-full">
+                <div className="rounded-lg bg-red-200 p-4">
+                  <p className="text-red-600">
                     Your never Learning before !!! Go back to choose a course
                     <Link to="/"> Go to home</Link>
-                  </Alert>
-                </Box>
-              </>
+                  </p>
+                </div>
+              </div>
             )}
             <CourseContainer
               courses={courses}
@@ -86,8 +84,8 @@ const MyCoursePage = () => {
               onPageChange={handleChangePage}
               isError={isError || paginationError}
             />
-          </Grid>
-        </>
+          </div>
+        </div>
       )}
     </main>
   );

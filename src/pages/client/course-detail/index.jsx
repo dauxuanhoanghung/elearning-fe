@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 
 import firebaseService from "@/app/firebase/firebaseService";
 import { changeChatUser } from "@/app/store/chatSlice";
 import CommentContainer from "@/components/CommentContainer";
 import {
-  FavoriteFullIcon,
   FavoriteIcon,
   InfiniteIcon,
   MobileIcon,
@@ -16,15 +15,7 @@ import {
   TickIcon,
   VideoIcon,
 } from "@/components/Icons/index";
-import SectionCard from "@/components/SectionCard";
-import { useOpenChatDrawer } from "@/contexts/OpenChatDrawerContext";
-import { useSnackbar } from "@/contexts/SnackbarContext";
-import {
-  courseCommentService,
-  courseService,
-  registrationService,
-} from "@/services";
-import { isEmptyObject } from "@/utils/utils";
+import LectureList from "@/components/LectureList/index";
 import Avatar from "@/components/ui/Avatar";
 import {
   Breadcrumb,
@@ -34,6 +25,14 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { useOpenChatDrawer } from "@/contexts/OpenChatDrawerContext";
+import { useSnackbar } from "@/contexts/SnackbarContext";
+import {
+  courseCommentService,
+  courseService,
+  registrationService,
+} from "@/services";
+import { isEmptyObject } from "@/utils/utils";
 
 const CourseDetailPage = (props) => {
   const { t } = useTranslation();
@@ -43,6 +42,7 @@ const CourseDetailPage = (props) => {
   const dispatch = useDispatch();
   const { showSnackbar } = useSnackbar();
   const navigate = useNavigate();
+
   // #region course detail
   /**
    * course {id, name, description, background(image), price(for button), creator, createdDate}
@@ -81,16 +81,6 @@ const CourseDetailPage = (props) => {
       setListCriteria([...res.data]);
     };
     getListCriteriaByCourseId(courseId);
-  }, []);
-  // #endregion
-  // #region section
-  const [sections, setSections] = useState([]);
-  useEffect(() => {
-    const getSectionsByCourseId = async (courseId) => {
-      const res = await courseService.getSection(courseId);
-      setSections([...res.data]);
-    };
-    getSectionsByCourseId(courseId);
   }, []);
   // #endregion
   // #region comments
@@ -249,8 +239,10 @@ const CourseDetailPage = (props) => {
               <p className="py-2 text-4xl">Criteria:</p>
               <div className="pl-4 lg:pl-8">
                 {listCriteria?.map((criteria, index) => (
-                  <div className="flex items-center gap-2 py-1" key={index}>
-                    <TickIcon className="text-gray-900 dark:text-gray-50" />
+                  <div className="flex items-start gap-2 py-1" key={index}>
+                    <div className="">
+                      <TickIcon className="text-gray-900 dark:text-gray-50" />
+                    </div>
                     <span className="text-lg">{criteria.text}</span>
                   </div>
                 ))}
@@ -258,16 +250,7 @@ const CourseDetailPage = (props) => {
             </div>
             {/* Course Sections */}
             <div data-role="course-detail-section-content">
-              <p className="py-2 text-4xl">Sections:</p>
-              {sections?.map((section, index) => (
-                <React.Fragment key={index}>
-                  <SectionCard
-                    orderIndex={section.orderIndex}
-                    sectionName={section.sectionName}
-                    hideExpand={true}
-                  />
-                </React.Fragment>
-              ))}
+              <LectureList isCourseDetailPage={true} />
             </div>
             <CommentContainer
               courseId={courseId}

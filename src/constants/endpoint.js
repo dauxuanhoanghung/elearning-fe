@@ -13,6 +13,7 @@ const BASE = {
   lectures: `${PREFIX}/lectures`,
   lectureComments: `${PREFIX}/lecture-comments`,
   registration: `${PREFIX}/registration`,
+  sections: `${PREFIX}/sections`,
   blogs: `${PREFIX}/blogs`,
   lecturerRegistration: `${PREFIX}/lecturer-registration`,
   stats: `${PREFIX}/stats`,
@@ -29,6 +30,7 @@ const endpoints = {
   currentUser: `${BASE.users}/current-user`,
   userRegister: BASE.users,
   userUpdateInfo: `${BASE.users}/update-info`,
+  getTopLectures: `${BASE.users}/top-lecturers`,
   countUsers: `${BASE.users}/count`,
 
   userNoteBase: BASE.userNotes,
@@ -37,7 +39,7 @@ const endpoints = {
 
   courseBase: BASE.courses,
   courseTotalPage: `${BASE.courses}/get-total-page`,
-  courseMyLearning: `${BASE.courses}/get-my-learning`,
+  courseMyLearning: `${BASE.courses}/my-learning`,
   courseMyBusiness: `${BASE.courses}/my-business`,
   courseCreateSection: `${BASE.courses}/after-create-course`,
   courseSectionById: (id) => `${BASE.courses}/${id}/get-section`,
@@ -47,6 +49,8 @@ const endpoints = {
   courseUpdate: `${BASE.courses}/update`,
   courseDeleteById: (id) => `${BASE.courses}/${id}/delete`,
   courseCriteriaById: (id) => `${BASE.courses}/${id}/get-criteria`,
+
+  getSections: (courseId) => `${BASE.sections}/course/${courseId}`,
 
   favoriteBase: BASE.favorite,
   getWishlist: `${BASE.favorite}/get-favorite-courses`,
