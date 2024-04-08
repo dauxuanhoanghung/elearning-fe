@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -47,31 +48,47 @@ const CourseDetailPage = (props) => {
   /**
    * course {id, name, description, background(image), price(for button), creator, createdDate}
    */
-  const [courseData, setCourseData] = useState({});
-  const [countLectures, setCountLectures] = useState(0);
-  const [countRegistrations, setCountRegistrations] = useState(0);
-  useEffect(() => {
-    const getCountLecturesByCourseId = async (courseId) => {
+  const {
+    data: countLectures,
+    isLoading: countLecturesLoading,
+    isError: countLecturesError,
+  } = useQuery({
+    queryKey: ["countLectures", courseId],
+    queryFn: async () => {
       const res = await courseService.countLecturesByCourseId(courseId);
-      setCountLectures(res.data);
-    };
-    const getCountRegistrationsByCourseId = async (courseId) => {
-      const res = await courseService.countRegistrationsByCourseId(courseId);
-      setCountRegistrations(res.data);
-    };
-    const getCourseByCourseId = async (courseId) => {
-      const res = await courseService.getCourseById(courseId);
+      return res.data;
+    },
+    initialData: 0,
+  });
+
+  const {
+    data: courseData,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["course", courseId],
+    queryFn: async () => {
+      const res = await courseService.getById(courseId);
       if (res.data) {
-        setCourseData(res.data);
-        getCountLecturesByCourseId(courseId);
-        getCountRegistrationsByCourseId(courseId);
+        return res.data;
       } else {
         showSnackbar({ message: "Course not found!!!", severity: "error" });
         navigate("/");
+        throw new Error("Course not found");
       }
-    };
-    getCourseByCourseId(courseId);
-  }, [courseId]);
+    },
+    initialData: {
+      id: "",
+      name: "",
+      description: "",
+      background: "",
+      price: "",
+      creator: "",
+      createdDate: "",
+      countLectures: 0,
+      countRegistrations: 0,
+    },
+  });
   // #endregion
   // #region criteria
   const [listCriteria, setListCriteria] = useState([]);
@@ -185,7 +202,7 @@ const CourseDetailPage = (props) => {
     const features = [
       {
         icon: MultiUsersIcon,
-        text: `${countRegistrations} ${t("detail.registrations")}`,
+        text: `${courseData.countRegistration} ${t("detail.registrations")}`,
       },
       { icon: VideoIcon, text: `${countLectures} ${t("detail.lectures")}` },
       { icon: MobileIcon, text: t("detail.access") },
@@ -205,6 +222,9 @@ const CourseDetailPage = (props) => {
       </div>
     );
   };
+
+  if (isLoading || countLecturesLoading) return <div>Loading...</div>;
+  if (isError || countLecturesError) return <div>Error...</div>;
 
   return (
     <main className="w-full" data-page="course-details">

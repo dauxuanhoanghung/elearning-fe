@@ -1,5 +1,5 @@
 import endpoints from "@/constants/endpoint";
-import { get, post, put } from "@/utils/request";
+import { deletes, get, post, put } from "@/utils/request";
 const userService = {
   getCurrentUser() {
     return get(endpoints.currentUser);
@@ -39,6 +39,9 @@ const userService = {
   },
   getTopLectures(params = {}) {
     return get(endpoints.getTopLectures, { top: 5, ...params });
+  },
+  deleteSelf() {
+    return deletes(endpoints.deleteSelf);
   },
 };
 

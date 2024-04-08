@@ -16,31 +16,40 @@ import { favoriteService } from "@/services";
 const FavoritePage = () => {
   const { t } = useTranslation();
 
-  const pageQuery = useQuery({
-    queryKey: ["wishlist", "totalPage"],
-    queryFn: () => courseService.countTotalPage(),
-  });
   const {
     isLoading: paginationLoading,
     isError: paginationError,
-    data: pageQueryData,
-  } = pageQuery;
-  const totalPage = pageQueryData?.data;
-
-  const [page, setPage] = useState(0);
-  const courseQuery = useQuery({
-    queryKey: ["courses", "wishlist", page], // The query key is an array with the page number
-    queryFn: () => favoriteService.getWishlist(page), // The query function returns a promise
-    keepPreviousData: true,
+    data: totalPage,
+  } = useQuery({
+    queryKey: ["wishlist", "totalPage"],
+    queryFn: async () => {
+      const res = await favoriteService.countTotalPage();
+      return res.data;
+    },
   });
 
+  const [page, setPage] = useState(0);
   // Use the query result object to render the data
-  const { isLoading, isError, data: res } = courseQuery;
-  const courses = res?.data;
+  const {
+    isLoading,
+    isError,
+    data: courses,
+  } = useQuery({
+    queryKey: ["courses", "wishlist", page], // The query key is an array with the page number
+    queryFn: async () => {
+      const res = await favoriteService.getWishlist(page); // The query function returns a promise
+      return res.data;
+    },
+    keepPreviousData: true,
+    initialData: [],
+  });
 
   const handleChangePage = (page) => {
     setPage(page - 1);
   };
+
+  if (isLoading || paginationLoading) return <h1>Loading...</h1>;
+  if (isError || paginationError) return <h1>Error...</h1>;
 
   return (
     <main data-component="wishlist-component" className="container">
@@ -56,7 +65,7 @@ const FavoritePage = () => {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <p className="text-4xl">My Wishlist</p>
+      <p className="text-4xl">My Wishlist ({courses.length})</p>
       <CourseContainer
         courses={courses}
         page={page}

@@ -11,6 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import userService from "@/services/user.service";
 import ProfileLayout from "./ProfileLayout";
 
 const DeleteAccountPage = () => {
@@ -20,12 +21,8 @@ const DeleteAccountPage = () => {
   const handleClick = async () => {
     const password = passwordRef.current.value;
     try {
-      const response = await fetch("/api/self/delete-account", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ password }),
+      const response = await userService.deleteSelf({
+        password,
       });
       if (response.ok) {
         // Account deleted successfully

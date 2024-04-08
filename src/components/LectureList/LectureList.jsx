@@ -31,15 +31,8 @@ const LectureList = (props) => {
     },
   });
 
-  console.log("Sections", sections);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error fetching sections</div>;
-  }
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error fetching sections</div>;
 
   return (
     <div className="mx-auto w-full">

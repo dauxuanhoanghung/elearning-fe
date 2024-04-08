@@ -63,12 +63,36 @@ const ProfilePage = (props) => {
     });
   };
 
+  const validateForm = () => {
+    if (!userInfo.username || userInfo.username.trim() === "") {
+      showSnackbar({ message: "Username is required.", severity: "error" });
+      return false;
+    }
+    if (!userInfo.firstName || userInfo.firstName.trim() === "") {
+      showSnackbar({ message: "First name is required.", severity: "error" });
+      return false;
+    }
+    if (!userInfo.lastName || userInfo.lastName.trim() === "") {
+      showSnackbar({ message: "Last name is required.", severity: "error" });
+      return false;
+    }
+    if (!userInfo.email || userInfo.email.trim() === "") {
+      showSnackbar({ message: "Email is required.", severity: "error" });
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    if (!validateForm()) {
+      setLoading(false);
+      return;
+    }
     const request = new FormData();
     for (let field in userInfo)
-      if (field !== "avatarFile") request.append(field, userInfo[field]);
+      if (field !== "avatarFile") request.append(field, userInfo[field].trim());
     if (userInfo["avatarFile"])
       request.append("avatarFile", userInfo.avatarFile);
     const res = await userService.updateAccount(request);

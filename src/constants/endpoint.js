@@ -9,7 +9,7 @@ const BASE = {
   userNotes: `${PREFIX}/user-notes`,
   courses: `${PREFIX}/courses`,
   courseComments: `${PREFIX}/course-comments`,
-  favorite: `${PREFIX}/favorite`,
+  favorite: `${PREFIX}/favorites`,
   lectures: `${PREFIX}/lectures`,
   lectureComments: `${PREFIX}/lecture-comments`,
   registration: `${PREFIX}/registration`,
@@ -52,8 +52,11 @@ const endpoints = {
 
   getSections: (courseId) => `${BASE.sections}/course/${courseId}`,
 
-  favoriteBase: BASE.favorite,
-  getWishlist: `${BASE.favorite}/get-favorite-courses`,
+  favoriteBase: BASE.favorite, // toggle favorite
+  getWishlist: `${BASE.favorite}/get-list`,
+  countTotalWishlistPages: `${BASE.favorite}/get-total-page`,
+  getFavoriteByCourseId: (courseId) =>
+    `${BASE.favorite}/get-favor-by-course-id/${courseId}`,
 
   courseCountLecturesById: (courseId) =>
     `${BASE.courses}/${courseId}/get-count-lectures`,
