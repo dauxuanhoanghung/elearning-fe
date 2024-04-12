@@ -18,7 +18,7 @@ import SearchCoursePage from "@/pages/client/search";
 import { InstructorProfilePage } from "@/pages/client/user";
 import HomePage from "@/pages/home";
 import FAQPage from "@/pages/marketing/faq";
-import { PaymentPage, ResultPaymentPage } from "@/pages/payment";
+import { CheckoutPage, ResultPaymentPage } from "@/pages/payment";
 import {
   DeleteAccountPage,
   EditPasswordPage,
@@ -156,7 +156,7 @@ const ClientRouter = [
       { path: "my-course", element: <MyCoursePage /> },
       { path: "register-lecturer", element: <RegisterLecturerPage /> },
       { path: "my-business", element: <MyBusinessPage /> },
-      { path: "payment/:courseId", element: <PaymentPage /> },
+      { path: "payment/:courseId", element: <CheckoutPage /> },
       { path: "payment/result", element: <ResultPaymentPage /> },
     ],
   },

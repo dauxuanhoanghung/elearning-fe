@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
+
+import { Loader } from "lucide-react";
 
 import firebaseService from "@/app/firebase/firebaseService";
 import { changeChatUser } from "@/app/store/chatSlice";
@@ -118,31 +120,27 @@ const CourseDetailPage = (props) => {
   }, []);
   // #endregion
   // #region Registration
-  const [registration, setRegistration] = useState(false);
   const [url, setUrl] = useState("");
-  const firstRender = useRef(true);
-  useEffect(() => {
-    if (firstRender.current && !registration && !isEmptyObject(currentUser)) {
-      console.log("init");
-      firstRender.current = false;
-      const getInitialRegistration = async () => {
-        const res = await registrationService.getInitialRegistration(courseId);
-        console.log(res);
-        const data = res.data;
-        if (data?.status === 200) {
-          if (data?.data?.transaction) {
-            setRegistration(true);
-            setUrl(
-              `/course/${courseId}/learning?lectureId=${data?.data.nextUrl}`,
-            );
-          } else {
-            setUrl(`/payment/${courseId}/make`);
-          }
-        }
-      };
-      getInitialRegistration();
-    }
-  }, []);
+  const {
+    data: registration,
+    isLoading: registrationLoading,
+    isError: registrationError,
+  } = useQuery({
+    queryKey: ["registration", courseId],
+    queryFn: async () => {
+      console.log(["registration", courseId]);
+      const res = await registrationService.getInitialRegistration(courseId);
+      console.log("getInitialRegistration", res);
+      if (res.data) {
+        setUrl(`/course/${courseId}/learning?lectureId=${res.data?.nextUrl}`);
+      } else {
+        setUrl(`/payment/${courseId}/make`);
+      }
+      console.log(Boolean(res.data.transaction));
+      return Boolean(res.data.transaction);
+    },
+    initialData: false,
+  });
   const handleSeeContinue = () => {
     // Nav to the first lecture
     console.log("handleSeeContinue", url);
@@ -162,15 +160,13 @@ const CourseDetailPage = (props) => {
     const res = await registrationService.register({ course: courseId });
     console.log(res);
     // Ko phí, code === 201
-    if (res.data.status === 201) {
+    if (res.status === 201) {
       showSnackbar({
         message: "Register course success!!!",
         severity: "success",
       });
       // Nav to the first lecture
-      navigate(
-        `/course/${courseId}/learning?lectureId=${res?.data?.data.nextUrl}`,
-      );
+      navigate(`/course/${courseId}/learning?lectureId=${res?.data.nextUrl}`);
     }
     // nếu có tiền thì phải code === 200
     else if (res.data.status === 200) {
@@ -193,9 +189,11 @@ const CourseDetailPage = (props) => {
     handleOpenChatDrawer();
   };
   // #endregion
+  // #region Lecturer
   const handleEditCourse = () => {
     navigate(`/course/${courseId}/update`);
   };
+  // #endregion
 
   const IncludeFeature = (props) => {
     const { className } = props;
@@ -281,24 +279,33 @@ const CourseDetailPage = (props) => {
           </div>
           <div className="col-span-12 sm:col-span-4">
             <div className="w-full bg-gray-200 p-6 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
-              <h1 className="mb-3 text-4xl">{courseData.price} VNĐ</h1>
+              {!registration && (
+                <h1 className="mb-3 text-4xl">{courseData.price} VNĐ</h1>
+              )}
               <div className="flex flex-col gap-3">
-                <div className="flex gap-4">
-                  <button
-                    className="w-4/5 bg-gray-700 p-3 font-semibold text-gray-50 transition-all
-                   dark:bg-white dark:text-gray-800 hover:dark:bg-gray-200"
-                    onClick={() => {}}
-                  >
-                    {t("detail.addToCart")}
-                  </button>
-                  <button
-                    className="flex w-1/5 justify-center border border-solid border-white p-3 font-semibold 
+                {registrationLoading ? (
+                  <Loader />
+                ) : (
+                  <React.Fragment>
+                    {!registration && (
+                      <div className="flex gap-4">
+                        <button
+                          className="w-4/5 bg-gray-700 p-3 font-semibold text-gray-50 transition-all dark:bg-white dark:text-gray-800 hover:dark:bg-gray-200"
+                          onClick={() => {}}
+                        >
+                          {t("detail.addToCart")}
+                        </button>
+                        <button
+                          className="flex w-1/5 justify-center border border-solid border-white p-3 font-semibold 
                     transition-all dark:border-white dark:text-white dark:hover:bg-gray-500"
-                    onClick={() => {}}
-                  >
-                    <FavoriteIcon className="h-6 w-6" />
-                  </button>
-                </div>
+                          onClick={() => {}}
+                        >
+                          <FavoriteIcon className="h-6 w-6" />
+                        </button>
+                      </div>
+                    )}
+                  </React.Fragment>
+                )}
                 <div className="flex w-full gap-4">
                   <button
                     className="w-full border border-solid p-3 font-semibold transition-all dark:border-white

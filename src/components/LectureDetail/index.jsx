@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ReactPlayer from "react-player";
@@ -26,32 +27,46 @@ const LectureDetail = () => {
   const lectureId = searchParams.get("lectureId");
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
-  // #region lecture
-  /**
-   * {id, title, content, type, videoUrl, orderIndex} lectureData
-   */
-  const [lectureData, setLectureData] = useState({});
+
   useEffect(() => {
     if (!lectureId) {
       showSnackbar({ message: "Invalid route", severity: "error" });
       navigate("/");
       return;
     }
-    const fetchLectureData = async () => {
-      if (!lectureId) return;
-      const res = await lectureService.getLectureById(lectureId);
-      console.log(res.data.data);
-      setLectureData(res.data.data);
-    };
-    fetchLectureData();
-  }, [lectureId]);
+  }, []);
+  // #region lecture
+  /**
+   * {id, title, content, type, videoUrl, orderIndex} lectureData
+   */
+  const {
+    data: lectureData,
+    isLoading: lectureLoading,
+    isError: lectureError,
+  } = useQuery({
+    queryKey: ["lecture", "lectureId", lectureId],
+    queryFn: async () => {
+      const res = await lectureService.getById(lectureId);
+      console.log(res);
+      return res.data;
+    },
+    initialData: {
+      id: "",
+      title: "",
+      content: "",
+      type: "",
+      videoUrl: "",
+      orderIndex: 0,
+    },
+  });
+
   // #endregion
   // #region Player
   const player = useRef();
   const [playerState, setPlayerState] = useState({
     playing: true,
     volume: 1,
-    muted: true,
+    muted: false,
   });
   const handleChangePlayerState = (prop, value) => {
     setPlayerState((prevState) => ({
@@ -144,12 +159,11 @@ const LectureDetail = () => {
   };
   // #endregion
   return (
-    <>
+    <main data-role="lecture-detail-component">
       <ReactPlayer
         className="react-player"
         controls
         url={lectureData?.videoUrl}
-        // url={"https://www.youtube.com/watch?v=S2JVtEwa-kU"}
         width="100%"
         height="550px"
         playing={playerState?.playing}
@@ -160,14 +174,14 @@ const LectureDetail = () => {
         onPlay={handlePlay}
         onSeek={handleSeek}
       />
-      <div className="mx-auto my-10 flex justify-between">
+      <div className="mx-2 mb-10 mt-4 flex items-center justify-between">
         <h6 className="text-xl">{lectureData?.title}</h6>
         <button
           onClick={handleOpenModal}
-          className="flex items-center bg-gray-300 px-4 py-2"
+          className="flex items-center bg-cyan-600 px-4 py-2 text-black dark:text-white"
         >
           <AddIcon className="mr-1 h-6 w-6" />
-          Add a note
+          <span>Add a note</span>
         </button>
       </div>
       <div>
@@ -227,7 +241,7 @@ const LectureDetail = () => {
           </Box>
         </>
       </Modal>
-    </>
+    </main>
   );
 };
 

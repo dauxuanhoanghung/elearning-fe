@@ -67,15 +67,16 @@ const endpoints = {
   courseCommentById: (courseId) => `${BASE.courseComments}/course/${courseId}`,
 
   lectureBase: BASE.lectures,
-  lectureById: (id) => `${BASE.lectures}/${id}`,
-  lectureDeleteById: (id) => `${BASE.lectures}/${id}/delete`,
+  getLectureById: (id) => `${BASE.lectures}/${id}`,
+  deleteLectureById: (id) => `${BASE.lectures}/${id}/delete`,
 
   lectureCommentBase: BASE.lectureComments,
   lectureCommentById: (lectureId) =>
     `${BASE.lectureComments}/lecture/${lectureId}`,
 
   registrationBase: BASE.registration,
-  registrationInit: (id) => `${BASE.registration}/${id}/get-current-user`,
+  getInitialRegistration: (id) => `${BASE.registration}/${id}/get-current-user`,
+  getRegisteredCourses: BASE.registration + "/get-registered-courses",
 
   blogBase: BASE.blogs,
   blogById: (id) => `${BASE.blogs}/${id}`,

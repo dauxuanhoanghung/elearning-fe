@@ -3,8 +3,6 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
-import { Typography } from "@mui/material";
-
 import {
   Accordion,
   AccordionContent,
@@ -36,7 +34,7 @@ const LectureList = (props) => {
 
   return (
     <div className="mx-auto w-full">
-      <Typography variant="h6">Course content:</Typography>
+      <h2 className="text-3xl">Course content:</h2>
       <Accordion type="multiple" className="w-full">
         {sections.map((section, idx) => (
           <AccordionItem value={idx + ""} key={idx}>

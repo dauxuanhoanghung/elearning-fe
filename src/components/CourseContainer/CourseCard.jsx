@@ -1,11 +1,9 @@
-import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import Avatar from "@/components/ui/Avatar";
 import { useSnackbar } from "@/contexts/SnackbarContext";
-import { favoriteService } from "@/services";
-import { isEmptyObject } from "@/utils/utils";
+import { MultiUsersIcon } from "../Icons/index";
 
 /**
  *
@@ -17,29 +15,6 @@ const CourseCard = (props) => {
   const currentUser = useSelector((state) => state.user.user);
   // #region Snackbar
   const { showSnackbar } = useSnackbar();
-  // #endregion
-  // #region Favorites
-  const [favorites, setFavorites] = useState(false);
-
-  const handleToggleFavorite = async () => {
-    if (!isEmptyObject(currentUser)) {
-      setFavorites((prev) => !prev);
-      const res = await favoriteService.toggle({ course: id });
-      const fav = res.status !== 204;
-      showSnackbar({
-        message: fav
-          ? "Add to favorites success"
-          : "Remove from favorites success",
-        severity: fav ? "success" : "info",
-      });
-    } else {
-      showSnackbar({
-        message: "Please login first",
-        severity: "error",
-      });
-    }
-  };
-
   // #endregion
 
   return (
@@ -65,13 +40,14 @@ const CourseCard = (props) => {
           <div className="mt-4 flex flex-wrap items-center justify-start">
             <Avatar
               src={user.avatar}
-              isSignalShown={true}
+              isSignalShown={false}
               className="mx-4 h-10 w-10 "
             />
             <div className="flex h-10 items-center text-xl font-semibold">{`${user.firstName} ${user.lastName}`}</div>
           </div>
-          <div className="mt-4 flex items-center">
-            <div className="h-8 w-full rounded-full bg-gray-200 dark:bg-gray-700"></div>
+          <div className="mt-4 flex items-end">
+            <MultiUsersIcon />
+            <span className="ml-2">{countRegistration + " students"}</span>
           </div>
         </div>
       </Link>

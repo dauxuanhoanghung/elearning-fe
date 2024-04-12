@@ -88,7 +88,7 @@ const HomePage = () => {
       return res.data;
     },
     initialData: [],
-    staleTime: 600000,
+    // staleTime: 600000,
   });
 
   return (
