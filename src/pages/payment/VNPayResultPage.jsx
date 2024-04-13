@@ -17,19 +17,22 @@ const VNPayResultPage = () => {
     console.log(params);
     const handleRegister = async () => {
       if (vnp_ResponseCode === "00") {
+        const courseId = parseInt(localStorage.getItem("courseId"), 10);
         const payload = {
-          course: parseInt(localStorage.getItem("courseId"), 10),
+          course: courseId,
           amount: params.get("vnp_Amount") / 100,
           code: params.get("vnp_TransactionNo"),
         };
-        console.log(payload);
-        localStorage.removeItem("courseId");
-        const res = await registrationService.register(payload);
-        setTimeout(() => {
-          navigate(
-            `/course/${payload.course}/learning?lectureId=${res?.data?.nextUrl}`,
-          );
-        }, 1000);
+        if (courseId) {
+          console.log(payload);
+          localStorage.removeItem("courseId");
+          const res = await registrationService.register(payload);
+          setTimeout(() => {
+            navigate(
+              `/course/${payload.course}/learning?lectureId=${res?.data?.nextUrl}`,
+            );
+          }, 1000);
+        }
       } else {
         showSnackbar({ message: "Payment fail!!!", severity: "error" });
       }

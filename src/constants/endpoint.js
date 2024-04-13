@@ -80,7 +80,7 @@ const endpoints = {
   getInitialRegistration: (id) => `${BASE.registration}/${id}/get-current-user`,
   getRegisteredCourses: BASE.registration + "/get-registered-courses",
   payWithVNPay: BASE.vnpay,
-  payWithPaypal: BASE.paypal,
+  payWithPaypal: BASE.paypal + "/init",
   capturePaypal: BASE.paypal + "/capture",
 
   blogBase: BASE.blogs,

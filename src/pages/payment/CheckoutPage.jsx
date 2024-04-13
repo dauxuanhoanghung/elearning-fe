@@ -18,6 +18,13 @@ const CheckoutPage = () => {
   const navigate = useNavigate();
   const { courseId } = useParams();
   const currentUser = useSelector((state) => state.user.user);
+
+  useEffect(() => {
+    if (!courseId) {
+      navigate("/");
+    }
+  }, []);
+
   // #region Registration
   const [registration, setRegistration] = useState(false);
   useEffect(() => {
@@ -68,16 +75,14 @@ const CheckoutPage = () => {
   };
 
   const handlePayWithPaypal = async () => {
-    const res = await registrationService.payWithPaypal(courseId);
-    if (res.data.status === 200) {
-      showSnackbar({
-        message: res.data.message,
-        severity: "success",
-      });
-      navigate(`/course/${courseId}`);
+    const res = await registrationService.payWithPaypal({ course: courseId });
+    const { status, message, data } = res;
+    if (status === 200) {
+      localStorage.setItem("courseId", courseId);
+      window.location.href = data.redirectUrl;
     } else {
       showSnackbar({
-        message: res.data.message,
+        message: message || "Something went wrong",
         severity: "error",
       });
     }
@@ -85,7 +90,6 @@ const CheckoutPage = () => {
   const handlePayWithVNPay = async () => {
     const res = await registrationService.payWithVNPay({ course: courseId });
     console.log("payment_res: ", res);
-    console.log("payment_res.data: ", res.data);
     if (res.status === 200) {
       localStorage.setItem("courseId", res.data.courseId);
       window.location.href = res.data.redirect_url;
@@ -111,8 +115,7 @@ const CheckoutPage = () => {
     let res;
     switch (paymentMethod) {
       case "paypal":
-        console.log("Paypal payment");
-        // handlePayWithPaypal();
+        handlePayWithPaypal();
         break;
       case "vnpay":
         handlePayWithVNPay();
@@ -176,10 +179,12 @@ const CheckoutPage = () => {
                   />
                   <label
                     htmlFor="paypal"
-                    className="ml-2 flex items-center gap-2 text-lg"
+                    className="ml-2 flex items-center gap-2 text-2xl"
                   >
                     <PaypalIcon />
-                    <span>Paypal</span>
+                    <span>
+                      Paypal <span className="pl-2 text-lg">(Recommend)</span>
+                    </span>
                   </label>
                 </div>
                 <div className="mt-2 flex items-center gap-4">
@@ -194,13 +199,19 @@ const CheckoutPage = () => {
                   />
                   <label
                     htmlFor="vnpay"
-                    className="ml-2 flex items-center gap-2 text-lg"
+                    className="ml-2 flex items-center gap-2 text-2xl"
                   >
                     <img
                       src="https://i.gyazo.com/cd4ad37ac9f9ae75473542526f69e79e.png"
                       className="shrinkToFit h-10 w-20"
                     />
-                    <span>VNPay (Only use in Vietname)</span>
+                    <span>
+                      VNPay
+                      <span className="pl-2 text-lg">
+                        {" "}
+                        (Only use in Vietnam)
+                      </span>
+                    </span>
                   </label>
                 </div>
               </article>
