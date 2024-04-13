@@ -39,28 +39,30 @@ const LectureList = (props) => {
         {sections.map((section, idx) => (
           <AccordionItem value={idx + ""} key={idx}>
             <AccordionTrigger>
-              <span>
+              <div className="flex w-full">
                 {section.orderIndex}. {section.name}
-              </span>
+              </div>
             </AccordionTrigger>
             <AccordionContent>
               <ul>
-                {section.lectures.map((lecture, index) => (
-                  <React.Fragment key={lecture.id}>
-                    <LectureItem
-                      id={lecture.id}
-                      orderIndex={lecture.orderIndex}
-                      title={lecture.title}
-                      type={lecture.type}
-                      courseId={courseId}
-                      duration={lecture.duration}
-                      isCourseDetailPage={isCourseDetailPage}
-                    />
-                    {index < section.lectures.length - 1 && (
-                      <li className="block h-[0.5px] w-full bg-gray-500 dark:bg-gray-300"></li>
-                    )}
-                  </React.Fragment>
-                ))}
+                {section.lectures
+                  .sort((a, b) => a.orderIndex - b.orderIndex)
+                  .map((lecture, index) => (
+                    <React.Fragment key={lecture.id}>
+                      <LectureItem
+                        id={lecture.id}
+                        orderIndex={lecture.orderIndex}
+                        title={lecture.title}
+                        type={lecture.type}
+                        courseId={courseId}
+                        duration={lecture.duration}
+                        isCourseDetailPage={isCourseDetailPage}
+                      />
+                      {index < section.lectures.length - 1 && (
+                        <li className="block h-[0.5px] w-full bg-gray-500 dark:bg-gray-300"></li>
+                      )}
+                    </React.Fragment>
+                  ))}
               </ul>
             </AccordionContent>
           </AccordionItem>

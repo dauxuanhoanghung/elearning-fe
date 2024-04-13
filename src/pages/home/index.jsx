@@ -61,7 +61,7 @@ const HomePage = () => {
 
   const [page, setPage] = useState(0);
   const courseQuery = useQuery({
-    queryKey: ["courses", page], // The query key is an array with the page number
+    queryKey: ["courses", { page: page }], // The query key is an array with the page number
     queryFn: () => courseService.getCourses(page), // The query function returns a promise
     keepPreviousData: true,
     // staleTime: 600000,

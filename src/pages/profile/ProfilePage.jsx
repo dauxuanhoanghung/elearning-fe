@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 
 import { Loader } from "lucide-react";
@@ -10,6 +11,8 @@ import { userService } from "@/services";
 import ProfileLayout from "./ProfileLayout";
 
 const ProfilePage = (props) => {
+  const { t } = useTranslation();
+
   // #region input avatar
   const [backgroundImageURL, setBackgroundImageURL] = useState("");
   const handleBackgroundImageUpload = (e) => {
@@ -117,6 +120,12 @@ const ProfilePage = (props) => {
             <form onSubmit={handleSubmit}>
               <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
+                  <label
+                    htmlFor="username"
+                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    {t("signup.username")}
+                  </label>
                   <input
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3.5 py-2.5 text-gray-900 focus:border-blue-600
                      focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500
@@ -124,6 +133,7 @@ const ProfilePage = (props) => {
                     type="text"
                     name="username"
                     value={userInfo?.username}
+                    id="username"
                     disabled
                     onChange={handleInputChange}
                     placeholder="Your username"
@@ -131,12 +141,38 @@ const ProfilePage = (props) => {
                   />
                 </div>
                 <div>
+                  <label
+                    htmlFor="email"
+                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    {t("login.yourEmail")}
+                  </label>
+                  <input
+                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3.5 py-2.5 text-gray-900 focus:border-blue-600
+                    focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500
+                     dark:focus:ring-blue-500 sm:text-sm"
+                    type="text"
+                    name="email"
+                    id="email"
+                    value={userInfo?.email}
+                    onChange={handleInputChange}
+                    placeholder="Your Email"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="firstName"
+                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    {t("signup.firstName")}
+                  </label>
                   <input
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3.5 py-2.5 text-gray-900 focus:border-blue-600
                     focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500
                      dark:focus:ring-blue-500 sm:text-sm"
                     type="text"
                     name="firstName"
+                    id="firstName"
                     value={userInfo?.firstName}
                     onChange={handleInputChange}
                     placeholder="Your first name"
@@ -144,31 +180,26 @@ const ProfilePage = (props) => {
                   />
                 </div>
                 <div>
+                  <label
+                    htmlFor="lastName"
+                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    {t("signup.lastName")}
+                  </label>
                   <input
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3.5 py-2.5 text-gray-900 focus:border-blue-600
                     focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500
                      dark:focus:ring-blue-500 sm:text-sm"
                     type="text"
                     name="lastName"
+                    is="lastName"
                     value={userInfo?.lastName}
                     onChange={handleInputChange}
                     placeholder="Your last name"
                     required
                   />
                 </div>
-                <div>
-                  <input
-                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3.5 py-2.5 text-gray-900 focus:border-blue-600
-                    focus:ring-blue-600 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500
-                     dark:focus:ring-blue-500 sm:text-sm"
-                    type="text"
-                    name="email"
-                    value={userInfo?.email}
-                    onChange={handleInputChange}
-                    placeholder="Your Email"
-                  />
-                </div>
-                <div>
+                <div className="col-span-2">
                   <input
                     className="hidden"
                     type="file"
@@ -187,7 +218,7 @@ const ProfilePage = (props) => {
                         />
                       </>
                     ) : (
-                      <div className="flex h-24 items-center justify-center rounded-md border border-gray-300">
+                      <div className="flex h-36 min-h-24 items-center justify-center rounded-md border border-gray-300">
                         <span className="text-sm">
                           Add your new avatar here
                         </span>

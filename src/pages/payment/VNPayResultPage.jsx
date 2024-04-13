@@ -6,7 +6,7 @@ import { Alert } from "@mui/material";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { registrationService } from "@/services";
 
-const ResultPaymentPage = () => {
+const VNPayResultPage = () => {
   const [params] = useSearchParams();
   const { showSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(true);
@@ -27,7 +27,7 @@ const ResultPaymentPage = () => {
         const res = await registrationService.register(payload);
         setTimeout(() => {
           navigate(
-            `/course/${payload.course}/learning?lectureId=${res?.data?.data?.nextUrl}`,
+            `/course/${payload.course}/learning?lectureId=${res?.data?.nextUrl}`,
           );
         }, 1000);
       } else {
@@ -50,4 +50,4 @@ const ResultPaymentPage = () => {
   );
 };
 
-export default ResultPaymentPage;
+export default VNPayResultPage;

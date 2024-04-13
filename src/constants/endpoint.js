@@ -13,6 +13,8 @@ const BASE = {
   lectures: `${PREFIX}/lectures`,
   lectureComments: `${PREFIX}/lecture-comments`,
   registration: `${PREFIX}/registration`,
+  paypal: `${PREFIX}/paypal`,
+  vnpay: `${PREFIX}/vnpay`,
   sections: `${PREFIX}/sections`,
   blogs: `${PREFIX}/blogs`,
   lecturerRegistration: `${PREFIX}/lecturer-registration`,
@@ -77,6 +79,9 @@ const endpoints = {
   registrationBase: BASE.registration,
   getInitialRegistration: (id) => `${BASE.registration}/${id}/get-current-user`,
   getRegisteredCourses: BASE.registration + "/get-registered-courses",
+  payWithVNPay: BASE.vnpay,
+  payWithPaypal: BASE.paypal,
+  capturePaypal: BASE.paypal + "/capture",
 
   blogBase: BASE.blogs,
   blogById: (id) => `${BASE.blogs}/${id}`,

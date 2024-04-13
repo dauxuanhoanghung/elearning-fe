@@ -126,9 +126,8 @@ const CourseDetailPage = (props) => {
     isLoading: registrationLoading,
     isError: registrationError,
   } = useQuery({
-    queryKey: ["registration", courseId],
+    queryKey: ["registration", { id: courseId }],
     queryFn: async () => {
-      console.log(["registration", courseId]);
       const res = await registrationService.getInitialRegistration(courseId);
       console.log("getInitialRegistration", res);
       if (res.data) {
@@ -141,37 +140,36 @@ const CourseDetailPage = (props) => {
     },
     initialData: false,
   });
+
   const handleSeeContinue = () => {
     // Nav to the first lecture
     console.log("handleSeeContinue", url);
     navigate(url);
   };
+
   const handleRegisterCourse = async () => {
     if (registration) return;
+    // if user doesn't login, navigate to LOGIN page
     if (isEmptyObject(currentUser)) {
       showSnackbar({
-        message: "Please login first to use to feature.",
+        message: "Please login first to use this Buy now feature.",
         severity: "error",
       });
       navigate("/login");
       return;
     }
-    // Post course registration
+    /**
+     * POST to register, if fee > 0, status = 200, else status = 201
+     * @var {status, message, data} res
+     */
     const res = await registrationService.register({ course: courseId });
-    console.log(res);
-    // Ko phí, code === 201
     if (res.status === 201) {
       showSnackbar({
         message: "Register course success!!!",
         severity: "success",
       });
-      // Nav to the first lecture
       navigate(`/course/${courseId}/learning?lectureId=${res?.data.nextUrl}`);
-    }
-    // nếu có tiền thì phải code === 200
-    else if (res.data.status === 200) {
-      navigate(`/payment/${courseId}/`);
-    }
+    } else if (res.status === 200) navigate(`/payment/${courseId}/`);
   };
   // #endregion
   // #region Chat
@@ -297,7 +295,7 @@ const CourseDetailPage = (props) => {
                         </button>
                         <button
                           className="flex w-1/5 justify-center border border-solid border-white p-3 font-semibold 
-                    transition-all dark:border-white dark:text-white dark:hover:bg-gray-500"
+                                  transition-all dark:border-white dark:text-white dark:hover:bg-gray-500"
                           onClick={() => {}}
                         >
                           <FavoriteIcon className="h-6 w-6" />
