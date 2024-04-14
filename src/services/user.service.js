@@ -1,5 +1,6 @@
 import endpoints from "@/constants/endpoint";
 import { deletes, get, post, put } from "@/utils/request";
+
 const userService = {
   getCurrentUser() {
     return get(endpoints.currentUser);

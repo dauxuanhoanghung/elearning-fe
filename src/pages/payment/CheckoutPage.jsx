@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Loader } from "lucide-react";
 
 import { PaypalIcon } from "@/components/Icons";
+import Spinner from "@/components/common/Spinner";
 import Avatar from "@/components/ui/Avatar";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { courseService, registrationService, sectionService } from "@/services";
@@ -78,7 +79,6 @@ const CheckoutPage = () => {
     const res = await registrationService.payWithPaypal({ course: courseId });
     const { status, message, data } = res;
     if (status === 200) {
-      localStorage.setItem("courseId", courseId);
       window.location.href = data.redirectUrl;
     } else {
       showSnackbar({
@@ -89,7 +89,6 @@ const CheckoutPage = () => {
   };
   const handlePayWithVNPay = async () => {
     const res = await registrationService.payWithVNPay({ course: courseId });
-    console.log("payment_res: ", res);
     if (res.status === 200) {
       localStorage.setItem("courseId", res.data.courseId);
       window.location.href = res.data.redirect_url;
@@ -111,8 +110,10 @@ const CheckoutPage = () => {
     }
   };
 
+  const [isPaymentLoading, setIsPaymentLoading] = useState(false);
   const handlePayment = () => {
     let res;
+    setIsPaymentLoading(true);
     switch (paymentMethod) {
       case "paypal":
         handlePayWithPaypal();
@@ -216,7 +217,6 @@ const CheckoutPage = () => {
                 </div>
               </article>
             </div>
-
             <div className="lg:col-span-1">
               <div className="rounded-lg px-4 py-6 shadow-md">
                 <h2 className="mb-2 text-xl font-bold">Summary</h2>
@@ -245,6 +245,11 @@ const CheckoutPage = () => {
             </div>
           </div>
         </section>
+      )}
+      {isPaymentLoading && (
+        <div className="fixed top-0 z-[999] flex h-screen w-screen items-center justify-center bg-gray-500 opacity-40">
+          <Spinner className="h-20 w-20 fill-red-600 opacity-100" />
+        </div>
       )}
     </main>
   );

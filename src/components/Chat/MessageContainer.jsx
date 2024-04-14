@@ -12,8 +12,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 
-import classNames from "classnames";
-
 import { db } from "@/app/firebase/config";
 import firebaseService from "@/app/firebase/firebaseService";
 import {
@@ -126,7 +124,7 @@ const MessageContainer = () => {
     return () => {
       unsubscribe();
     };
-  }, [selectedChatUser]);
+  }, [selectedChatUser, selectedChatUser?.id]);
   // #endregion
 
   if (selectedChatUser) return <NoUserSelectedPage />;

@@ -30,8 +30,21 @@ const registrationService = {
   payWithVNPay(body) {
     return post(endpoints.payWithVNPay + "/make", body);
   },
+  /**
+   *
+   * @param {course (courseId)} body
+   * @returns
+   */
   payWithPaypal(body) {
     return post(endpoints.payWithPaypal, body);
+  },
+  /**
+   *
+   * @param {token: string} body
+   * @returns
+   */
+  capturePaypal(body) {
+    return post(endpoints.capturePaypal, body);
   },
 };
 

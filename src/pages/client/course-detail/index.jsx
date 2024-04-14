@@ -225,10 +225,8 @@ const CourseDetailPage = (props) => {
   return (
     <main className="w-full" data-page="course-details">
       <img
-        src={
-          courseData.background ||
-          "https://i.ytimg.com/vi/7PCkvCPvDXk/hqdefault.jpg"
-        }
+        src={courseData.background}
+        alt={courseData.name}
         className="max-h-[60vh] w-full object-cover"
       />
       {/* Content */}
