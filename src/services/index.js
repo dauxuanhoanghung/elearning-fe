@@ -1,4 +1,6 @@
+export { default as statsService } from "./admin/stats.service";
 export { default as authService } from "./auth.service";
+export { default as blogCommentService } from "./blog.comment.service";
 export { default as blogService } from "./blog.service";
 export { default as courseCommentService } from "./course.comment.service";
 export { default as courseService } from "./course.service";
@@ -10,4 +12,3 @@ export { default as registrationService } from "./registration.service";
 export { default as sectionService } from "./section.service";
 export { default as userNoteService } from "./user.note.service";
 export { default as userService } from "./user.service";
-export { default as statsService } from "./admin/stats.service";

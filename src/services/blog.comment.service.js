@@ -1,22 +1,22 @@
 import endpoints from "@/constants/endpoint";
 import { deletes, get, post } from "@/utils/request";
 
-const courseCommentService = {
+const blogCommentService = {
   /**
    *
    * @param {content, course(int)} body
    * @returns
    */
-  createComment(body) {
+  create(body) {
     return post(endpoints.courseCommentBase, body);
   },
-  getCommentsByCourseId(courseId, page = 0) {
+  getByCourseId(courseId, page = 0) {
     return get(endpoints.getCourseCommentById(courseId), {
       page: page,
     });
   },
-  deleteCommentById(commentId) {
+  deleteById(commentId) {
     return deletes(endpoints.deleteCourseCommentById(commentId));
   },
 };
-export default courseCommentService;
+export default blogCommentService;

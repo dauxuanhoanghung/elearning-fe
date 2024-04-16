@@ -205,6 +205,14 @@ const Header = () => {
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
+                      <DropdownMenuItem>
+                        <Link to="admin">
+                          <span className=" text-gray-700 dark:text-white">
+                            Admin Page
+                          </span>
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
                       <DropdownMenuItem onClick={handleLogout}>
                         Log out
                       </DropdownMenuItem>

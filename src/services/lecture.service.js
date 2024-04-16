@@ -1,6 +1,5 @@
 import endpoints from "@/constants/endpoint";
 import { deletes, get, post } from "@/utils/request";
-import { URL_LECTURE } from "../constants/url";
 
 const lectureService = {
   getLectures() {
@@ -10,7 +9,7 @@ const lectureService = {
     return get(endpoints.getLectureById(id));
   },
   create(body) {
-    return post(URL_LECTURE, body, {
+    return post(endpoints.createLecture, body, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

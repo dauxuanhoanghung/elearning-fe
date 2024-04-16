@@ -1,43 +1,44 @@
-import {
-  URL_GET_COURSE_WITH_MOST_LECTURES,
-  URL_GET_COURSE_WITH_MOST_REGISTRATION,
-  URL_GET_USER_BY_ROLE,
-  URL_GET_USER_REGISTER_BY_MONTH,
-  URL_GET_USER_REGISTER_UNTIL_MONTH,
-} from "@/constants/url";
-import http from "@/utils/http";
+import endpoints from "@/constants/endpoint";
+import { get } from "@/utils/request";
 
 const statsService = {
+  statsByUser() {
+    return get();
+  },
+
   getCountUserByRole() {
-    return http.get(URL_GET_USER_BY_ROLE);
+    return get(endpoints.statsUserByRole);
   },
   getCourseByMostLectures(limit = 5) {
-    return http.get(URL_GET_COURSE_WITH_MOST_LECTURES, {
+    return get(endpoints.statsCourseMostLectures, {
       params: {
         limit: limit,
       },
     });
   },
   getCourseByMostRegistration(limit = 5) {
-    return http.get(URL_GET_COURSE_WITH_MOST_REGISTRATION, {
+    return get(endpoints.statsCourseMostRegistration, {
       params: {
         limit: limit,
       },
     });
   },
   countNumberOfUserByMonth(year) {
-    return http.get(URL_GET_USER_REGISTER_BY_MONTH, {
+    return get(endpoints.statsUserRegisterByMonth, {
       params: {
         year,
       },
     });
   },
   countUserRegisterUntilMonth(year) {
-    return http.get(URL_GET_USER_REGISTER_UNTIL_MONTH, {
+    return get(endpoints.statsUserRegisterUntilMonth, {
       params: {
         year,
       },
     });
+  },
+  countUserInMonthAndTotal() {
+    return get(endpoints.statsUserInMonthAndTotal);
   },
 };
 

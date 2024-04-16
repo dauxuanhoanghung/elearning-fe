@@ -1,9 +1,5 @@
-import {
-  URL_USER_NOTE,
-  URL_GET_NOTE_BY_LECTURE,
-  URL_DELETE_NOTE_BY_ID,
-} from "../constants/url";
-import http from "../utils/http";
+import endpoints from "@/constants/endpoint";
+import { deletes, get, post } from "@/utils/request";
 
 const userNoteService = {
   /**
@@ -11,13 +7,30 @@ const userNoteService = {
    * @param {text, noteTime: int, lecture} body
    */
   createNote(body) {
-    return http.post(URL_USER_NOTE, body);
+    return post(endpoints.userNoteBase, body);
   },
+  /**
+   *
+   * @returns
+   */
+  getAll() {
+    return get(endpoints.userNoteBase);
+  },
+  /**
+   *
+   * @param {int} lectureId
+   * @returns
+   */
   getNotesByLecture(lectureId) {
-    return http.get(URL_GET_NOTE_BY_LECTURE(lectureId));
+    return get(endpoints.getNotesByLecture(lectureId));
   },
+  /**
+   *
+   * @param {*} id
+   * @returns
+   */
   deleteById(id) {
-    return http.delete(URL_DELETE_NOTE_BY_ID(id));
+    return deletes(endpoints.deleteNoteById(id));
   },
 };
 

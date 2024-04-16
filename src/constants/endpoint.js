@@ -36,8 +36,8 @@ const endpoints = {
   countUsers: `${BASE.users}/count`,
 
   userNoteBase: BASE.userNotes,
-  userNoteByLecture: (lectureId) => `${BASE.userNotes}/${lectureId}/get-note`,
-  userNoteDeleteById: (id) => `${BASE.userNotes}/${id}/delete`,
+  getNotesByLecture: (lectureId) => `${BASE.userNotes}/${lectureId}/get-note`,
+  deleteNoteById: (id) => `${BASE.userNotes}/${id}/delete`,
 
   courseBase: BASE.courses,
   courseTotalPage: `${BASE.courses}/get-total-page`,
@@ -53,6 +53,7 @@ const endpoints = {
   courseCriteriaById: (id) => `${BASE.courses}/${id}/get-criteria`,
 
   getSections: (courseId) => `${BASE.sections}/course/${courseId}`,
+  createSection: BASE.sections,
 
   favoriteBase: BASE.favorite, // toggle favorite
   getWishlist: `${BASE.favorite}/get-list`,
@@ -66,15 +67,19 @@ const endpoints = {
     `${BASE.courses}/${courseId}/get-count-registration`,
 
   courseCommentBase: BASE.courseComments,
-  courseCommentById: (courseId) => `${BASE.courseComments}/course/${courseId}`,
+  getCourseCommentById: (courseId) =>
+    `${BASE.courseComments}/course/${courseId}`,
+  deleteCourseCommentById: (id) => `${BASE.courseComments}/${id}/delete`,
 
   lectureBase: BASE.lectures,
+  createLecture: BASE.lectures,
   getLectureById: (id) => `${BASE.lectures}/${id}`,
   deleteLectureById: (id) => `${BASE.lectures}/${id}/delete`,
 
   lectureCommentBase: BASE.lectureComments,
-  lectureCommentById: (lectureId) =>
+  getLectureCommentById: (lectureId) =>
     `${BASE.lectureComments}/lecture/${lectureId}`,
+  deleteLectureCommentById: (id) => `${BASE.lectureComments}/${id}/delete`,
 
   registrationBase: BASE.registration,
   getInitialRegistration: (id) => `${BASE.registration}/${id}/get-current-user`,
@@ -84,8 +89,8 @@ const endpoints = {
   capturePaypal: BASE.paypal + "/capture",
 
   blogBase: BASE.blogs,
-  blogById: (id) => `${BASE.blogs}/${id}`,
-  blogDeleteById: (id) => `${BASE.blogs}/${id}`,
+  getBlogById: (id) => `${BASE.blogs}/${id}`,
+  deleteBlogById: (id) => `${BASE.blogs}/${id}`,
 
   lecturerRegistrationBase: BASE.lecturerRegistration,
   lecturerRegistrationCurrentUser: `${BASE.lecturerRegistration}/current-user`,
@@ -98,11 +103,12 @@ const endpoints = {
   lecturerRegistrationReject: `${BASE.lecturerRegistration}/reject`,
 
   statsBase: BASE.stats,
-  statsCourseMostLectures: `${BASE.stats}/get-course-with-most-lectures`,
-  statsCourseMostRegistration: `${BASE.stats}/get-course-with-most-registration`,
-  statsUserRegisterUntilMonth: `${BASE.stats}/get-user-register-until-month`,
-  statsUserRegisterByMonth: `${BASE.stats}/get-number-of-user-by-month`,
-  statsUserByRole: `${BASE.stats}/get-count-user-by-role`,
+  statsCourseMostLectures: `${BASE.stats}/course-with-most-lectures`,
+  statsCourseMostRegistration: `${BASE.stats}/course-with-most-registration`,
+  statsUserRegisterUntilMonth: `${BASE.stats}/user-register-until-month`,
+  statsUserRegisterByMonth: `${BASE.stats}/user-by-month`,
+  statsUserByRole: `${BASE.stats}/user-by-role`,
+  statsUserInMonthAndTotal: `${BASE.stats}/count-user-in-month-and-total`,
 };
 
 export default endpoints;

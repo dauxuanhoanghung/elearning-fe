@@ -22,7 +22,7 @@ class Http {
     /** Request, gắn token vào headers */
     this.instance.interceptors.request.use(
       async (config) => {
-        let accessToken = getAccessTokenFromLS();
+        const accessToken = localStorage.getItem("access_token") || "";
         if (accessToken && config.headers) {
           config.headers["Authorization"] = `Bearer ${accessToken}`;
           return config;
