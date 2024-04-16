@@ -3,8 +3,6 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
-import { Typography } from "@mui/material";
-
 import {
   Accordion,
   AccordionContent,
@@ -31,45 +29,40 @@ const LectureList = (props) => {
     },
   });
 
-  console.log("Sections", sections);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error fetching sections</div>;
-  }
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error fetching sections</div>;
 
   return (
     <div className="mx-auto w-full">
-      <Typography variant="h6">Course content:</Typography>
+      <h2 className="text-3xl">Course content:</h2>
       <Accordion type="multiple" className="w-full">
         {sections.map((section, idx) => (
           <AccordionItem value={idx + ""} key={idx}>
             <AccordionTrigger>
-              <span>
+              <div className="flex w-full">
                 {section.orderIndex}. {section.name}
-              </span>
+              </div>
             </AccordionTrigger>
             <AccordionContent>
               <ul>
-                {section.lectures.map((lecture, index) => (
-                  <React.Fragment key={lecture.id}>
-                    <LectureItem
-                      id={lecture.id}
-                      orderIndex={lecture.orderIndex}
-                      title={lecture.title}
-                      type={lecture.type}
-                      courseId={courseId}
-                      duration={lecture.duration}
-                      isCourseDetailPage={isCourseDetailPage}
-                    />
-                    {index < section.lectures.length - 1 && (
-                      <li className="block h-[0.5px] w-full bg-gray-500 dark:bg-gray-300"></li>
-                    )}
-                  </React.Fragment>
-                ))}
+                {section.lectures
+                  .sort((a, b) => a.orderIndex - b.orderIndex)
+                  .map((lecture, index) => (
+                    <React.Fragment key={lecture.id}>
+                      <LectureItem
+                        id={lecture.id}
+                        orderIndex={lecture.orderIndex}
+                        title={lecture.title}
+                        type={lecture.type}
+                        courseId={courseId}
+                        duration={lecture.duration}
+                        isCourseDetailPage={isCourseDetailPage}
+                      />
+                      {index < section.lectures.length - 1 && (
+                        <li className="block h-[0.5px] w-full bg-gray-500 dark:bg-gray-300"></li>
+                      )}
+                    </React.Fragment>
+                  ))}
               </ul>
             </AccordionContent>
           </AccordionItem>

@@ -58,18 +58,18 @@ const HomePage = () => {
     data: pageQueryData,
   } = pageQuery;
   const totalPage = pageQueryData?.data;
-  console.log("pageQuery: ", pageQuery);
 
   const [page, setPage] = useState(0);
   const courseQuery = useQuery({
-    queryKey: ["courses", page], // The query key is an array with the page number
+    queryKey: ["courses", { page: page }], // The query key is an array with the page number
     queryFn: () => courseService.getCourses(page), // The query function returns a promise
     keepPreviousData: true,
+    // staleTime: 600000,
+    initialData: {},
   });
 
   // Use the query result object to render the data
   const { isLoading, isError, data: res } = courseQuery;
-  console.log("courseQuery", courseQuery);
   const courses = res?.data;
 
   const handleChangePage = (page) => {
@@ -85,10 +85,10 @@ const HomePage = () => {
     queryKey: ["users", "top-lecturers"],
     queryFn: async () => {
       const res = await userService.getTopLectures({});
-      console.log(res);
       return res.data;
     },
     initialData: [],
+    // staleTime: 600000,
   });
 
   return (

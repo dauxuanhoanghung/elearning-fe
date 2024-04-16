@@ -1,19 +1,27 @@
-import {
-  URL_BLOG,
-  URL_DELETE_BLOG_BY_ID,
-  URL_GET_BLOG_BY_ID,
-} from "../constants/url";
-import http from "../utils/http";
+import endpoints from "@/constants/endpoint";
+import { deletes, get, post } from "@/utils/request";
 
 const blogService = {
   getBlogs() {
-    return http.get(URL_BLOG);
+    return get(endpoints.blogBase);
   },
-  getBlogById(id) {
-    return http.get(URL_GET_BLOG_BY_ID(id));
+  getById(id) {
+    return get(endpoints.getBlogById(id));
   },
-  deleteBlogById(id) {
-    return http.delete(URL_DELETE_BLOG_BY_ID(id));
+  /**
+   *
+   * @param {*} body
+   * @returns
+   */
+  create(body) {
+    return post(endpoints.createBlog, body, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  },
+  deleteById(id) {
+    return deletes(deleteBlogById(id));
   },
 };
 

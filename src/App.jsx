@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import React, { Suspense } from "react";
 import { useRoutes } from "react-router-dom";
 
@@ -16,6 +17,7 @@ function App() {
       <AppProvider>
         <Suspense fallback={<div>Loading...</div>}>{element}</Suspense>
       </AppProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }

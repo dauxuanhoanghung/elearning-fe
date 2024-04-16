@@ -1,22 +1,22 @@
-import {
-  URL_LECTURE_COMMENT,
-  URL_GET_COMMENT_BY_LECTURE_ID,
-} from "../constants/url";
-import http from "../utils/http";
+import endpoints from "@/constants/endpoint";
+import { deletes, get, post } from "@/utils/request";
 
 const lectureCommentService = {
+  /**
+   *
+   * @param {ContentBlock, lecture (int)} body
+   * @returns
+   */
   createComment(body) {
-    return http.post(URL_LECTURE_COMMENT, body);
+    return post(endpoints.lectureCommentBase, body);
   },
   getCommentsByLectureId(lectureId, page = 0) {
-    return http.get(URL_GET_COMMENT_BY_LECTURE_ID(lectureId), {
-      params: {
-        page: page,
-      },
+    return get(endpoints.getLectureCommentById(lectureId), {
+      page: page,
     });
   },
   deleteCommentsById(id) {
-    return http.delete;
+    return deletes(endpoints.deleteLectureCommentById(id));
   },
 };
 export default lectureCommentService;

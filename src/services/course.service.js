@@ -25,7 +25,7 @@ const courseService = {
       business: true,
     });
   },
-  getCourseById(id) {
+  getById(id) {
     return get(endpoints.courseById(id));
   },
   /**

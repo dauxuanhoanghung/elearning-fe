@@ -2,7 +2,6 @@ import LecturerCard from "./LecturerCard";
 
 const TopLecturer = (props) => {
   const { isError, isLoading, data } = props;
-  console.log(data);
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error fetching lecturers</div>;
 

@@ -5,10 +5,7 @@ import { Link } from "react-router-dom";
 
 import {
   AlertCircleIcon,
-  ChatIcon,
   EditIcon,
-  FavoriteFullIcon,
-  FavoriteIcon,
   MoreHorizonIcon,
   RemoveIcon,
 } from "@/components/Icons";
@@ -96,7 +93,7 @@ const Comment = (props) => {
         )}
       </header>
       <p className="text-gray-500 dark:text-gray-400">{content}</p>
-      <div className="mt-4 flex items-center space-x-4">
+      {/* <div className="mt-4 flex items-center space-x-4">
         <button className="flex items-center text-sm font-medium text-gray-500 dark:text-gray-400">
           {true ? <FavoriteFullIcon /> : <FavoriteIcon />}0 {t("comment.like")}
         </button>
@@ -106,7 +103,7 @@ const Comment = (props) => {
             {t("comment.reply")}
           </button>
         )}
-      </div>
+      </div> */}
     </article>
   );
 };

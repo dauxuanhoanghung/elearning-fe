@@ -69,8 +69,9 @@ const navItems = [
   {
     href: "/register-lecturer",
     key: "register-lecturer",
-    isAuthenticated: false,
+    isAuthenticated: true,
     isLecturer: false,
+    isNotLecturer: true,
   },
 ];
 
@@ -125,14 +126,6 @@ const Header = () => {
       history.push(`/search/${searchKw}`);
       setSearchKw("");
     }
-  };
-
-  const [openCategories, setOpenCategories] = useState(false);
-  const toggleOpenCategories = () => {
-    setOpenCategories((prev) => !prev);
-  };
-  const handleOpenCategoriesBlur = () => {
-    setOpenCategories(false);
   };
   // #endregion
 
@@ -212,6 +205,14 @@ const Header = () => {
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
+                      <DropdownMenuItem>
+                        <Link to="admin">
+                          <span className=" text-gray-700 dark:text-white">
+                            Admin Page
+                          </span>
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
                       <DropdownMenuItem onClick={handleLogout}>
                         Log out
                       </DropdownMenuItem>
@@ -245,7 +246,7 @@ const Header = () => {
             </label>
             <Link
               to="/search"
-              className="relative z-10 hidden shrink-0 items-center rounded-l-lg border border-gray-300 
+              className="relative z-10 hidden shrink-0 items-center rounded-l-lg border-0 border-gray-300 
               bg-gray-100 px-4 py-2.5 text-center text-sm font-medium text-black hover:bg-gray-200 
               dark:border-gray-600 dark:bg-gray-900 dark:text-white dark:hover:bg-gray-800 md:block"
             >
@@ -276,12 +277,22 @@ const Header = () => {
           <div className="order-1 flex items-center">
             <ul className="mt-0 flex flex-row text-sm font-medium">
               {navItems
-                .filter(
-                  (item) =>
-                    !item.isAuthenticated ||
-                    (item.isAuthenticated && !isEmptyObject(currentUser)) ||
-                    (item.isLecturer && isLecturer(currentUser)),
-                )
+                .filter((item) => {
+                  if (!item.isAuthenticated) return true; //Home page
+                  if (!isEmptyObject(currentUser)) {
+                    if (item.isLecturer && isLecturer(currentUser)) return true; // my-business
+                    if (!item.isLecturer) {
+                      //my-course, my-favorites, register-lecturer
+                      if (item.isNotLecturer && !isLecturer(currentUser)) {
+                        return true; // register-lecturer
+                      }
+                      if (!item.isNotLecturer) {
+                        return true; // my-course, my-favorites
+                      }
+                    }
+                  }
+                  return false;
+                })
                 .map((item, idx) => (
                   <li key={idx}>
                     <Link
@@ -301,33 +312,3 @@ const Header = () => {
 };
 
 export default Header;
-
-{
-  /* <div
-                  className="absolute left-[-100%] top-[110%] z-10 hidden w-32 divide-y divide-gray-100 rounded-lg bg-white shadow 
-                  dark:divide-gray-600 dark:bg-gray-700 md:left-0 md:w-44"
-                  style={{ display: openAvatar && "block" }}
-                >
-                  <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
-                    {avtOptions.map((opt, idx) => (
-                      <li key={idx}>
-                        <Link
-                          to={opt.href}
-                          className="block px-4 py-2 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600"
-                        >
-                          {t(`header.${opt.key}`)}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="py-1">
-                    <button
-                      onClick={handleLogout}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200
-                     dark:hover:bg-gray-600 dark:hover:text-white"
-                    >
-                      Sign out
-                    </button>
-                  </div>
-                </div> */
-}

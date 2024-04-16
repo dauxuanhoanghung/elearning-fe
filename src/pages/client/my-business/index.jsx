@@ -31,18 +31,19 @@ const MyBusinessPage = () => {
     data: pageQueryData,
   } = pageQuery;
   const totalPage = pageQueryData?.data;
-  console.log("pageQuery: ", pageQuery);
 
   const [page, setPage] = useState(0);
-  const courseQuery = useQuery({
+
+  // Use the query result object to render the data
+  const {
+    isLoading,
+    isError,
+    data: res,
+  } = useQuery({
     queryKey: ["mybusiness:courses", page], // The query key is an array with the page number
     queryFn: () => courseService.getMyBusinessCourse(page), // The query function returns a promise
     keepPreviousData: true,
   });
-
-  // Use the query result object to render the data
-  const { isLoading, isError, data: res } = courseQuery;
-  console.log("mybusiness:courseQuery", courseQuery);
   const courses = res?.data;
 
   const handleChangePage = (page) => {

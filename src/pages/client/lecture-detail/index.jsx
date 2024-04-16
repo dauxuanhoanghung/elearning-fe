@@ -10,6 +10,9 @@ import { lectureCommentService } from "@/services";
 const LectureDetailPage = () => {
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
+  const [searchParams] = useSearchParams();
+  const lectureId = searchParams.get("lectureId");
+
   // #region comments
   const [comments, setComments] = useState([]);
   const [page, setPage] = useState(0);
@@ -20,8 +23,8 @@ const LectureDetailPage = () => {
       lectureId,
       page,
     );
-    if (res.data.data.length > 0) {
-      setComments([...comments, ...res.data.data]);
+    if (res.data.length > 0) {
+      setComments([...comments, ...res.data]);
       setPage(page + 1);
     } else setPage(-1);
   };
@@ -29,8 +32,6 @@ const LectureDetailPage = () => {
     getCommentsByLectureId(lectureId);
   }, []);
   // #endregion
-  const [searchParams] = useSearchParams();
-  const lectureId = searchParams.get("lectureId");
   useEffect(() => {
     if (!lectureId) {
       showSnackbar({ message: "Invalid route", severity: "error" });
@@ -40,8 +41,8 @@ const LectureDetailPage = () => {
 
   return (
     <main data-component="lecture-detail-page">
-      <div className="grid grid-cols-1 sm:grid-cols-3">
-        <div className="border-r border-black dark:border-white sm:col-span-2">
+      <div className="grid grid-cols-1 sm:grid-cols-7">
+        <div className="border-r border-black dark:border-white sm:col-span-5">
           <LectureDetail />
           <CommentContainer
             comments={comments}
@@ -51,7 +52,7 @@ const LectureDetailPage = () => {
             page={page}
           />
         </div>
-        <div className="sm:col-span-1">
+        <div className="sm:col-span-2">
           <LectureList isCourseDetailPage={false} />
         </div>
       </div>

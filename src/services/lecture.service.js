@@ -1,26 +1,22 @@
-import {
-  URL_DELETE_LECTURE_BY_ID,
-  URL_GET_LECTURE_BY_ID,
-  URL_LECTURE,
-} from "../constants/url";
-import http from "../utils/http";
+import endpoints from "@/constants/endpoint";
+import { deletes, get, post } from "@/utils/request";
 
 const lectureService = {
   getLectures() {
-    return http.get(URL_LECTURE);
+    return get(endpoints.lectureBase);
   },
-  getLectureById(id) {
-    return http.get(URL_GET_LECTURE_BY_ID(id));
+  getById(id) {
+    return get(endpoints.getLectureById(id));
   },
   create(body) {
-    return http.post(URL_LECTURE, body, {
+    return post(endpoints.createLecture, body, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
   },
   deleteLectureById(id) {
-    return http.delete(URL_DELETE_LECTURE_BY_ID(id));
+    return deletes(endpoints.deleteLectureById(id));
   },
 };
 

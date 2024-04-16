@@ -15,9 +15,14 @@ import MyBusinessPage from "@/pages/client/my-business";
 import MyCoursePage from "@/pages/client/my-course";
 import RegisterLecturerPage from "@/pages/client/register-lecturer";
 import SearchCoursePage from "@/pages/client/search";
+import { InstructorProfilePage } from "@/pages/client/user";
 import HomePage from "@/pages/home";
 import FAQPage from "@/pages/marketing/faq";
-import { PaymentPage, ResultPaymentPage } from "@/pages/payment";
+import {
+  CheckoutPage,
+  PayPalCapturePage,
+  ResultPaymentPage,
+} from "@/pages/payment";
 import {
   DeleteAccountPage,
   EditPasswordPage,
@@ -84,6 +89,15 @@ const ClientRouter = [
         element: <SearchCoursePage />,
       },
       {
+        path: "user",
+        children: [
+          {
+            path: ":username",
+            element: <InstructorProfilePage />,
+          },
+        ],
+      },
+      {
         path: "blog",
         children: [
           { index: true, element: <BlogsPage /> },
@@ -146,8 +160,9 @@ const ClientRouter = [
       { path: "my-course", element: <MyCoursePage /> },
       { path: "register-lecturer", element: <RegisterLecturerPage /> },
       { path: "my-business", element: <MyBusinessPage /> },
-      { path: "payment/:courseId", element: <PaymentPage /> },
+      { path: "payment/:courseId", element: <CheckoutPage /> },
       { path: "payment/result", element: <ResultPaymentPage /> },
+      { path: "payment/paypal/capture", element: <PayPalCapturePage /> },
     ],
   },
   {

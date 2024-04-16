@@ -1,2 +1,3 @@
-export { default as PaymentPage } from "./payment";
-export { default as ResultPaymentPage } from "./result";
+export { default as CheckoutPage } from "./CheckoutPage";
+export { default as PayPalCapturePage } from "./PaypalCapturePage";
+export { default as ResultPaymentPage } from "./VNPayResultPage";

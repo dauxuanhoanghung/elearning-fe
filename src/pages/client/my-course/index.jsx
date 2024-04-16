@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 import { Skeleton } from "@/components/common";
 import CourseContainer from "@/components/CourseContainer";
@@ -17,21 +16,22 @@ import { courseService } from "@/services";
 
 const MyCoursePage = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { page = 0 } = useSearchParams();
 
   //#region Course
-  const pageQuery = useQuery({
-    queryKey: ["mybusiness:totalPage"],
-    queryFn: () => courseService.countTotalPage(),
-  });
   const {
     isLoading: paginationLoading,
     isError: paginationError,
-    data: pageQueryData,
-  } = pageQuery;
-  const totalPage = pageQueryData?.data;
-  console.log("pageQuery: ", pageQuery);
+    data: totalPage,
+  } = useQuery({
+    queryKey: ["mybusiness:totalPage"],
+    queryFn: async () => {
+      const res = await courseService.countTotalPage();
+      return res.data;
+    },
+  });
 
-  const [page, setPage] = useState(0);
   const courseQuery = useQuery({
     queryKey: ["my-course:courses", page], // The query key is an array with the page number
     queryFn: () => courseService.getMyLearningCourse(page), // The query function returns a promise
@@ -40,11 +40,10 @@ const MyCoursePage = () => {
 
   // Use the query result object to render the data
   const { isLoading, isError, data: res } = courseQuery;
-  console.log("my-course:courseQuery", courseQuery);
   const courses = res?.data;
 
-  const handleChangePage = (page) => {
-    setPage(page - 1);
+  const handleChangePage = () => {
+    navigate("/my-course", { page: page + 1 });
   };
   //#endregion
 

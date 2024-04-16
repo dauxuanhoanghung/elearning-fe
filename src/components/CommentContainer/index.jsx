@@ -34,13 +34,15 @@ const CommentContainer = (props) => {
     if (courseId) {
       const request = { content: newComment, course: courseId };
       res = await courseCommentService.createComment(request);
-      setComments([newComment, ...comments]);
+      setComments([{ content: newComment, user: currentUser }, ...comments]);
     } else if (lectureId) {
       const request = { content: newComment, lecture: lectureId };
       res = await lectureCommentService.createComment(request);
-      setComments([newComment, ...comments]);
+      setComments([{ content: newComment, user: currentUser }, ...comments]);
     } else if (blogId) {
     }
+
+    console.log(res);
     if (res?.data.status === 201) {
       setNewComment("");
       showSnackbar({
