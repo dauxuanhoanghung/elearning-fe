@@ -1,24 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
+import { AlertCircle, PlusIcon } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ReactPlayer from "react-player";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import AddIcon from "@mui/icons-material/Add";
-import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
-import {
-  Alert,
-  Box,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Typography,
-} from "@mui/material";
-
-import { Modal } from "@/components/ui";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { lectureService, userNoteService } from "@/services";
 import { secondsToMMSS } from "@/utils/utils";
+import { Alert, AlertDescription } from "../ui/alert";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 import UserNote from "./UserNote";
 
 const LectureDetail = () => {
@@ -103,18 +102,15 @@ const LectureDetail = () => {
   // #endregion
   // #region note
   const [userNotes, setUserNotes] = useState([]);
-  useEffect(() => {
-    const fetchUserNotes = async () => {
-      if (!lectureId) return;
-      const response = await userNoteService.getNotesByLecture(lectureId);
+  const { isLoading: userNotesLoading, isError: userNotesError } = useQuery({
+    queryKey: ["notes", { lectureId }],
+    queryFn: async () => {
+      const res = await userNoteService.getNotesByLecture(lectureId);
+      setUserNotes(res.data);
+      return res.data;
+    },
+  });
 
-      if (response.data.status === 200) {
-        setUserNotes(response.data.data);
-      }
-    };
-
-    fetchUserNotes();
-  }, []);
   const [note, setNote] = useState("");
   const handleNoteChange = (e) => {
     setNote(e.target.value);
@@ -135,9 +131,9 @@ const LectureDetail = () => {
         lecture: lectureId,
       };
       const response = await userNoteService.createNote(request);
-      if (response.data.status === 201) {
-        setUserNotes([response.data.data, ...userNotes]);
-        showSnackbar({ message: response.data.message, severity: "success" });
+      if (response.status === 201) {
+        setUserNotes([response.data, ...userNotes]);
+        showSnackbar({ message: response.message, severity: "success" });
       }
       setNote("");
       setOpenModal(false);
@@ -146,11 +142,12 @@ const LectureDetail = () => {
     handleAddUserNote();
     setOpenModal(true);
   };
+
   const handleDeleteNote = (id) => {
     const deleteNote = async () => {
       const res = await userNoteService.deleteById(id);
-      if (res.data.status === 204) {
-        showSnackbar({ message: res.data.message, severity: "info" });
+      if (res.status === 204) {
+        showSnackbar({ message: res.message, severity: "info" });
         const updatedUserNotes = userNotes.filter((u) => u.id != id);
         setUserNotes([...updatedUserNotes]);
       }
@@ -175,72 +172,80 @@ const LectureDetail = () => {
         onSeek={handleSeek}
       />
       <div className="mx-2 mb-10 mt-4 flex items-center justify-between">
-        <h6 className="text-xl">{lectureData?.title}</h6>
+        <h6 className="text-3xl">{lectureData?.title}</h6>
         <button
           onClick={handleOpenModal}
           className="flex items-center bg-cyan-600 px-4 py-2 text-black dark:text-white"
         >
-          <AddIcon className="mr-1 h-6 w-6" />
+          <PlusIcon className="mr-1 h-6 w-6" />
           <span>Add a note</span>
         </button>
       </div>
-      <div>
-        <h6 className="text-xl">{lectureData.content}</h6>
+      <div className="m-2">
+        <h5 className="text-xl">Lecture description:</h5>
+        <h6 className="text-lg">{lectureData.content}</h6>
       </div>
 
-      <Modal open={openModal} onClose={handleCloseModal}>
-        <>
-          <Typography>
-            Add a note on
-            <span style={{ color: "#F9812A" }}>
-              {` ${secondsToMMSS(currentTime)}`}
+      <Dialog open={openModal}>
+        <DialogContent
+          className="min-h-80 w-[70%] max-w-6xl text-black dark:text-white"
+          onInteractOutside={handleCloseModal}
+          hideCloseButton={true}
+        >
+          <DialogHeader>
+            <DialogTitle>
+              <span className="text-xl font-bold text-black dark:text-white">
+                Add a note
+              </span>
+            </DialogTitle>
+            <DialogDescription>
+              Make a note to keep track of your learning progress. Click save
+              when you complete this action.
+            </DialogDescription>
+            <span>
+              Add a note on
+              <span style={{ color: "#F9812A" }}>
+                {` ${secondsToMMSS(currentTime)}`}
+              </span>
             </span>
-          </Typography>
-          <TextField
-            label="Add a note"
-            variant="outlined"
-            fullWidth
-            value={note}
-            onChange={handleNoteChange}
-            onKeyUp={(e) => e.keyCode === 13 && writeNote()}
-            style={{ marginTop: "16px" }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={writeNote}>
-                    <SendOutlinedIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-          <Box sx={{ margin: "10px auto" }}>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <Label>Note content</Label>
+            <Input
+              value={note}
+              placeholder="Write your note here..."
+              onChange={handleNoteChange}
+              onKeyUp={(e) => e.keyCode === 13 && writeNote()}
+            />
+          </div>
+          <div className="w-full">
             {userNotes?.map((userNote, index) => (
               <React.Fragment key={index}>
                 <UserNote
-                  id={userNote.id}
-                  text={userNote.text}
-                  time={userNote.noteTime}
+                  {...userNote}
                   onTimeClick={() => {
                     handleSeek(userNote.noteTime);
                     handleCloseModal();
                   }}
                   handleDeleteNote={handleDeleteNote}
+                  userNotes={userNotes}
+                  setUserNotes={setUserNotes}
                 />
               </React.Fragment>
             ))}
             {userNotes?.length === 0 && (
-              <>
-                <Box container sx={{ margin: "30px 0" }}>
-                  <Alert severity="info">
+              <div className="w-full">
+                <Alert variant="default">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>
                     You haven't give a note on this lecture !!! Do it now.
-                  </Alert>
-                </Box>
-              </>
+                  </AlertDescription>
+                </Alert>
+              </div>
             )}
-          </Box>
-        </>
-      </Modal>
+          </div>
+        </DialogContent>
+      </Dialog>
     </main>
   );
 };

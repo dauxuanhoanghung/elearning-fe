@@ -1,5 +1,5 @@
 import endpoints from "@/constants/endpoint";
-import { deletes, get, post } from "@/utils/request";
+import { deletes, get, post, put } from "@/utils/request";
 
 const userNoteService = {
   /**
@@ -23,6 +23,9 @@ const userNoteService = {
    */
   getNotesByLecture(lectureId) {
     return get(endpoints.getNotesByLecture(lectureId));
+  },
+  update(body) {
+    return put(endpoints.updateNote, body);
   },
   /**
    *
