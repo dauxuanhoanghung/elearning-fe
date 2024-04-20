@@ -1,7 +1,7 @@
+import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-
-import classNames from "classnames";
+import { twMerge } from "tailwind-merge";
 
 import { DeleteIcon, InfoIcon } from "@/components/Icons";
 import { Avatar } from "@/components/ui";
@@ -14,7 +14,7 @@ const UserInfo = (props) => {
     text: message = "This's a sample message for test",
     lastUpdate = "1:30 PM",
   } = props;
-  const selectedChatUser = useSelector((state) => state.chat.selectedChatUser);
+  const selectedChatUser = useSelector((state) => state.chat.selectedChatInfo);
 
   const menuRef = useRef(null);
   const [openAction, setOpenAction] = useState(false);
@@ -42,9 +42,15 @@ const UserInfo = (props) => {
   return (
     <div className="relative select-none" onContextMenu={handleContextMenu}>
       <button
-        className="flex w-full rounded p-3 transition duration-500 ease-out hover:bg-indigo-50
-        focus:bg-indigo-50 focus:outline-none active:bg-indigo-100 dark:hover:bg-gray-600 
-        dark:focus:bg-gray-600 dark:active:bg-gray-600"
+        className={twMerge(
+          classNames(
+            `flex w-full rounded p-3 transition duration-500 ease-out hover:bg-indigo-50 focus:bg-indigo-50 focus:outline-none
+             active:bg-indigo-100 dark:hover:bg-gray-600 dark:focus:bg-gray-600 dark:active:bg-gray-600`,
+            {
+              "bg-indigo-100 dark:bg-gray-700 ": selectedChatUser?.id === id,
+            },
+          ),
+        )}
       >
         <div className="mr-4">
           <Avatar src={avatar} style={{ width: "3.2rem", height: "2.5rem" }} />

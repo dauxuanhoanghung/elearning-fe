@@ -37,6 +37,7 @@ const endpoints = {
 
   userNoteBase: BASE.userNotes,
   getNotesByLecture: (lectureId) => `${BASE.userNotes}/${lectureId}/get-note`,
+  updateNote: `${BASE.userNotes}/update`,
   deleteNoteById: (id) => `${BASE.userNotes}/${id}/delete`,
 
   courseBase: BASE.courses,

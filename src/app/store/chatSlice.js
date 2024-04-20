@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  selectedChatUser: null,
+  selectedChatInfo: {}, // bao gom user, group
+  isGroup: false,
 };
 
 export const chatSlice = createSlice({
@@ -9,12 +10,17 @@ export const chatSlice = createSlice({
   initialState,
   reducers: {
     changeChatUser: (state, action) => {
-      state.selectedChatUser = action?.payload;
+      state.selectedChatInfo = action?.payload;
+      state.isGroup = false;
+    },
+    changeChatGroup: (state, action) => {
+      state.selectedChatInfo = action?.payload;
+      state.isGroup = true;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { changeChatUser } = chatSlice.actions;
+export const { changeChatUser, changeChatGroup } = chatSlice.actions;
 
 export default chatSlice.reducer;

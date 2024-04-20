@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import firebaseService from "@/app/firebase/firebaseService";
 import { login, setUser } from "@/app/store/userSlice";
 import { authService, userService } from "@/services";
 import { removeVietnameseTones } from "@/utils/utils";
@@ -15,8 +16,21 @@ const LoginGoogleBtn = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+
+  const handleAfterLogin = async (res) => {
+    const user = res.data;
+    setTimeout(() => {
+      dispatch(setUser(user));
+    }, 300);
+    firebaseService.saveDocWithId("users", user.id, {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      avatar: user.avatar,
+    });
+  };
+
   const handleLoginGoogle = async (credential) => {
-    console.log("LoginGoogleBtn >>>", credential);
     const data = {
       username:
         removeVietnameseTones(credential.family_name).toLowerCase() +
@@ -30,10 +44,11 @@ const LoginGoogleBtn = () => {
     };
     setLoading(true);
     const res = await authService.loginGoogle(data);
-    dispatch(login(res.data.data));
+    dispatch(login(res.data));
+
     userService.getCurrentUser().then((res) => {
-      dispatch(setUser(res.data.data));
       navigate("/");
+      handleAfterLogin(res);
     });
     setLoading(false);
   };

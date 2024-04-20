@@ -21,30 +21,36 @@ const ChatContainer = (props) => {
   // #region chat
   useEffect(() => {
     const saveUserToFirestore = async () => {
-      if (!isEmptyObject(currentUser) && !isUserSaved) {
-        const usersCollection = collection(db, "users");
-        const userQuery = query(
-          usersCollection,
-          where("username", "==", currentUser.username),
-        );
-        const existingUsers = await getDocs(userQuery);
+      // Neu chua login, hoac isUserSaved (ko phai lan dau) => return
+      if (isEmptyObject(currentUser) || isUserSaved) return;
 
-        if (existingUsers.empty) {
-          await firebaseService.addDocument("users", {
-            id: currentUser.id,
-            username: currentUser.username,
-            avatar: currentUser.avatar || "/default-avatar.jpg",
-            displayName: `${currentUser.firstName} ${currentUser.lastName}`,
-          });
-          setIsUserSaved(true);
-        } else {
-          setIsUserSaved(true);
-        }
+      const usersCollection = collection(db, "users");
+
+      const userQuery = query(
+        usersCollection,
+        where("username", "==", currentUser.username),
+      );
+
+      const existingUsers = await getDocs(userQuery);
+      console.log("existingUsers", existingUsers);
+      if (existingUsers.empty) {
+        await firebaseService.addDocument("users", {
+          id: currentUser.id,
+          username: currentUser.username,
+          avatar: currentUser.avatar || "/default-avatar.jpg",
+          displayName: `${currentUser.firstName} ${currentUser.lastName}`,
+          groups: [],
+          email: currentUser.email,
+        });
       }
+
+      setIsUserSaved(true);
     };
 
     saveUserToFirestore();
   }, [currentUser]);
+  // #endregion
+
   return (
     <Sheet open={openDrawer} onOpenChange={setOpenDrawer}>
       <SheetContent side="left" className="w-[400px] sm:w-[70vw]">

@@ -6,7 +6,7 @@ const Spinner = ({ className }) => {
     <div role="status">
       <svg
         aria-hidden="true"
-        class={twMerge(
+        className={twMerge(
           "h-8 w-8 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600",
           className,
         )}
@@ -23,7 +23,7 @@ const Spinner = ({ className }) => {
           fill="currentColor"
         />
       </svg>
-      <span class="sr-only">Loading...</span>
+      <span className="sr-only">Loading...</span>
     </div>
   );
 };
