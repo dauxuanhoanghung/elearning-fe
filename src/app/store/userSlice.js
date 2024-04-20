@@ -2,7 +2,6 @@ import {
   clearLS,
   getProfileFromLS,
   setAccessTokenToLS,
-  setProfileToLS,
   setRefreshTokenToLS,
 } from "@/utils/auth";
 import { createSlice } from "@reduxjs/toolkit";
@@ -26,7 +25,7 @@ export const userSlice = createSlice({
       state.user = {};
     },
     setUser: (state, action) => {
-      setProfileToLS(action?.payload);
+      // setProfileToLS(action?.payload);
       state.user = action?.payload;
       state.isLogin = true;
     },

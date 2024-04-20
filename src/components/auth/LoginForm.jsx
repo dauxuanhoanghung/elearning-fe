@@ -3,26 +3,48 @@ import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
+import firebaseService from "@/app/firebase/firebaseService";
 import { login, setUser } from "@/app/store/userSlice";
+import { useSnackbar } from "@/contexts/SnackbarContext";
 import { authService, userService } from "@/services";
 import LoginGoogleBtn from "./LoginGoogleBtn";
 
 const LoginForm = () => {
   const { t } = useTranslation();
+  const { showSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const processLogin = async () => {
-    // Auth
-    const res = await authService.login({ username, password });
-    dispatch(login(res.data));
-    // Get user Info
-    userService.getCurrentUser().then((res) => {
-      dispatch(setUser(res.data));
-      navigate("/");
+  const handleAfterLogin = async (res) => {
+    const user = res.data;
+    setTimeout(() => {
+      dispatch(setUser(user));
+    }, 300);
+    firebaseService.saveDocWithId("users", user.id, {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      avatar: user.avatar,
     });
+  };
+
+  const processLogin = async () => {
+    try {
+      const res = await authService.login({ username, password });
+      dispatch(login(res.data));
+      // Get user Info
+      userService.getCurrentUser().then((res) => {
+        navigate("/");
+        handleAfterLogin(res);
+      });
+    } catch (e) {
+      showSnackbar({
+        message: "The credentials is invalid, login failed",
+        severity: "error",
+      });
+    }
   };
 
   const handleSubmit = (e) => {

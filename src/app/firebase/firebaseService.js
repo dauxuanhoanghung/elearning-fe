@@ -5,6 +5,7 @@ import {
   getDocs,
   query,
   serverTimestamp,
+  setDoc,
   where,
 } from "firebase/firestore";
 import PropTypes from "prop-types";
@@ -78,11 +79,24 @@ const firebaseService = {
       return !user.empty;
     } catch (error) {}
   },
+
   async getUserById(userId) {
     const user = await getDocs(
       query(collection(db, "users"), where("id", "==", userId)),
     );
     return user.docs[0]?.data();
+  },
+
+  async saveDocWithId(collectionName, documentId, data) {
+    try {
+      await setDoc(doc(db, collectionName, documentId + ""), {
+        ...data,
+        createdAt: serverTimestamp(),
+      });
+      console.log("Save docs successfully");
+    } catch (error) {
+      console.error("Error creating or checking document: ", error);
+    }
   },
 };
 
