@@ -1,6 +1,7 @@
 import {
   and,
   collection,
+  doc,
   limit,
   onSnapshot,
   or,
@@ -74,7 +75,10 @@ const NoUserSelectedPage = () => {
 const MessageContainer = () => {
   const { t } = useTranslation();
   const currentUser = useSelector((state) => state.user.user);
-  const selectedChatUser = useSelector((state) => state.chat.selectedChatUser);
+  const selectedChatUser = useSelector((state) => state.chat.selectedChatInfo);
+  const isGroupSelected = useSelector((state) => state.chat.isGroup);
+  console.log("selectedChatUser", selectedChatUser);
+
   // #region Chat message input
   const [message, setMessage] = useState("");
   const sendMessage = async () => {
@@ -82,35 +86,58 @@ const MessageContainer = () => {
       alert("Enter valid message");
       return;
     }
-    await firebaseService.addDocument("messages", {
+    // Prepare the message object based on isChatUser state
+    const messageData = {
       text: message,
       senderId: currentUser.id,
-      recipientId: selectedChatUser.id,
-    });
+      senderInfo: doc(collection(db, "users", currentUser.id)),
+    };
+
+    // Conditional addition of recipientId or groupId based on isChatUser
+    if (isGroupSelected) {
+      messageData.groupId = selectedChatUser.id;
+      messageData.recipientId = null;
+    } else {
+      messageData.recipientId = selectedChatUser.id;
+      messageData.groupId = null;
+    }
+    // Send the message
+    await firebaseService.addDocument("messages", messageData);
     setMessage("");
   };
   // #endregion
+
   // #region messages show
   const [messages, setMessages] = useState([]);
   useEffect(() => {
-    if (!selectedChatUser) return;
-    console.log("current user: ", currentUser);
-    console.log("selected chat user: ", selectedChatUser);
-    const callQuery = query(
-      collection(db, "messages"),
-      or(
-        and(
-          where("senderId", "==", currentUser.id),
-          where("recipientId", "==", selectedChatUser.id),
+    if (!Boolean(selectedChatUser?.id)) return;
+    let callQuery;
+    const messageRef = collection(db, "messages");
+    if (isGroupSelected) {
+      callQuery = query(
+        collection(db, "messages"),
+        where("groupId", "==", selectedChatUser.id),
+        orderBy("createdAt", "desc"),
+        limit(15),
+      );
+    }
+    // query cho 1vs1
+    else
+      callQuery = query(
+        messageRef,
+        or(
+          and(
+            where("senderId", "==", currentUser.id),
+            where("recipientId", "==", selectedChatUser.id),
+          ),
+          and(
+            where("senderId", "==", selectedChatUser.id),
+            where("recipientId", "==", currentUser.id),
+          ),
         ),
-        and(
-          where("senderId", "==", selectedChatUser.id),
-          where("recipientId", "==", currentUser.id),
-        ),
-      ),
-      orderBy("createdAt", "desc"),
-      limit(15),
-    );
+        orderBy("createdAt", "desc"),
+        limit(15),
+      );
     console.log("callQuery", callQuery);
     const unsubscribe = onSnapshot(callQuery, (QuerySnapshot) => {
       console.log(QuerySnapshot);
@@ -124,11 +151,12 @@ const MessageContainer = () => {
     return () => {
       unsubscribe();
     };
-  }, [selectedChatUser, selectedChatUser?.id]);
+  }, [selectedChatUser?.id]);
+
+  useEffect(() => {}, [selectedChatUser?.id]);
   // #endregion
 
-  if (selectedChatUser) return <NoUserSelectedPage />;
-
+  // #region right-click
   const [openMenu, setOpenMenu] = useState(false);
   const menuRef = useRef(null);
   const toggleOpenMenu = () => {
@@ -149,6 +177,9 @@ const MessageContainer = () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, [openMenu]);
+  // #endregion
+
+  if (!Boolean(selectedChatUser?.id)) return <NoUserSelectedPage />;
 
   return (
     <section
@@ -172,21 +203,21 @@ const MessageContainer = () => {
               </div>
               <div className="flex grow">
                 <button className="mr-5 outline-none">
-                  <Avatar />
+                  <Avatar src={selectedChatUser.avatar} />
                 </button>
                 <div className="flex flex-col">
                   <p
                     className="mb-2 cursor-pointer text-sm font-semibold leading-4 tracking-[.01rem]
                   text-black opacity-60 outline-none dark:text-white dark:opacity-70"
                   >
-                    {selectedChatUser?.firstName || "Alan"}
+                    {selectedChatUser?.name || selectedChatUser?.displayName}
                   </p>
-                  <p
+                  {/* <p
                     className="rounded-[.25rem] text-sm font-extralight leading-4 tracking-[.01rem]
                   text-black opacity-60 outline-none dark:text-white dark:opacity-70"
                   >
                     Last seen Dec 16, 2019
-                  </p>
+                  </p> */}
                 </div>
               </div>
               <div className="relative" ref={menuRef}>
@@ -232,11 +263,9 @@ const MessageContainer = () => {
           <div className="relative transition-[padding] duration-200"></div>
         </div>
         <div className="scrollbar-hidden flex grow flex-col overflow-y-scroll px-5 py-5">
-          {Array(10)
-            .fill(null)
-            .map((m, idx) => (
-              <Message key={idx} isMyMessage={idx % 2 === 0} />
-            ))}
+          {messages.map((m, idx) => (
+            <Message key={idx} {...m} />
+          ))}
         </div>
         <div className="w-full">
           <div className="relative transition-all duration-200"></div>
@@ -262,7 +291,7 @@ const MessageContainer = () => {
                   rows="1"
                   placeholder="Write your message here"
                   value={message}
-                  onChange={setMessage}
+                  onChange={(e) => setMessage(e.target.value)}
                 ></textarea>
               </div>
             </div>
@@ -282,6 +311,7 @@ const MessageContainer = () => {
                 focus:bg-indigo-400 focus:outline-none active:scale-110 dark:bg-indigo-400
                 dark:text-white dark:hover:bg-indigo-400 dark:focus:bg-indigo-300"
                 title="send message"
+                onClick={sendMessage}
               >
                 <SendIcon />
               </button>

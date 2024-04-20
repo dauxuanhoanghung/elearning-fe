@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import firebaseService from "@/app/firebase/firebaseService";
-import { changeChatUser } from "@/app/store/chatSlice";
+import { changeChatGroup, changeChatUser } from "@/app/store/chatSlice";
 import { isEmptyObject } from "@/utils/utils";
 import { EditIcon, FindIcon } from "../Icons/index";
+import CreateGroupButton from "./CreateGroupButton";
+import GroupInfo from "./GroupInfo";
 import UserInfo from "./UserInfo";
 
 const UserChatList = () => {
@@ -12,6 +15,7 @@ const UserChatList = () => {
   const dispatch = useDispatch();
 
   const handleChangeChatUser = (user) => {
+    console.log("user", user);
     dispatch(
       changeChatUser({
         ...user,
@@ -19,20 +23,44 @@ const UserChatList = () => {
       }),
     );
   };
-  const [chatUsers, setChatUsers] = useState(Array(10).fill({}));
-  useEffect(() => {
-    const fetchUsers = async () => {
+  const handleChangeChatGroup = (group) => {
+    console.log("group", group);
+    dispatch(
+      changeChatGroup({
+        ...group,
+        createdAt: group.createdAt.toDate().toString(),
+      }),
+    );
+  };
+
+  const { data: chatUsers } = useQuery({
+    queryKey: ["chatUsers", { currentUserId: currentUser.id }],
+    queryFn: async () => {
       try {
         if (isEmptyObject(currentUser)) return;
-        const usersHaveChatWithCurrentUser =
-          await firebaseService.getUsersHaveChatWithCurrentUser(currentUser.id);
-        setChatUsers(usersHaveChatWithCurrentUser || []);
-      } catch (error) {
-        console.error("Error fetching users: ", error);
+        return await firebaseService.getUsersHaveChatWithCurrentUser(
+          currentUser.id,
+        );
+      } catch {
+        return [];
       }
-    };
-    fetchUsers();
-  }, [currentUser.id]);
+    },
+    initialData: [],
+  });
+
+  const { data: chatGroups } = useQuery({
+    queryKey: ["chatGroups", { currentUserId: currentUser.id }],
+    queryFn: async () => {
+      try {
+        if (isEmptyObject(currentUser)) return;
+        return await firebaseService.getGroupCurrentUserJoined(currentUser.id);
+      } catch {
+        return [];
+      }
+    },
+    initialData: [],
+  });
+  // #endregion
 
   return (
     <aside
@@ -81,6 +109,12 @@ const UserChatList = () => {
               <UserInfo {...user} />
             </div>
           ))}
+          {chatGroups.map((group, idx) => (
+            <div onClick={() => handleChangeChatGroup(group)} key={idx}>
+              <GroupInfo {...group} />
+            </div>
+          ))}
+          <CreateGroupButton />
         </section>
       </div>
     </aside>

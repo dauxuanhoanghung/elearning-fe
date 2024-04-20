@@ -19,10 +19,12 @@ const Message = (props) => {
     id,
     text: message = "Hello world!!!! Ohaiyo sekai",
     senderId,
+    senderInfo,
     recipientId,
+    groupId,
     createdAt = "0:00 AM",
-    isMyMessage,
   } = props;
+  const isMyMessage = senderId === currentUser.id;
   // const isMyMessage = senderId === currentUser.id;
 
   // #region Dropdown
@@ -123,7 +125,7 @@ const Message = (props) => {
                   );
                   return (
                     <button
-                      role="menuitem"
+                      key={idx}
                       className={cs}
                       onClick={() => {
                         handleCloseMenuAction();
@@ -142,7 +144,7 @@ const Message = (props) => {
                 className="whitespace-pre text-xs font-light leading-4 tracking-[.01rem]
                text-black opacity-60 outline-none dark:text-white dark:opacity-70"
               >
-                {createdAt}
+                {createdAt?.toDate().toString().substring(0, 24)}
               </p>
             </div>
           </div>
