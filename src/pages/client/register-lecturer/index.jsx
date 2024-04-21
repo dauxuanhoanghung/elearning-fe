@@ -1,6 +1,8 @@
-import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
+import { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+import { UploadIcon } from "@/components/Icons";
 import {
-  Box,
   Breadcrumbs,
   Button,
   Checkbox,
@@ -9,20 +11,14 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  Paper,
   Typography,
 } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { lecturerRegistrationService } from "@/services";
 
 const RegisterLecturerPage = () => {
+  // const { t } = useTranslation();
   const { showSnackbar } = useSnackbar();
   const navigate = useNavigate();
   // #region Register new
@@ -108,36 +104,25 @@ const RegisterLecturerPage = () => {
         <Typography color="textPrimary">Register Lecturer</Typography>
       </Breadcrumbs>
       <p className="text-4xl">Register Lecturer</p>
-      <Box>
-        {currentUserForm && (
+      <div>
+        {!currentUserForm && (
           <>
-            <Box>
+            <div>
               <p>
                 Your application haven't approved yet. Wait for admin or contact
                 on: ...
               </p>
-              <Typography>You have already register. See below:</Typography>
-              <Typography>{currentUserForm?.registrationDate}</Typography>
-              <Paper
-                elevation={3}
-                style={{
-                  width: "100%",
-                  height: "400px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  position: "relative",
-                }}
-              >
+              <p>You have already register. See below:</p>
+              <p>{currentUserForm?.registrationDate}</p>
+              <div className="relative flex min-h-[400px] w-full cursor-pointer items-center justify-center">
                 <img
                   src={currentUserForm?.imageUrl}
+                  className="w-full object-cover"
                   alt="Background"
-                  style={{ maxWidth: "100%", maxHeight: "100%" }}
                 />
-              </Paper>
-            </Box>
-            <Box>
+              </div>
+            </div>
+            <div>
               <Button onClick={handleOpenDeleteDialog}>
                 I don't want to be lecturer
               </Button>
@@ -162,88 +147,76 @@ const RegisterLecturerPage = () => {
                   </Button>
                 </DialogActions>
               </Dialog>
-            </Box>
+            </div>
           </>
         )}
         {!currentUserForm && (
-          <Box>
-            <Box>
-              <Typography variant="h6">
-                Rules for Becoming a Lecturer:
-              </Typography>
-              <List>
-                <ListItem sx={{ paddingY: 0 }}>
-                  <ListItemText primary="Rule 1: Require your ID card" />
-                </ListItem>
-                <ListItem sx={{ paddingY: 0 }}>
-                  <ListItemText primary="Rule 2: Your information in account must match to your ID card" />
-                </ListItem>
-                <ListItem sx={{ paddingY: 0 }}>
-                  <ListItemText primary="Rule 3: Confirm to my rules above." />
-                </ListItem>
-                {/* Add more list items as needed */}
-              </List>
-            </Box>
-            <label htmlFor="background-image-upload">
-              <Paper
-                elevation={3}
-                style={{
-                  width: "100%",
-                  height: "400px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  position: "relative",
-                }}
+          <div>
+            <div>
+              <p className="text-xl">Rules for Becoming a Lecturer:</p>
+              <ul className="ml-4 list-none text-lg">
+                <li>Rule 1: Require your ID card</li>
+                <li>
+                  Rule 2: Your information in account must match to your ID card
+                </li>
+                <li>Rule 3: Confirm to my rules above.</li>
+              </ul>
+            </div>
+            <div className="w-full">
+              <label
+                htmlFor="background-image-upload"
+                className="flex h-64 w-full cursor-pointer flex-col items-center justify-center overflow-hidden 
+                  rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 
+                  dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
               >
                 {backgroundImageURL ? (
                   <img
                     src={backgroundImageURL}
                     alt="Background"
-                    style={{ maxWidth: "100%", maxHeight: "100%" }}
+                    className="h-full w-full object-cover"
                   />
                 ) : (
-                  <div>
-                    <Typography variant="subtitle1">
-                      Click to upload a your identity card
-                      <label htmlFor="background-image-upload">
-                        <IconButton component="span">
-                          <PhotoCameraIcon fontSize="large" />
-                        </IconButton>
-                      </label>
-                    </Typography>
+                  <div className="flex flex-col items-center justify-center pb-6 pt-5 text-gray-500 dark:text-gray-400">
+                    <UploadIcon />
+                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                      <span className="font-semibold">
+                        Click to upload a your identity card
+                      </span>
+                    </p>
                   </div>
                 )}
-              </Paper>
-            </label>
-            <input
-              accept="image/*"
-              style={{ display: "none" }}
-              id="background-image-upload"
-              type="file"
-              onChange={handleImageUpload}
-              ref={fileID}
-            />
-            <div style={{ display: "flex" }}>
+              </label>
+              {/* Hidden file input */}
+              <input
+                accept="image/*"
+                className="hidden"
+                id="background-image-upload"
+                type="file"
+                onChange={handleImageUpload}
+                ref={fileID}
+              />
+            </div>
+            <div className="flex">
               <Checkbox
                 checked={agreeToRules}
                 onChange={handleAgreeToRules}
                 color="primary"
                 id="cb"
               />
-              <label
-                variant="body1"
-                style={{ display: "block", padding: "9px", fontSize: "20px" }}
-                htmlFor="cb"
-              >
+              <label className="block p-2 text-[20px]" htmlFor="cb">
                 I agree to the rules for becoming a lecturer
               </label>
             </div>
-            <Button onClick={handleRegisterLecturer}>Submit</Button>
-          </Box>
+            <button
+              onClick={handleRegisterLecturer}
+              className="mt-2 inline-flex items-center gap-2 rounded bg-gray-600 px-3 py-1 text-base text-white outline-1 
+              transition-all duration-300 hover:bg-gray-800 dark:bg-gray-500 dark:hover:bg-gray-100 dark:hover:text-black"
+            >
+              Submit
+            </button>
+          </div>
         )}
-      </Box>
+      </div>
     </main>
   );
 };
