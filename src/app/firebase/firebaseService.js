@@ -71,6 +71,26 @@ const firebaseService = {
     }
   },
 
+  async getGroupCurrentUserJoined(userId) {
+    const groupsRef = collection(db, "groups");
+    // Create a query against the collection.
+    const q = query(groupsRef, where("userIds", "array-contains", userId));
+
+    try {
+      const querySnapshot = await getDocs(q);
+      console.log("querySnapshot", querySnapshot);
+      const groups = [];
+      querySnapshot.forEach((doc) => {
+        console.log(`${doc.id} => ${doc.data()}`);
+        groups.push({ id: doc.id, ...doc.data() });
+      });
+      return groups;
+    } catch (error) {
+      console.error("Error getting documents: ", error);
+      return [];
+    }
+  },
+
   async existUserById(userId) {
     try {
       const user = await getDocs(

@@ -25,7 +25,6 @@ const Message = (props) => {
     createdAt = "0:00 AM",
   } = props;
   const isMyMessage = senderId === currentUser.id;
-  // const isMyMessage = senderId === currentUser.id;
 
   // #region Dropdown
   const [openAction, setOpenAction] = useState(false);

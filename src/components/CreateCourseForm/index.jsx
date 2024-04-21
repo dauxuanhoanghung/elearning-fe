@@ -1,21 +1,14 @@
+import { Home, Plus, Trash } from "lucide-react";
 import React, { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import {
-  TextField,
-  Button,
-  Typography,
-  Grid,
-  Box,
-  Paper,
-  IconButton,
-  InputAdornment,
-} from "@mui/material";
-import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
-import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
-import HomeIcon from "@mui/icons-material/Home";
+
+import { UploadIcon } from "@/components/Icons";
+import { Input } from "../ui/input";
 
 const CreateCourseForm = (props) => {
+  const { t } = useTranslation();
+
   const { courseData, setCourseData, saveCourse } = props;
   const navigate = useNavigate();
   const handleReturnHome = () => {
@@ -79,56 +72,45 @@ const CreateCourseForm = (props) => {
   };
   // #endregion
   return (
-    <Box sx={{ margin: "10px auto", width: "90%" }}>
-      <IconButton aria-label="Return to Home Page" onClick={handleReturnHome}>
-        <HomeIcon />
-        Return to Home Page
-      </IconButton>
-
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
+    <div className="w-9/10 mx-auto">
+      <button
+        onClick={handleReturnHome}
+        className="flex items-end space-x-2 border-none bg-transparent p-2 px-4 hover:bg-gray-100 focus:outline-none 
+        focus:ring-2 focus:ring-indigo-500 hover:dark:bg-gray-900"
       >
-        <Typography variant="h4" gutterBottom>
-          Create a New Course
-        </Typography>
+        <Home />
+        <span className="text-lg leading-6">Return to Home Page</span>
+      </button>
+
+      <div className="flex items-center justify-center">
+        <h4 className="m-4 text-4xl">Create a New Course</h4>
       </div>
-      <Grid item xs={12}>
-        <label htmlFor="background-image-upload">
-          <Paper
-            elevation={3}
-            style={{
-              width: "100%",
-              height: "200px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
-              position: "relative",
-            }}
-          >
-            {backgroundImageURL ? (
-              <>
-                <img
-                  src={backgroundImageURL}
-                  alt="Background"
-                  style={{ maxWidth: "100%", maxHeight: "100%" }}
-                />
-              </>
-            ) : (
-              <div>
-                <Typography variant="subtitle1">
-                  Click to upload a background image
-                  <IconButton>
-                    <PhotoCameraIcon fontSize="large" />
-                  </IconButton>
-                </Typography>
-              </div>
-            )}
-          </Paper>
+      <div className="text-sm text-gray-700 dark:text-gray-300/80">
+        The following descriptions will be publicly visible on your Course
+        Dashboard and will directly impact course performance and help students
+        decide if the course is right for them.
+      </div>
+      <div className="w-full">
+        <label
+          htmlFor="background-image-upload"
+          className="flex h-64 w-full cursor-pointer flex-col items-center justify-center overflow-hidden 
+                  rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 
+                  dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+        >
+          {backgroundImageURL ? (
+            <img src={backgroundImageURL} className="w-full object-cover" />
+          ) : (
+            <div className="flex flex-col items-center justify-center pb-6 pt-5 text-gray-500 dark:text-gray-400">
+              <UploadIcon />
+              <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                <span className="font-semibold">{t("signup.click")}</span>
+                {t("signup.dnd")}
+              </p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                {t("signup.type")}
+              </p>
+            </div>
+          )}
         </label>
         {/* Hidden file input */}
         <input
@@ -136,136 +118,160 @@ const CreateCourseForm = (props) => {
           accept="image/*"
           id="background-image-upload"
           ref={inputRef} // Ref for the hidden file input
-          style={{ display: "none" }}
+          className="hidden"
           onChange={handleBackgroundImageUpload}
         />
-      </Grid>
-      <Grid container spacing={1}>
-        <Grid item xs={12}>
-          <TextField
-            label="Course Name"
+      </div>
+
+      <div className="mt-4 grid grid-cols-1 gap-y-2" data-role="start-form">
+        <div className="w-full">
+          <label
+            htmlFor="name"
+            className="mb-1 block text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Course Name
+          </label>
+          <Input
+            type="text"
             name="name"
+            id="name"
+            placeholder="Enter your course name"
             value={courseData.name}
             onChange={handleInputChange}
-            fullWidth
             required
           />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
+        </div>
+        <div className="w-full">
+          <label
+            htmlFor="subtitle"
+            className="mb-1 block text-sm font-medium text-gray-900 dark:text-white"
+          >
+            <span>Subtitle</span>
+            <span className="ml-2 text-gray-700 dark:text-gray-300/80">
+              (More detail of your course)
+            </span>
+          </label>
+          <Input
+            type="text"
+            name="subtitle"
+            id="subtitle"
+            placeholder="Enter your course subtitle"
+            value={courseData.subtitle}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+        <div className="w-full">
+          <label className="mb-1 block text-sm font-medium text-gray-900 dark:text-white">
+            Price
+          </label>
+          <Input
             type="number"
-            label="Price"
             name="price"
+            id="price"
+            placeholder="Enter price"
             value={courseData.price}
             onChange={handleInputChange}
-            InputProps={{
-              endAdornment: <InputAdornment position="end">VND</InputAdornment>,
-            }}
-            fullWidth
             required
           />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            label="Description"
-            name="description"
+        </div>
+
+        <div className="w-full">
+          <label className="mb-1 block text-sm font-medium text-gray-900 dark:text-white">
+            Description
+          </label>
+          <textarea
+            rows={4}
             value={courseData.description}
             onChange={handleInputChange}
-            fullWidth
-            multiline
-            rows={4}
-          />
-        </Grid>
+            className="w-full rounded-lg border bg-gray-50 px-3.5 py-2.5 text-sm text-gray-900
+              outline-none placeholder:text-gray-400 dark:bg-gray-700 dark:text-white "
+            placeholder={"description"}
+            required
+          ></textarea>
+        </div>
         {/* Criteria List */}
-        <Typography justifyContent="center" variant="h5">
-          List of Criteria
-        </Typography>
-        {courseData.criteria.map((criteria, index) => (
-          <Grid
-            item
-            xs={12}
-            key={index}
-            sx={{
-              margin: "3px auto",
-              paddingTop: "5px",
-              position: "relative",
-            }}
+        <div className="my-1">
+          <h5 className="text-2xl font-semibold">List of Criteria</h5>
+          <div className="text-sm text-gray-700 dark:text-gray-300/80">
+            List of the required skills, experience, tools or equipment learners
+            should have prior to taking your course.
+          </div>
+          <div className="w-full" data-role="list-criteria">
+            {courseData.criteria.map((criteria, index) => (
+              <div key={index} className="relative mx-auto my-1 pt-1">
+                <Input
+                  placeholder="Example: Require a basic knowledge of ...."
+                  value={criteria}
+                  onChange={(e) => handleCriteriaChange(index, e.target.value)}
+                  className="w-full"
+                />
+                <button
+                  onClick={() => handleDeleteCriteria(index)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2"
+                >
+                  <Trash className="h-4 w-4" />
+                </button>
+              </div>
+            ))}
+          </div>
+          <button
+            className="mt-2 inline-flex items-center gap-2 rounded bg-gray-600 px-3 py-1 text-base text-white outline-1 transition-all duration-300 hover:bg-gray-800 dark:bg-gray-500 dark:hover:bg-gray-100 dark:hover:text-black"
+            onClick={addCriterion}
           >
-            <TextField
-              label={`New criteria: Add here...`}
-              value={criteria}
-              onChange={(e) => handleCriteriaChange(index, e.target.value)}
-              style={{ width: "100%" }}
-            />
-            <IconButton
-              onClick={() => handleDeleteCriteria(index)}
-              aria-label={`Delete criteria ${index + 1}`}
-              sx={{
-                position: "absolute",
-                top: "50%",
-                right: "5px",
-                transform: "translate(-50%)",
-              }}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Grid>
-        ))}
-        <Grid item xs={12}>
-          <Button variant="outlined" size="small" onClick={addCriterion}>
-            <AddIcon />
-            Add Criterion
-          </Button>
-        </Grid>
-        <Typography
-          justifyContent="center"
-          variant="h5"
-          sx={{ marginTop: "10px" }}
-        >
-          List of Sections
-        </Typography>
-        {/* Sections List */}
-        {courseData.sections.map((section, index) => (
-          <Grid container xs={12} key={index} sx={{ position: "relative" }}>
-            <Typography
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-            >
-              Section {section.orderIndex}
-            </Typography>
-            <Grid item xs={8}>
-              <TextField
-                label={`Section Text`}
-                value={section.sectionName}
-                fullWidth
-                onChange={(e) =>
-                  handleSectionChange(index, "sectionName", e.target.value)
-                }
-                required
-              />
-            </Grid>
-            <IconButton
-              onClick={() => handleDeleteSection(index)}
-              aria-label={`Delete section ${index + 1}`}
-              sx={{
-                position: "absolute",
-                right: "5px",
-                transform: "translate(-50%)",
-              }}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Grid>
-        ))}
-        <Grid item xs={12}>
-          <Button variant="outlined" size="small" onClick={addSection}>
-            <AddIcon />
-            Add New Section
-          </Button>
-        </Grid>
-      </Grid>
-    </Box>
+            <Plus />
+            <span>Add Criterion</span>
+          </button>
+        </div>
+        <div>
+          <h5 className="text-2xl font-semibold"> List of Sections</h5>
+          <div className="text-sm text-gray-700 dark:text-gray-300/80">
+            List of the content you want your course to have. It may be updated
+            later.
+          </div>
+          {/* Sections List */}
+          <div className="w-full" data-role="list-Sections">
+            {courseData.sections.map((section, index) => (
+              <div key={index} className="relative mx-auto my-1 w-full pt-1">
+                <label className="flex w-full items-center gap-2">
+                  <span className="block text-nowrap">
+                    {"Section " + section.orderIndex}
+                  </span>
+                  <div className="w-full">
+                    <Input
+                      placeholder="Section Text"
+                      value={section.sectionName}
+                      className="w-full"
+                      onChange={(e) =>
+                        handleSectionChange(
+                          index,
+                          "sectionName",
+                          e.target.value,
+                        )
+                      }
+                      required
+                    />
+                    <button
+                      onClick={() => handleDeleteSection(index)}
+                      className="absolute right-2 top-1/2 -translate-y-1/2"
+                    >
+                      <Trash className="h-4 w-4" />
+                    </button>
+                  </div>
+                </label>
+              </div>
+            ))}
+          </div>
+          <button
+            className="mt-2 inline-flex items-center gap-2 rounded bg-gray-600 px-3 py-1 text-base text-white outline-1 transition-all duration-300 hover:bg-gray-800 dark:bg-gray-500 dark:hover:bg-gray-100 dark:hover:text-black"
+            onClick={addSection}
+          >
+            <Plus />
+            <span> Add New Section</span>
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 

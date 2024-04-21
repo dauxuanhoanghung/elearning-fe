@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import SectionForm from "./SectionForm";
+import SectionForm from "./LectureForm";
 /**
  *
  * @param {sections, crtieria} props
