@@ -27,6 +27,7 @@ const LoginForm = () => {
       username: user.username,
       email: user.email,
       avatar: user.avatar,
+      displayName: `${user.firstName} ${user.lastName}`,
     });
   };
 
