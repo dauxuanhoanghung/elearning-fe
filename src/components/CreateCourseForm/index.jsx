@@ -4,10 +4,12 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import { UploadIcon } from "@/components/Icons";
+import { useSnackbar } from "@/contexts/SnackbarContext";
 import { Input } from "../ui/input";
 
 const CreateCourseForm = (props) => {
   const { t } = useTranslation();
+  const { showSnackbar } = useSnackbar();
 
   const { courseData, setCourseData, saveCourse } = props;
   const navigate = useNavigate();
@@ -16,6 +18,15 @@ const CreateCourseForm = (props) => {
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    if (name === "price") {
+      if (value < 0) {
+        showSnackbar({
+          message: "Price cannot be negative",
+          severity: "error",
+        });
+        return;
+      }
+    }
     setCourseData({ ...courseData, [name]: value });
   };
   // #region image
@@ -175,7 +186,6 @@ const CreateCourseForm = (props) => {
             required
           />
         </div>
-
         <div className="w-full">
           <label className="mb-1 block text-sm font-medium text-gray-900 dark:text-white">
             Description
@@ -184,9 +194,10 @@ const CreateCourseForm = (props) => {
             rows={4}
             value={courseData.description}
             onChange={handleInputChange}
+            name="description"
             className="w-full rounded-lg border bg-gray-50 px-3.5 py-2.5 text-sm text-gray-900
               outline-none placeholder:text-gray-400 dark:bg-gray-700 dark:text-white "
-            placeholder={"description"}
+            placeholder="Example: This course will provide some information about some fields, ... It helps you improve your skills in ..."
             required
           ></textarea>
         </div>

@@ -1,18 +1,19 @@
-import {
-  Box,
-  Button,
-  Container,
-  Step,
-  StepButton,
-  Stepper,
-  Typography,
-} from "@mui/material";
+import { Step, StepButton, Stepper } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import CreateCourseForm from "@/components/CreateCourseForm";
 import CreateLectureForm from "@/components/CreateLectureForm";
 import { Spinner } from "@/components/common";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { Button } from "@/components/ui/button";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { courseService, lectureService } from "@/services";
 
@@ -41,7 +42,10 @@ const CourseCreationPage = ({}) => {
   };
   const handleNext = () => {
     if (activeStep === 0) {
-      if (courseData.name.trim() === "" || courseData.price.trim() === "") {
+      if (
+        courseData.name.trim() === "" ||
+        courseData.price.toString().trim() === ""
+      ) {
         showSnackbar({ message: "Please enter full field", severity: "error" });
         return;
       } else if (parseFloat(courseData.price) < 0) {
@@ -64,12 +68,16 @@ const CourseCreationPage = ({}) => {
   };
 
   const handleStep = (step) => () => {
+    // handleNext();
     setActiveStep(step);
   };
 
   const handleComplete = () => {
     if (activeStep === 0) {
-      if (courseData.name.trim() === "" || courseData.price.trim() === "") {
+      if (
+        courseData.name.trim() === "" ||
+        courseData.price.toString().trim() === ""
+      ) {
         showSnackbar({ message: "Please enter full field", severity: "error" });
         return;
       } else if (parseFloat(courseData.price) < 0) {
@@ -94,7 +102,7 @@ const CourseCreationPage = ({}) => {
   const [courseData, setCourseData] = useState({
     name: "",
     backgroundFile: null,
-    price: "0",
+    price: 0,
     description: "",
     criteria: [],
     sections: [],
@@ -177,11 +185,27 @@ const CourseCreationPage = ({}) => {
   // #endregion
 
   return (
-    <>
+    <main data-component="Course Create Page" className="md:container">
+      <Breadcrumb>
+        <BreadcrumbList className="text-lg">
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/admin">Admin</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Create New Course</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
       {loading ? (
         <Spinner />
       ) : (
-        <Container sx={{ marginY: "20px", minHeight: "500px" }}>
+        <div className="my-4 md:container">
           <Stepper nonLinear activeStep={activeStep}>
             {steps.map((label, index) => (
               <Step key={label} completed={completed[index]}>
@@ -194,19 +218,17 @@ const CourseCreationPage = ({}) => {
 
           <div>
             {allStepsCompleted() ? (
-              <>
-                <Typography sx={{ mt: 2, mb: 1 }}>
-                  All steps completed - you're finished
-                </Typography>
-                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                  <Box sx={{ flex: "1 1 auto" }} />
+              <div>
+                <p className="my-1.5">All steps completed - you're finished</p>
+                <div className="flex pt-2">
+                  <div className="flex-auto" />
                   <Button onClick={handleReset}>Reset</Button>
                   <Button onClick={handleFetchToSaveData}>Complete</Button>
-                </Box>
-              </>
+                </div>
+              </div>
             ) : (
-              <>
-                <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
+              <section data-role="main-content">
+                <p className="my-1.5">
                   {activeStep === 0 && (
                     <CreateCourseForm
                       courseData={courseData}
@@ -219,150 +241,41 @@ const CourseCreationPage = ({}) => {
                       setCourseData={setCourseData}
                     />
                   )}
-                </Typography>
-                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                  <Button
-                    color="inherit"
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    sx={{ mr: 1 }}
-                  >
-                    Back
-                  </Button>
-                  <Box sx={{ flex: "1 1 auto" }} />
-                  <Button
-                    onClick={handleNext}
-                    disabled={activeStep === steps.length - 1}
-                    sx={{ mr: 1 }}
-                  >
-                    Next
-                  </Button>
-                  {activeStep !== steps.length &&
-                    (completed[activeStep] ? (
-                      <Typography
-                        variant="caption"
-                        sx={{ display: "inline-block" }}
-                      >
-                        Step {activeStep + 1} already completed
-                      </Typography>
-                    ) : (
-                      <Button onClick={handleComplete}>
-                        {completedSteps() === totalSteps() - 1
-                          ? "Finish"
-                          : "Complete Step"}
-                      </Button>
-                    ))}
-                </Box>
-              </>
-            )}
-          </div>
-        </Container>
-      )}
-    </>
-  );
-};
-
-export default CourseCreationPage;
-
-{
-  /* <div className="container mx-auto my-20 min-h-500"></div>
-          <div className="space-y-4"></div>
-            <div className="flex items-center space-x-4"></div>
-              {steps.map((label, index) => (
-                <button
-                  key={label}
-                  className={`${
-                    activeStep === index
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-200 text-gray-700"
-                  } px-4 py-2 rounded-md`}
-                  onClick={handleStep(index)}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-            <div></div>
-              {allStepsCompleted() ? (
-                <></>
-                  <p className="mt-2 mb-1"></p>
-                    All steps completed - you're finished
-                  </p>
-                  <div className="flex items-center space-x-2 pt-2">
-                    <div className="flex-1"></div>
-                    <button
-                      className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md"
-                      onClick={handleReset}
-                    >
-                      Reset
-                    </button>
-                    <button
-                      className="px-4 py-2 bg-blue-500 text-white rounded-md"
-                      onClick={handleFetchToSaveData}
-                    >
-                      Complete
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <p className="mt-2 mb-1 py-1">
-                    {activeStep === 0 && (
-                      <CreateCourseForm
-                        courseData={courseData}
-                        setCourseData={setCourseData}
-                      />
-                    )}
-                    {activeStep === 1 && (
-                      <CreateLectureForm
-                        courseData={courseData}
-                        setCourseData={setCourseData}
-                      />
-                    )}
-                  </p>
-                  <div className="flex items-center space-x-2 pt-2">
-                    <button
-                      className={`${
-                        activeStep === 0
-                          ? "bg-gray-200 text-gray-700"
-                          : "bg-blue-500 text-white"
-                      } px-4 py-2 rounded-md`}
-                      disabled={activeStep === 0}
-                      onClick={handleBack}
-                    >
+                </p>
+                <div className="flex justify-between pt-2 text-sm">
+                  <div>
+                    <Button disabled={activeStep === 0} onClick={handleBack}>
                       Back
-                    </button>
-                    <div className="flex-1"></div>
-                    <button
-                      className={`${
-                        activeStep === steps.length - 1
-                          ? "bg-gray-200 text-gray-700"
-                          : "bg-blue-500 text-white"
-                      } px-4 py-2 rounded-md`}
+                    </Button>
+                  </div>
+                  <div className="gap-1">
+                    <Button
                       onClick={handleNext}
                       disabled={activeStep === steps.length - 1}
                     >
                       Next
-                    </button>
+                    </Button>
                     {activeStep !== steps.length &&
                       (completed[activeStep] ? (
                         <p className="inline-block">
                           Step {activeStep + 1} already completed
                         </p>
                       ) : (
-                        <button
-                          className="px-4 py-2 bg-blue-500 text-white rounded-md"
-                          onClick={handleComplete}
-                        >
+                        <Button onClick={handleComplete}>
                           {completedSteps() === totalSteps() - 1
                             ? "Finish"
                             : "Complete Step"}
-                        </button>
+                        </Button>
                       ))}
                   </div>
-                </>
-              )}
-            </div>
+                </div>
+              </section>
+            )}
           </div>
-        </div> */
-}
+        </div>
+      )}
+    </main>
+  );
+};
+
+export default CourseCreationPage;

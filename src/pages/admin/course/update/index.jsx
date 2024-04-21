@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import {
-  Breadcrumbs,
   Button,
   Card,
   CardContent,
@@ -14,6 +14,14 @@ import {
 } from "@mui/material";
 
 import { Spinner } from "@/components/common";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { courseService } from "@/services";
 import { isAdmin } from "@/utils/utils";
@@ -25,15 +33,7 @@ const CourseUpdatePage = () => {
   const navigate = useNavigate();
   const { courseId } = useParams();
   const currentUser = useSelector((state) => state.user.user);
-  useEffect(() => {
-    if (!isAdmin(currentUser)) {
-      showSnackbar({
-        message: "You are not allowed to this Admin page.",
-        severity: "error",
-      });
-      navigate("/");
-    }
-  }, []);
+
   const [sections, setSections] = useState([]);
   const fetchSectionsAndItsLectures = async () => {
     const res = await courseService.getSectionAndLecturesByCourseId(courseId);
@@ -46,16 +46,31 @@ const CourseUpdatePage = () => {
   /**
    * course {id, name, description, background(image), price(for button), creator, createdDate}
    */
-  const [loading, setLoading] = useState(false);
-  const [courseData, setCourseData] = useState({});
-  useEffect(() => {
-    const getCourseByCourseId = async (courseId) => {
-      const res = await courseService.getCourseById(courseId);
-      console.log("course", courseData);
-      setCourseData(res.data.data);
-    };
-    getCourseByCourseId(courseId);
-  }, [courseId]);
+  const [courseData, setCourseData] = useState({
+    id: 0,
+    name: "",
+    description: "",
+    background: "",
+    price: 0,
+    countRegistration: 1,
+    createdDate: "",
+    publishDate: "",
+    updatedDate: "",
+    user: {},
+  });
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["course", { id: courseId }],
+    queryFn: async () => {
+      const res = await courseService.getById(courseId);
+      if (res.data) {
+        setCourseData({ ...courseData, ...res.data });
+        return res.data;
+      } else {
+        showSnackbar({ message: "Course not found!!!", severity: "error" });
+      }
+    },
+  });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -67,116 +82,119 @@ const CourseUpdatePage = () => {
   const [openLectureForm, setOpenLectureForm] = useState(false);
   const [selectedSection, setSelectedSection] = useState(null);
   return (
-    <>
-      <Breadcrumbs aria-label="breadcrumb">
-        <Link to="/" style={{ textDecoration: "none" }}>
-          Home
-        </Link>
-        <Link to="/admin" style={{ textDecoration: "none" }}>
-          Admin
-        </Link>
-        <Typography color="textPrimary">Edit Course</Typography>
-      </Breadcrumbs>
-      {loading ? (
+    <main className="md:mx-auto md:max-w-[95%]" data-role="course-update-page">
+      <Breadcrumb>
+        <BreadcrumbList className="text-lg">
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          {isAdmin(currentUser) && (
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/admin">Admin</BreadcrumbLink>
+            </BreadcrumbItem>
+          )}
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Update Course</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+      {isLoading ? (
         <Spinner />
       ) : (
-        <>
-          <Grid container>
-            <Grid item sm={12} md={12} lg={3}>
-              <SectionList
+        <div className="grid grid-cols-4">
+          <div className="col-span-4 md:col-span-1">
+            <SectionList
+              courseData={courseData}
+              setCourseData={setCourseData}
+              setOpenLectureForm={setOpenLectureForm}
+              setSelectedSection={setSelectedSection}
+              fetchSectionsAndItsLectures={fetchSectionsAndItsLectures}
+              sections={sections}
+              setSections={setSections}
+            />
+          </div>
+
+          <div className="col-span-4 md:col-span-3">
+            {openLectureForm && (
+              <LectureForm
                 courseData={courseData}
                 setCourseData={setCourseData}
+                selectedSection={selectedSection}
                 setOpenLectureForm={setOpenLectureForm}
-                setSelectedSection={setSelectedSection}
                 fetchSectionsAndItsLectures={fetchSectionsAndItsLectures}
-                sections={sections}
-                setSections={setSections}
               />
-            </Grid>
-
-            <Grid item sm={12} md={12} lg={9} padding={"20px"}>
-              {openLectureForm && (
-                <LectureForm
-                  courseData={courseData}
-                  setCourseData={setCourseData}
-                  selectedSection={selectedSection}
-                  setOpenLectureForm={setOpenLectureForm}
-                  fetchSectionsAndItsLectures={fetchSectionsAndItsLectures}
-                />
-              )}
-              {!openLectureForm && (
-                <>
-                  <Card>
-                    <CardMedia
-                      component="img"
-                      height="400"
-                      image={courseData.background}
-                      alt={courseData.name}
-                    />
-                    <CardContent>
-                      <Grid container spacing={1}>
-                        <Grid item xs={12}>
-                          <TextField
-                            label="Course Name"
-                            name="name"
-                            value={courseData.name}
-                            onChange={handleInputChange}
-                            fullWidth
-                            required
-                          />
-                        </Grid>
-                        <Grid item xs={12}>
-                          <TextField
-                            type="number"
-                            label="Price"
-                            name="price"
-                            value={courseData.price}
-                            onChange={handleInputChange}
-                            fullWidth
-                            required
-                          />
-                        </Grid>
-                        <Grid item xs={12}>
-                          <TextField
-                            label="Description"
-                            name="description"
-                            value={courseData.description}
-                            onChange={handleInputChange}
-                            fullWidth
-                            multiline
-                            rows={4}
-                          />
-                        </Grid>
-                        <Grid item xs={12}>
-                          <Button variant="outlined" onClick={handleUpdate}>
-                            Update
-                          </Button>
-                        </Grid>
+            )}
+            {!openLectureForm && (
+              <>
+                <Card>
+                  <CardMedia
+                    component="img"
+                    height="400"
+                    image={courseData.background}
+                    alt={courseData.name}
+                  />
+                  <CardContent>
+                    <Grid container spacing={1}>
+                      <Grid item xs={12}>
+                        <TextField
+                          label="Course Name"
+                          name="name"
+                          value={courseData.name}
+                          onChange={handleInputChange}
+                          fullWidth
+                          required
+                        />
                       </Grid>
-                      <Typography variant="h5" component="div">
-                        {courseData?.name}
-                      </Typography>
-                      <Typography variant="subtitle1" color="textSecondary">
-                        {courseData?.description}
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        Price:{" "}
-                        {courseData?.price === 0
-                          ? "Free"
-                          : `$${courseData?.price}`}
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        Published on {courseData?.publishDate}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </>
-              )}
-            </Grid>
-          </Grid>
-        </>
+                      <Grid item xs={12}>
+                        <TextField
+                          type="number"
+                          label="Price"
+                          name="price"
+                          value={courseData.price}
+                          onChange={handleInputChange}
+                          fullWidth
+                          required
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          label="Description"
+                          name="description"
+                          value={courseData.description}
+                          onChange={handleInputChange}
+                          fullWidth
+                          multiline
+                          rows={4}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Button variant="outlined" onClick={handleUpdate}>
+                          Update
+                        </Button>
+                      </Grid>
+                    </Grid>
+                    <Typography variant="h5" component="div">
+                      {courseData?.name}
+                    </Typography>
+                    <p>{courseData.subtitle}</p>
+                    <p>{courseData.description}</p>
+                    <p>
+                      Price:{" "}
+                      {courseData?.price === 0
+                        ? "Free"
+                        : `$${courseData.price}`}
+                    </p>
+                    <p>Published on {courseData.publishDate}</p>
+                  </CardContent>
+                </Card>
+              </>
+            )}
+          </div>
+        </div>
       )}
-    </>
+    </main>
   );
 };
 

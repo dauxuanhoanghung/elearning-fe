@@ -39,8 +39,12 @@ const LectureDetailPage = () => {
     }
   });
 
+  useEffect(() => {
+    window.scrollTo(0, 140); // Scroll to the top of the page
+  }, [location.pathname]);
+
   return (
-    <main data-component="lecture-detail-page">
+    <main data-component="lecture-detail-page" className="">
       <div className="grid grid-cols-1 sm:grid-cols-7">
         <div className="border-r border-black dark:border-white sm:col-span-5">
           <LectureDetail />
