@@ -1,9 +1,18 @@
-import { addDoc, collection } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  serverTimestamp,
+} from "firebase/firestore";
 import { PlusCircleIcon } from "lucide-react";
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 
 import { db } from "@/app/firebase/config";
+import firebaseService from "@/app/firebase/firebaseService";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -18,46 +27,61 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 const CreateGroupButton = () => {
-  const [groupName, setGroupName] = useState("Group");
+  const { t } = useTranslation();
+  const [groupName, setGroupName] = useState("");
   const currentUser = useSelector((state) => state.user.user);
 
-  const openModal = () => {};
-
+  const [open, setOpen] = useState(false);
   const handleCreateGroup = async () => {
     if (!groupName.trim()) {
-      alert("Please enter a valid group name.");
+      alert("Please enter a valid group name. Don't leave it blank");
       return;
     }
 
     try {
+      // find max id of group
+      const findMaxIdQuery = query(
+        collection(db, "groups"),
+        orderBy("id", "DESC"),
+        limit(1),
+      );
+      const maxIdGroup = await getDocs(findMaxIdQuery);
+      console.log("maxIdGroup", maxIdGroup);
+      let maxId = 1;
+
+      if (!maxIdGroup.empty) {
+        const maxIdGroupDoc = maxIdGroup.docs[0];
+        maxId = parseInt(maxIdGroupDoc.data()["id"]) + 1;
+      }
       // Assuming `currentUser.id` is the ID of the user creating the group
       const newGroup = {
-        name: groupName,
+        displayName: groupName,
         userIds: [currentUser.id],
-        createdAt: new Date(),
+        createdAt: serverTimestamp(),
+        id: maxId,
       };
-      const docRef = await addDoc(collection(db, "groups"), newGroup);
-      console.log("Group created successfully!", docRef.id);
-      alert("Group created successfully!");
-      setGroupName(""); // Đặt lại tên nhóm
+      setOpen(false);
+      setGroupName("");
+      // const docRef = await addDoc(collection(db, "groups"), newGroup);
+      await firebaseService.saveDocWithId("groups", maxId, newGroup);
     } catch (error) {
       console.error("Error creating group:", error);
-      alert("Failed to create group.");
     }
   };
-  const onGroupCreated = useCallback((newGroup) => {
-    console.log("New group created: ", newGroup);
-    // Bạn có thể thực hiện thêm các tác vụ cập nhật tại đây, chẳng hạn như cập nhật state.
-  }, []);
+
   return (
     <>
-      <Dialog>
+      <Dialog open={open}>
         <DialogTrigger asChild>
           <div className="cursor-pointer px-5 pb-6 dark:text-white md:pb-5">
-            <PlusCircleIcon onClick={() => openModal()} />
+            <PlusCircleIcon onClick={() => setOpen(true)} />
           </div>
         </DialogTrigger>
-        <DialogContent className="text-black dark:text-white sm:max-w-[425px]">
+        <DialogContent
+          className="text-black dark:text-white sm:max-w-lg"
+          onInteractOutside={() => setOpen(false)}
+          hideCloseButton={true}
+        >
           <DialogHeader>
             <DialogTitle>Create a group</DialogTitle>
             <DialogDescription>
@@ -72,6 +96,7 @@ const CreateGroupButton = () => {
               <Input
                 id="name"
                 defaultValue="Group"
+                placeholder="Example: Group Java class"
                 value={groupName}
                 onChange={(e) => setGroupName(e.target.value)}
                 className="col-span-3"
@@ -79,6 +104,7 @@ const CreateGroupButton = () => {
             </div>
           </div>
           <DialogFooter>
+            <Button onClick={() => setOpen(false)}>Cancel</Button>
             <Button type="submit" onClick={handleCreateGroup}>
               Create
             </Button>

@@ -17,8 +17,10 @@ const BASE = {
   vnpay: `${PREFIX}/vnpay`,
   sections: `${PREFIX}/sections`,
   blogs: `${PREFIX}/blogs`,
+  blogComments: `${PREFIX}/blog-comments`,
   lecturerRegistration: `${PREFIX}/lecturer-registration`,
   stats: `${PREFIX}/stats`,
+  lastLecture: `${PREFIX}/last-lecture`,
 };
 
 const endpoints = {
@@ -102,6 +104,8 @@ const endpoints = {
   lecturerRegistrationApproveById: (id) =>
     `${BASE.lecturerRegistration}/${id}/approve`,
   lecturerRegistrationReject: `${BASE.lecturerRegistration}/reject`,
+
+  lastLecture: `${BASE.lastLecture}`,
 
   statsBase: BASE.stats,
   statsCourseMostLectures: `${BASE.stats}/course-with-most-lectures`,

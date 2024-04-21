@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 
 import MarkUnreadChatAltOutlinedIcon from "@mui/icons-material/MarkUnreadChatAltOutlined";
-import { Box } from "@mui/material";
 
 import ChatContainer from "@/components/Chat/ChatContainer";
 
@@ -26,18 +25,18 @@ const DefaultLayout = ({ children }) => {
         {/* {children} */}
       </div>
       {!isEmptyObject(currentUser) && (
-        <Box>
+        <div>
           <ChatContainer
             openDrawer={openChatDrawer}
             setOpenDrawer={setOpenChatDrawer}
           />
-          <Box
-            sx={{ position: "fixed", top: "50%", cursor: "pointer" }}
+          <div
+            className="fixed top-1/2 cursor-pointer"
             onClick={handleOpenChat}
           >
             <MarkUnreadChatAltOutlinedIcon fontSize="large" />
-          </Box>
-        </Box>
+          </div>
+        </div>
       )}
       <Footer />
     </>

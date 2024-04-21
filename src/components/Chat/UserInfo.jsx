@@ -9,10 +9,10 @@ import { Avatar } from "@/components/ui";
 const UserInfo = (props) => {
   const {
     avatar,
-    displayName = "Sample name",
+    displayName = "",
     id,
-    text: message = "This's a sample message for test",
-    lastUpdate = "1:30 PM",
+    text: message = "",
+    lastUpdate = "",
   } = props;
   const selectedChatUser = useSelector((state) => state.chat.selectedChatInfo);
 
@@ -53,7 +53,7 @@ const UserInfo = (props) => {
         )}
       >
         <div className="mr-4">
-          <Avatar src={avatar} style={{ width: "3.2rem", height: "2.5rem" }} />
+          <Avatar src={avatar} />
         </div>
         <div className="flex w-full flex-col">
           <div className="w-full">

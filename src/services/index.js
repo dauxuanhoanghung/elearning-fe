@@ -5,6 +5,7 @@ export { default as blogService } from "./blog.service";
 export { default as courseCommentService } from "./course.comment.service";
 export { default as courseService } from "./course.service";
 export { default as favoriteService } from "./favorite.service";
+export { default as lastLectureService } from "./last.lecture.service";
 export { default as lectureCommentService } from "./lecture.comment.service";
 export { default as lectureService } from "./lecture.service";
 export { default as lecturerRegistrationService } from "./lecturer.registration.service";

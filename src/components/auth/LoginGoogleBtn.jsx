@@ -22,7 +22,7 @@ const LoginGoogleBtn = () => {
     setTimeout(() => {
       dispatch(setUser(user));
     }, 300);
-    firebaseService.saveDocWithId("users", user.id, {
+    await firebaseService.saveDocWithId("users", user.id, {
       id: user.id,
       username: user.username,
       email: user.email,
