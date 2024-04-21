@@ -34,7 +34,7 @@ const ChatContainer = (props) => {
       const existingUsers = await getDocs(userQuery);
       console.log("existingUsers", existingUsers);
       if (existingUsers.empty) {
-        await firebaseService.saveDocWithId("users", user.id, {
+        await firebaseService.saveDocWithId("users", currentUser.id, {
           id: currentUser.id,
           username: currentUser.username,
           avatar: currentUser.avatar || "/default-avatar.jpg",
