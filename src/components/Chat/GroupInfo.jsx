@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 const GroupInfo = (props) => {
   const {
     avatar,
-    name = "group name",
+    displayName,
     id,
     text: message = "Group",
     lastUpdate = "1:30 PM",
@@ -35,7 +35,6 @@ const GroupInfo = (props) => {
   }, [openAction]);
   return (
     <div>
-      {" "}
       <div className="relative select-none" onContextMenu={handleContextMenu}>
         <button
           className="flex w-full rounded p-3 transition duration-500 ease-out hover:bg-indigo-50
@@ -47,7 +46,6 @@ const GroupInfo = (props) => {
               src={
                 "https://banner2.cleanpng.com/20180723/btg/kisspng-google-logo-google-search-google-images-g-suite-google-adwords-5b5695e47fdc94.0743248315324011245237.jpg"
               }
-              style={{ width: "3.2rem", height: "2.5rem" }}
             />
           </div>
           <div className="flex w-full flex-col">
@@ -55,28 +53,12 @@ const GroupInfo = (props) => {
               <div className="flex items-start">
                 <div className="mb-2 grow text-start">
                   <p
-                    className="text-sm font-semibold leading-4 tracking-[.01rem] text-black 
+                    className="text-lg font-semibold leading-4 tracking-[.01rem] text-black 
                   opacity-60 outline-none dark:text-white dark:opacity-70"
                   >
-                    {name}
+                    {displayName}
                   </p>
                 </div>
-                <p
-                  className="text-xs font-light leading-4 tracking-[.01rem] text-black 
-                opacity-60 outline-none dark:text-white dark:opacity-70"
-                >
-                  {lastUpdate}
-                </p>
-              </div>
-            </div>
-            <div className="flex justify-between">
-              <div>
-                <p
-                  className="flex items-center justify-start text-sm font-normal leading-4 tracking-[.01rem] 
-                text-black opacity-60 outline-none dark:text-white dark:opacity-70"
-                >
-                  {message}
-                </p>
               </div>
             </div>
           </div>
@@ -85,8 +67,7 @@ const GroupInfo = (props) => {
           ref={menuRef}
           tabIndex={0}
           className={classNames(
-            `absolute right-3 top-0 z-[100] mt-2 w-[12.5rem] rounded-sm border border-gray-100 
-        bg-white shadow-lg focus:outline-none dark:border-gray-600 dark:bg-gray-800`,
+            "absolute right-3 top-0 z-[100] mt-2 w-[12.5rem] rounded-sm border border-gray-100 bg-white shadow-lg focus:outline-none dark:border-gray-600 dark:bg-gray-800",
             {
               hidden: !openAction,
             },

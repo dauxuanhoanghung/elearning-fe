@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { Alert, Box } from "@mui/material";
+import { Alert } from "@mui/material";
 
 import { Pagination, Skeleton } from "@/components/common";
 import CourseCard from "./CourseCard";
@@ -26,12 +26,12 @@ const CourseContainer = ({
         ) : (
           <>
             {courses?.length === 0 ? (
-              <Box sx={{ margin: "30px", width: "100%" }}>
+              <div className="W-full m-8">
                 <Alert severity="error" sx={{ width: "100%" }}>
                   There&apos;s no course for you !!!
                   <Link to="/">Go to home</Link>
                 </Alert>
-              </Box>
+              </div>
             ) : (
               courses?.map((course, idx) => (
                 <CourseCard {...course} key={idx} />

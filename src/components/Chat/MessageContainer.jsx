@@ -1,7 +1,6 @@
 import {
   and,
   collection,
-  doc,
   limit,
   onSnapshot,
   or,
@@ -26,6 +25,7 @@ import {
 } from "@/components/Icons";
 import { Avatar, Menu } from "@/components/ui";
 import { AttachmentIcon, SendIcon } from "../Icons/index";
+import AddMemberButton from "./AddMemberButton";
 import Message from "./Message";
 
 const menuItems = [
@@ -90,7 +90,7 @@ const MessageContainer = () => {
     const messageData = {
       text: message,
       senderId: currentUser.id,
-      senderInfo: doc(collection(db, "users", currentUser.id)),
+      avatar: currentUser.avatar,
     };
 
     // Conditional addition of recipientId or groupId based on isChatUser
@@ -139,6 +139,7 @@ const MessageContainer = () => {
         limit(15),
       );
     console.log("callQuery", callQuery);
+
     const unsubscribe = onSnapshot(callQuery, (QuerySnapshot) => {
       console.log(QuerySnapshot);
       const fetchedMessages = [];
@@ -201,6 +202,7 @@ const MessageContainer = () => {
                   <ChevronLeft />
                 </button>
               </div>
+              {/* avatar & name */}
               <div className="flex grow">
                 <button className="mr-5 outline-none">
                   <Avatar src={selectedChatUser.avatar} />
@@ -210,7 +212,7 @@ const MessageContainer = () => {
                     className="mb-2 cursor-pointer text-sm font-semibold leading-4 tracking-[.01rem]
                   text-black opacity-60 outline-none dark:text-white dark:opacity-70"
                   >
-                    {selectedChatUser?.name || selectedChatUser?.displayName}
+                    {selectedChatUser?.displayName}
                   </p>
                   {/* <p
                     className="rounded-[.25rem] text-sm font-extralight leading-4 tracking-[.01rem]
@@ -220,6 +222,10 @@ const MessageContainer = () => {
                   </p> */}
                 </div>
               </div>
+              {isGroupSelected && (
+                <AddMemberButton groupId={selectedChatUser.id} />
+              )}
+              {/* ... */}
               <div className="relative" ref={menuRef}>
                 <button
                   className="group flex h-7 w-7 items-center justify-center rounded-full outline-none 

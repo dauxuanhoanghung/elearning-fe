@@ -19,6 +19,7 @@ const Message = (props) => {
     id,
     text: message = "Hello world!!!! Ohaiyo sekai",
     senderId,
+    avatar,
     senderInfo,
     recipientId,
     groupId,
@@ -84,7 +85,7 @@ const Message = (props) => {
         >
           {!isMyMessage && (
             <div className="mx-2">
-              <Avatar src={selectedChatUser?.avatar} />
+              <Avatar src={selectedChatUser?.avatar || avatar} />
             </div>
           )}
           <div
