@@ -14,6 +14,7 @@ import {
 } from "@/components/Icons";
 import { LecturerContainer } from "@/components/lecturer";
 import { courseService, userService } from "@/services";
+import LastLecturesContainer from "@/components/CourseContainer/LastLecturesContainer";
 
 const icons = [
   {
@@ -77,6 +78,7 @@ const HomePage = () => {
   };
   //#endregion
 
+  // #region lecturer
   const {
     data: lecturers,
     isLoading: isLecturerLoading,
@@ -90,7 +92,7 @@ const HomePage = () => {
     initialData: [],
     // staleTime: 600000,
   });
-
+  // #endregion
   return (
     <main data-component="home-page">
       <section className="bg-white dark:bg-gray-800" data-role="ads">
@@ -115,6 +117,12 @@ const HomePage = () => {
             })}
           </div>
         </div>
+      </section>
+      <section
+        className="mx-auto my-4 w-full md:max-w-[90%]"
+        data-role="last-lectures-section"
+      >
+        <LastLecturesContainer />
       </section>
       <section
         className="mx-auto my-4 w-full md:max-w-[90%]"

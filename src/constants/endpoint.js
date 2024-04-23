@@ -20,7 +20,7 @@ const BASE = {
   blogComments: `${PREFIX}/blog-comments`,
   lecturerRegistration: `${PREFIX}/lecturer-registration`,
   stats: `${PREFIX}/stats`,
-  lastLecture: `${PREFIX}/last-lecture`,
+  lastLecture: `${PREFIX}/last-lectures`,
 };
 
 const endpoints = {
