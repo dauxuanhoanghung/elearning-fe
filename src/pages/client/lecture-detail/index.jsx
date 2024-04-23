@@ -32,12 +32,6 @@ const LectureDetailPage = () => {
     getCommentsByLectureId(lectureId);
   }, []);
   // #endregion
-  useEffect(() => {
-    if (!lectureId) {
-      showSnackbar({ message: "Invalid route", severity: "error" });
-      navigate("/");
-    }
-  });
 
   useEffect(() => {
     window.scrollTo(0, 140); // Scroll to the top of the page

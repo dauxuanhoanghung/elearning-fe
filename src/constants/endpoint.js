@@ -76,7 +76,7 @@ const endpoints = {
 
   lectureBase: BASE.lectures,
   createLecture: BASE.lectures,
-  getLectureById: (id) => `${BASE.lectures}/${id}`,
+  getLectureById: (id, courseId) => `${BASE.lectures}/${id}/course/${courseId}`,
   deleteLectureById: (id) => `${BASE.lectures}/${id}/delete`,
 
   lectureCommentBase: BASE.lectureComments,

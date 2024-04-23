@@ -131,11 +131,10 @@ const CourseDetailPage = (props) => {
       const res = await registrationService.getInitialRegistration(courseId);
       console.log("getInitialRegistration", res);
       if (res.data) {
-        setUrl(`/course/${courseId}/learning?lectureId=${res.data?.nextUrl}`);
+        setUrl(`/course/${courseId}/learning?lectureId=${res.data.nextUrl}`);
       } else {
         setUrl(`/payment/${courseId}/make`);
       }
-      console.log(Boolean(res.data.transaction));
       return Boolean(res.data.transaction);
     },
     initialData: false,
