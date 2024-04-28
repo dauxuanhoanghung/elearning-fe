@@ -4,7 +4,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const ContinueLectureCard = (props) => {
-  console.log(props);
   const { id, lecture, course } = props;
   const generateUrl = () => {
     return `/course/${course.id}/learning?lectureId=${lecture.id}`;
@@ -29,11 +28,12 @@ const ContinueLectureCard = (props) => {
       </div>
       <div className="flex w-3/5 flex-col justify-between p-4">
         <div>
-          <p className="font-semibold text-gray-500">{lecture?.content}</p>
-          <p className="text-lg font-bold">{lecture?.title}</p>
+          <p className="font-semibold text-gray-500">{`${lecture?.orderIndex}. ${lecture?.content}`}</p>
+          <p className="text-lg font-bold">{course?.name}</p>
         </div>
         <p className="text-sm">
-          {lecture?.type} • {secondsToTime(lecture?.duration || 0)}
+          <span className="text-base font-semibold">{lecture?.type} •</span>{" "}
+          {secondsToTime(lecture?.duration || 0)}
         </p>
       </div>
     </Link>

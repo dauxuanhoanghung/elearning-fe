@@ -7,6 +7,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { lectureService, userNoteService } from "@/services";
+import lastLectureService from "@/services/last.lecture.service";
 import { secondsToMMSS } from "@/utils/utils";
 import { Alert, AlertDescription } from "../ui/alert";
 import {
@@ -32,6 +33,11 @@ const LectureDetail = () => {
   /**
    * {id, title, content, type, videoUrl, orderIndex} lectureData
    */
+  const updateLastLecture = async () => {
+    const res = await lastLectureService.updateByCourse(courseId, lectureId);
+    console.log(res);
+  };
+
   const {
     data: lectureData,
     isLoading: lectureLoading,
@@ -48,6 +54,7 @@ const LectureDetail = () => {
         });
         return {};
       }
+      updateLastLecture();
       return res.data;
     },
     initialData: {

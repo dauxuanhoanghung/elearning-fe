@@ -106,6 +106,7 @@ const endpoints = {
   lecturerRegistrationReject: `${BASE.lecturerRegistration}/reject`,
 
   lastLecture: `${BASE.lastLecture}`,
+  updateLastLecture: `${BASE.lastLecture}`,
 
   statsBase: BASE.stats,
   statsCourseMostLectures: `${BASE.stats}/course-with-most-lectures`,
