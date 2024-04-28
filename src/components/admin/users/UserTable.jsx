@@ -29,7 +29,7 @@ import { columns as defaultColumns } from "./columns";
 
 /** id, username, lastName, firstName, email, roles[], avatar, */
 const UserTable = (props) => {
-  const { columns = defaultColumns, data } = props;
+  const { columns = defaultColumns, data, pageCount } = props;
 
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
@@ -51,8 +51,11 @@ const UserTable = (props) => {
       columnFilters,
       columnVisibility,
       rowSelection,
+      pageCount,
     },
   });
+
+  console.log(table);
 
   return (
     <div>

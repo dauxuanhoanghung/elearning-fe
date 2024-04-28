@@ -6,9 +6,11 @@ import AdminLayout from "@/layout/AdminLayout";
 import {
   AdminApprovalPage,
   AdminHomePage,
+  AdminListCoursePage,
+  AdminListInvoicesPage,
+  AdminListUserPage,
   AdminStatsPage,
 } from "@/pages/admin";
-import { AdminListUserPage } from "@/pages/admin/user";
 import { isAdmin } from "@/utils/utils";
 
 const AdminRoute = ({ redirect = "/" }) => {
@@ -46,11 +48,11 @@ const AdminRouter = [
       },
       {
         path: "courses",
-        element: null,
+        element: <AdminListCoursePage />,
       },
       {
         path: "invoices",
-        element: null,
+        element: <AdminListInvoicesPage />,
       },
       {
         path: "stats",
