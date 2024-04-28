@@ -38,6 +38,9 @@ const userService = {
   count(params) {
     return get(endpoints.countUsers, { ...params });
   },
+  getAll(params) {
+    return get(endpoints.getAllUsers, { pageSize: 10, ...params });
+  },
   getTopLectures(params = {}) {
     return get(endpoints.getTopLectures, { top: 5, ...params });
   },

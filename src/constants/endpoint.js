@@ -31,6 +31,7 @@ const endpoints = {
   loginGoogle: `${BASE.auth}/login-google`,
 
   userBase: BASE.users,
+  getAllUsers: `${BASE.users}`,
   currentUser: `${BASE.users}/current-user`,
   userRegister: BASE.users,
   updateUserInfo: `${BASE.users}/update-info`,

@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { CarFrontIcon } from "lucide-react";
 
 import { MultiUsersIcon, TimelinesIcon } from "@/components/Icons/index";
 import CardBoxWidget from "@/components/admin/dashboard/CardBoxWidget";
@@ -11,7 +12,6 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { statsService } from "@/services/index";
-import { CarFrontIcon } from "lucide-react";
 
 const AdminHomePage = () => {
   const {
@@ -28,7 +28,6 @@ const AdminHomePage = () => {
       total: 0,
       month: 0,
     },
-    staleTime: 1000 * 60 * 5,
   });
 
   return (
