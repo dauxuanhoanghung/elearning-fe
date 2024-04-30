@@ -61,17 +61,6 @@ const CommentContainer = (props) => {
         <h2 className="text-lg font-bold text-gray-900 dark:text-white lg:text-2xl">
           {t("commentContainer.discussion")}
         </h2>
-        {!isEmptyObject(currentUser) && (
-          <div>
-            <button
-              className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm 
-            font-medium text-gray-900 hover:bg-gray-50 hover:text-blue-700 dark:border-gray-600
-          dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              {t("commentContainer.subscribe")}
-            </button>
-          </div>
-        )}
       </div>
       {!isEmptyObject(currentUser) ? (
         <form className="mb-4 shadow-sm">

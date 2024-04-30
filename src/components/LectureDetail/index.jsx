@@ -21,7 +21,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import UserNote from "./UserNote";
 
-const LectureDetail = () => {
+const LectureDetail = (props) => {
   // const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const { courseId } = useParams();
@@ -83,11 +83,14 @@ const LectureDetail = () => {
   //#endregion
   // #region Player
   const player = useRef();
-  const [playerState, setPlayerState] = useState({
-    playing: true,
-    volume: 1,
-    muted: false,
-  });
+  /**
+   * const [playerState, setPlayerState] = useState({
+   *  playing: true,
+   *  volume: 1,
+   *  muted: false,
+   *});
+   */
+  const { playerState, setPlayerState } = props;
   const handleChangePlayerState = (prop, value) => {
     setPlayerState((prevState) => ({
       ...prevState,
@@ -268,10 +271,10 @@ const LectureDetail = () => {
   );
 };
 
-export default function LectureDetailBoundary() {
+export default function LectureDetailBoundary(props) {
   return (
     <ErrorBoundary fallback={<p></p>}>
-      <LectureDetail />
+      <LectureDetail {...props} />
     </ErrorBoundary>
   );
 }
