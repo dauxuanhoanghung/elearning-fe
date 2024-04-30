@@ -39,10 +39,6 @@ const AdminRouter = [
         element: <AdminHomePage />,
       },
       {
-        path: "blogs",
-        element: null,
-      },
-      {
         path: "users",
         element: <AdminListUserPage />,
       },

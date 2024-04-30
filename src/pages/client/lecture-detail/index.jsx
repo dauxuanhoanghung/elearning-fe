@@ -3,7 +3,9 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import CommentContainer from "@/components/CommentContainer";
 import LectureDetail from "@/components/LectureDetail";
+import FaceDetectionCamera from "@/components/LectureDetail/FaceDetectCamera";
 import LectureList from "@/components/LectureList";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { lectureCommentService } from "@/services";
 
@@ -51,7 +53,12 @@ const LectureDetailPage = () => {
           />
         </div>
         <div className="sm:col-span-2">
-          <LectureList isCourseDetailPage={false} />
+          <ScrollArea className="max-h-[70vh]">
+            <LectureList isCourseDetailPage={false} />
+          </ScrollArea>
+          <div>
+            <FaceDetectionCamera />
+          </div>
         </div>
       </div>
     </main>

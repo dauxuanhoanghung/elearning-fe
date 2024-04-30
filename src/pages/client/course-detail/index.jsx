@@ -275,7 +275,7 @@ const CourseDetailPage = (props) => {
           <div className="col-span-12 sm:col-span-4">
             <div className="w-full bg-gray-200 p-6 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
               {!registration && (
-                <h1 className="mb-3 text-4xl">{courseData.price} VNĐ</h1>
+                <h1 className="mb-3 text-4xl">${courseData.price}</h1>
               )}
               <div className="flex flex-col gap-3">
                 {registrationLoading ? (

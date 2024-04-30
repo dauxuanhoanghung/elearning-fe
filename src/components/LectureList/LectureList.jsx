@@ -22,7 +22,7 @@ const LectureList = (props) => {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["sections", "courseId", courseId],
+    queryKey: ["sections", { courseId }],
     queryFn: async () => {
       const res = await sectionService.getSections(courseId);
       return res.data;
