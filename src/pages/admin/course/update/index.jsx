@@ -131,7 +131,6 @@ const CourseUpdatePage = () => {
             {openLectureForm && (
               <LectureForm
                 courseData={courseData}
-                setCourseData={setCourseData}
                 setOpenLectureForm={setOpenLectureForm}
               />
             )}

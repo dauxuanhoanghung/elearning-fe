@@ -1,15 +1,9 @@
-import { Trash } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import React, { useRef, useState } from "react";
 
-import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 import {
-  Card,
-  CardContent,
   FormControl,
   FormControlLabel,
-  FormLabel,
-  Grid,
-  IconButton,
   Radio,
   RadioGroup,
 } from "@mui/material";
@@ -17,7 +11,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useSnackbar } from "@/contexts/SnackbarContext";
+import lectureService from "@/services/lecture.service";
 
 const defaultLecture = {
   title: "",
@@ -26,14 +28,14 @@ const defaultLecture = {
   orderIndex: "",
   description: "",
   duration: 0,
+  section: 1,
   uploaderType: "YOUTUBE",
   ["videoFile"]: null,
 };
 
-const SectionForm = ({ section, courseData, setCourseData }) => {
+const LectureForm = ({ courseData, setOpenLectureForm }) => {
   const { showSnackbar } = useSnackbar();
   // #region lectureData
-  const [lectures, setLectures] = useState(section?.lectures || []);
   const videoInputRef = useRef();
   // new lecture
   const [lectureFormData, setLectureFormData] = useState(defaultLecture);
@@ -50,7 +52,7 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
     }
   };
 
-  const createLectureForm = (lecture, sectionId) => {
+  const createLectureForm = (lecture) => {
     const formData = new FormData();
     formData.append("title", lecture.title);
     formData.append("content", lecture.content);
@@ -58,11 +60,10 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
     formData.append("uploaderType", lecture.uploaderType);
     formData.append("orderIndex", lecture.orderIndex);
     formData.append("videoFile", lecture.videoFile);
-    formData.append("section", sectionId);
+    formData.append("section", lecture.section);
     return formData;
   };
-
-  const addLecture = () => {
+  const handleCreateLecture = async () => {
     if (
       !lectureFormData.title.trim() ||
       (lectureFormData.type === "VIDEO" && !videoInputRef?.current?.files[0])
@@ -73,6 +74,17 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
       });
       return;
     }
+
+    const formData = createLectureForm(lectureFormData);
+
+    const res = await lectureService.create();
+
+    console.log(res);
+
+    if (videoInputRef.current) videoInputRef.current.value = null;
+    setLectureFormData(defaultLecture);
+  };
+  const addLecture = () => {
     const newLecture = {
       title: lectureFormData.title,
       content: lectureFormData.content,
@@ -86,63 +98,27 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
       newLecture.videoFile = videoInputRef.current.files[0];
     }
 
-    const updatedLectures = [...lectures, newLecture];
-    setLectures(updatedLectures);
-    const updatedSection = { ...section, lectures: updatedLectures };
-    const updatedSections = courseData.sections.map((sec) => {
-      return sec.orderIndex === section.orderIndex ? updatedSection : sec;
-    });
-
-    setCourseData({
-      ...courseData,
-      sections: updatedSections,
-    });
-
     setLectureFormData(defaultLecture);
     if (videoInputRef.current) videoInputRef.current.value = null;
   };
-
-  const deleteLecture = (index) => {
-    const updatedLectures = lectures.filter((_, i) => i !== index);
-    const lecturesWithUpdatedIndexes = updatedLectures.map(
-      (lecture, index) => ({ ...lecture, orderIndex: index + 1 }),
-    );
-    setLectures(lecturesWithUpdatedIndexes);
-    // Update the section's lectures in courseData
-    const updatedSection = {
-      ...section,
-      lectures: lecturesWithUpdatedIndexes,
-    };
-
-    const updatedSections = courseData.sections.map((sec) => {
-      return sec.id === section.id ? updatedSection : sec;
-    });
-
-    setCourseData({ ...courseData, sections: updatedSections });
-  };
   // #endregion
+
+  const { data: sections } = useQuery({
+    queryKey: ["sections", { courseId: courseData.id }],
+  });
+
   return (
-    <>
-      {lectures.map((lecture, index) => (
-        <React.Fragment key={index}>
-          <Card>
-            <CardContent sx={{ display: "flex" }}>
-              <div>
-                <span className="font-bold">
-                  {`${lecture.orderIndex}. ${lecture.title}`}
-                </span>
-                <SlowMotionVideoIcon />
-              </div>
-              <IconButton onClick={() => deleteLecture(index)}>
-                <Trash />
-              </IconButton>
-              {/* Add more content or props as needed */}
-            </CardContent>
-          </Card>
-        </React.Fragment>
-      ))}
-      {/* Render your lecture form inputs here */}
-      <div className="flex flex-col gap-2">
+    <main data-role="lecture-form">
+      <h1 className="my-4 text-4xl">You're updating ({courseData.name})</h1>
+      <form className="flex flex-col gap-2">
+        <Select onValueChange={() => {}} defaultValue={lectureFormData.section}>
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="m@example.com">m@example.com</SelectItem>
+          </SelectContent>
+        </Select>
         <div>
           <Label>Lecture Title</Label>
           <Input
@@ -179,7 +155,7 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
         </div>
         <div>
           <FormControl component="fieldset">
-            <FormLabel component="legend">Lecture Type</FormLabel>
+            <Label>Lecture Type</Label>
             <RadioGroup
               row
               name="type"
@@ -196,29 +172,27 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
           </FormControl>
         </div>
         {lectureFormData.type === "VIDEO" && (
-          <>
-            <Grid item xs={12}>
-              <FormControl component="fieldset">
-                <FormLabel component="legend">Upload to</FormLabel>
-                <RadioGroup
-                  row
-                  name="uploaderType"
-                  value={lectureFormData.uploaderType}
-                  onChange={handleLectureChange}
-                >
-                  <FormControlLabel
-                    value="YOUTUBE"
-                    control={<Radio />}
-                    label="Youtube"
-                  />
-                  <FormControlLabel
-                    value="AMAZONS3"
-                    control={<Radio />}
-                    label="Amazon"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </Grid>
+          <div>
+            <FormControl component="fieldset">
+              <Label>Upload to</Label>
+              <RadioGroup
+                row
+                name="uploaderType"
+                value={lectureFormData.uploaderType}
+                onChange={handleLectureChange}
+              >
+                <FormControlLabel
+                  value="YOUTUBE"
+                  control={<Radio />}
+                  label="Youtube"
+                />
+                <FormControlLabel
+                  value="AMAZONS3"
+                  control={<Radio />}
+                  label="Amazon"
+                />
+              </RadioGroup>
+            </FormControl>
             <div className="">
               <Label>Upload Video</Label>
               <input
@@ -229,15 +203,28 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
                 ref={videoInputRef}
               />
             </div>
-          </>
+          </div>
         )}
-        <div className="mt-2 block">
-          <Button onClick={addLecture}>Add Lecture</Button>
+        <div className="mt-2 block gap-4">
+          <Button
+            className="bg-black text-white hover:bg-gray-700 dark:bg-white dark:text-black dark:hover:bg-gray-200"
+            type="button"
+            onClick={handleCreateLecture}
+          >
+            Add Lecture and continue
+          </Button>
+          <Button
+            className="ml-4 bg-black text-white hover:bg-gray-700 dark:bg-white dark:text-black dark:hover:bg-gray-200"
+            type="button"
+            onClick={() => setOpenLectureForm(false)}
+          >
+            Turn back
+          </Button>
         </div>
-      </div>
+      </form>
       {/* Include other lecture form inputs */}
-    </>
+    </main>
   );
 };
 
-export default SectionForm;
+export default LectureForm;
