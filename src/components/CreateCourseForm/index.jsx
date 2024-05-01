@@ -1,11 +1,17 @@
-import { Home, Plus, Trash } from "lucide-react";
+import { format } from "date-fns";
+import { CalendarIcon, Home, Plus, Trash } from "lucide-react";
 import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import { UploadIcon } from "@/components/Icons";
 import { useSnackbar } from "@/contexts/SnackbarContext";
+import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
+import { Calendar } from "../ui/calendar";
 import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 const CreateCourseForm = (props) => {
   const { t } = useTranslation();
@@ -16,6 +22,17 @@ const CreateCourseForm = (props) => {
   const handleReturnHome = () => {
     navigate("/");
   };
+
+  const [date, setDate] = useState(new Date());
+
+  const handleSetDate = (value) => {
+    setDate(value);
+    setCourseData((prev) => ({
+      ...prev,
+      publishDate: value,
+    }));
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === "price") {
@@ -38,10 +55,11 @@ const CreateCourseForm = (props) => {
     setBackgroundImageURL(URL.createObjectURL(backgroundImage));
   };
   // #endregion
+
   // #region criteria
   const addCriterion = () => {
     const criteria = [...courseData.criteria, ""];
-    setCourseData({ ...courseData, criteria });
+    setCourseData((prev) => ({ ...prev, criteria }));
   };
 
   const handleCriteriaChange = (index, value) => {
@@ -58,6 +76,7 @@ const CreateCourseForm = (props) => {
     });
   };
   // #endregion
+
   // #region sections
   const addSection = () => {
     const sections = [
@@ -101,47 +120,47 @@ const CreateCourseForm = (props) => {
         Dashboard and will directly impact course performance and help students
         decide if the course is right for them.
       </div>
-      <div className="w-full">
-        <label
-          htmlFor="background-image-upload"
-          className="flex h-64 w-full cursor-pointer flex-col items-center justify-center overflow-hidden 
+
+      <form className="mt-4 grid grid-cols-2 gap-y-2" data-role="start-form">
+        <div className="col-span-2 w-full">
+          <label
+            htmlFor="background-image-upload"
+            className="flex h-64 w-full cursor-pointer flex-col items-center justify-center overflow-hidden 
                   rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 
                   dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-        >
-          {backgroundImageURL ? (
-            <img src={backgroundImageURL} className="w-full object-cover" />
-          ) : (
-            <div className="flex flex-col items-center justify-center pb-6 pt-5 text-gray-500 dark:text-gray-400">
-              <UploadIcon />
-              <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                <span className="font-semibold">{t("signup.click")}</span>
-                {t("signup.dnd")}
-              </p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                {t("signup.type")}
-              </p>
-            </div>
-          )}
-        </label>
-        {/* Hidden file input */}
-        <input
-          type="file"
-          accept="image/*"
-          id="background-image-upload"
-          ref={inputRef} // Ref for the hidden file input
-          className="hidden"
-          onChange={handleBackgroundImageUpload}
-        />
-      </div>
-
-      <div className="mt-4 grid grid-cols-1 gap-y-2" data-role="start-form">
-        <div className="w-full">
-          <label
+          >
+            {backgroundImageURL ? (
+              <img src={backgroundImageURL} className="w-full object-cover" />
+            ) : (
+              <div className="flex flex-col items-center justify-center pb-6 pt-5 text-gray-500 dark:text-gray-400">
+                <UploadIcon />
+                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                  <span className="font-semibold">{t("signup.click")}</span>
+                  {t("signup.dnd")}
+                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  {t("signup.type")}
+                </p>
+              </div>
+            )}
+          </label>
+          {/* Hidden file input */}
+          <input
+            type="file"
+            accept="image/*"
+            id="background-image-upload"
+            ref={inputRef} // Ref for the hidden file input
+            className="hidden"
+            onChange={handleBackgroundImageUpload}
+          />
+        </div>
+        <div className="col-span-2 w-full">
+          <Label
             htmlFor="name"
             className="mb-1 block text-sm font-medium text-gray-900 dark:text-white"
           >
             Course Name
-          </label>
+          </Label>
           <Input
             type="text"
             name="name"
@@ -152,8 +171,8 @@ const CreateCourseForm = (props) => {
             required
           />
         </div>
-        <div className="w-full">
-          <label
+        <div className="col-span-2 w-full">
+          <Label
             htmlFor="subtitle"
             className="mb-1 block text-sm font-medium text-gray-900 dark:text-white"
           >
@@ -161,7 +180,7 @@ const CreateCourseForm = (props) => {
             <span className="ml-2 text-gray-700 dark:text-gray-300/80">
               (More detail of your course)
             </span>
-          </label>
+          </Label>
           <Input
             type="text"
             name="subtitle"
@@ -172,10 +191,13 @@ const CreateCourseForm = (props) => {
             required
           />
         </div>
-        <div className="w-full">
-          <label className="mb-1 block text-sm font-medium text-gray-900 dark:text-white">
-            Price
-          </label>
+        <div className="col-span-1 w-full">
+          <Label className="mb-1 block text-sm font-medium text-gray-900 dark:text-white">
+            <span>Price</span>
+            <span className="ml-2 text-gray-700 dark:text-gray-300/80">
+              (Decide to the end students will pay for this course)
+            </span>
+          </Label>
           <Input
             type="number"
             name="price"
@@ -186,10 +208,42 @@ const CreateCourseForm = (props) => {
             required
           />
         </div>
-        <div className="w-full">
-          <label className="mb-1 block text-sm font-medium text-gray-900 dark:text-white">
+        <div className="col-span-1 w-full">
+          <Label className="mb-1 block text-sm font-medium text-gray-900 dark:text-white">
+            <span>Publish Date</span>
+            <span className="ml-2 text-gray-700 dark:text-gray-300/80">
+              (Decide when your course ready to publish to the user)
+            </span>
+          </Label>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant={"outline"}
+                className={cn(
+                  "w-full rounded-lg border border-gray-300 bg-gray-50 px-3.5 py-2.5 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:hover:bg-gray-700 sm:text-sm",
+                  "justify-start text-left font-normal",
+                  !date && "text-muted-foreground",
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {date ? format(date, "PPP") : <span>Pick a date</span>}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0">
+              <Calendar
+                mode="single"
+                selected={date}
+                onSelect={handleSetDate}
+                disabled={(date) => date < new Date()}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
+        <div className="col-span-2 w-full">
+          <Label className="mb-1 block text-sm font-medium text-gray-900 dark:text-white">
             Description
-          </label>
+          </Label>
           <textarea
             rows={4}
             value={courseData.description}
@@ -202,7 +256,7 @@ const CreateCourseForm = (props) => {
           ></textarea>
         </div>
         {/* Criteria List */}
-        <div className="my-1">
+        <div className="col-span-2 my-1">
           <h5 className="text-2xl font-semibold">List of Criteria</h5>
           <div className="text-sm text-gray-700 dark:text-gray-300/80">
             List of the required skills, experience, tools or equipment learners
@@ -227,6 +281,7 @@ const CreateCourseForm = (props) => {
             ))}
           </div>
           <button
+            type="button"
             className="mt-2 inline-flex items-center gap-2 rounded bg-gray-600 px-3 py-1 text-base text-white outline-1 transition-all duration-300 hover:bg-gray-800 dark:bg-gray-500 dark:hover:bg-gray-100 dark:hover:text-black"
             onClick={addCriterion}
           >
@@ -234,13 +289,13 @@ const CreateCourseForm = (props) => {
             <span>Add Criterion</span>
           </button>
         </div>
-        <div>
+        {/* Sections List */}
+        <div className="col-span-2 my-1">
           <h5 className="text-2xl font-semibold"> List of Sections</h5>
           <div className="text-sm text-gray-700 dark:text-gray-300/80">
             List of the content you want your course to have. It may be updated
             later.
           </div>
-          {/* Sections List */}
           <div className="w-full" data-role="list-Sections">
             {courseData.sections.map((section, index) => (
               <div key={index} className="relative mx-auto my-1 w-full pt-1">
@@ -251,14 +306,10 @@ const CreateCourseForm = (props) => {
                   <div className="w-full">
                     <Input
                       placeholder="Section Text"
-                      value={section.sectionName}
+                      value={section.name}
                       className="w-full"
                       onChange={(e) =>
-                        handleSectionChange(
-                          index,
-                          "sectionName",
-                          e.target.value,
-                        )
+                        handleSectionChange(index, "name", e.target.value)
                       }
                       required
                     />
@@ -274,14 +325,15 @@ const CreateCourseForm = (props) => {
             ))}
           </div>
           <button
+            type="button"
             className="mt-2 inline-flex items-center gap-2 rounded bg-gray-600 px-3 py-1 text-base text-white outline-1 transition-all duration-300 hover:bg-gray-800 dark:bg-gray-500 dark:hover:bg-gray-100 dark:hover:text-black"
             onClick={addSection}
           >
             <Plus />
-            <span> Add New Section</span>
+            <span>Add New Section</span>
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

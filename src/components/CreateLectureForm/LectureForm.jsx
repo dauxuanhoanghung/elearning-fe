@@ -1,6 +1,6 @@
+import { Trash } from "lucide-react";
 import React, { useRef, useState } from "react";
 
-import DeleteIcon from "@mui/icons-material/Delete";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 import {
   Card,
@@ -12,7 +12,6 @@ import {
   IconButton,
   Radio,
   RadioGroup,
-  Typography,
 } from "@mui/material";
 
 import { useSnackbar } from "@/contexts/SnackbarContext";
@@ -21,19 +20,24 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import SectionCard from "./SectionCard";
 
+const defaultLecture = {
+  title: "",
+  content: "",
+  type: "VIDEO",
+  orderIndex: "",
+  description: "",
+  duration: 0,
+  uploaderType: "YOUTUBE",
+  ["videoFile"]: null,
+};
+
 const SectionForm = ({ section, courseData, setCourseData }) => {
   const { showSnackbar } = useSnackbar();
   // #region lectureData
   const [lectures, setLectures] = useState(section?.lectures || []);
   const videoInputRef = useRef();
   // new lecture
-  const [lectureFormData, setLectureFormData] = useState({
-    title: "",
-    content: "",
-    type: "VIDEO",
-    orderIndex: "",
-    uploaderType: "YOUTUBE",
-  });
+  const [lectureFormData, setLectureFormData] = useState(defaultLecture);
   const handleLectureChange = (e) => {
     const { name, value, type, files } = e.target;
     if (type === "file") {
@@ -46,8 +50,20 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
       }
     }
   };
+
+  const createLectureForm = (lecture, sectionId) => {
+    const formData = new FormData();
+    formData.append("title", lecture.title);
+    formData.append("content", lecture.content);
+    formData.append("type", lecture.type);
+    formData.append("uploaderType", lecture.uploaderType);
+    formData.append("orderIndex", lecture.orderIndex);
+    formData.append("videoFile", lecture.videoFile);
+    formData.append("section", sectionId);
+    return formData;
+  };
+
   const addLecture = () => {
-    console.log(videoInputRef?.current?.files[0]);
     if (
       !lectureFormData.title.trim() ||
       (lectureFormData.type === "VIDEO" && !videoInputRef?.current?.files[0])
@@ -63,9 +79,14 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
       content: lectureFormData.content,
       type: lectureFormData.type,
       uploaderType: lectureFormData.uploaderType,
+      description: lectureFormData.description,
       orderIndex: lectures.length + 1,
-      videoFile: videoInputRef.current.files[0],
+      duration: lectureFormData.duration,
     };
+    if (videoInputRef.current?.files[0]) {
+      newLecture.videoFile = videoInputRef.current.files[0];
+    }
+
     const updatedLectures = [...lectures, newLecture];
     setLectures(updatedLectures);
     const updatedSection = { ...section, lectures: updatedLectures };
@@ -78,16 +99,10 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
       sections: updatedSections,
     });
 
-    setLectureFormData({
-      title: "",
-      content: "",
-      type: "VIDEO",
-      orderIndex: "",
-      uploaderType: "YOUTUBE",
-      ["videoFile"]: null,
-    });
-    videoInputRef.current.value = null;
+    setLectureFormData(defaultLecture);
+    if (videoInputRef.current) videoInputRef.current.value = null;
   };
+
   const deleteLecture = (index) => {
     const updatedLectures = lectures.filter((_, i) => i !== index);
     const lecturesWithUpdatedIndexes = updatedLectures.map(
@@ -116,14 +131,14 @@ const SectionForm = ({ section, courseData, setCourseData }) => {
         <React.Fragment key={index}>
           <Card>
             <CardContent sx={{ display: "flex" }}>
-              <Typography variant="h6" component="div">
-                <span style={{ fontWeight: "bold" }}>
+              <div>
+                <span className="font-bold">
                   {`${lecture.orderIndex}. ${lecture.title}`}
                 </span>
                 <SlowMotionVideoIcon />
-              </Typography>
+              </div>
               <IconButton onClick={() => deleteLecture(index)}>
-                <DeleteIcon />
+                <Trash />
               </IconButton>
               {/* Add more content or props as needed */}
             </CardContent>
