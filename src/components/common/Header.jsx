@@ -55,12 +55,6 @@ const navItems = [
     isLecturer: false,
   },
   {
-    href: "/my-favorite",
-    key: "my-favorite",
-    isAuthenticated: true,
-    isLecturer: false,
-  },
-  {
     href: "/my-business",
     key: "my-business",
     isAuthenticated: true,

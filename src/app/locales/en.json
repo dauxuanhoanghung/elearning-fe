@@ -137,6 +137,11 @@
   "business": {
     "addNew": "Add a new course"
   },
+  "my-course": {
+    "header": "My learning",
+    "index-tab": "My courses",
+    "wishlist-tab": "Wishlistes"
+  },
   "admin": {
     "home": {
       "profile": "Profile",

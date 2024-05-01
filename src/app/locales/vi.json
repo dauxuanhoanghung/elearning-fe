@@ -137,6 +137,11 @@
   "business": {
     "addNew": "Tạo khoá học mới"
   },
+  "my-course": {
+    "header": "Khoá học của tôi",
+    "index-tab": "Khóa học",
+    "wishlist-tab": "Yêu thích"
+  },
   "admin": {
     "home": {
       "profile": "Hồ sơ",
