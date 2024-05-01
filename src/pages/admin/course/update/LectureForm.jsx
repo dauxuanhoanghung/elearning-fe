@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/select";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import lectureService from "@/services/lecture.service";
+import sectionService from "@/services/section.service";
 
 const defaultLecture = {
   title: "",
@@ -54,15 +55,22 @@ const LectureForm = ({ courseData, setOpenLectureForm }) => {
 
   const createLectureForm = (lecture) => {
     const formData = new FormData();
-    formData.append("title", lecture.title);
-    formData.append("content", lecture.content);
-    formData.append("type", lecture.type);
-    formData.append("uploaderType", lecture.uploaderType);
-    formData.append("orderIndex", lecture.orderIndex);
-    formData.append("videoFile", lecture.videoFile);
-    formData.append("section", lecture.section);
+    for (const key in lecture) {
+      if (!lecture.hasOwnProperty(key)) continue;
+      if (key === "videoFile" && videoInputRef.current.files[0]) {
+        formData.append("videoFile", videoInputRef.current.files[0]);
+        continue;
+      }
+      if (key === "section") {
+        formData.append("section", parseInt(lecture[key]));
+        continue;
+      }
+
+      formData.append(key, lecture[key]);
+    }
     return formData;
   };
+
   const handleCreateLecture = async () => {
     if (
       !lectureFormData.title.trim() ||
@@ -77,46 +85,57 @@ const LectureForm = ({ courseData, setOpenLectureForm }) => {
 
     const formData = createLectureForm(lectureFormData);
 
-    const res = await lectureService.create();
+    const res = await lectureService.create(formData);
 
     console.log(res);
 
     if (videoInputRef.current) videoInputRef.current.value = null;
     setLectureFormData(defaultLecture);
   };
-  const addLecture = () => {
-    const newLecture = {
-      title: lectureFormData.title,
-      content: lectureFormData.content,
-      type: lectureFormData.type,
-      uploaderType: lectureFormData.uploaderType,
-      description: lectureFormData.description,
-      orderIndex: lectures.length + 1,
-      duration: lectureFormData.duration,
-    };
-    if (videoInputRef.current?.files[0]) {
-      newLecture.videoFile = videoInputRef.current.files[0];
-    }
-
-    setLectureFormData(defaultLecture);
-    if (videoInputRef.current) videoInputRef.current.value = null;
-  };
   // #endregion
 
   const { data: sections } = useQuery({
     queryKey: ["sections", { courseId: courseData.id }],
+    queryFn: async () => {
+      const res = await sectionService.getSections(courseData.id);
+      if (res.data.length > 0) {
+        setLectureFormData({
+          ...lectureFormData,
+          section: res.data[0].id,
+          orderIndex: res.data[0].lectures.length + 1,
+        });
+      }
+      return res.data.map((section) => ({
+        id: section.id,
+        name: section.name,
+        lecturesCount: section.lectures.length,
+      }));
+    },
+    initialData: [],
   });
+
+  const handleSectionSelectChange = (value) => {
+    setLectureFormData({
+      ...lectureFormData,
+      section: sections[value].id,
+      orderIndex: sections[value].lecturesCount + 1,
+    });
+  };
 
   return (
     <main data-role="lecture-form">
       <h1 className="my-4 text-4xl">You're updating ({courseData.name})</h1>
       <form className="flex flex-col gap-2">
-        <Select onValueChange={() => {}} defaultValue={lectureFormData.section}>
+        <Select onValueChange={handleSectionSelectChange} defaultValue={1 + ""}>
           <SelectTrigger>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="m@example.com">m@example.com</SelectItem>
+            {sections.map((section, idx) => (
+              <SelectItem value={idx + ""} key={idx}>
+                {section.name}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
         <div>
