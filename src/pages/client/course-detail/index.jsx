@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,7 @@ import firebaseService from "@/app/firebase/firebaseService";
 import { changeChatUser } from "@/app/store/chatSlice";
 import CommentContainer from "@/components/CommentContainer";
 import {
+  FavoriteFullIcon,
   FavoriteIcon,
   InfiniteIcon,
   MobileIcon,
@@ -35,6 +36,7 @@ import {
   courseService,
   registrationService,
 } from "@/services";
+import favoriteService from "@/services/favorite.service";
 import { isEmptyObject } from "@/utils/utils";
 
 const CourseDetailPage = (props) => {
@@ -44,6 +46,7 @@ const CourseDetailPage = (props) => {
   const currentUser = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
   const { showSnackbar } = useSnackbar();
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   // #region course detail
@@ -92,6 +95,64 @@ const CourseDetailPage = (props) => {
     },
   });
   // #endregion
+  // #region wishlist
+  const {
+    data: isWishlisted,
+    isLoading: isWishlistedLoading,
+    isError: isWishlistedError,
+  } = useQuery({
+    queryKey: ["isWishlisted", { courseId, userId: currentUser.id }],
+    queryFn: async () => {
+      const res = await favoriteService.fetchInitialFavorite(courseId);
+      return res.data;
+    },
+    initialData: false,
+  });
+  const toggleWishlist = useMutation({
+    mutationFn: async (isWishlisted) => {
+      const res = await favoriteService.toggle({ course: courseId });
+      if (res.status === 201 || res.status === 204)
+        showSnackbar({
+          severity: "success",
+          message: isWishlisted
+            ? "Remove from wishlist success!!!"
+            : "Add to wishlist success!!!",
+        });
+      return res.data;
+    },
+    onMutate: async (isWishlisted) => {
+      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+      await queryClient.cancelQueries([
+        "isWishlisted",
+        { courseId, userId: currentUser.id },
+      ]);
+      // Snapshot the previous value
+      const previousIsWishlisted = queryClient.getQueryData([
+        "isWishlisted",
+        { courseId, userId: currentUser.id },
+      ]);
+      // Optimistically update the cache with the new value
+      queryClient.setQueryData(
+        ["isWishlisted", { courseId, userId: currentUser.id }],
+        !isWishlisted,
+      );
+      // Return a context object with the snapshotted value
+      return { previousIsWishlisted };
+    },
+    onError: (err, newIsWishlisted, context) => {
+      // Roll back the optimistic update on error
+      queryClient.setQueryData(
+        ["isWishlisted", { courseId, userId: currentUser.id }],
+        context.previousIsWishlisted,
+      );
+    },
+  });
+
+  const handleToggleWishlist = async () => {
+    toggleWishlist.mutate(isWishlisted);
+  };
+  // #endregion
+
   // #region criteria
   const [listCriteria, setListCriteria] = useState([]);
   useEffect(() => {
@@ -275,7 +336,7 @@ const CourseDetailPage = (props) => {
           <div className="col-span-12 sm:col-span-4">
             <div className="w-full bg-gray-200 p-6 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
               {!registration && (
-                <h1 className="mb-3 text-4xl">${courseData.price}</h1>
+                <h1 className="mb-3 text-4xl">${courseData.price} USD</h1>
               )}
               <div className="flex flex-col gap-3">
                 {registrationLoading ? (
@@ -285,17 +346,22 @@ const CourseDetailPage = (props) => {
                     {!registration && (
                       <div className="flex gap-4">
                         <button
-                          className="w-4/5 bg-gray-700 p-3 font-semibold text-gray-50 transition-all dark:bg-white dark:text-gray-800 hover:dark:bg-gray-200"
-                          onClick={() => {}}
-                        >
-                          {t("detail.addToCart")}
-                        </button>
-                        <button
-                          className="flex w-1/5 justify-center border border-solid border-white p-3 font-semibold 
+                          type="button"
+                          className="flex w-full justify-center gap-3 border border-solid border-white p-3 font-semibold 
                                   transition-all dark:border-white dark:text-white dark:hover:bg-gray-500"
-                          onClick={() => {}}
+                          onClick={handleToggleWishlist}
                         >
-                          <FavoriteIcon className="h-6 w-6" />
+                          {isWishlisted ? (
+                            <>
+                              <FavoriteFullIcon className="h-6 w-6" />
+                              <span>Remove from wishlist</span>
+                            </>
+                          ) : (
+                            <>
+                              <FavoriteIcon className="h-6 w-6" />
+                              <span>Add to wishlist</span>
+                            </>
+                          )}
                         </button>
                       </div>
                     )}
