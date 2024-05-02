@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { favoriteService } from "@/services";
 
-const FavoritePage = () => {
+const MyWishlistPage = () => {
   const { t } = useTranslation();
 
   const {
@@ -35,10 +35,11 @@ const FavoritePage = () => {
     isError,
     data: courses,
   } = useQuery({
-    queryKey: ["courses", "wishlist", page], // The query key is an array with the page number
+    queryKey: ["courses", "wishlist", { page: page }], // The query key is an array with the page number
     queryFn: async () => {
       const res = await favoriteService.getWishlist(page); // The query function returns a promise
-      return res.data;
+      if (res.status === 200) return res.data;
+      return [];
     },
     keepPreviousData: true,
     initialData: [],
@@ -60,7 +61,7 @@ const FavoritePage = () => {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>My Favorite Courses</BreadcrumbPage>
+            <BreadcrumbPage>My Wishlist Courses</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
@@ -76,4 +77,4 @@ const FavoritePage = () => {
     </main>
   );
 };
-export default FavoritePage;
+export default MyWishlistPage;

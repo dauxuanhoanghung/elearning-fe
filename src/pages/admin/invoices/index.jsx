@@ -1,7 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { UserTable } from "@/components/admin/users";
-import { columns } from "@/components/admin/users/columns";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -12,13 +10,8 @@ import {
 } from "@/components/ui/breadcrumb";
 import { userService } from "@/services";
 
-const AdminListUserPage = () => {
-  const { data: count, countLoading } = useQuery({
-    queryKey: ["users", "count"],
-    queryFn: () => userService.count(),
-  });
-
-  const { data: users, isLoading: userLoading } = useQuery({
+const AdminListInvoicesPage = () => {
+  const { data: invoices, isLoading: userLoading } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
       const res = await userService.getAll();
@@ -28,7 +21,7 @@ const AdminListUserPage = () => {
   });
 
   return (
-    <main className="container" data-component="admin-list-users-page">
+    <main className="container" data-component="admin-list-invoices-page">
       <Breadcrumb>
         <BreadcrumbList className="text-lg">
           <BreadcrumbItem>
@@ -36,18 +29,16 @@ const AdminListUserPage = () => {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Users</BreadcrumbPage>
+            <BreadcrumbPage>Invoices</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
       <div>
-        <p className="text-4xl">Users ({count?.data})</p>
+        <p className="text-4xl">Invoices</p>
       </div>
-      <div data-role="table-users">
-        <UserTable data={users} columns={columns} />
-      </div>
+      <div data-role="table-users"></div>
     </main>
   );
 };
 
-export default AdminListUserPage;
+export default AdminListInvoicesPage;

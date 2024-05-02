@@ -2,6 +2,9 @@ import endpoints from "@/constants/endpoint";
 import { get, post } from "@/utils/request";
 
 const sectionService = {
+  getList(courseId) {
+    return get(endpoints.getListSections(courseId));
+  },
   getSections(courseId) {
     return get(endpoints.getSections(courseId));
   },

@@ -1,7 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { UserTable } from "@/components/admin/users";
-import { columns } from "@/components/admin/users/columns";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -10,25 +8,25 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { userService } from "@/services";
+import { courseService } from "@/services";
 
-const AdminListUserPage = () => {
+const AdminListCoursePage = () => {
   const { data: count, countLoading } = useQuery({
-    queryKey: ["users", "count"],
-    queryFn: () => userService.count(),
+    queryKey: ["courses", "count"],
+    queryFn: () => courseService.count(),
   });
 
-  const { data: users, isLoading: userLoading } = useQuery({
-    queryKey: ["users"],
+  const { data: courses, isLoading: courseLoading } = useQuery({
+    queryKey: ["courses"],
     queryFn: async () => {
-      const res = await userService.getAll();
+      const res = await courseService.getAll();
       return res.data;
     },
     initialData: [],
   });
 
   return (
-    <main className="container" data-component="admin-list-users-page">
+    <main className="container" data-component="admin-list-courses-page">
       <Breadcrumb>
         <BreadcrumbList className="text-lg">
           <BreadcrumbItem>
@@ -36,18 +34,16 @@ const AdminListUserPage = () => {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Users</BreadcrumbPage>
+            <BreadcrumbPage>Course</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
       <div>
-        <p className="text-4xl">Users ({count?.data})</p>
+        <p className="text-4xl">Courses ({count?.data})</p>
       </div>
-      <div data-role="table-users">
-        <UserTable data={users} columns={columns} />
-      </div>
+      <div data-role="table-courses"></div>
     </main>
   );
 };
 
-export default AdminListUserPage;
+export default AdminListCoursePage;

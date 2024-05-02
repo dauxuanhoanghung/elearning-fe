@@ -12,8 +12,8 @@ const lastLectureService = {
   },
   updateByCourse(courseId, lectureId) {
     return post(endpoints.updateLastLecture, {
-      courseId,
-      lectureId,
+      course: courseId,
+      lecture: lectureId,
     });
   },
 };

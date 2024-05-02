@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { AlertCircle, PlusIcon } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { ErrorBoundary } from "react-error-boundary";
 import ReactPlayer from "react-player";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { lectureService, userNoteService } from "@/services";
+import lastLectureService from "@/services/last.lecture.service";
 import { secondsToMMSS } from "@/utils/utils";
 import { Alert, AlertDescription } from "../ui/alert";
 import {
@@ -20,33 +21,40 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import UserNote from "./UserNote";
 
-const LectureDetail = () => {
-  const { t } = useTranslation();
+const LectureDetail = (props) => {
+  // const { t } = useTranslation();
   const [searchParams] = useSearchParams();
+  const { courseId } = useParams();
   const lectureId = searchParams.get("lectureId");
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
 
-  useEffect(() => {
-    if (!lectureId) {
-      showSnackbar({ message: "Invalid route", severity: "error" });
-      navigate("/");
-      return;
-    }
-  }, []);
   // #region lecture
   /**
    * {id, title, content, type, videoUrl, orderIndex} lectureData
    */
+  const updateLastLecture = async () => {
+    const res = await lastLectureService.updateByCourse(courseId, lectureId);
+    console.log(res);
+  };
+
   const {
     data: lectureData,
     isLoading: lectureLoading,
     isError: lectureError,
   } = useQuery({
-    queryKey: ["lecture", "lectureId", lectureId],
+    queryKey: ["lecture", { lectureId }],
     queryFn: async () => {
-      const res = await lectureService.getById(lectureId);
-      console.log(res);
+      const res = await lectureService.getById(lectureId, courseId);
+      if (res.status === 400) {
+        navigate(-2);
+        showSnackbar({
+          message: res.message,
+          severity: "error",
+        });
+        return {};
+      }
+      updateLastLecture();
       return res.data;
     },
     initialData: {
@@ -60,13 +68,29 @@ const LectureDetail = () => {
   });
 
   // #endregion
+
+  // #region validate the route
+  useEffect(() => {
+    const validateLecture = async () => {
+      if (!lectureId) {
+        showSnackbar({ message: "Invalid route", severity: "error" });
+        navigate("/");
+        return;
+      }
+    };
+    validateLecture();
+  }, []);
+  //#endregion
   // #region Player
   const player = useRef();
-  const [playerState, setPlayerState] = useState({
-    playing: true,
-    volume: 1,
-    muted: false,
-  });
+  /**
+   * const [playerState, setPlayerState] = useState({
+   *  playing: true,
+   *  volume: 1,
+   *  muted: false,
+   *});
+   */
+  const { playerState, setPlayerState } = props;
   const handleChangePlayerState = (prop, value) => {
     setPlayerState((prevState) => ({
       ...prevState,
@@ -83,10 +107,6 @@ const LectureDetail = () => {
     player.current.seekTo(seconds, "seconds");
   };
   const [currentTime, setCurrentTime] = useState(0);
-
-  const handleChangeVolume = (event, newValue) => {
-    setPlayerState({ ...playerState, volume: newValue / 100 });
-  };
   // #endregion
   // #region Modal
   const [openModal, setOpenModal] = useState(false);
@@ -155,6 +175,7 @@ const LectureDetail = () => {
     deleteNote();
   };
   // #endregion
+
   return (
     <main data-role="lecture-detail-component">
       <ReactPlayer
@@ -250,4 +271,10 @@ const LectureDetail = () => {
   );
 };
 
-export default LectureDetail;
+export default function LectureDetailBoundary(props) {
+  return (
+    <ErrorBoundary fallback={<p></p>}>
+      <LectureDetail {...props} />
+    </ErrorBoundary>
+  );
+}

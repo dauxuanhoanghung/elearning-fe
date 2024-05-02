@@ -5,8 +5,8 @@ const lectureService = {
   getLectures() {
     return get(endpoints.lectureBase);
   },
-  getById(id) {
-    return get(endpoints.getLectureById(id));
+  getById(id, courseId) {
+    return get(endpoints.getLectureById(id, courseId));
   },
   create(body) {
     return post(endpoints.createLecture, body, {

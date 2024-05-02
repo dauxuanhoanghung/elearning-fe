@@ -7,9 +7,7 @@ import {
   CourseIcon,
   FindIcon,
   HomeIcon,
-  InboxIcon,
   MultiUsersIcon,
-  ProfileIcon,
   SettingsIcon,
   StatsIcon,
 } from "@/components/Icons";
@@ -19,18 +17,17 @@ import ThemeSwitcher from "./ThemeSwitcher";
 const sidebarOptions = [
   { key: "admin.sidebar.dashboard", icon: HomeIcon, href: "/admin" },
   { key: "admin.sidebar.users", icon: MultiUsersIcon, href: "/admin/users" },
-  { key: "admin.sidebar.profile", icon: ProfileIcon, href: "/admin/profile" },
-  {
-    key: "admin.sidebar.settings",
-    icon: SettingsIcon,
-    href: "/admin/settings",
-  },
+  // {
+  //   key: "admin.sidebar.settings",
+  //   icon: SettingsIcon,
+  //   href: "/admin/settings",
+  // },
   {
     key: "admin.sidebar.invoices",
     icon: BillingsIcon,
     href: "/admin/invoices",
   },
-  { key: "admin.sidebar.inbox", icon: InboxIcon, href: "/admin/inbox" },
+  // { key: "admin.sidebar.inbox", icon: InboxIcon, href: "/admin/inbox" },
   { key: "admin.sidebar.courses", icon: CourseIcon, href: "/admin/courses" },
   { key: "admin.sidebar.stats", icon: StatsIcon, href: "/admin/stats" },
 ];
@@ -87,7 +84,7 @@ const AdminSidebar = (props) => {
                       `text-dark-500 group flex items-center rounded-lg py-2 text-base font-normal transition-all 
                       duration-200 hover:bg-gray-200 dark:hover:bg-gray-500`,
                       {
-                        "bg-white shadow-lg shadow-gray-200 hover:bg-white":
+                        "bg-white shadow-lg shadow-gray-200 hover:bg-white dark:bg-gray-600/80 dark:shadow-gray-800":
                           pathname === opt.href,
                         "px-4": open,
                         "px-2": !open,

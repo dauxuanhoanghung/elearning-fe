@@ -9,10 +9,13 @@ import { ForgotPasswordPage, LoginPage, SignupPage } from "@/pages/auth";
 import BlogsPage from "@/pages/client/blog";
 import BlogDetailsPage from "@/pages/client/blog/blog-detail";
 import CourseDetailPage from "@/pages/client/course-detail";
-import FavoritePage from "@/pages/client/favorite";
 import LectureDetailPage from "@/pages/client/lecture-detail";
 import MyBusinessPage from "@/pages/client/my-business";
-import MyCoursePage from "@/pages/client/my-course";
+import {
+  MyCourseLayout,
+  MyCoursePage,
+  MyWishlistPage,
+} from "@/pages/client/my-course";
 import RegisterLecturerPage from "@/pages/client/register-lecturer";
 import SearchCoursePage from "@/pages/client/search";
 import { InstructorProfilePage } from "@/pages/client/user";
@@ -156,8 +159,20 @@ const ClientRouter = [
       { path: "settings", element: <SettingsPage /> },
       { path: "edit-password", element: <EditPasswordPage /> },
       { path: "delete-account", element: <DeleteAccountPage /> },
-      { path: "my-favorite", element: <FavoritePage /> },
-      { path: "my-course", element: <MyCoursePage /> },
+      {
+        path: "my-course",
+        element: <MyCourseLayout />,
+        children: [
+          {
+            index: true,
+            element: <MyCoursePage />,
+          },
+          {
+            path: "wishlist",
+            element: <MyWishlistPage />,
+          },
+        ],
+      },
       { path: "register-lecturer", element: <RegisterLecturerPage /> },
       { path: "my-business", element: <MyBusinessPage /> },
       { path: "payment/:courseId", element: <CheckoutPage /> },

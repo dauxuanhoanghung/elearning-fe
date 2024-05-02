@@ -20,7 +20,7 @@ const BASE = {
   blogComments: `${PREFIX}/blog-comments`,
   lecturerRegistration: `${PREFIX}/lecturer-registration`,
   stats: `${PREFIX}/stats`,
-  lastLecture: `${PREFIX}/last-lecture`,
+  lastLecture: `${PREFIX}/last-lectures`,
 };
 
 const endpoints = {
@@ -31,6 +31,7 @@ const endpoints = {
   loginGoogle: `${BASE.auth}/login-google`,
 
   userBase: BASE.users,
+  getAllUsers: `${BASE.users}`,
   currentUser: `${BASE.users}/current-user`,
   userRegister: BASE.users,
   updateUserInfo: `${BASE.users}/update-info`,
@@ -76,7 +77,7 @@ const endpoints = {
 
   lectureBase: BASE.lectures,
   createLecture: BASE.lectures,
-  getLectureById: (id) => `${BASE.lectures}/${id}`,
+  getLectureById: (id, courseId) => `${BASE.lectures}/${id}/course/${courseId}`,
   deleteLectureById: (id) => `${BASE.lectures}/${id}/delete`,
 
   lectureCommentBase: BASE.lectureComments,
@@ -106,6 +107,7 @@ const endpoints = {
   lecturerRegistrationReject: `${BASE.lecturerRegistration}/reject`,
 
   lastLecture: `${BASE.lastLecture}`,
+  updateLastLecture: `${BASE.lastLecture}`,
 
   statsBase: BASE.stats,
   statsCourseMostLectures: `${BASE.stats}/course-with-most-lectures`,

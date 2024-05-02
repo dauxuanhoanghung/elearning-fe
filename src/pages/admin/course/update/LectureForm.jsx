@@ -1,62 +1,80 @@
-import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import React, { useRef, useState } from "react";
+
 import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   FormControl,
   FormControlLabel,
-  FormLabel,
-  Grid,
-  InputLabel,
   Radio,
   RadioGroup,
-  TextField,
 } from "@mui/material";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useSnackbar } from "@/contexts/SnackbarContext";
-import { lectureService } from "@/services";
+import lectureService from "@/services/lecture.service";
+import sectionService from "@/services/section.service";
 
-const LectureForm = ({
-  selectedSection,
-  setOpenLectureForm,
-  fetchSectionsAndItsLectures,
-}) => {
+const defaultLecture = {
+  title: "",
+  content: "",
+  type: "VIDEO",
+  orderIndex: "",
+  description: "",
+  duration: 0,
+  section: 1,
+  uploaderType: "YOUTUBE",
+  ["videoFile"]: null,
+};
+
+const LectureForm = ({ courseData, setOpenLectureForm }) => {
   const { showSnackbar } = useSnackbar();
-  // #region new lecture form
-  const [lectures, setLectures] = useState(selectedSection?.lectures || []);
-  const [lectureFormData, setLectureFormData] = useState({
-    title: "",
-    content: "",
-    type: "VIDEO",
-    orderIndex: "",
-    uploaderType: "YOUTUBE",
-    videoFile: null,
-  });
-
+  // #region lectureData
+  const videoInputRef = useRef();
+  // new lecture
+  const [lectureFormData, setLectureFormData] = useState(defaultLecture);
   const handleLectureChange = (e) => {
     const { name, value, type, files } = e.target;
-    const maxSize = 100 * 1024 * 1024;
     if (type === "file") {
-      if (files[0].size > maxSize) {
-        showSnackbar({
-          message: "Video upload maximum size exceeded 1MB",
-          severity: "error",
-        });
-        return;
-      }
       setLectureFormData({ ...lectureFormData, [name]: files[0] });
     } else {
       setLectureFormData({ ...lectureFormData, [name]: value });
-      if (name === "TEXT")
+      if (name === "TEXT") {
         setLectureFormData({ ...lectureFormData, ["videoFile"]: null });
+        videoInputRef.current.value = null;
+      }
     }
   };
-  const addLecture = () => {
+
+  const createLectureForm = (lecture) => {
+    const formData = new FormData();
+    for (const key in lecture) {
+      if (!lecture.hasOwnProperty(key)) continue;
+      if (key === "videoFile" && videoInputRef.current.files[0]) {
+        formData.append("videoFile", videoInputRef.current.files[0]);
+        continue;
+      }
+      if (key === "section") {
+        formData.append("section", parseInt(lecture[key]));
+        continue;
+      }
+
+      formData.append(key, lecture[key]);
+    }
+    return formData;
+  };
+
+  const handleCreateLecture = async () => {
     if (
       !lectureFormData.title.trim() ||
-      (lectureFormData.type === "VIDEO" && !lectureFormData.videoFile)
+      (lectureFormData.type === "VIDEO" && !videoInputRef?.current?.files[0])
     ) {
       showSnackbar({
         message: "Please choose the file and fill the data",
@@ -64,80 +82,99 @@ const LectureForm = ({
       });
       return;
     }
-    console.log("selectedSection", selectedSection);
-    const newLecture = {
-      title: lectureFormData.title,
-      content: lectureFormData.content,
-      type: lectureFormData.type,
-      orderIndex: lectures.length + 1,
-      videoFile: lectureFormData.videoFile,
-      uploaderType: lectureFormData.uploaderType,
-    };
-    setLectureFormData({
-      title: "",
-      content: "",
-      type: "VIDEO",
-      uploaderType: "YOUTUBE",
-      orderIndex: "",
-      videoFile: null,
-    });
-    handleAddLecture(newLecture);
-  };
-  const handleAddLecture = async (lecture) => {
-    const createForm = (lecture, sectionId) => {
-      const formData = new FormData();
-      formData.append("title", lecture.title);
-      formData.append("content", lecture.content);
-      formData.append("type", lecture.type);
-      formData.append("orderIndex", lecture.orderIndex);
-      formData.append("videoFile", lecture.videoFile);
-      formData.append("uploaderType", lecture.uploaderType);
-      formData.append("section", sectionId);
-      return formData;
-    };
-    const lectureRequest = createForm(lecture, selectedSection.id);
-    const res = await lectureService.create(lectureRequest);
-    fetchSectionsAndItsLectures();
-    showSnackbar({ message: "Upload successfully", severity: "success" });
+
+    const formData = createLectureForm(lectureFormData);
+
+    const res = await lectureService.create(formData);
+
+    console.log(res);
+
+    if (videoInputRef.current) videoInputRef.current.value = null;
+    setLectureFormData(defaultLecture);
   };
   // #endregion
-  // #region cancel
-  const [openDialog, setOpenDialog] = useState(false);
-  const handleCancel = () => {
-    setOpenDialog(false);
-    setOpenLectureForm(false);
+
+  const { data: sections } = useQuery({
+    queryKey: ["sections", { courseId: courseData.id }],
+    queryFn: async () => {
+      const res = await sectionService.getSections(courseData.id);
+      if (res.data.length > 0) {
+        setLectureFormData({
+          ...lectureFormData,
+          section: res.data[0].id,
+          orderIndex: res.data[0].lectures.length + 1,
+        });
+      }
+      return res.data.map((section) => ({
+        id: section.id,
+        name: section.name,
+        lecturesCount: section.lectures.length,
+      }));
+    },
+    initialData: [],
+  });
+
+  const handleSectionSelectChange = (value) => {
+    setLectureFormData({
+      ...lectureFormData,
+      section: sections[value].id,
+      orderIndex: sections[value].lecturesCount + 1,
+    });
   };
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
-  // endregion
+
   return (
-    <>
-      <Grid container spacing={1}>
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            label="Lecture Title"
+    <main data-role="lecture-form">
+      <h1 className="my-4 text-4xl">You're updating ({courseData.name})</h1>
+      <form className="flex flex-col gap-2">
+        <Select onValueChange={handleSectionSelectChange} defaultValue={1 + ""}>
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {sections.map((section, idx) => (
+              <SelectItem value={idx + ""} key={idx}>
+                {section.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <div>
+          <Label>Lecture Title</Label>
+          <Input
+            placeholder="Enter lecture title ..."
+            className="w-full"
             name="title"
             value={lectureFormData.title}
             onChange={handleLectureChange}
           />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            placeholder="Lecture Content"
+        </div>
+        <div>
+          <Label>Lecture Content</Label>
+          <textarea
+            rows={5}
+            placeholder="Enter lecture content ..."
+            className="w-full rounded-lg border bg-gray-50 px-3.5 py-2.5 text-sm text-gray-900
+              outline-none placeholder:text-gray-400 dark:bg-gray-700 dark:text-white "
             name="content"
-            label="Description"
             value={lectureFormData.content}
-            fullWidth
-            multiline
-            rows={4}
             onChange={handleLectureChange}
           />
-        </Grid>
-        <Grid item xs={12}>
+        </div>
+        <div>
+          <Label>Description</Label>
+          <textarea
+            rows={5}
+            placeholder="Enter Description ..."
+            className="w-full rounded-lg border bg-gray-50 px-3.5 py-2.5 text-sm text-gray-900
+              outline-none placeholder:text-gray-400 dark:bg-gray-700 dark:text-white "
+            name="description"
+            value={lectureFormData.description}
+            onChange={handleLectureChange}
+          />
+        </div>
+        <div>
           <FormControl component="fieldset">
-            <FormLabel component="legend">Lecture Type</FormLabel>
+            <Label>Lecture Type</Label>
             <RadioGroup
               row
               name="type"
@@ -152,79 +189,60 @@ const LectureForm = ({
               <FormControlLabel value="TEXT" control={<Radio />} label="Text" />
             </RadioGroup>
           </FormControl>
-        </Grid>
+        </div>
         {lectureFormData.type === "VIDEO" && (
-          <>
-            <Grid item xs={12}>
-              <FormControl component="fieldset">
-                <FormLabel component="legend">Upload to</FormLabel>
-                <RadioGroup
-                  row
-                  name="uploaderType"
-                  value={lectureFormData.uploaderType}
-                  onChange={handleLectureChange}
-                >
-                  <FormControlLabel
-                    value="YOUTUBE"
-                    control={<Radio />}
-                    label="Youtube"
-                  />
-                  <FormControlLabel
-                    value="AMAZONS3"
-                    control={<Radio />}
-                    label="Amazon"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <InputLabel>Upload Video</InputLabel>
+          <div>
+            <FormControl component="fieldset">
+              <Label>Upload to</Label>
+              <RadioGroup
+                row
+                name="uploaderType"
+                value={lectureFormData.uploaderType}
+                onChange={handleLectureChange}
+              >
+                <FormControlLabel
+                  value="YOUTUBE"
+                  control={<Radio />}
+                  label="Youtube"
+                />
+                <FormControlLabel
+                  value="AMAZONS3"
+                  control={<Radio />}
+                  label="Amazon"
+                />
+              </RadioGroup>
+            </FormControl>
+            <div className="">
+              <Label>Upload Video</Label>
               <input
+                className="w-full"
                 type="file"
                 name="videoFile"
                 accept="video/*"
-                onChange={handleLectureChange}
+                ref={videoInputRef}
               />
-            </Grid>
-          </>
+            </div>
+          </div>
         )}
-        <Grid item xs={12}>
-          <Button variant="contained" color="primary" onClick={addLecture}>
-            Add Lecture
+        <div className="mt-2 block gap-4">
+          <Button
+            className="bg-black text-white hover:bg-gray-700 dark:bg-white dark:text-black dark:hover:bg-gray-200"
+            type="button"
+            onClick={handleCreateLecture}
+          >
+            Add Lecture and continue
           </Button>
           <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => setOpenDialog(true)}
-            sx={{ marginX: "10px" }}
+            className="ml-4 bg-black text-white hover:bg-gray-700 dark:bg-white dark:text-black dark:hover:bg-gray-200"
+            type="button"
+            onClick={() => setOpenLectureForm(false)}
           >
-            Cancel and return
+            Turn back
           </Button>
-        </Grid>
-
-        <Dialog open={openDialog} onClose={handleCloseDialog}>
-          <DialogTitle id="alert-dialog-title">
-            Do you want to cancel this action ?
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              This action can't be redone. Are you sure to do that?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              onClick={handleCancel}
-              sx={{ backgroundColor: "#f50057", color: "#fff" }}
-            >
-              Yes
-            </Button>
-            <Button onClick={handleCloseDialog} autoFocus>
-              No
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Grid>
-    </>
+        </div>
+      </form>
+      {/* Include other lecture form inputs */}
+    </main>
   );
 };
 

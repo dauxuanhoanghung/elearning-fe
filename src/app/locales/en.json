@@ -80,6 +80,7 @@
   "home": {
     "customer-title": "You'll be in good company",
     "customer-detail": "We use an agile approach to test assumptions and connect with the needs of your audience early and often.",
+    "last-lectures": "Continue what you have learned",
     "popular-lecturer": "Popular Lecturer"
   },
   "comment": {
@@ -135,6 +136,11 @@
   },
   "business": {
     "addNew": "Add a new course"
+  },
+  "my-course": {
+    "header": "My learning",
+    "index-tab": "My courses",
+    "wishlist-tab": "Wishlistes"
   },
   "admin": {
     "home": {
