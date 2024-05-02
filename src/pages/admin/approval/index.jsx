@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
-import { Alert, Box, Grid } from "@mui/material";
-
 import { Skeleton } from "@/components/common";
+import { Alert } from "@/components/ui/alert";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -31,7 +30,7 @@ const AdminApprovalPage = () => {
     data: registrationForms,
     error,
   } = useQuery({
-    queryKey: ["admin", "registrationForms", page],
+    queryKey: ["admin", "registrationForms", { page }],
     queryFn: async () => {
       const res = await lecturerRegistrationService.getAllForms(page);
       return res.data;
@@ -39,7 +38,7 @@ const AdminApprovalPage = () => {
   });
 
   useEffect(() => {
-    setPage(0); // Reset page when component mounts or page changes
+    setPage(0);
   }, [page]);
   // #endregion
   return (
@@ -63,28 +62,22 @@ const AdminApprovalPage = () => {
 
       {isLoading && <Skeleton />}
       {!isLoading && (
-        <>
-          <Grid container>
-            {registrationForms?.length === 0 && (
-              <>
-                <Box container sx={{ margin: "30px", width: "100%" }}>
-                  <Alert severity="info" sx={{ width: "100%" }}>
-                    There are no registration form !!!
-                  </Alert>
-                </Box>
-              </>
-            )}
-            {registrationForms.map((form) => (
-              <React.Fragment key={form.id}>
-                <RegistrationCard
-                  form={form}
-                  setRegistrationForms={setRegistrationForms}
-                  registrationForms={registrationForms}
-                />
-              </React.Fragment>
-            ))}
-          </Grid>
-        </>
+        <div className="flex">
+          {registrationForms?.length === 0 && (
+            <div className="w-full gap-4">
+              <Alert>There're no registration form for lecturer</Alert>
+            </div>
+          )}
+          {registrationForms.map((form) => (
+            <React.Fragment key={form.id}>
+              <RegistrationCard
+                form={form}
+                setRegistrationForms={setRegistrationForms}
+                registrationForms={registrationForms}
+              />
+            </React.Fragment>
+          ))}
+        </div>
       )}
     </main>
   );

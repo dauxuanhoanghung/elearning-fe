@@ -63,7 +63,6 @@ const AuthenticatedRoute = ({ redirect = "/login" }) => {
 const LecturerRoute = ({ redirect = "/" }) => {
   const currentUser = useSelector((state) => state.user.user);
   const { state } = useLocation();
-  console.log(currentUser);
   if (
     currentUser !== null &&
     !isEmptyObject(currentUser) &&
