@@ -6,14 +6,12 @@ const statsService = {
     return get();
   },
 
-  getCountUserByRole() {
+  getUserByRole() {
     return get(endpoints.statsUserByRole);
   },
   getCourseByMostLectures(limit = 5) {
     return get(endpoints.statsCourseMostLectures, {
-      params: {
-        limit: limit,
-      },
+      limit: limit,
     });
   },
   getCourseByMostRegistration(limit = 5) {
@@ -25,16 +23,12 @@ const statsService = {
   },
   countNumberOfUserByMonth(year) {
     return get(endpoints.statsUserRegisterByMonth, {
-      params: {
-        year,
-      },
+      year,
     });
   },
   countUserRegisterUntilMonth(year) {
     return get(endpoints.statsUserRegisterUntilMonth, {
-      params: {
-        year,
-      },
+      year,
     });
   },
   countUserInMonthAndTotal() {
