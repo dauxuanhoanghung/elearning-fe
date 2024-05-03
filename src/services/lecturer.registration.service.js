@@ -1,12 +1,5 @@
+import endpoints from "@/constants/endpoint";
 import { deletes, get, post, put } from "@/utils/request";
-import {
-  URL_DELETE_LECTURER_FORM_BY_ID,
-  URL_GET_LECTURER_FORM_BY_CURRENT_USER,
-  URL_LECTURER_APRROVAL,
-  URL_LECTURER_REGISTRATION,
-  URL_LECTURER_REJECT,
-  URL_UPDATE_LECTURER_FORM_BY_CURRENT_USER,
-} from "../constants/url";
 
 const lecturerRegistrationService = {
   /**
@@ -14,36 +7,36 @@ const lecturerRegistrationService = {
    * @param {file} body
    */
   registerLecturer(body) {
-    return post(URL_LECTURER_REGISTRATION, body, {
+    return post(endpoints.lecturerRegistration, body, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
   },
   getLecturerFormByCurrentUser() {
-    return get(URL_GET_LECTURER_FORM_BY_CURRENT_USER);
+    return get(endpoints.lecturerRegistrationCurrentUser);
   },
   deleteLecturerFormByCurrentUser(id) {
-    return deletes(URL_DELETE_LECTURER_FORM_BY_ID(id));
+    return deletes(endpoints.deleteLecturerRegistrationById(id));
   },
   /**
    *
    * @param {file} body
    */
   updateLecturerFormByCurrentUser(id, body) {
-    return put(URL_UPDATE_LECTURER_FORM_BY_CURRENT_USER(id), body, {
+    return put(endpoints.updateLecturerRegistrationById(id), body, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
   },
-  getAllForms(page = 0) {
-    return get(URL_LECTURER_REGISTRATION, {
+  getList(page = 0) {
+    return get(endpoints.lecturerRegistration, {
       page: page,
     });
   },
   approvalForm(id) {
-    return post(URL_LECTURER_APRROVAL(id));
+    return post(endpoints.approveLecturerRegistrationById(id));
   },
   /**
    *
@@ -51,7 +44,7 @@ const lecturerRegistrationService = {
    * @returns
    */
   rejectForm(body) {
-    return post(URL_LECTURER_REJECT, body);
+    return post(endpoints.rejectLecturerRegistration, body);
   },
 };
 

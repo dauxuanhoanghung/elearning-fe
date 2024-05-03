@@ -1,5 +1,4 @@
-import endpoints from "@/constants/endpoint";
-import { URL_SERVER } from "@/constants/url";
+import endpoints, { URL_SERVER } from "@/constants/endpoint";
 import axios from "axios";
 import {
   clearLS,
@@ -15,7 +14,7 @@ class Http {
     this.isRefreshToken = false;
     this.requestsToRefresh = [];
     this.instance = axios.create({
-      baseURL: `${URL_SERVER}`,
+      baseURL: URL_SERVER,
       headers: {
         "Content-Type": "application/json",
       },

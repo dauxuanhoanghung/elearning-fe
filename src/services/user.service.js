@@ -27,14 +27,6 @@ const userService = {
       },
     });
   },
-  /**
-     *
-     * @param {id} body
-     * @returns {user}
-    //  */
-  // getUserBySlugOrId(body) {
-  //   return http.get(URL_USER_BY_ID_OR_SLUG(body));
-  // }
   count(params) {
     return get(endpoints.countUsers, { ...params });
   },

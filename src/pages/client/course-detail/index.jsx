@@ -1,11 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Loader } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
-
-import { Loader } from "lucide-react";
 
 import firebaseService from "@/app/firebase/firebaseService";
 import { changeChatUser } from "@/app/store/chatSlice";
@@ -19,7 +18,7 @@ import {
   TickIcon,
   VideoIcon,
 } from "@/components/Icons/index";
-import LectureList from "@/components/LectureList/index";
+import LectureList from "@/components/LectureList";
 import Avatar from "@/components/ui/Avatar";
 import {
   Breadcrumb,

@@ -96,15 +96,15 @@ const endpoints = {
   getBlogById: (id) => `${BASE.blogs}/${id}`,
   deleteBlogById: (id) => `${BASE.blogs}/${id}`,
 
-  lecturerRegistrationBase: BASE.lecturerRegistration,
+  lecturerRegistration: BASE.lecturerRegistration,
   lecturerRegistrationCurrentUser: `${BASE.lecturerRegistration}/current-user`,
-  lecturerRegistrationUpdateById: (id) =>
+  updateLecturerRegistrationById: (id) =>
     `${BASE.lecturerRegistration}/${id}/update`,
-  lecturerRegistrationDeleteById: (id) =>
+  deleteLecturerRegistrationById: (id) =>
     `${BASE.lecturerRegistration}/${id}/delete`,
-  lecturerRegistrationApproveById: (id) =>
+  approveLecturerRegistrationById: (id) =>
     `${BASE.lecturerRegistration}/${id}/approve`,
-  lecturerRegistrationReject: `${BASE.lecturerRegistration}/reject`,
+  rejectLecturerRegistration: `${BASE.lecturerRegistration}/reject`,
 
   lastLecture: `${BASE.lastLecture}`,
   updateLastLecture: `${BASE.lastLecture}`,

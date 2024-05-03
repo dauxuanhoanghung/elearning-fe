@@ -32,7 +32,7 @@ const AdminApprovalPage = () => {
   } = useQuery({
     queryKey: ["admin", "registrationForms", { page }],
     queryFn: async () => {
-      const res = await lecturerRegistrationService.getAllForms(page);
+      const res = await lecturerRegistrationService.getList(page);
       return res.data;
     },
   });
