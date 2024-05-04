@@ -144,6 +144,9 @@
   },
   "admin": {
     "Home": "Home",
+    "coursePage": "Courses",
+    "userPage": "Users",
+    "invoicePage": "Invoices",
     "statsPage": "Stats page",
     "home": {
       "profile": "Profile",

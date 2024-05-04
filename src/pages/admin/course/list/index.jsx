@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 
 import CourseTable from "@/components/admin/courses/CourseTable";
 import {
@@ -12,6 +13,8 @@ import {
 import { courseService } from "@/services";
 
 const AdminListCoursePage = () => {
+  const { t } = useTranslation();
+
   const { data: count } = useQuery({
     queryKey: ["courses", "count"],
     queryFn: async () => {
@@ -20,6 +23,7 @@ const AdminListCoursePage = () => {
       return 0;
     },
     initialData: 0,
+    staleTime: 60000,
   });
 
   return (
@@ -27,16 +31,18 @@ const AdminListCoursePage = () => {
       <Breadcrumb>
         <BreadcrumbList className="text-lg">
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            <BreadcrumbLink href="/">{t("admin.Home")}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Course</BreadcrumbPage>
+            <BreadcrumbPage>{t("admin.coursePage")}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
       <div>
-        <p className="text-4xl">Courses ({count + ""})</p>
+        <p className="text-4xl">
+          {t("admin.coursePage")} ({count + ""})
+        </p>
       </div>
       <div data-role="table-courses">
         <CourseTable />

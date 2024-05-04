@@ -90,6 +90,7 @@ const endpoints = {
   payWithVNPay: BASE.vnpay,
   payWithPaypal: BASE.paypal + "/init",
   capturePaypal: BASE.paypal + "/capture",
+  countRegistration: `${BASE.registration}/count`,
 
   blogBase: BASE.blogs,
   getBlogById: (id) => `${BASE.blogs}/${id}`,

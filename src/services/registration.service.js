@@ -46,6 +46,12 @@ const registrationService = {
   capturePaypal(body) {
     return post(endpoints.capturePaypal, body);
   },
+  getList(params) {
+    return get(endpoints.registrationBase, { page: 0, ...params });
+  },
+  count(params) {
+    return get(endpoints.countRegistration, { ...params });
+  },
 };
 
 export default registrationService;

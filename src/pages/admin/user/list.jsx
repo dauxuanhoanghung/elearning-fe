@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 
 import { UserTable } from "@/components/admin/users";
 import {
@@ -12,7 +13,8 @@ import {
 import { userService } from "@/services";
 
 const AdminListUserPage = () => {
-  const { data: count, countLoading } = useQuery({
+  const { t } = useTranslation();
+  const { data: count } = useQuery({
     queryKey: ["users", "count"],
     queryFn: async () => {
       const res = await userService.count();

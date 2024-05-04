@@ -7,7 +7,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -35,25 +34,59 @@ export const columns = [
     enableHiding: false,
   },
   {
-    accessorKey: "background",
-    header: "Background",
-    cell: ({ row }) => <img src={row.original?.background} />,
+    accessorKey: "originalAmount",
+    header: "Original Amount",
   },
   {
-    accessorKey: "name",
-    header: "Name",
+    accessorKey: "amount",
+    header: "Amount",
   },
   {
-    accessorKey: "description",
-    header: "Description",
+    accessorKey: "code",
+    header: "Code",
   },
   {
-    accessorKey: "subtitle",
-    header: "Subtitle",
+    accessorKey: "method",
+    header: "Method",
   },
   {
-    accessorKey: "price",
-    header: "Price",
+    accessorKey: "course",
+    header: "Course",
+    cell: ({ row }) => (
+      <div className="flex items-center gap-1">
+        <img
+          src={row.original?.course.background}
+          className="h-10 w-10 object-cover"
+        />
+        {row.original?.course.name}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "user",
+    header: "Recipient",
+    cell: ({ row }) => (
+      <div className="flex items-center gap-1">
+        <img
+          src={row.original?.user.avatar}
+          className="h-10 w-10 rounded-full object-cover"
+        />
+        {row.original?.user.firstName}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "payer",
+    header: "Payer",
+    cell: ({ row }) => (
+      <div className="flex items-center gap-1">
+        <img
+          src={row.original?.user.avatar}
+          className="h-10 w-10 rounded-full object-cover"
+        />
+        {row.original?.user.firstName}
+      </div>
+    ),
   },
   {
     id: "actions",
@@ -75,9 +108,6 @@ export const columns = [
             >
               Copy payment ID
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

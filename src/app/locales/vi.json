@@ -144,6 +144,9 @@
   },
   "admin": {
     "Home": "Trang chủ",
+    "coursePage": "Khoá học",
+    "userPage": "Người dùng",
+    "invoicePage": "Các giao dịch",
     "statsPage": "Trang thống kê",
     "home": {
       "profile": "Hồ sơ",
