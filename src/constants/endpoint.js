@@ -45,12 +45,10 @@ const endpoints = {
 
   courseBase: BASE.courses,
   courseTotalPage: `${BASE.courses}/get-total-page`,
+  countCourse: `${BASE.courses}/count`,
   courseMyLearning: `${BASE.courses}/my-learning`,
   courseMyBusiness: `${BASE.courses}/my-business`,
-  courseCreateSection: `${BASE.courses}/after-create-course`,
   courseSectionById: (id) => `${BASE.courses}/${id}/get-section`,
-  courseSectionLecturesById: (id) =>
-    `${BASE.courses}/${id}/get-section-lectures`,
   courseById: (id) => `${BASE.courses}/${id}`,
   courseUpdate: `${BASE.courses}/update`,
   courseDeleteById: (id) => `${BASE.courses}/${id}/delete`,
@@ -58,6 +56,7 @@ const endpoints = {
 
   getSections: (courseId) => `${BASE.sections}/course/${courseId}`,
   createSection: BASE.sections,
+  createBatchSection: `${BASE.sections}/create-batch`,
 
   favoriteBase: BASE.favorite, // toggle favorite
   getWishlist: `${BASE.favorite}/get-list`,

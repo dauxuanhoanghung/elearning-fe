@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
+import CourseTable from "@/components/admin/courses/CourseTable";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -11,18 +12,14 @@ import {
 import { courseService } from "@/services";
 
 const AdminListCoursePage = () => {
-  const { data: count, countLoading } = useQuery({
+  const { data: count } = useQuery({
     queryKey: ["courses", "count"],
-    queryFn: () => courseService.count(),
-  });
-
-  const { data: courses, isLoading: courseLoading } = useQuery({
-    queryKey: ["courses"],
     queryFn: async () => {
-      const res = await courseService.getAll();
-      return res.data;
+      const res = await courseService.count();
+      if (res.status === 200) return res.data;
+      return 0;
     },
-    initialData: [],
+    initialData: 0,
   });
 
   return (
@@ -39,9 +36,11 @@ const AdminListCoursePage = () => {
         </BreadcrumbList>
       </Breadcrumb>
       <div>
-        <p className="text-4xl">Courses ({count?.data})</p>
+        <p className="text-4xl">Courses ({count + ""})</p>
       </div>
-      <div data-role="table-courses"></div>
+      <div data-role="table-courses">
+        <CourseTable />
+      </div>
     </main>
   );
 };

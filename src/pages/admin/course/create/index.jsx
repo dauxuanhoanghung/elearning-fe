@@ -15,6 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { courseService } from "@/services";
+import sectionService from "@/services/section.service";
 import { stringToFormatDate } from "@/utils/date-utils";
 
 const CourseCreationPage = () => {
@@ -87,7 +88,7 @@ const CourseCreationPage = () => {
       courseData.sections,
       courseRes.data?.id,
     );
-    const sectionRes = await courseService.createSection(
+    const sectionRes = await sectionService.createBatchSection(
       JSON.stringify({ sections: [...sectionRequest] }),
     );
     if (sectionRes?.status === 201) {

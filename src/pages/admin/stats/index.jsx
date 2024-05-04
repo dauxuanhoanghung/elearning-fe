@@ -31,7 +31,9 @@ const AdminStatsPage = () => {
         </BreadcrumbList>
       </Breadcrumb>
       <section data-section="section-user-chart" className="my-4">
-        <h1 className="text-3xl font-semibold">{t("admin.stats.userInSystem")}</h1>
+        <h1 className="text-3xl font-semibold">
+          {t("admin.stats.userInSystem")}
+        </h1>
         <div className="grid grid-cols-3 gap-4">
           <div className="col-span-1">
             <RoleCountChart />
@@ -42,7 +44,9 @@ const AdminStatsPage = () => {
         </div>
       </section>
       <section data-section="section-course-chart" className="my-4">
-        <h1 className="text-3xl font-semibold">{t("admin.stats.courseInSystem")}</h1>
+        <h1 className="text-3xl font-semibold">
+          {t("admin.stats.courseInSystem")}
+        </h1>
         <div className="grid grid-cols-1">
           <div>
             <MostLecturesCourseChart />

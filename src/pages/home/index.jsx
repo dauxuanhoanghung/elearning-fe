@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import CourseContainer from "@/components/CourseContainer";
+import LastLecturesContainer from "@/components/CourseContainer/LastLecturesContainer";
 import {
   AppleIcon,
   GoogleIcon,
@@ -14,7 +15,6 @@ import {
 } from "@/components/Icons";
 import { LecturerContainer } from "@/components/lecturer";
 import { courseService, userService } from "@/services";
-import LastLecturesContainer from "@/components/CourseContainer/LastLecturesContainer";
 
 const icons = [
   {
@@ -63,7 +63,7 @@ const HomePage = () => {
   const [page, setPage] = useState(0);
   const courseQuery = useQuery({
     queryKey: ["courses", { page: page }], // The query key is an array with the page number
-    queryFn: () => courseService.getCourses(page), // The query function returns a promise
+    queryFn: () => courseService.getList({ page }), // The query function returns a promise
     keepPreviousData: true,
     // staleTime: 600000,
     initialData: {},

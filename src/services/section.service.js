@@ -16,6 +16,18 @@ const sectionService = {
   create(body) {
     return post(endpoints.createSection, body);
   },
+  /**
+   *
+   * @param [] sections
+   * @returns
+   */
+  createBatchSection(sections) {
+    return post(endpoints.createBatchSection, sections, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  },
 };
 
 export default sectionService;

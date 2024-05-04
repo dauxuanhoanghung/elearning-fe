@@ -153,14 +153,17 @@ const CourseDetailPage = (props) => {
   // #endregion
 
   // #region criteria
-  const [listCriteria, setListCriteria] = useState([]);
-  useEffect(() => {
-    const getListCriteriaByCourseId = async (courseId) => {
+  const { data: listCriteria } = useQuery({
+    queryKey: ["criteria", { courseId }],
+    queryFn: async () => {
       const res = await courseService.getCriteriaByCourseId(courseId);
-      setListCriteria([...res.data]);
-    };
-    getListCriteriaByCourseId(courseId);
-  }, []);
+      if (res.status === 200) return res.data;
+      return [];
+    },
+    initialData: [],
+    staleTime: 60000,
+  });
+
   // #endregion
   // #region comments
   const [comments, setComments] = useState([]);
