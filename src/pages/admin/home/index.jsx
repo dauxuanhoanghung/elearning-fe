@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { CarFrontIcon } from "lucide-react";
 
 import { MultiUsersIcon, TimelinesIcon } from "@/components/Icons/index";
+import { MostLecturesCourseChart } from "@/components/admin/charts";
 import CardBoxWidget from "@/components/admin/dashboard/CardBoxWidget";
 import {
   Breadcrumb,
@@ -83,10 +84,7 @@ const AdminHomePage = () => {
             />
           </div>
         </div>
-        <div
-          className="mb-6 flex items-center justify-between pt-6"
-          data-role="chart"
-        >
+        <div className="mb-6 pt-6" data-role="chart">
           <div className="flex items-center justify-start">
             <span className="mr-2 inline-flex h-8 w-8 items-center justify-center">
               <svg viewBox="0 0 24 24" className="inline-block h-12 w-12">
@@ -98,7 +96,9 @@ const AdminHomePage = () => {
             </span>
             <h1 className="text-3xl leading-tight">Charts overview</h1>
           </div>
-          <div className="flex gap-4"></div>
+          <div className="flex gap-4">
+            <MostLecturesCourseChart />
+          </div>
         </div>
       </section>
     </main>

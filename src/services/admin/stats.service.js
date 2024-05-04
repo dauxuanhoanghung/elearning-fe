@@ -9,16 +9,15 @@ const statsService = {
   getUserByRole() {
     return get(endpoints.statsUserByRole);
   },
-  getCourseByMostLectures(limit = 5) {
+  getCourseByMostLectures(params) {
     return get(endpoints.statsCourseMostLectures, {
-      limit: limit,
+      limit: 5,
+      ...params,
     });
   },
   getCourseByMostRegistration(limit = 5) {
     return get(endpoints.statsCourseMostRegistration, {
-      params: {
-        limit: limit,
-      },
+      limit: limit,
     });
   },
   countNumberOfUserByMonth(year) {

@@ -143,6 +143,8 @@
     "wishlist-tab": "Wishlistes"
   },
   "admin": {
+    "Home": "Home",
+    "statsPage": "Stats page",
     "home": {
       "profile": "Profile",
       "settings": "Settings",
@@ -159,6 +161,13 @@
       "inbox": "Inbox",
       "courses": "Courses",
       "stats": "Stats"
+    },
+    "stats": {
+      "mostLectureCourse": "Courses with most lectures",
+      "userByRole": "Users by role",
+      "userThroughMonth": "Number of users through month",
+      "userInSystem": "Stats of users in system",
+      "courseInSystem": "Stats of courses in system"
     }
   }
 }

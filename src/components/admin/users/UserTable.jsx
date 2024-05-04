@@ -1,12 +1,10 @@
+import { useQuery } from "@tanstack/react-query";
 import {
   flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import * as React from "react";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -24,38 +22,72 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
+import userService from "@/services/user.service";
 import { columns as defaultColumns } from "./columns";
 
 /** id, username, lastName, firstName, email, roles[], avatar, */
 const UserTable = (props) => {
-  const { columns = defaultColumns, data, pageCount = 1 } = props;
+  const { columns = defaultColumns, userCount = 0 } = props;
+  const [params, setParams] = useState({});
+  const { data: count, countLoading } = useQuery({
+    queryKey: ["users", "count"],
+    queryFn: async () => {
+      const res = await userService.count();
+      if (res.status === 200) return res.data;
+      return 0;
+    },
+    initialData: 0,
+  });
 
-  const [sorting, setSorting] = React.useState([]);
-  const [columnFilters, setColumnFilters] = React.useState([]);
-  const [columnVisibility, setColumnVisibility] = React.useState({});
-  const [rowSelection, setRowSelection] = React.useState({});
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 10,
+  });
+  const [pageCount, setPageCount] = useState(
+    Math.ceil(count / pagination.pageSize),
+  );
+
+  const [sorting, setSorting] = useState([]);
+  const [columnFilters, setColumnFilters] = useState([]);
+  const [columnVisibility, setColumnVisibility] = useState({});
+  const [rowSelection, setRowSelection] = useState({});
+
+  const { data: users } = useQuery({
+    queryKey: [
+      "users",
+      { page: pagination.pageIndex, pageSize: pagination.pageSize },
+    ],
+    queryFn: async () => {
+      const res = await userService.getAll({
+        ...params,
+        page: pagination.pageIndex,
+      });
+      return res.data;
+    },
+    initialData: [],
+    staleTime: 30000,
+  });
+
   const table = useReactTable({
-    data: data,
-    columns: columns,
+    data: users,
+    columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
-    getSortedRowModel: getSortedRowModel(),
+    manualPagination: true,
+    onPaginationChange: setPagination,
     state: {
       sorting,
       columnFilters,
       columnVisibility,
       rowSelection,
+      pagination,
     },
     pageCount,
   });
-
-  console.log(table);
+  console.log(table, pagination);
 
   return (
     <div>
@@ -149,7 +181,7 @@ const UserTable = (props) => {
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="text-muted-foreground flex-1 text-sm">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
+          {table.getRowCount()} row(s) selected.
         </div>
         <Button
           variant="outline"

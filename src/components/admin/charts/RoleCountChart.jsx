@@ -1,11 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
 import Chart from "react-apexcharts";
+import { useTranslation } from "react-i18next";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { statsService } from "@/services";
 
 const RoleCountChart = () => {
+  const { t } = useTranslation();
+
   const { data, isLoading } = useQuery({
     queryKey: ["roles", "count"],
     queryFn: async () => {
@@ -25,7 +28,7 @@ const RoleCountChart = () => {
         <Card className="p-4">
           <div>
             <h4 className="text-navy-700 text-lg font-bold dark:text-white">
-              User by role
+              {t("admin.stats.userByRole")}
             </h4>
           </div>
           <CardContent className="flex w-full items-center justify-center p-0">
