@@ -22,14 +22,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import userService from "@/services/user.service";
+import { userService } from "@/services";
 import { columns as defaultColumns } from "./columns";
 
-/** id, username, lastName, firstName, email, roles[], avatar, */
 const UserTable = (props) => {
   const { columns = defaultColumns } = props;
   const [params, setParams] = useState({});
-  const { data: count, countLoading } = useQuery({
+  const { data: count } = useQuery({
     queryKey: ["users", "count"],
     queryFn: async () => {
       const res = await userService.count();
@@ -56,14 +55,15 @@ const UserTable = (props) => {
       { page: pagination.pageIndex, pageSize: pagination.pageSize },
     ],
     queryFn: async () => {
-      const res = await userService.getAll({
+      const res = await userService.getList({
         ...params,
         page: pagination.pageIndex,
       });
-      return res.data;
+      console.log(res);
+      if (res.status === 200) return res.data;
+      return [];
     },
     initialData: [],
-    staleTime: 30000,
   });
 
   const table = useReactTable({
@@ -85,7 +85,6 @@ const UserTable = (props) => {
     },
     pageCount,
   });
-  console.log(table, pagination);
 
   return (
     <div>

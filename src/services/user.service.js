@@ -30,7 +30,7 @@ const userService = {
   count(params) {
     return get(endpoints.countUsers, { ...params });
   },
-  getAll(params) {
+  getList(params) {
     return get(endpoints.getAllUsers, { pageSize: 10, ...params });
   },
   getTopLectures(params = {}) {

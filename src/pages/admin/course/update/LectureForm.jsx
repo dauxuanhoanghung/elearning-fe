@@ -155,14 +155,14 @@ const LectureForm = ({ courseData, setOpenLectureForm }) => {
         {sections.length > 0 && (
           <Select
             onValueChange={handleSectionSelectChange}
-            defaultValue={sections[0].id + ""}
+            defaultValue={0 + ""}
           >
             <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               {sections.map((section, idx) => (
-                <SelectItem value={section.id + ""} key={idx}>
+                <SelectItem value={idx + ""} key={idx}>
                   {section.name}
                 </SelectItem>
               ))}
