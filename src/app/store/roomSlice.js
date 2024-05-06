@@ -88,6 +88,11 @@ export const roomSlice = createSlice({
       };
       console.log("updateParticipant", state);
     },
+    clearRoomState: (state, action) => {
+      state.mainStream = null;
+      state.participants = {};
+      state.currentUser = null;
+    },
   },
 });
 
@@ -116,5 +121,6 @@ export const {
   removeParticipant,
   updateUser,
   updateParticipant,
+  clearRoomState,
 } = roomSlice.actions;
 export default roomSlice.reducer;

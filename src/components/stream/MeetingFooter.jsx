@@ -1,8 +1,21 @@
+import { clearRoomState } from "@/app/store/roomSlice";
 import classNames from "classnames";
-import { Camera, CameraOff, Mic, MicOff, ScreenShare } from "lucide-react";
+import {
+  Camera,
+  CameraOff,
+  Mic,
+  MicOff,
+  PhoneOff,
+  ScreenShare,
+} from "lucide-react";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const MeetingFooter = (props) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [streamState, setStreamState] = useState({
     mic: true,
     video: false,
@@ -32,6 +45,12 @@ const MeetingFooter = (props) => {
       ...prev,
       screen: isEnabled,
     }));
+  };
+
+  const onQuitClick = () => {
+    dispatch(clearRoomState());
+
+    navigate("/");
   };
 
   useEffect(() => {
@@ -71,6 +90,12 @@ const MeetingFooter = (props) => {
         disabled={streamState.screen}
       >
         <ScreenShare />
+      </div>
+      <div
+        className="m-2 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-red-500 text-white"
+        onClick={onQuitClick}
+      >
+        <PhoneOff />
       </div>
     </div>
   );
