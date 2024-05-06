@@ -1,17 +1,9 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import {
-  FLUSH,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-  REHYDRATE,
-  persistReducer,
-  persistStore,
-} from "redux-persist";
+import { configureStore } from "@reduxjs/toolkit";
+import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 
 import chatSlice from "./store/chatSlice";
+import roomSlice from "./store/roomSlice";
 import userSlice from "./store/userSlice";
 
 const persistUserConfig = {
@@ -25,13 +17,20 @@ export const store = configureStore({
   reducer: {
     user: persistedReducer,
     chat: chatSlice,
+    room: roomSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
+      serializableCheck: false,
     }),
+  // middleware: (getDefaultMiddleware) =>
+  //   getDefaultMiddleware({
+  //     serializableCheck: {
+  //       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+  //       ignoredPaths: ["room.mainStream"],
+  //     },
+  //   }),
 });
 
+export const getStore = () => store;
 export let persistor = persistStore(store);

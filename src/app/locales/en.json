@@ -135,7 +135,12 @@
     "chatCreator": "Chat to creator"
   },
   "business": {
-    "addNew": "Add a new course"
+    "addNew": "Add a new course",
+    "index-tab": "My business",
+    "meet-tab": "Meeting",
+    "header": "My Business",
+    "newMeeting": "New meeting",
+    "newMeetingDescription": "Create a new meeting"
   },
   "my-course": {
     "header": "My learning",
