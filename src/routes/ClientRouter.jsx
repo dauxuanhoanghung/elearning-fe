@@ -6,11 +6,16 @@ import DefaultLayout from "@/layout/DefaultLayout";
 import CourseCreationPage from "@/pages/admin/course/create";
 import CourseUpdatePage from "@/pages/admin/course/update";
 import { ForgotPasswordPage, LoginPage, SignupPage } from "@/pages/auth";
+import StreamPage from "@/pages/call";
 import BlogsPage from "@/pages/client/blog";
 import BlogDetailsPage from "@/pages/client/blog/blog-detail";
 import CourseDetailPage from "@/pages/client/course-detail";
 import LectureDetailPage from "@/pages/client/lecture-detail";
-import MyBusinessPage from "@/pages/client/my-business";
+import {
+  CreateRoomPage,
+  MyBusinessLayout,
+  MyBusinessPage,
+} from "@/pages/client/my-business";
 import {
   MyCourseLayout,
   MyCoursePage,
@@ -173,11 +178,30 @@ const ClientRouter = [
         ],
       },
       { path: "register-lecturer", element: <RegisterLecturerPage /> },
-      { path: "my-business", element: <MyBusinessPage /> },
+      {
+        path: "my-business",
+        element: <MyBusinessLayout />,
+        children: [
+          {
+            index: true,
+            element: <MyBusinessPage />,
+          },
+          {
+            path: "create-room",
+            element: <CreateRoomPage />,
+            exactly: true,
+          },
+        ],
+      },
       { path: "payment/:courseId", element: <CheckoutPage /> },
       { path: "payment/result", element: <ResultPaymentPage /> },
       { path: "payment/paypal/capture", element: <PayPalCapturePage /> },
     ],
+  },
+  {
+    path: "/room",
+    element: <AuthenticatedRoute />,
+    children: [{ index: true, element: <StreamPage /> }],
   },
   {
     path: "/",

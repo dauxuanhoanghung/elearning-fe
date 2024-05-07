@@ -135,7 +135,12 @@
     "chatCreator": "Nhắn tin với giảng viên"
   },
   "business": {
-    "addNew": "Tạo khoá học mới"
+    "addNew": "Tạo khoá học mới",
+    "index-tab": "Danh sách khoá học",
+    "meet-tab": "Cuộc họp",
+    "header": "Khóa học đã đăng",
+    "newMeeting": "Cuộc họp mới",
+    "newMeetingDescription": "Tạo cuộc họp mới để trao đổi với học viên"
   },
   "my-course": {
     "header": "Khoá học của tôi",
