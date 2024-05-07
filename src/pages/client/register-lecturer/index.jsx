@@ -1,26 +1,37 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 import { UploadIcon } from "@/components/Icons";
-import {
-  Breadcrumbs,
-  Button,
-  Checkbox,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Typography,
-} from "@mui/material";
+import { Checkbox } from "@mui/material";
 
+import Spinner from "@/components/common/Spinner";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { lecturerRegistrationService } from "@/services";
 
 const RegisterLecturerPage = () => {
-  // const { t } = useTranslation();
+  const { t } = useTranslation();
   const { showSnackbar } = useSnackbar();
   const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false);
+
   // #region Register new
   const [backgroundImageURL, setBackgroundImageURL] = useState("");
   const [agreeToRules, setAgreeToRules] = useState(false);
@@ -56,13 +67,17 @@ const RegisterLecturerPage = () => {
     const request = new FormData();
     request.append("file", fileID.current.files[0]);
     console.log(request);
+    setLoading(true);
     const res = await lecturerRegistrationService.registerLecturer(request);
-    if (res.data.status === 201) {
-      showSnackbar({ message: res.data.message, severity: "info" });
-      navigate("/");
+    if (res.status === 201) {
+      showSnackbar({ message: res.message, severity: "info" });
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
     }
   };
   // #endregion
+
   // #region get - update - delete
   /**
    * {imageUrl, user}
@@ -72,7 +87,7 @@ const RegisterLecturerPage = () => {
     const fetchOldForm = async () => {
       const res =
         await lecturerRegistrationService.getLecturerFormByCurrentUser();
-      setCurrentUserForm(res.data.data);
+      setCurrentUserForm(res.data);
     };
     fetchOldForm();
   }, []);
@@ -96,24 +111,29 @@ const RegisterLecturerPage = () => {
   };
   // #endregion
   return (
-    <main className="container">
-      <Breadcrumbs aria-label="breadcrumb">
-        <Link to="/" style={{ textDecoration: "none" }}>
-          Home
-        </Link>
-        <Typography color="textPrimary">Register Lecturer</Typography>
-      </Breadcrumbs>
+    <main className="container" data-component="register-lecturer-page">
+      <Breadcrumb>
+        <BreadcrumbList className="text-lg">
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Register lecturer</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
       <p className="text-4xl">Register Lecturer</p>
-      <div>
-        {!currentUserForm && (
+      <div className="my-4">
+        {currentUserForm && (
           <>
             <div>
-              <p>
+              <p className="text-3xl">
                 Your application haven't approved yet. Wait for admin or contact
-                on: ...
+                on: hlhe@gmail.com
               </p>
               <p>You have already register. See below:</p>
-              <p>{currentUserForm?.registrationDate}</p>
+              <p>Created date: {currentUserForm?.registrationDate}</p>
               <div className="relative flex min-h-[400px] w-full cursor-pointer items-center justify-center">
                 <img
                   src={currentUserForm?.imageUrl}
@@ -122,30 +142,30 @@ const RegisterLecturerPage = () => {
                 />
               </div>
             </div>
-            <div>
+            <div className="">
               <Button onClick={handleOpenDeleteDialog}>
                 I don't want to be lecturer
               </Button>
               <Dialog open={openDialog} onClose={handleCloseDialog}>
-                <DialogTitle id="alert-dialog-title">
-                  Do you want to delete this note?
-                </DialogTitle>
-                <DialogContent>
-                  <DialogContentText id="alert-dialog-description">
-                    This action can't be redone. Are you sure to do that?
-                  </DialogContentText>
+                <DialogContent
+                  className="text-black dark:text-white"
+                  hideCloseButton={true}
+                  onInteractOutside={handleCloseDialog}
+                >
+                  <DialogTitle className="text-xl ">
+                    Do you want to give up on being a lecturer ?
+                  </DialogTitle>
+                  <DialogHeader>
+                    This action can't be redone. You can re-register it later.
+                    Are you sure to do that?
+                  </DialogHeader>
+                  <DialogFooter>
+                    <Button onClick={handleDeleteRegistrationForm}>Yes</Button>
+                    <Button onClick={handleCloseDialog} autoFocus>
+                      No
+                    </Button>
+                  </DialogFooter>
                 </DialogContent>
-                <DialogActions>
-                  <Button
-                    onClick={handleDeleteRegistrationForm}
-                    sx={{ backgroundColor: "#f50057", color: "#fff" }}
-                  >
-                    Yes
-                  </Button>
-                  <Button onClick={handleCloseDialog} autoFocus>
-                    No
-                  </Button>
-                </DialogActions>
               </Dialog>
             </div>
           </>
@@ -165,7 +185,7 @@ const RegisterLecturerPage = () => {
             <div className="w-full">
               <label
                 htmlFor="background-image-upload"
-                className="flex h-64 w-full cursor-pointer flex-col items-center justify-center overflow-hidden 
+                className="flex h-96 w-full cursor-pointer flex-col items-center justify-center overflow-hidden 
                   rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 
                   dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
               >
@@ -207,13 +227,14 @@ const RegisterLecturerPage = () => {
                 I agree to the rules for becoming a lecturer
               </label>
             </div>
-            <button
+            <Button
               onClick={handleRegisterLecturer}
               className="mt-2 inline-flex items-center gap-2 rounded bg-gray-600 px-3 py-1 text-base text-white outline-1 
               transition-all duration-300 hover:bg-gray-800 dark:bg-gray-500 dark:hover:bg-gray-100 dark:hover:text-black"
+              disabled={loading}
             >
-              Submit
-            </button>
+              Submit {loading && <Spinner />}
+            </Button>
           </div>
         )}
       </div>

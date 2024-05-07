@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { Loader } from "lucide-react";
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useTranslation } from "react-i18next";
@@ -26,12 +27,19 @@ const LastLecturesContainer = () => {
 
   return (
     <div data-component="course-container">
-      <h1 className="my-4 text-3xl">{t("home.last-lectures")}</h1>
-      <div className="flex gap-x-4">
-        {lastLectures.map((item, index) => (
-          <ContinueLectureCard key={index} {...item} />
-        ))}
+      <div className="flex w-full items-center justify-center">
+        {isLastLecturesLoading && <Loader className="h-10 w-10" />}
       </div>
+      {lastLectures.length > 0 && (
+        <>
+          <h1 className="my-4 text-3xl">{t("home.last-lectures")}</h1>
+          <div className="flex gap-x-4">
+            {lastLectures.map((item, index) => (
+              <ContinueLectureCard key={index} {...item} />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };
