@@ -5,9 +5,7 @@ import { getFirepad } from "./firebase/config";
 export const updatePreference = (userId, preference) => {
   const participantRef = child(getFirepad(), "participants");
   const currentParticipantRef = child(participantRef, userId + "/preferences");
-  setTimeout(() => {
-    update(currentParticipantRef, preference);
-  });
+  update(currentParticipantRef, preference);
 };
 
 export const createOffer = async (peerConnection, receiverId, createdID) => {
@@ -67,7 +65,7 @@ export const initializeListensers = async (userId, store) => {
 
   onChildAdded(child(currentUserRef, "offerCandidates"), (snapshot) => {
     const data = snapshot.val();
-    if (data.userId) {
+    if (data?.userId) {
       const room = store.getState().room;
       const pc = room.participants[data.userId].peerConnection;
       pc.addIceCandidate(new RTCIceCandidate(data));
@@ -86,7 +84,7 @@ export const initializeListensers = async (userId, store) => {
 
   onChildAdded(child(currentUserRef, "answerCandidates"), (snapshot) => {
     const data = snapshot.val();
-    if (data.userId) {
+    if (data?.userId) {
       const room = store.getState().room;
       const pc = room.participants[data.userId].peerConnection;
       pc.addIceCandidate(new RTCIceCandidate(data));

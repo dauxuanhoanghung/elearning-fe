@@ -12,11 +12,10 @@ const Participant = (props) => {
     currentUser,
   } = props;
   if (!currentParticipant) return <></>;
-
-  console.log(currentParticipant);
-
+  console.log({ currentParticipant });
   return (
     <div
+      data-user={currentUser ? "currentUser" : "invitedUser"}
       className={classNames(
         "relative h-full max-h-[90vh] min-h-[200px] w-full rounded-md bg-gray-900",
         { hidden: hideVideo },

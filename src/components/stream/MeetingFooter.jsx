@@ -1,5 +1,5 @@
-import { clearRoomState } from "@/app/store/roomSlice";
 import classNames from "classnames";
+import { goOffline } from "firebase/database";
 import {
   Camera,
   CameraOff,
@@ -11,6 +11,9 @@ import {
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
+import { database } from "@/app/firebase/config";
+import { clearRoomState } from "@/app/store/roomSlice";
 
 const MeetingFooter = (props) => {
   const navigate = useNavigate();
@@ -47,10 +50,10 @@ const MeetingFooter = (props) => {
     }));
   };
 
-  const onQuitClick = () => {
+  const onQuitClick = async () => {
     dispatch(clearRoomState());
-
-    navigate("/");
+    goOffline(database);
+    navigate("/my-business/create-room");
   };
 
   useEffect(() => {

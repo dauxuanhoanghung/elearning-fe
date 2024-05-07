@@ -29,13 +29,10 @@ export const roomSlice = createSlice({
   },
   reducers: {
     setMainStream: (state, action) => {
-      console.log("setMainStream", { ...state }, action);
       state.mainStream = action.payload.mainStream;
-      console.log("setMainStream.state", state);
+      console.warn("setMainStream.state", { state: { ...state }, action });
     },
     addParticipant: (state, action) => {
-      console.log("addParticipant", { ...state }, action);
-
       let newUser = action.payload;
       const currentUserId = Object.keys(state.currentUser)[0];
       const newUserId = Object.keys(newUser)[0];
@@ -47,51 +44,45 @@ export const roomSlice = createSlice({
       if (currentUserId === newUserId) newUser[newUserId].currentUser = true;
       newUser[newUserId].avatarColor = generateColor();
       state.participants = { ...state.participants, ...newUser };
-      console.log("addParticipant", state);
+      console.warn("addParticipant", { state: { ...state }, action });
     },
     setUser: (state, action) => {
-      console.log("setuser", { ...state }, action);
       let payload = action.payload;
       let participants = { ...state.participants };
       const userId = Object.keys(payload)[0];
       payload[userId].avatarColor = generateColor();
-      // initializeListensers(userId);
-      // state = {
-      //   ...state,
-      //   currentUser: { ...payload },
-      //   participants,
-      // };
       state.currentUser = { ...payload };
       state.participants = participants;
-      console.log("setUser.state", state);
+      console.warn("setUser.state", { state: { ...state }, action });
     },
     removeParticipant: (state, action) => {
-      delete state.participants[action.payload.id];
-      console.log("removeParticipant", state);
+      delete state.participants[action.payload];
+      console.warn("removeParticipant", { state: { ...state }, action });
     },
     updateUser: (state, action) => {
-      console.log("updateUser", state, action);
+      if (state.currentUser === null) return;
       const userId = Object.keys(state.currentUser)[0];
       updatePreference(userId, action.payload.currentUser);
-      console.log("updateUser", state, action);
       state.currentUser[userId] = {
         ...state.currentUser[userId],
         ...action.payload.currentUser,
       };
-      console.log("updateUser", state);
+      console.warn("updateUser", { state: { ...state }, action });
     },
     updateParticipant: (state, action) => {
+      
       const newUserId = Object.keys(action.payload)[0];
       state.participants[newUserId] = {
         ...state.participants[newUserId],
         ...action.payload[newUserId],
       };
-      console.log("updateParticipant", state);
+      console.warn("updateParticipant", { state: { ...state }, action });
     },
     clearRoomState: (state, action) => {
       state.mainStream = null;
       state.participants = {};
       state.currentUser = null;
+      console.warn("clearRoomState", { state: { ...state }, action });
     },
   },
 });

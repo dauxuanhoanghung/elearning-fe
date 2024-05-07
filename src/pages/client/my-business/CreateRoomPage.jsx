@@ -4,11 +4,10 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
-const roomId = uuidv4();
-
 const CreateRoomPage = () => {
   const { t } = useTranslation();
 
+  const roomId = uuidv4();
   const months = [
     "January",
     "February",

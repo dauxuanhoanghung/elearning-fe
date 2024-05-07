@@ -5,18 +5,18 @@ import Participant from "./Participant";
 const Participants = () => {
   const videoRef = useRef(null);
   const room = useSelector((state) => state.room);
-  const currentUser = room.currentUser ? room.currentUser : null;
+  const currentUser = room.currentUser
+    ? Object.values(room.currentUser)[0]
+    : null;
 
   useEffect(() => {
     if (videoRef.current) {
-      console.log("videoRef", { ...room });
       videoRef.current.srcObject = room.mainStream;
       videoRef.current.muted = true;
     }
   }, [room.currentUser, room.mainStream]);
 
   let participantKey = Object.keys(room.participants);
-  console.log("participantKey", participantKey);
   let gridCol =
     participantKey.length === 1 ? 1 : participantKey.length <= 4 ? 2 : 4;
   const gridColSize = participantKey.length <= 4 ? 1 : 2;
@@ -27,7 +27,6 @@ const Participants = () => {
 
   const screenPresenter = participantKey.find((element) => {
     const currentParticipant = room.participants[element];
-    console.log("screenPresenter", currentParticipant);
     return currentParticipant.screen;
   });
 
@@ -38,7 +37,7 @@ const Participants = () => {
 
   return (
     <div
-      className={`gridcol grid h-full grid-cols-${gridCol} gap-5 p-2.5 md:grid-cols-${gridColSize} md:grid-rows-${gridColSize}`}
+      className={`grid h-full md:grid-cols-${gridCol} gap-5 p-2.5 grid-cols-${gridColSize} grid-rows-${gridColSize}`}
     >
       {participantKey.map((element, index) => {
         const currentParticipant = room.participants[element];

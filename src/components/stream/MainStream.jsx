@@ -11,8 +11,8 @@ const MainStream = () => {
   const participantRef = useRef(room.participants);
 
   const onMicClick = (micEnabled) => {
-    console.log("onMicClick", room);
     if (room.mainStream) {
+      console.log("onMicClick");
       room.mainStream.getAudioTracks()[0].enabled = micEnabled;
       dispatch(updateUser({ currentUser: { audio: micEnabled } }));
     }

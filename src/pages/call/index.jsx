@@ -1,5 +1,6 @@
 import {
   child,
+  goOnline,
   onChildAdded,
   onChildChanged,
   onChildRemoved,
@@ -9,13 +10,13 @@ import {
   ref,
   update,
 } from "firebase/database";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { database, getFirepad, setFirepadRef } from "@/app/firebase/config";
 import { initializeListensers } from "@/app/peerConnection";
-import { getStore } from "@/app/store";
+import { store } from "@/app/store";
 import {
   addParticipant,
   removeParticipant,
@@ -36,8 +37,10 @@ const StreamPage = () => {
   const [searchParams] = useSearchParams();
   const roomId = searchParams.get("roomId");
 
-  const connectedRef = ref(database, ".info/connected");
+  // Track the local media stream
+  const localStreamRef = useRef(null);
 
+  const connectedRef = ref(database, ".info/connected");
   useEffect(() => {
     const initialize = () => {
       if (roomId !== null) {
@@ -52,6 +55,10 @@ const StreamPage = () => {
     initialize();
     return () => {
       setFirepadRef(ref(database));
+      if (localStreamRef.current) {
+        localStreamRef.current.getTracks().forEach((track) => track.stop());
+        localStreamRef.current = null;
+      }
     };
   }, [roomId]);
 
@@ -65,7 +72,8 @@ const StreamPage = () => {
       audio: true,
       video: true,
     });
-
+    // Store the local stream in the ref
+    localStreamRef.current = localStream;
     return localStream;
   };
 
@@ -73,30 +81,25 @@ const StreamPage = () => {
     async function connect() {
       const stream = await getUserStream();
       stream.getVideoTracks()[0].enabled = false;
+      dispatch(setMainStream({ mainStream: stream }));
+      goOnline(database);
 
       // inside useEffect
       onValue(connectedRef, (snap) => {
         const participantRef = child(getFirepad(), "participants");
-        dispatch(setMainStream({ mainStream: stream }));
+        const userStatusRef = push(participantRef, {
+          userId: currentUser.id,
+          userName: userName,
+          preferences: defaultPreference,
+        });
+        dispatch(
+          setUser({
+            [userStatusRef.key]: { name: userName, ...defaultPreference },
+          }),
+        );
 
         if (snap.val()) {
-          const userStatusRef = push(participantRef, {
-            userId: currentUser.id,
-            userName: userName,
-            preferences: defaultPreference,
-          });
-          // console.log({
-          //   [userStatusRef.key]: { name: userName, ...defaultPreference },
-          // });
-          setTimeout(() => {
-            dispatch(
-              setUser({
-                [userStatusRef.key]: { name: userName, ...defaultPreference },
-              }),
-            );
-          }, 10);
-
-          initializeListensers(userStatusRef.key, getStore());
+          initializeListensers(userStatusRef.key, store);
           onDisconnect(userStatusRef).remove();
         }
       });
@@ -107,14 +110,12 @@ const StreamPage = () => {
   const isUserSet = !!room.currentUser;
   const isStreamSet = !!room.mainStream;
 
+  const participantRef = child(getFirepad(), "participants");
   useEffect(() => {
-    const participantRef = child(getFirepad(), "participants");
     if (isStreamSet && isUserSet) {
       onChildAdded(participantRef, (snap) => {
-        const keyRef = child(participantRef, snap.key);
-        const preferenceUpdateEvent = child(keyRef, "preferences");
-
-        onChildChanged(preferenceUpdateEvent, (preferenceSnap) => {
+        const preferUpdate = child(participantRef, snap.key + "/preferences");
+        onChildChanged(preferUpdate, (preferenceSnap) => {
           dispatch(
             updateParticipant({
               [snap.key]: {
@@ -138,7 +139,7 @@ const StreamPage = () => {
         dispatch(removeParticipant(snap.key));
       });
     }
-  }, [isStreamSet, isUserSet]);
+  }, [room.currentUser, room.mainStream]);
 
   return (
     <div className="stream-app">
