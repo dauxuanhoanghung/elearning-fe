@@ -70,7 +70,6 @@ export const roomSlice = createSlice({
       console.warn("updateUser", { state: { ...state }, action });
     },
     updateParticipant: (state, action) => {
-      
       const newUserId = Object.keys(action.payload)[0];
       state.participants[newUserId] = {
         ...state.participants[newUserId],

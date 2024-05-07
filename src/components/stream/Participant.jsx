@@ -12,7 +12,7 @@ const Participant = (props) => {
     currentUser,
   } = props;
   if (!currentParticipant) return <></>;
-  console.log({ currentParticipant });
+
   return (
     <div
       data-user={currentUser ? "currentUser" : "invitedUser"}
@@ -22,10 +22,10 @@ const Participant = (props) => {
       )}
       data-role="participant"
     >
-      <div className="flex h-full items-center justify-center rounded-xl bg-gray-700">
+      <div className="flex h-full items-center justify-center rounded-xl">
         <video
           ref={videoRef}
-          className="relative h-full w-full rounded-md bg-gray-700 object-cover"
+          className="relative h-full w-full rounded-md object-cover"
           id={`participantVideo${currentIndex}`}
           autoPlay
           playsInline

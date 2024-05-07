@@ -116,13 +116,19 @@ const StreamPage = () => {
       onChildAdded(participantRef, (snap) => {
         const preferUpdate = child(participantRef, snap.key + "/preferences");
         onChildChanged(preferUpdate, (preferenceSnap) => {
-          dispatch(
-            updateParticipant({
-              [snap.key]: {
-                [preferenceSnap.key]: preferenceSnap.val(),
-              },
-            }),
-          );
+          try {
+            setTimeout(() => {
+              dispatch(
+                updateParticipant({
+                  [snap.key]: {
+                    [preferenceSnap.key]: preferenceSnap.val(),
+                  },
+                }),
+              );
+            }, 10);
+          } catch (e) {
+            console.log(e);
+          }
         });
 
         const { userName: name, preferences = {} } = snap.val();
