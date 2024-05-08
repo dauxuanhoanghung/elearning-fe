@@ -8,8 +8,10 @@ const courseService = {
       ...params,
     });
   },
-  count() {
-    return get(endpoints.countCourse);
+  count(params = {}) {
+    return get(endpoints.countCourse, {
+      ...params,
+    });
   },
   countTotalPage(params = {}) {
     return get(endpoints.courseTotalPage, {
