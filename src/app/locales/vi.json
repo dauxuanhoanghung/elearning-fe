@@ -135,7 +135,12 @@
     "chatCreator": "Nhắn tin với giảng viên"
   },
   "business": {
-    "addNew": "Tạo khoá học mới"
+    "addNew": "Tạo khoá học mới",
+    "index-tab": "Danh sách khoá học",
+    "meet-tab": "Cuộc họp",
+    "header": "Khóa học đã đăng",
+    "newMeeting": "Cuộc họp mới",
+    "newMeetingDescription": "Tạo cuộc họp mới để trao đổi với học viên"
   },
   "my-course": {
     "header": "Khoá học của tôi",
@@ -143,6 +148,11 @@
     "wishlist-tab": "Yêu thích"
   },
   "admin": {
+    "Home": "Trang chủ",
+    "coursePage": "Khoá học",
+    "userPage": "Người dùng",
+    "invoicePage": "Các giao dịch",
+    "statsPage": "Trang thống kê",
     "home": {
       "profile": "Hồ sơ",
       "settings": "Thiết lập",
@@ -159,6 +169,13 @@
       "inbox": "Hộp thư",
       "courses": "Khóa học",
       "stats": "Thống kê"
+    },
+    "stats": {
+      "mostLectureCourse": "Khoá học có nhiều bài giảng nhất",
+      "userByRole": "Người dùng theo vai trò",
+      "userThroughMonth": "Số lượng người dùng qua từng tháng",
+      "userInSystem": "Thống kê theo người dùng trong hệ thống",
+      "courseInSystem": "Khoá học trong hệ thống"
     }
   }
 }

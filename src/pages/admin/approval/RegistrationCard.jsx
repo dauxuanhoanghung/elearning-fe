@@ -1,14 +1,8 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  CardMedia,
-  Grid,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { Box, CardMedia, Grid, Paper } from "@mui/material";
 import { useState } from "react";
 
+import Avatar from "@/components/ui/Avatar";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -59,28 +53,18 @@ const RegistrationCard = (props) => {
     <>
       <Grid item xs={12} sm={6} md={4}>
         <Paper elevation={3} style={{ padding: "16px" }}>
-          <Box sx={{ padding: "5px", display: "flex" }}>
-            <Box>
-              <Avatar
-                src={form?.user.avatar}
-                alt="User"
-                sx={{ width: 100, height: 100 }}
-              />
-              <Typography variant="subtitle2">
-                Registration Date: {form?.registrationDate}
-              </Typography>
-              <Typography variant="subtitle1">User Information:</Typography>
-              <Typography variant="body2">
-                First Name: {form?.user.firstName}
-              </Typography>
-              <Typography variant="body2">
-                Last Name: {form?.user.lastName}
-              </Typography>
-            </Box>
+          <div className="flex p-2">
+            <div>
+              <Avatar src={form?.user.avatar} alt="User" />
+              <p>Registration Date: {form?.registrationDate}</p>
+              <div>User Information:</div>
+              <div>First Name: {form?.user.firstName}</div>
+              <div>Last Name: {form?.user.lastName}</div>
+            </div>
             <Box>
               <CardMedia component="img" height="194" image={form?.imageUrl} />
             </Box>
-          </Box>
+          </div>
           <Box
             sx={{
               padding: "5px",
@@ -88,22 +72,10 @@ const RegistrationCard = (props) => {
               justifyContent: "space-around",
             }}
           >
-            <Button variant="contained" onClick={handleAcceptRegistration}>
-              Accept
-            </Button>
-            <Button
-              variant="outlined"
-              color="error"
-              onClick={() => setOpenModal(true)}
-            >
-              Decline
-            </Button>
+            <Button onClick={handleAcceptRegistration}>Accept</Button>
+            <Button onClick={() => setOpenModal(true)}>Decline</Button>
           </Box>
-          <Dialog
-            open={openModal}
-            onClose={handleCloseModal}
-            sx={{ height: "20%" }}
-          >
+          <Dialog open={openModal} onClose={handleCloseModal}>
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
                 <DialogTitle>Reject to be the lecturer</DialogTitle>
@@ -116,15 +88,11 @@ const RegistrationCard = (props) => {
                   <Label htmlFor="name" className="text-right">
                     Name
                   </Label>
-                  <Input
-                    id="name"
-                    defaultValue="Pedro Duarte"
-                    className="col-span-3"
-                  />
+                  <Input id="name" className="col-span-3" />
                 </div>
               </div>
               <DialogFooter>
-                <Button type="submit">Save changes</Button>
+                <Button onClick>Save changes</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>

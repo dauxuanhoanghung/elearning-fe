@@ -1,5 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import {
   FormControl,
@@ -26,7 +25,7 @@ const defaultLecture = {
   title: "",
   content: "",
   type: "VIDEO",
-  orderIndex: "",
+  orderIndex: 0,
   description: "",
   duration: 0,
   section: 1,
@@ -38,18 +37,40 @@ const LectureForm = ({ courseData, setOpenLectureForm }) => {
   const { showSnackbar } = useSnackbar();
   // #region lectureData
   const videoInputRef = useRef();
+
   // new lecture
-  const [lectureFormData, setLectureFormData] = useState(defaultLecture);
+  const [lectureFormData, setLectureFormData] = useState({ ...defaultLecture });
   const handleLectureChange = (e) => {
     const { name, value, type, files } = e.target;
     if (type === "file") {
-      setLectureFormData({ ...lectureFormData, [name]: files[0] });
+      setLectureFormData((prev) => ({ ...prev, [name]: files[0] }));
+      console.log(lectureFormData);
     } else {
       setLectureFormData({ ...lectureFormData, [name]: value });
       if (name === "TEXT") {
         setLectureFormData({ ...lectureFormData, ["videoFile"]: null });
         videoInputRef.current.value = null;
       }
+    }
+  };
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const video = document.createElement("video");
+      video.preload = "metadata";
+      video.onloadedmetadata = () => {
+        window.URL.revokeObjectURL(video.src);
+        setLectureFormData((prev) => ({
+          ...prev,
+          duration: parseInt(video.duration + ""),
+        }));
+      };
+      video.src = URL.createObjectURL(file);
+    } else {
+      setLectureFormData((prev) => ({
+        ...prev,
+        duration: 0,
+      }));
     }
   };
 
@@ -84,35 +105,40 @@ const LectureForm = ({ courseData, setOpenLectureForm }) => {
     }
 
     const formData = createLectureForm(lectureFormData);
-
     const res = await lectureService.create(formData);
 
-    console.log(res);
+    if (res.status === 201) {
+      showSnackbar({
+        severity: "success",
+        message: "Create lecture success!!!",
+      });
+    }
 
     if (videoInputRef.current) videoInputRef.current.value = null;
     setLectureFormData(defaultLecture);
   };
   // #endregion
 
-  const { data: sections } = useQuery({
-    queryKey: ["sections", { courseId: courseData.id }],
-    queryFn: async () => {
+  const [sections, setSections] = useState([]);
+  useEffect(() => {
+    const getSections = async () => {
       const res = await sectionService.getSections(courseData.id);
-      if (res.data.length > 0) {
-        setLectureFormData({
-          ...lectureFormData,
-          section: res.data[0].id,
-          orderIndex: res.data[0].lectures.length + 1,
-        });
-      }
-      return res.data.map((section) => ({
+
+      const results = res.data.map((section) => ({
         id: section.id,
         name: section.name,
         lecturesCount: section.lectures.length,
       }));
-    },
-    initialData: [],
-  });
+      setSections((prev) => [...results]);
+      setLectureFormData((prev) => ({
+        ...prev,
+        section: results[0].id,
+        orderIndex: results[0].lecturesCount + 1,
+      }));
+    };
+
+    getSections();
+  }, [courseData]);
 
   const handleSectionSelectChange = (value) => {
     setLectureFormData({
@@ -125,19 +151,24 @@ const LectureForm = ({ courseData, setOpenLectureForm }) => {
   return (
     <main data-role="lecture-form">
       <h1 className="my-4 text-4xl">You're updating ({courseData.name})</h1>
-      <form className="flex flex-col gap-2">
-        <Select onValueChange={handleSectionSelectChange} defaultValue={1 + ""}>
-          <SelectTrigger>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {sections.map((section, idx) => (
-              <SelectItem value={idx + ""} key={idx}>
-                {section.name}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+      <div className="flex flex-col gap-2">
+        {sections.length > 0 && (
+          <Select
+            onValueChange={handleSectionSelectChange}
+            defaultValue={0 + ""}
+          >
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {sections.map((section, idx) => (
+                <SelectItem value={idx + ""} key={idx}>
+                  {section.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
         <div>
           <Label>Lecture Title</Label>
           <Input
@@ -220,6 +251,7 @@ const LectureForm = ({ courseData, setOpenLectureForm }) => {
                 name="videoFile"
                 accept="video/*"
                 ref={videoInputRef}
+                onChange={handleFileChange}
               />
             </div>
           </div>
@@ -240,7 +272,7 @@ const LectureForm = ({ courseData, setOpenLectureForm }) => {
             Turn back
           </Button>
         </div>
-      </form>
+      </div>
       {/* Include other lecture form inputs */}
     </main>
   );

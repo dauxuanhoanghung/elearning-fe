@@ -1,91 +1,59 @@
-import { Box, Breadcrumbs, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-import { statsService } from "@/services";
-import { titleStyle } from "@/utils/styles";
+import {
+  MostLecturesCourseChart,
+  RoleCountChart,
+  UserByMonthChart,
+} from "@/components/admin/charts";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 const AdminStatsPage = () => {
-  const [courseWithMostLecture, setCourseWithMostLecture] = useState([]);
-  const [courseWithMostRegistration, setCourseWithMostRegistration] = useState(
-    [],
-  );
-  const [countUserByMonth, setCountUserByMonth] = useState([]);
-  const [countUserUntilMonth, setCountUserUntilMonth] = useState([]);
-  useEffect(() => {
-    const fetchCourseWithMostLecture = async () => {
-      const res = await statsService.getCourseByMostLectures();
-      console.log(res.data.data);
-      setCourseWithMostLecture(res.data.data);
-    };
-    const fetchCourseWithMostRegistration = async () => {
-      const res = await statsService.getCourseByMostRegistration();
-      console.log(res.data.data);
-      setCourseWithMostRegistration(res.data.data);
-    };
-    const fetchCountUserByMonth = async () => {
-      const res = await statsService.countNumberOfUserByMonth();
-      console.log(res.data.data);
-      setCountUserByMonth(res.data.data);
-    };
-    const fetchCountUserUntilMonth = async () => {
-      const res = await statsService.countUserRegisterUntilMonth();
-      console.log(res.data.data);
-      setCountUserUntilMonth(res.data.data);
-    };
-    fetchCourseWithMostLecture();
-    fetchCourseWithMostRegistration();
-    fetchCountUserByMonth();
-    fetchCountUserUntilMonth();
-  }, []);
+  const { t } = useTranslation();
+
   return (
-    <>
-      <Breadcrumbs aria-label="breadcrumb">
-        <Link to="/" style={{ textDecoration: "none" }}>
-          Home
-        </Link>
-        <Link to="/admin" style={{ textDecoration: "none" }}>
-          Admin
-        </Link>
-        <Typography color="textPrimary">Stats</Typography>
-      </Breadcrumbs>
-      <Typography variant="h4" style={titleStyle}>
-        Stats Page
-      </Typography>
-      <Box
-        display="grid"
-        gridTemplateColumns="repeat(12, 1fr)"
-        gridAutoRows="140px"
-        minHeight="400px"
-      >
-        <Box gridColumn="span 12" gridRow="span 2">
-          <Box
-            mt="25px"
-            p="0 30px"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Typography variant="h5" fontWeight="600">
-              User In System
-            </Typography>
-            <Box height="250px"></Box>
-          </Box>
-        </Box>
-        <Box gridColumn="span 12" gridRow="span 2">
-          <Box
-            mt="25px"
-            p="0 30px"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Typography variant="h5" fontWeight="600">
-              Course In System
-            </Typography>
-            <Box height="250px"></Box>
-          </Box>
-        </Box>
-      </Box>
-    </>
+    <main data-role="admin-stats-page">
+      <Breadcrumb>
+        <BreadcrumbList className="text-lg">
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">{t("admin.Home")}</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>{t("admin.statsPage")}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+      <section data-section="section-user-chart" className="my-4">
+        <h1 className="text-3xl font-semibold">
+          {t("admin.stats.userInSystem")}
+        </h1>
+        <div className="grid grid-cols-3 gap-4">
+          <div className="col-span-1">
+            <RoleCountChart />
+          </div>
+          <div className="col-span-2">
+            <UserByMonthChart />
+          </div>
+        </div>
+      </section>
+      <section data-section="section-course-chart" className="my-4">
+        <h1 className="text-3xl font-semibold">
+          {t("admin.stats.courseInSystem")}
+        </h1>
+        <div className="grid grid-cols-1">
+          <div>
+            <MostLecturesCourseChart />
+          </div>
+        </div>
+      </section>
+    </main>
   );
 };
 

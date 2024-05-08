@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 
+import InvoiceTable from "@/components/admin/invoices/InvoiceTable";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,16 +10,20 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { userService } from "@/services";
+import registrationService from "@/services/registration.service";
 
 const AdminListInvoicesPage = () => {
-  const { data: invoices, isLoading: userLoading } = useQuery({
-    queryKey: ["users"],
+  const { t } = useTranslation();
+
+  const { data: count } = useQuery({
+    queryKey: ["courses", "count"],
     queryFn: async () => {
-      const res = await userService.getAll();
-      return res.data;
+      const res = await registrationService.count();
+      if (res.status === 200) return res.data;
+      return 0;
     },
-    initialData: [],
+    initialData: 0,
+    staleTime: 60000,
   });
 
   return (
@@ -25,18 +31,20 @@ const AdminListInvoicesPage = () => {
       <Breadcrumb>
         <BreadcrumbList className="text-lg">
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            <BreadcrumbLink href="/">{t("admin.Home")}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Invoices</BreadcrumbPage>
+            <BreadcrumbPage>{t("admin.invoicePage")}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
       <div>
-        <p className="text-4xl">Invoices</p>
+        <p className="text-4xl">Invoices ({count + ""})</p>
       </div>
-      <div data-role="table-users"></div>
+      <div data-role="table-invoices">
+        <InvoiceTable />
+      </div>
     </main>
   );
 };

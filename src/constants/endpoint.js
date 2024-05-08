@@ -45,12 +45,10 @@ const endpoints = {
 
   courseBase: BASE.courses,
   courseTotalPage: `${BASE.courses}/get-total-page`,
+  countCourse: `${BASE.courses}/count`,
   courseMyLearning: `${BASE.courses}/my-learning`,
   courseMyBusiness: `${BASE.courses}/my-business`,
-  courseCreateSection: `${BASE.courses}/after-create-course`,
   courseSectionById: (id) => `${BASE.courses}/${id}/get-section`,
-  courseSectionLecturesById: (id) =>
-    `${BASE.courses}/${id}/get-section-lectures`,
   courseById: (id) => `${BASE.courses}/${id}`,
   courseUpdate: `${BASE.courses}/update`,
   courseDeleteById: (id) => `${BASE.courses}/${id}/delete`,
@@ -58,6 +56,7 @@ const endpoints = {
 
   getSections: (courseId) => `${BASE.sections}/course/${courseId}`,
   createSection: BASE.sections,
+  createBatchSection: `${BASE.sections}/create-batch`,
 
   favoriteBase: BASE.favorite, // toggle favorite
   getWishlist: `${BASE.favorite}/get-list`,
@@ -91,20 +90,21 @@ const endpoints = {
   payWithVNPay: BASE.vnpay,
   payWithPaypal: BASE.paypal + "/init",
   capturePaypal: BASE.paypal + "/capture",
+  countRegistration: `${BASE.registration}/count`,
 
   blogBase: BASE.blogs,
   getBlogById: (id) => `${BASE.blogs}/${id}`,
   deleteBlogById: (id) => `${BASE.blogs}/${id}`,
 
-  lecturerRegistrationBase: BASE.lecturerRegistration,
+  lecturerRegistration: BASE.lecturerRegistration,
   lecturerRegistrationCurrentUser: `${BASE.lecturerRegistration}/current-user`,
-  lecturerRegistrationUpdateById: (id) =>
+  updateLecturerRegistrationById: (id) =>
     `${BASE.lecturerRegistration}/${id}/update`,
-  lecturerRegistrationDeleteById: (id) =>
+  deleteLecturerRegistrationById: (id) =>
     `${BASE.lecturerRegistration}/${id}/delete`,
-  lecturerRegistrationApproveById: (id) =>
+  approveLecturerRegistrationById: (id) =>
     `${BASE.lecturerRegistration}/${id}/approve`,
-  lecturerRegistrationReject: `${BASE.lecturerRegistration}/reject`,
+  rejectLecturerRegistration: `${BASE.lecturerRegistration}/reject`,
 
   lastLecture: `${BASE.lastLecture}`,
   updateLastLecture: `${BASE.lastLecture}`,

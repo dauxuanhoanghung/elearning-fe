@@ -1,4 +1,4 @@
-import { URL_LOGOUT, URL_REFRESH_TOKEN, URL_SERVER } from "@/constants/url";
+import endpoints, { URL_SERVER } from "@/constants/endpoint";
 import axios from "axios";
 import {
   clearLS,
@@ -11,9 +11,10 @@ class Http {
   constructor() {
     this.accessToken = getAccessTokenFromLS();
     this.refreshToken = getRefreshTokenFromLS();
-    this.refreshTokenRequest = null;
+    this.isRefreshToken = false;
+    this.requestsToRefresh = [];
     this.instance = axios.create({
-      baseURL: `${URL_SERVER}`,
+      baseURL: URL_SERVER,
       headers: {
         "Content-Type": "application/json",
       },
@@ -37,16 +38,7 @@ class Http {
     this.instance.interceptors.response.use(
       (response) => {
         const { url } = response.config;
-        // if (url === URL_LOGIN) {
-        //   //|| url === URL_REGISTER
-        //   const data = response.data;
-        //   this.accessToken = data.data.token;
-        //   this.refreshToken = data.data.token;
-        //   setAccessTokenToLS(this.accessToken);
-        //   setRefreshTokenToLS(this.refreshToken);
-        //   // setProfileToLS(data.data.user);
-        // } else
-        if (url === URL_LOGOUT) {
+        if (url === endpoints.logout) {
           this.accessToken = "";
           this.refreshToken = "";
           clearLS();
@@ -54,46 +46,36 @@ class Http {
         return response;
       },
       (error) => {
-        // if (
-        //   ![
-        //     HttpStatusCode.UnprocessableEntity,
-        //     HttpStatusCode.Unauthorized,
-        //   ].includes(error.response?.status)
-        // ) {
-        //   const data = error.response?.data;
-        //   const message = data?.message || error.message;
-        //   toast.error(message);
-        // }
-
-        // if (isAxiosUnauthorizedError(error)) {
-        //   const config = error.response?.config || { headers: {}, url: "" };
-        //   const { url } = config;
-
-        //   if (isAxiosExpiredTokenError(error) && url !== URL_REFRESH_TOKEN) {
-        //     this.refreshTokenRequest =
-        //       this.refreshTokenRequest ||
-        //       this.handleRefreshToken().finally(() => {
-        //         setTimeout(() => {
-        //           this.refreshTokenRequest = null;
-        //         }, 10000);
+        const { response, config } = error;
+        // if (response?.status === 401) {
+        //   if (!this.isRefreshToken) {
+        //     this.isRefreshToken = true;
+        //     this.handleRefreshToken()
+        //       .then(({ accessToken }) => {
+        //         this.requestsToRefresh.forEach((callback) => {
+        //           callback(accessToken);
+        //         });
+        //       })
+        //       .catch((error) => {
+        //         this.requestsToRefresh.forEach((cb) => cb(null));
+        //       })
+        //       .finally(() => {
+        //         this.isRefreshToken = false;
+        //         this.requestsToRefresh = [];
         //       });
-
-        //     return this.refreshTokenRequest.then((access_token) => {
-        //       return this.instance({
-        //         ...config,
-        //         headers: { ...config.headers, authorization: access_token },
-        //       });
-        //     });
         //   }
-
-        //   clearLS();
-        //   this.accessToken = "";
-        //   this.refreshToken = "";
-        //   toast.error(
-        //     error.response?.data.data?.message || error.response?.data.message
-        //   );
+        //   // 3. Setup callback to change token in headers authorization
+        //   return new Promise((resolve, reject) => {
+        //     this.requestsToRefresh.push((token) => {
+        //       if (token) {
+        //         // Reset access_token for another request behind
+        //         config.headers.Authorization = `Bearer ${token}`;
+        //         resolve(this.instance(config));
+        //       }
+        //       reject(error);
+        //     });
+        //   });
         // }
-
         return Promise.reject(error);
       },
     );
@@ -101,10 +83,10 @@ class Http {
 
   async handleRefreshToken() {
     try {
-      const res = await this.instance.post(URL_REFRESH_TOKEN, {
-        refresh_token: this.refreshToken,
+      const res = await this.instance.post(endpoints.refreshToken, {
+        refreshToken: localStorage.getItem("refresh_token"),
       });
-      const { access_token } = res.data.data;
+      const { access_token } = res.data;
       setAccessTokenToLS(access_token);
       this.accessToken = access_token;
       return access_token;

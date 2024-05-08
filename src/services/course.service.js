@@ -2,11 +2,14 @@ import endpoints from "@/constants/endpoint";
 import { deletes, get, post, put } from "@/utils/request";
 
 const courseService = {
-  getCourses(page = 0, params = {}) {
+  getList(params = {}) {
     return get(endpoints.courseBase, {
-      page: page,
+      page: 0,
       ...params,
     });
+  },
+  count() {
+    return get(endpoints.countCourse);
   },
   countTotalPage(params = {}) {
     return get(endpoints.courseTotalPage, {
@@ -39,24 +42,6 @@ const courseService = {
         "Content-Type": "multipart/form-data",
       },
     });
-  },
-  /**
-   *
-   * @param [] sections
-   * @returns
-   */
-  createSection(sections) {
-    return post(endpoints.courseCreateSection, sections, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  },
-  getSection(courseId) {
-    return get(endpoints.courseSectionById(courseId));
-  },
-  getSectionAndLecturesByCourseId(courseId) {
-    return get(endpoints.courseSectionLecturesById(courseId));
   },
   /**
    *

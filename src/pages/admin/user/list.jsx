@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 
 import { UserTable } from "@/components/admin/users";
-import { columns } from "@/components/admin/users/columns";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,18 +13,15 @@ import {
 import { userService } from "@/services";
 
 const AdminListUserPage = () => {
-  const { data: count, countLoading } = useQuery({
+  const { t } = useTranslation();
+  const { data: count } = useQuery({
     queryKey: ["users", "count"],
-    queryFn: () => userService.count(),
-  });
-
-  const { data: users, isLoading: userLoading } = useQuery({
-    queryKey: ["users"],
     queryFn: async () => {
-      const res = await userService.getAll();
-      return res.data;
+      const res = await userService.count();
+      if (res.status === 200) return res.data;
+      return 0;
     },
-    initialData: [],
+    initialData: 0,
   });
 
   return (
@@ -41,10 +38,10 @@ const AdminListUserPage = () => {
         </BreadcrumbList>
       </Breadcrumb>
       <div>
-        <p className="text-4xl">Users ({count?.data})</p>
+        <p className="text-4xl">Users ({count + ""})</p>
       </div>
       <div data-role="table-users">
-        <UserTable data={users} columns={columns} />
+        <UserTable userCount={count} />
       </div>
     </main>
   );

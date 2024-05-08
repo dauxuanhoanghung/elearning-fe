@@ -23,7 +23,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import useDropdown from "@/hooks/useDropdown";
 import { isEmptyObject, isLecturer } from "@/utils/utils";
 
 const socialMedia = [
@@ -81,12 +80,15 @@ const avtOptions = [
 ];
 
 const FirstNav = ({ classes }) => {
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+
   const currentUser = useSelector((state) => state.user.user);
   const handleLogout = () => {
     dispatch(logout());
     navigate("/login");
   };
-  const [openAvatar, toggleOpenAvatar, avatarRef] = useDropdown();
+  const dispatch = useDispatch();
 
   return (
     <nav
@@ -200,7 +202,6 @@ const Header = () => {
 
   // #region action user
   const currentUser = useSelector((state) => state.user.user);
-  const dispatch = useDispatch();
 
   // #endregion
   // #region search

@@ -6,35 +6,28 @@ const statsService = {
     return get();
   },
 
-  getCountUserByRole() {
+  getUserByRole() {
     return get(endpoints.statsUserByRole);
   },
-  getCourseByMostLectures(limit = 5) {
+  getCourseByMostLectures(params) {
     return get(endpoints.statsCourseMostLectures, {
-      params: {
-        limit: limit,
-      },
+      limit: 5,
+      ...params,
     });
   },
   getCourseByMostRegistration(limit = 5) {
     return get(endpoints.statsCourseMostRegistration, {
-      params: {
-        limit: limit,
-      },
+      limit: limit,
     });
   },
   countNumberOfUserByMonth(year) {
     return get(endpoints.statsUserRegisterByMonth, {
-      params: {
-        year,
-      },
+      year,
     });
   },
   countUserRegisterUntilMonth(year) {
     return get(endpoints.statsUserRegisterUntilMonth, {
-      params: {
-        year,
-      },
+      year,
     });
   },
   countUserInMonthAndTotal() {

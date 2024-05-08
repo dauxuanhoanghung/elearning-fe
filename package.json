@@ -37,8 +37,8 @@
     "@tanstack/react-query": "^5.17.15",
     "@tanstack/react-query-devtools": "^5.29.0",
     "@tanstack/react-table": "^8.16.0",
+    "apexcharts": "^3.49.0",
     "axios": "^1.5.0",
-    "chart.js": "^4.4.2",
     "class-variance-authority": "^0.7.0",
     "classnames": "^2.5.1",
     "clsx": "^2.1.0",
@@ -57,6 +57,7 @@
     "numeral": "^2.0.6",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
+    "react-apexcharts": "^1.4.1",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18.2.0",
     "react-draft-wysiwyg": "^1.15.0",
@@ -74,6 +75,7 @@
     "stompjs": "^2.3.3",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
+    "uuid": "^9.0.1",
     "yup": "^1.2.0"
   },
   "devDependencies": {

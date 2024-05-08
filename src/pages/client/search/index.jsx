@@ -1,20 +1,33 @@
 import { useQuery } from "@tanstack/react-query";
 
+import CourseContainer from "@/components/CourseContainer";
+import courseService from "@/services/course.service";
+import Sidebar from "./Sidebar";
+
 const SearchCoursePage = () => {
   const {
     isLoading,
     data: tags,
     error,
   } = useQuery({
-    queryKey: ["search", "tags"],
+    queryKey: ["tags", {}],
     queryFn: async () => {
       const res = await courseService.getAllTags();
-      return res.data;
+      if (res.status === 200) return res.data;
+      return [];
     },
     initialData: [],
-    staleTime: 300000,
   });
-  return <></>;
+  return (
+    <main className="md:container">
+      <div>
+        <Sidebar />
+      </div>
+      <div>
+        <CourseContainer />
+      </div>
+    </main>
+  );
 };
 
 export default SearchCoursePage;
