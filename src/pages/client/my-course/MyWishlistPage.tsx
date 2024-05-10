@@ -15,6 +15,7 @@ import { favoriteService } from "@/services";
 
 const MyWishlistPage = () => {
   const { t } = useTranslation();
+  const [page, setPage] = useState<number>(0);
 
   const {
     isLoading: paginationLoading,
@@ -23,12 +24,12 @@ const MyWishlistPage = () => {
   } = useQuery({
     queryKey: ["wishlist", "totalPage"],
     queryFn: async () => {
-      const res = await favoriteService.countTotalPage();
-      return res.data;
+      const res = await favoriteService.count();
+      if (res.data === 200) return Math.ceil(res.data / 8);
+      return 0;
     },
   });
 
-  const [page, setPage] = useState(0);
   // Use the query result object to render the data
   const {
     isLoading,
@@ -41,11 +42,10 @@ const MyWishlistPage = () => {
       if (res.status === 200) return res.data;
       return [];
     },
-    keepPreviousData: true,
     initialData: [],
   });
 
-  const handleChangePage = (page) => {
+  const handleChangePage = (page: number) => {
     setPage(page - 1);
   };
 

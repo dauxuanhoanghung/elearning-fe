@@ -42,7 +42,6 @@ const MyCourseLayout = () => {
                   value={tab.href}
                   href={tab.href}
                   onClick={() => handleNavigateOnTrigger(tab.href)}
-                  className
                 >
                   {tab.title}
                 </TabsTrigger>

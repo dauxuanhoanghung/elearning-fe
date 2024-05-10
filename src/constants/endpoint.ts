@@ -63,6 +63,7 @@ const endpoints = {
   favoriteBase: BASE.favorite, // toggle favorite
   getWishlist: `${BASE.favorite}/get-list`,
   countTotalWishlistPages: `${BASE.favorite}/get-total-page`,
+  countWishlist: `${BASE.favorite}/count`,
   getFavoriteByCourseId: (courseId: number) =>
     `${BASE.favorite}/get-favor-by-course-id/${courseId}`,
 

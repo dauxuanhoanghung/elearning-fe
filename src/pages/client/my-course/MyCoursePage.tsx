@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { Skeleton } from "@/components/common";
 import CourseContainer from "@/components/CourseContainer";
@@ -12,23 +12,19 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { courseService } from "@/services";
+import { registrationService } from "@/services";
+import { useState } from "react";
 
 const MyCoursePage = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const { page = 0 } = useSearchParams();
+  const [page, setPage] = useState<number>(0);
 
   //#region Course
-  const {
-    isLoading: paginationLoading,
-    isError: paginationError,
-    data: totalPage,
-  } = useQuery({
-    queryKey: ["mybusiness:totalPage"],
+  const { isError: paginationError, data: totalPage } = useQuery({
+    queryKey: ["my-course:totalPage"],
     queryFn: async () => {
-      const res = await courseService.countTotalPage();
-      return res.data;
+      const res = await registrationService.count();
+      return Math.ceil(res.data / 8);
     },
   });
 
@@ -40,16 +36,15 @@ const MyCoursePage = () => {
   } = useQuery({
     queryKey: ["my-course:courses", page], // The query key is an array with the page number
     queryFn: async () => {
-      const res = await courseService.getMyLearningCourse(page);
+      const res = await registrationService.getRegisteredCourses(page);
       if (res?.status === 200) return res.data;
       return [];
     }, // The query function returns a promise
-    keepPreviousData: true,
     initialData: [],
   });
 
-  const handleChangePage = () => {
-    navigate("/my-course", { page: page + 1 });
+  const handleChangePage = (page: number) => {
+    setPage(page - 1);
   };
   //#endregion
 
@@ -58,15 +53,15 @@ const MyCoursePage = () => {
       <Breadcrumb>
         <BreadcrumbList className="text-lg">
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            <BreadcrumbLink href="/">{t("my-course.home")}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>My Learning Courses</BreadcrumbPage>
+            <BreadcrumbPage>{t("my-course.learning-course")}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <p className="text-4xl">My Learning Courses</p>
+      <p className="text-4xl">{t("my-course.learning-course")}</p>
       {isLoading ? (
         <Skeleton />
       ) : (
@@ -84,7 +79,7 @@ const MyCoursePage = () => {
             )}
             <CourseContainer
               courses={courses}
-              page={page}
+              page={parseInt(page + "")}
               totalPage={totalPage}
               onPageChange={handleChangePage}
               isError={isError || paginationError}

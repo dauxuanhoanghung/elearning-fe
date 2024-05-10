@@ -144,6 +144,8 @@
     "newMeetingDescription": "Tạo cuộc họp mới để trao đổi với học viên"
   },
   "my-course": {
+    "home": "Trang chủ",
+    "learning-course": "Khóa học đang học",
     "header": "Khoá học của tôi",
     "index-tab": "Khóa học",
     "wishlist-tab": "Yêu thích"

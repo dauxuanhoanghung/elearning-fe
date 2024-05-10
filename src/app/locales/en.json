@@ -144,6 +144,8 @@
     "newMeetingDescription": "Create a new meeting"
   },
   "my-course": {
+    "home": "Home",
+    "learning-course": "My learning course",
     "header": "My learning",
     "index-tab": "My courses",
     "wishlist-tab": "Wishlistes"

@@ -139,7 +139,7 @@ const HomePage = () => {
           totalPage={totalPage}
           onPageChange={handleChangePage}
           isError={isError || paginationError}
-          isShowPagination={false}
+          // isShowPagination={false}
         />
       </section>
       {/*
