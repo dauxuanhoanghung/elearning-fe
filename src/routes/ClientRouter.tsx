@@ -8,15 +8,12 @@ import CourseCreationPage from "@/pages/admin/course/create";
 import CourseUpdatePage from "@/pages/admin/course/update";
 import { ForgotPasswordPage, LoginPage, SignupPage } from "@/pages/auth";
 import StreamPage from "@/pages/call";
+import CreateRoomPage from "@/pages/call/CreateRoomPage";
 import BlogsPage from "@/pages/client/blog";
 import BlogDetailsPage from "@/pages/client/blog/blog-detail";
 import CourseDetailPage from "@/pages/client/course-detail";
 import LectureDetailPage from "@/pages/client/lecture-detail";
-import {
-  CreateRoomPage,
-  MyBusinessLayout,
-  MyBusinessPage,
-} from "@/pages/client/my-business";
+import { MyBusinessLayout, MyBusinessPage } from "@/pages/client/my-business";
 import {
   MyCourseLayout,
   MyCoursePage,
@@ -165,6 +162,11 @@ const ClientRouter = [
       { path: "edit-password", element: <EditPasswordPage /> },
       { path: "delete-account", element: <DeleteAccountPage /> },
       {
+        path: "meeting",
+        element: <CreateRoomPage />,
+        exactly: true,
+      },
+      {
         path: "my-course",
         element: <MyCourseLayout />,
         children: [
@@ -186,11 +188,6 @@ const ClientRouter = [
           {
             index: true,
             element: <MyBusinessPage />,
-          },
-          {
-            path: "create-room",
-            element: <CreateRoomPage />,
-            exactly: true,
           },
         ],
       },

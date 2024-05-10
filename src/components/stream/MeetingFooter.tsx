@@ -3,23 +3,35 @@ import { goOffline } from "firebase/database";
 import {
   Camera,
   CameraOff,
+  Copy,
   Mic,
   MicOff,
   PhoneOff,
   ScreenShare,
 } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { database } from "@/app/firebase/config";
 import { clearRoomState } from "@/app/store/roomSlice";
 
-const MeetingFooter = (props) => {
+interface MeetingFooterProps {
+  roomId: string;
+  onMicClick: (isEnabled: boolean) => void;
+  onVideoClick: (isEnabled: boolean) => void;
+  onScreenClick: () => void;
+}
+
+const MeetingFooter: React.FC<MeetingFooterProps> = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [streamState, setStreamState] = useState({
+  const [streamState, setStreamState] = useState<{
+    mic: boolean;
+    video: boolean;
+    screen: boolean;
+  }>({
     mic: true,
     video: false,
     screen: false,
@@ -43,7 +55,7 @@ const MeetingFooter = (props) => {
     props.onScreenClick(setScreenState);
   };
 
-  const setScreenState = (isEnabled) => {
+  const setScreenState = (isEnabled: boolean) => {
     setStreamState((prev) => ({
       ...prev,
       screen: isEnabled,
@@ -51,9 +63,12 @@ const MeetingFooter = (props) => {
   };
 
   const onQuitClick = async () => {
-    dispatch(clearRoomState());
+    dispatch(clearRoomState({}));
     goOffline(database);
-    navigate("/my-business/create-room");
+    navigate("/meeting");
+  };
+  const onCopyId = () => {
+    navigator.clipboard.writeText(props.roomId);
   };
 
   useEffect(() => {
@@ -65,7 +80,7 @@ const MeetingFooter = (props) => {
 
   return (
     <div className="flex h-full items-center justify-center bg-gray-900">
-      <div
+      <button
         className={classNames(
           "m-2 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-gray-800 text-white",
           {
@@ -75,8 +90,8 @@ const MeetingFooter = (props) => {
         onClick={micClick}
       >
         {streamState.mic ? <Mic /> : <MicOff />}
-      </div>
-      <div
+      </button>
+      <button
         className={classNames(
           "m-2 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-gray-800 text-white",
           {
@@ -86,20 +101,26 @@ const MeetingFooter = (props) => {
         onClick={onVideoClick}
       >
         {streamState.video ? <Camera /> : <CameraOff />}
-      </div>
-      <div
+      </button>
+      <button
         className="m-2 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-gray-800 text-white"
         onClick={onScreenClick}
         disabled={streamState.screen}
       >
         <ScreenShare />
-      </div>
-      <div
+      </button>
+      <button
+        className="m-2 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-gray-800 text-white"
+        onClick={onCopyId}
+      >
+        <Copy />
+      </button>
+      <button
         className="m-2 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-red-500 text-white"
         onClick={onQuitClick}
       >
         <PhoneOff />
-      </div>
+      </button>
     </div>
   );
 };

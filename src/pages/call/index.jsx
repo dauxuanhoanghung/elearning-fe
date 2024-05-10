@@ -112,10 +112,15 @@ const StreamPage = () => {
 
   const participantRef = child(getFirepad(), "participants");
   useEffect(() => {
+    let onChildChangedRef;
     if (isStreamSet && isUserSet) {
       onChildAdded(participantRef, (snap) => {
         const preferUpdate = child(participantRef, snap.key + "/preferences");
-        onChildChanged(preferUpdate, (preferenceSnap) => {
+        if (onChildChangedRef) {
+          onChildChangedRef();
+          console.log("unscribed");
+        }
+        onChildChangedRef = onChildChanged(preferUpdate, (preferenceSnap) => {
           try {
             setTimeout(() => {
               dispatch(

@@ -57,16 +57,18 @@ const MyWishlistPage = () => {
       <Breadcrumb>
         <BreadcrumbList className="text-lg">
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            <BreadcrumbLink href="/">{t("my-course.home")}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>My Wishlist Courses</BreadcrumbPage>
+            <BreadcrumbPage>{t("my-course.my-wishlist")}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
 
-      <p className="text-4xl">My Wishlist ({courses.length})</p>
+      <p className="text-4xl">
+        {t("my-course.wishlist-list")} ({courses.length})
+      </p>
       <CourseContainer
         courses={courses}
         page={page}

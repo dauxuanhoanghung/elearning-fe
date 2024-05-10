@@ -8,13 +8,13 @@ const MyCourseLayout = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
-  const [tabs] = useState([
+  const [tabs] = useState<IMyCourseTab[]>([
     {
-      title: t("my-course.index-tab"),
+      title: "my-course.index-tab",
       href: "/my-course",
     },
     {
-      title: t("my-course.wishlist-tab"),
+      title: "my-course.wishlist-tab",
       href: "/my-course/wishlist",
     },
   ]);
@@ -23,7 +23,7 @@ const MyCourseLayout = () => {
     return tabs.find((tab) => tab.href == location.pathname).href;
   });
 
-  const handleNavigateOnTrigger = (href) => {
+  const handleNavigateOnTrigger = (href: string) => {
     navigate(href);
   };
 
@@ -36,14 +36,14 @@ const MyCourseLayout = () => {
           </h1>
           <Tabs defaultValue={currentTab} className="w-[400px]">
             <TabsList className="grid h-auto w-full grid-cols-2 bg-black p-0 dark:bg-white">
-              {tabs.map((tab, idx) => (
+              {tabs.map((tab: IMyCourseTab, idx: number) => (
                 <TabsTrigger
                   key={idx}
                   value={tab.href}
                   href={tab.href}
                   onClick={() => handleNavigateOnTrigger(tab.href)}
                 >
-                  {tab.title}
+                  {t(tab.title)}
                 </TabsTrigger>
               ))}
             </TabsList>

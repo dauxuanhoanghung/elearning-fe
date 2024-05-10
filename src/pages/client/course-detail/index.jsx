@@ -345,28 +345,26 @@ const CourseDetailPage = (props) => {
                   <Loader />
                 ) : (
                   <React.Fragment>
-                    {!registration && (
-                      <div className="flex gap-4">
-                        <button
-                          type="button"
-                          className="flex w-full justify-center gap-3 border border-solid border-white p-3 font-semibold 
+                    <div className="flex gap-4">
+                      <button
+                        type="button"
+                        className="flex w-full justify-center gap-3 border border-solid border-white p-3 font-semibold 
                                   transition-all dark:border-white dark:text-white dark:hover:bg-gray-500"
-                          onClick={handleToggleWishlist}
-                        >
-                          {isWishlisted ? (
-                            <>
-                              <FavoriteFullIcon className="h-6 w-6" />
-                              <span>Remove from wishlist</span>
-                            </>
-                          ) : (
-                            <>
-                              <FavoriteIcon className="h-6 w-6" />
-                              <span>Add to wishlist</span>
-                            </>
-                          )}
-                        </button>
-                      </div>
-                    )}
+                        onClick={handleToggleWishlist}
+                      >
+                        {isWishlisted ? (
+                          <>
+                            <FavoriteFullIcon className="h-6 w-6" />
+                            <span>Remove from wishlist</span>
+                          </>
+                        ) : (
+                          <>
+                            <FavoriteIcon className="h-6 w-6" />
+                            <span>Add to wishlist</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
                   </React.Fragment>
                 )}
                 <div className="flex w-full gap-4">

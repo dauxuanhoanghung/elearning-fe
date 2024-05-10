@@ -72,6 +72,7 @@
     "Home": "Home",
     "my-business": "My Business",
     "register-lecturer": "Be lecturer",
+    "meeting": "Meeting",
     "my-course": "My Learning",
     "my-favorite": "My Favorite",
     "profile": "Profile",
@@ -148,7 +149,9 @@
     "learning-course": "My learning course",
     "header": "My learning",
     "index-tab": "My courses",
-    "wishlist-tab": "Wishlistes"
+    "wishlist-tab": "Wishlistes",
+    "my-wishlist": "My Wishlist Courses",
+    "wishlist-list": "Wishlist list"
   },
   "admin": {
     "Home": "Home",

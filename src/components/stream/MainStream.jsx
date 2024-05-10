@@ -2,12 +2,16 @@ import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { setMainStream, updateUser } from "@/app/store/roomSlice";
+import { useSearchParams } from "react-router-dom";
 import MeetingFooter from "./MeetingFooter";
 import Participants from "./Participants";
 
 const MainStream = () => {
   const room = useSelector((state) => state.room);
   const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+  const roomId = searchParams.get("roomId");
+
   const participantRef = useRef(room.participants);
 
   const onMicClick = (micEnabled) => {
@@ -85,6 +89,7 @@ const MainStream = () => {
           onScreenClick={onScreenClick}
           onMicClick={onMicClick}
           onVideoClick={onVideoClick}
+          roomId={roomId}
         />
       </div>
     </div>

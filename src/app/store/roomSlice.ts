@@ -86,7 +86,7 @@ export const roomSlice = createSlice({
   },
 });
 
-const addConnection = (newUser, currentUser, stream) => {
+const addConnection = (newUser, currentUser, stream: MediaStream) => {
   const peerConnection = new RTCPeerConnection(servers);
   stream.getTracks().forEach((track) => {
     peerConnection.addTrack(track, stream);

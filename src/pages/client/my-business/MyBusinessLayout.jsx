@@ -13,10 +13,10 @@ const MyBusinessLayout = () => {
       title: t("business.index-tab"),
       href: "/my-business",
     },
-    {
-      title: t("business.meet-tab"),
-      href: "/my-business/create-room",
-    },
+    // {
+    //   title: t("business.meet-tab"),
+    //   href: "/my-business/create-room",
+    // },
   ]);
 
   const [currentTab] = useState(() => {
