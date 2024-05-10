@@ -9,7 +9,7 @@ const userService = {
    * @param {username, firstName, lastName, password, confirmPassword, email, avatarFile, avatar (null)} body
    * @returns
    */
-  register(body: string): Promise<any> {
+  register(body: FormData): Promise<IResponse> {
     return post(endpoints.register, body, {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -20,23 +20,23 @@ const userService = {
    * @param {username, firstName, lastName, email, avatarFile} body
    * @returns
    */
-  updateAccount(body: string): Promise<any> {
+  updateAccount(body: string): Promise<IResponse> {
     return put(endpoints.updateUserInfo, body, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
   },
-  count(params: { search?: string }): Promise<any> {
+  count(params: { search?: string }): Promise<IResponse> {
     return get(endpoints.countUsers, { ...params });
   },
-  getList(params: { page?: number; search?: string }): Promise<any> {
+  getList(params: { page?: number; search?: string }): Promise<IResponse> {
     return get(endpoints.getAllUsers, { pageSize: 10, ...params });
   },
-  getTopLectures(params = {}): Promise<any> {
+  getTopLectures(params = {}): Promise<IResponse> {
     return get(endpoints.getTopLectures, { top: 5, ...params });
   },
-  deleteSelf(): Promise<any> {
+  deleteSelf(): Promise<IResponse> {
     return deletes(endpoints.deleteSelf);
   },
 };

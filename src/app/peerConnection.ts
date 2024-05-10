@@ -2,16 +2,20 @@ import { child, onChildAdded, push, set, update } from "firebase/database";
 
 import { getFirepad } from "./firebase/config";
 
-export const updatePreference = (userId, preference) => {
+export const updatePreference = (userId: any, preference: any) => {
   const participantRef = child(getFirepad(), "participants");
   const currentParticipantRef = child(participantRef, userId + "/preferences");
   update(currentParticipantRef, preference);
 };
 
-export const createOffer = async (peerConnection, receiverId, createdID) => {
+export const createOffer = async (
+  peerConnection: any,
+  receiverId: any,
+  createdID: any,
+) => {
   const participantRef = child(getFirepad(), "participants");
   const currentParticipantRef = child(participantRef, receiverId);
-  peerConnection.onicecandidate = (event) => {
+  peerConnection.onicecandidate = (event: RTCPeerConnectionIceEvent) => {
     if (event.candidate) {
       const offerCandidatesRef = child(
         currentParticipantRef,
@@ -41,7 +45,7 @@ export const createOffer = async (peerConnection, receiverId, createdID) => {
   await set(newOfferRef, { offer });
 };
 
-export const initializeListensers = async (userId, store) => {
+export const initializeListensers = async (userId: any, store: any) => {
   const participantRef = child(getFirepad(), "participants");
   const currentUserRef = child(participantRef, userId);
   console.log("initializeListensers", currentUserRef);
@@ -92,13 +96,13 @@ export const initializeListensers = async (userId, store) => {
   });
 };
 
-const createAnswer = async (otherUserId, userId, store) => {
+const createAnswer = async (otherUserId: any, userId: any, store: any) => {
   const participantRef = child(getFirepad(), "participants");
   const room = store.getState().room;
   const pc = room.participants[otherUserId].peerConnection;
   const participantRef1 = child(participantRef, otherUserId);
 
-  pc.onicecandidate = (event) => {
+  pc.onicecandidate = (event: RTCPeerConnectionIceEvent) => {
     if (event.candidate) {
       push(child(participantRef1, "answerCandidates"), {
         ...event.candidate.toJSON(),

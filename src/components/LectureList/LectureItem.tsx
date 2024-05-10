@@ -5,7 +5,17 @@ import { secondsToTime } from "@/utils/utils";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 
-const LectureItem = (props) => {
+interface LectureItemProps {
+  id: number;
+  orderIndex: number;
+  title: string;
+  type: string;
+  courseId: number;
+  isCourseDetailPage: boolean;
+  duration: number;
+}
+
+const LectureItem: React.FC<LectureItemProps> = (props) => {
   const {
     id,
     orderIndex,

@@ -1,7 +1,12 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref } from "firebase/database";
-import { getFirestore } from "firebase/firestore";
+import {
+  Database,
+  DatabaseReference,
+  getDatabase,
+  ref,
+} from "firebase/database";
+import { Firestore, getFirestore } from "firebase/firestore";
 
 import "firebase/compat/database";
 import "firebase/compat/firestore";
@@ -23,12 +28,12 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const firebase = initializeApp(firebaseConfig);
-const db = getFirestore(firebase);
-const database = getDatabase(firebase);
+const db: Firestore = getFirestore(firebase);
+const database: Database = getDatabase(firebase);
 
 let firepadRef = ref(database);
 
-const setFirepadRef = (newRef) => {
+const setFirepadRef = (newRef: DatabaseReference) => {
   firepadRef = newRef;
 };
 const getFirepad = () => firepadRef;

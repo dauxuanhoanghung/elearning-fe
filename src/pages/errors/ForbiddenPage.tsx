@@ -25,7 +25,7 @@ const LockIcon = () => {
   );
 };
 
-const ForbiddenPage = () => {
+const ForbiddenPage: React.FC = () => {
   const { t } = useTranslation();
   const message = useTypingEffect(t("forbidden.message"), 200);
   const description = useTypingEffect(t("forbidden.description"), 80);

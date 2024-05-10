@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import Avatar from "../ui/Avatar";
 
-const LecturerCard = (props) => {
+const LecturerCard: React.FC<{ lecturer: any }> = (props) => {
   const { lecturer } = props;
   const { courseCount = 0, avatar, firstName, lastName } = lecturer;
   const { t } = useTranslation();

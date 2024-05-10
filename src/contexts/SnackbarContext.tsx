@@ -4,7 +4,7 @@ import { createContext, useContext, useState } from "react";
 
 interface SnackState {
   open?: boolean;
-  message: string;
+  message?: string;
   severity: "error" | "success" | "warning" | "info";
 }
 

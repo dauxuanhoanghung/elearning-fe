@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const menuItems = [
+interface MenuSidebarProps {
+  label: string;
+  href?: string;
+}
+
+const menuItems: MenuSidebarProps[] = [
   {
     label: "Profile",
     href: "/profile",
@@ -20,17 +25,17 @@ const menuItems = [
   },
 ];
 
-const Sidebar = () => {
+const Sidebar: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const handleItemClick = (idx) => {
+  const handleItemClick = (idx: number) => {
     setSelectedItem(idx);
   };
 
   return (
     <div className="h-fit w-64 text-black dark:border-gray-200">
       <ul>
-        {menuItems.map(({ label, href }, idx) => (
+        {menuItems.map(({ label, href }: MenuSidebarProps, idx: number) => (
           <li key={idx} onClick={() => handleItemClick(idx)}>
             <Link to={href}>
               <span

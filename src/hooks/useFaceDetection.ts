@@ -13,7 +13,7 @@ function useFaceDetection({
   faceDetection: faceDetectionInitializer,
   camera,
 }) {
-  const [cameraManager, setCameraManager] = useState();
+  const [cameraManager, setCameraManager] = useState<Camera>();
 
   const webcamRef = useRef(null);
   const faceDetection = useRef(faceDetectionInitializer).current;

@@ -2,7 +2,7 @@ import endpoints from "@/constants/endpoint";
 import { get, post } from "@/utils/request";
 
 const favoriteService = {
-  toggle(body:any) {
+  toggle(body: any) {
     return post(endpoints.favoriteBase, body);
   },
   /**

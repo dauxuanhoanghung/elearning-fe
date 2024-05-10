@@ -1,21 +1,29 @@
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import Avatar from "@/components/ui/Avatar";
-import { useSnackbar } from "@/contexts/SnackbarContext";
 import { MultiUsersIcon } from "../Icons/index";
+
+interface CourseCardProps {
+  id: number;
+  name: string;
+  description: string;
+  background: string;
+  countRegistration: number;
+  user: {
+    avatar: string;
+    firstName: string;
+    lastName: string;
+    [key: string]: any;
+  };
+}
 
 /**
  *
  * @param {id, name, description, background, countRegistration, user} props: Card
  * @returns
  */
-const CourseCard = (props) => {
+const CourseCard: React.FC<CourseCardProps> = (props) => {
   const { id, name, description, background, countRegistration, user } = props;
-  const currentUser = useSelector((state) => state.user.user);
-  // #region Snackbar
-  const { showSnackbar } = useSnackbar();
-  // #endregion
 
   return (
     <div

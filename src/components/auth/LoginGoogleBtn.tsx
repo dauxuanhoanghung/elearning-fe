@@ -1,4 +1,8 @@
-import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import {
+  CredentialResponse,
+  GoogleLogin,
+  GoogleOAuthProvider,
+} from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -10,11 +14,19 @@ import { authService, userService } from "@/services";
 import { removeVietnameseTones } from "@/utils/utils";
 import { Spinner } from "../common";
 
+interface GoogleCredential {
+  sub: string;
+  given_name: string;
+  family_name: string;
+  email: string;
+  picture: string;
+}
+
 const client_id = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
-const LoginGoogleBtn = () => {
+const LoginGoogleBtn: React.FC = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch();
 
   const handleAfterLogin = async (res) => {
@@ -31,7 +43,7 @@ const LoginGoogleBtn = () => {
     });
   };
 
-  const handleLoginGoogle = async (credential) => {
+  const handleLoginGoogle = async (credential?: GoogleCredential) => {
     const data = {
       username:
         removeVietnameseTones(credential.family_name).toLowerCase() +
@@ -62,8 +74,10 @@ const LoginGoogleBtn = () => {
         <div style={{ width: "100%" }}>
           <GoogleOAuthProvider clientId={client_id}>
             <GoogleLogin
-              onSuccess={(credentialResponse) => {
-                let credential = jwt_decode(credentialResponse.credential);
+              onSuccess={(credentialResponse: CredentialResponse) => {
+                const credential = jwt_decode<GoogleCredential>(
+                  credentialResponse.credential,
+                );
                 handleLoginGoogle(credential);
               }}
               onError={() => {

@@ -13,10 +13,14 @@ import {
   SpotifyIcon,
   TEDIcon,
 } from "@/components/Icons";
-import { LecturerContainer } from "@/components/lecturer";
-import { courseService, userService } from "@/services";
+import { courseService } from "@/services";
 
-const icons = [
+interface IconItem {
+  icon: React.FC<{}>;
+  href: string;
+}
+
+const icons: IconItem[] = [
   {
     icon: GoogleIcon,
     href: "https://www.google.com/",
@@ -47,31 +51,31 @@ const HomePage = () => {
   //#region Blog
   const { t } = useTranslation();
   // const title = useTypingEffect();
-  const [blogs, setBlogs] = useState([]);
+  // const [blogs, setBlogs] = useState<[]>([]);
 
-  const pageQuery = useQuery({
-    queryKey: ["totalPage"],
-    queryFn: () => courseService.countTotalPage(),
+  const { isError: paginationError, data: totalPage } = useQuery({
+    queryKey: ["courses", "totalPage"],
+    queryFn: async () => {
+      const res = await courseService.countTotalPage();
+      return res.data;
+    },
+    initialData: 0,
   });
-  const {
-    isLoading: paginationLoading,
-    isError: paginationError,
-    data: pageQueryData,
-  } = pageQuery;
-  const totalPage = pageQueryData?.data;
 
-  const [page, setPage] = useState(0);
-  const courseQuery = useQuery({
-    queryKey: ["courses", { page: page }], // The query key is an array with the page number
-    queryFn: () => courseService.getList({ page }), // The query function returns a promise
-    keepPreviousData: true,
-    // staleTime: 600000,
-    initialData: {},
-  });
+  const [page, setPage] = useState<number>(0);
 
   // Use the query result object to render the data
-  const { isLoading, isError, data: res } = courseQuery;
-  const courses = res?.data;
+  const { isError, data: courses } = useQuery({
+    queryKey: ["courses", { page: page }], // The query key is an array with the page number
+    queryFn: async () => {
+      const res = await courseService.getList({ page }); // The query function returns a promise
+      if (res.status === 200) return res.data;
+      return [];
+    },
+    // keepPreviousData: true,
+    // staleTime: 600000,
+    initialData: [],
+  });
 
   const handleChangePage = (page) => {
     setPage(page - 1);
@@ -79,19 +83,19 @@ const HomePage = () => {
   //#endregion
 
   // #region lecturer
-  const {
-    data: lecturers,
-    isLoading: isLecturerLoading,
-    isError: isLecturerError,
-  } = useQuery({
-    queryKey: ["users", "top-lecturers"],
-    queryFn: async () => {
-      const res = await userService.getTopLectures({});
-      return res.data;
-    },
-    initialData: [],
-    // staleTime: 600000,
-  });
+  // const {
+  //   data: lecturers,
+  //   isLoading: isLecturerLoading,
+  //   isError: isLecturerError,
+  // } = useQuery({
+  //   queryKey: ["users", "top-lecturers"],
+  //   queryFn: async () => {
+  //     const res = await userService.getTopLectures({});
+  //     return res.data;
+  //   },
+  //   initialData: [],
+  //   // staleTime: 600000,
+  // });
   // #endregion
   return (
     <main data-component="home-page">
@@ -125,17 +129,20 @@ const HomePage = () => {
         <LastLecturesContainer />
       </section>
       <section
-        className="mx-auto my-4 w-full md:max-w-[90%]"
+        className="mx-auto my-6 w-full md:max-w-[90%]"
         data-role="courses"
       >
+        <h1 className="my-4 text-4xl">{t("home.recently-course")}</h1>
         <CourseContainer
           courses={courses}
           page={page}
           totalPage={totalPage}
           onPageChange={handleChangePage}
           isError={isError || paginationError}
+          isShowPagination={false}
         />
       </section>
+      {/*
       <section
         className="mx-auto my-4 w-full md:max-w-[90%]"
         data-roles="top-lecturers"
@@ -146,7 +153,8 @@ const HomePage = () => {
           isLoading={isLecturerLoading}
           data={lecturers}
         />
-      </section>
+          </section>
+          */}
     </main>
   );
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import { twMerge } from "tailwind-merge";
 
-const Spinner = ({ className }) => {
+const Spinner: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <div role="status">
       <svg

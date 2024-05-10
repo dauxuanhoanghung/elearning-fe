@@ -1,5 +1,5 @@
 interface IResponse {
-  data: any;
+  data?: any;
   status: number;
-  message: string;
+  message?: string;
 }

@@ -14,8 +14,11 @@
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "noImplicitAny": false,
+    "checkJs": false,
+    "noStrictGenericChecks": false,
 
-    "strict": true,
+    "strict": false,
     "noEmit": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,

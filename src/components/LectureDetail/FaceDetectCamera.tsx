@@ -1,4 +1,4 @@
-import { forwardRef, useRef, useState } from "react";
+import React, { forwardRef, useRef, useState } from "react";
 
 import {
   Camera,
@@ -16,12 +16,10 @@ import {
   DialogTitle,
 } from "../ui/dialog";
 
-const FaceDetectionCamera = forwardRef((props, ref) => {
+const FaceDetectionCamera: React.FC = forwardRef((props, ref) => {
   const { setPlayerState } = props;
   const timerRef = ref;
-  const [open, setOpen] = useState(false);
-
-  console.log("open", open, timerRef.current);
+  const [open, setOpen] = useState<boolean>(false);
 
   const { webcamRef } = useFaceDetection({
     handleOnFaceDetected,

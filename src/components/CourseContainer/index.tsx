@@ -1,18 +1,30 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 import { Pagination, Skeleton } from "@/components/common";
+import React from "react";
 import CourseCard from "./CourseCard";
 
-const CourseContainer = ({
+interface CourseContainerProps {
+  courses: any[];
+  page?: number;
+  totalPage?: number;
+  onPageChange: (page: number) => void;
+  isCourseLoading?: boolean;
+  paginationLoading?: boolean;
+  isPaginationLoading?: boolean;
+  isError?: boolean;
+  isShowPagination?: boolean;
+}
+
+const CourseContainer: React.FC<CourseContainerProps> = ({
   courses,
   page,
   totalPage,
   isCourseLoading,
   onPageChange,
   paginationLoading,
-  isPaginationLoading,
   isError,
+  isShowPagination = true,
 }) => {
   if (isError) return <h1>Something went wrong!!! ....</h1>;
 
@@ -41,7 +53,7 @@ const CourseContainer = ({
         )}
       </div>
 
-      {!paginationLoading && totalPage > 1 && (
+      {isShowPagination && !paginationLoading && totalPage > 1 && (
         <Pagination
           totalPage={totalPage}
           page={page + 1}

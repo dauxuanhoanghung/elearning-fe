@@ -9,7 +9,7 @@ import { useSnackbar } from "@/contexts/SnackbarContext";
 import { authService, userService } from "@/services";
 import LoginGoogleBtn from "./LoginGoogleBtn";
 
-const LoginForm = () => {
+const LoginForm: React.FC = () => {
   const { t } = useTranslation();
   const { showSnackbar } = useSnackbar();
   const navigate = useNavigate();
@@ -92,7 +92,7 @@ const LoginForm = () => {
                   placeholder="example@gmail.com"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  required=""
+                  required={true}
                 />
               </div>
               <div>
@@ -114,7 +114,7 @@ const LoginForm = () => {
                   text-gray-900 focus:border-blue-600 focus:ring-blue-600 dark:border-gray-600 
                   dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 
                   dark:focus:ring-blue-500 sm:text-sm"
-                  required=""
+                  required={true}
                 />
               </div>
               <div className="flex items-center justify-between">

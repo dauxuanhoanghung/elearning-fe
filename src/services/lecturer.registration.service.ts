@@ -23,7 +23,7 @@ const lecturerRegistrationService = {
    *
    * @param {file} body
    */
-  updateLecturerFormByCurrentUser(id:any, body:any) {
+  updateLecturerFormByCurrentUser(id: any, body: any) {
     return put(endpoints.updateLecturerRegistrationById(id), body, {
       headers: {
         "Content-Type": "multipart/form-data",

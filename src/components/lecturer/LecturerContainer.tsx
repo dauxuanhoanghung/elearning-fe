@@ -1,6 +1,10 @@
 import LecturerCard from "./LecturerCard";
 
-const TopLecturer = (props) => {
+const TopLecturer: React.FC<{
+  isLoading: boolean;
+  isError: boolean;
+  data: [];
+}> = (props) => {
   const { isError, isLoading, data } = props;
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error fetching lecturers</div>;

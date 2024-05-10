@@ -27,7 +27,7 @@ class Http {
     });
     /** Request, gắn token vào headers */
     this.instance.interceptors.request.use(
-      async (config: { headers: { [x: string]: string; }; }) => {
+      async (config: { headers: { [x: string]: string } }) => {
         const accessToken = localStorage.getItem("access_token");
         if (Boolean(accessToken) && config.headers) {
           config.headers["Authorization"] = `Bearer ${accessToken}`;
@@ -41,7 +41,7 @@ class Http {
     );
     /** Response */
     this.instance.interceptors.response.use(
-      (response: { config: { url: any; }; }) => {
+      (response: { config: { url: any } }) => {
         const { url } = response.config;
         if (url === endpoints.logout) {
           this.accessToken = "";
@@ -50,7 +50,7 @@ class Http {
         }
         return response;
       },
-      (error: { response: any; config: any; }) => {
+      (error: { response: any; config: any }) => {
         const { response, config } = error;
         // if (response?.status === 401) {
         //   if (!this.isRefreshToken) {

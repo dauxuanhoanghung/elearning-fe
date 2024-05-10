@@ -8,7 +8,6 @@ import {
   setDoc,
   where,
 } from "firebase/firestore";
-import PropTypes from "prop-types";
 import { db } from "./config";
 
 const firebaseService = {
@@ -71,7 +70,7 @@ const firebaseService = {
     }
   },
 
-  async getGroupCurrentUserJoined(userId) {
+  async getGroupCurrentUserJoined(userId: number) {
     const groupsRef = collection(db, "groups");
     // Create a query against the collection.
     const q = query(groupsRef, where("userIds", "array-contains", userId));
@@ -91,7 +90,7 @@ const firebaseService = {
     }
   },
 
-  async existUserById(userId) {
+  async existUserById(userId: number) {
     try {
       const user = await getDocs(
         query(collection(db, "users"), where("id", "==", userId)),
@@ -118,11 +117,6 @@ const firebaseService = {
       console.error("Error creating or checking document: ", error);
     }
   },
-};
-
-firebaseService.addDocument.propTypes = {
-  collectionName: PropTypes.string.isRequired,
-  body: PropTypes.object.isRequired,
 };
 
 export default firebaseService;

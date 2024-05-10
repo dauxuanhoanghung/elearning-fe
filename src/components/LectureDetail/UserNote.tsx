@@ -1,6 +1,7 @@
 import { Check, Pencil, Trash, X } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 
+import { RootState } from "@/app/store";
 import userNoteService from "@/services/user.note.service";
 import { secondsToMMSS } from "@/utils/utils";
 import { useSelector } from "react-redux";
@@ -16,8 +17,8 @@ import {
 } from "../ui/dialog";
 import { Input } from "../ui/input";
 
-const UserNote = (props) => {
-  const currentUser = useSelector((state) => state.user.user);
+const UserNote: React.FC = (props) => {
+  const currentUser = useSelector((state: RootState) => state.user.user);
   const {
     id,
     text,
@@ -41,7 +42,6 @@ const UserNote = (props) => {
   // #region edit mode
   const [textEdit, setTextEdit] = useState("");
   const [editMode, setEditMode] = useState(false);
-  const handleNoteChange = () => {};
   const handleStartEdit = () => {
     setEditMode(true);
     setTextEdit(text);
@@ -55,7 +55,7 @@ const UserNote = (props) => {
       lecture: lecture.id,
       user: currentUser.id,
     });
-    const idx = userNotes.findIndex((note) => note.id === id);
+    const idx = userNotes.findIndex((note: any) => note.id === id);
     const updated = res.data;
     setUserNotes([
       ...userNotes.slice(0, idx),
@@ -111,7 +111,7 @@ const UserNote = (props) => {
           </div>
         )}
       </Alert>
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
+      <Dialog open={openDialog}>
         <DialogContent onInteractOutside={handleCloseDialog}>
           <DialogHeader>
             <DialogTitle>

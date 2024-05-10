@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
+import { RootState } from "@/app/store";
 import { UploadIcon } from "@/components/Icons";
 import LectureList from "@/components/LectureList/LectureList";
 import { Spinner } from "@/components/common";
@@ -21,6 +22,7 @@ import { useSnackbar } from "@/contexts/SnackbarContext";
 import { courseService } from "@/services";
 import { stringToFormatDate } from "@/utils/date-utils";
 import { isAdmin } from "@/utils/utils";
+import CreateSectionButton from "./CreateSectionButton";
 import LectureForm from "./LectureForm";
 
 const CourseUpdatePage = () => {
@@ -28,7 +30,7 @@ const CourseUpdatePage = () => {
   const { showSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const { courseId } = useParams();
-  const currentUser = useSelector((state) => state.user.user);
+  const currentUser = useSelector((state: RootState) => state.user.user);
 
   // #region course detail
   /**
@@ -37,23 +39,27 @@ const CourseUpdatePage = () => {
   const [courseData, setCourseData] = useState({
     id: 0,
     name: "",
+    subtitle: "",
     description: "",
     background: "",
     price: 0,
     countRegistration: 1,
     user: {},
+    backgroundFile: null,
   });
 
   const { data, isLoading } = useQuery({
     queryKey: ["course", { id: courseId }],
     queryFn: async () => {
-      const res = await courseService.getById(courseId);
+      const res = await courseService.getById(parseInt(courseId));
       if (res.data) {
         setCourseData({ ...courseData, ...res.data });
         setBackgroundImageURL(res.data.background);
         return res.data;
       } else {
         showSnackbar({ message: "Course not found!!!", severity: "error" });
+        navigate("/");
+        return {};
       }
     },
   });
@@ -63,13 +69,14 @@ const CourseUpdatePage = () => {
     setCourseData({ ...courseData, [name]: value });
     console.log(courseData);
   };
+
   const handleUpdate = async () => {
     const formData = new FormData();
-    if (inputRef.current.files[0]) {
+    if (inputRef.current?.files[0]) {
       formData.append("backgroundFile", inputRef.current.files[0]);
     }
     for (const key in courseData) {
-      console.log(key);
+      if (key === "backgroundFile") continue;
       if (!data.hasOwnProperty(key)) continue;
       if (key === "publishDate" && courseData[key] !== null) {
         formData.append(key, stringToFormatDate(courseData[key]));
@@ -84,14 +91,18 @@ const CourseUpdatePage = () => {
     }
     const res = await courseService.update(formData);
     console.log(res);
-    if (res.status) {
+    if (res.status === 200) {
+      showSnackbar({
+        message: "Update course successfully",
+        severity: "success",
+      });
     }
   };
   // #endregion
 
   // #region image
-  const [backgroundImageURL, setBackgroundImageURL] = useState("");
-  const inputRef = useRef();
+  const [backgroundImageURL, setBackgroundImageURL] = useState<string>("");
+  const inputRef = useRef<HTMLInputElement | null>();
   const handleBackgroundImageUpload = (e) => {
     const backgroundImage = e.target.files[0];
     setCourseData({ ...courseData, backgroundFile: backgroundImage });
@@ -245,11 +256,15 @@ const CourseUpdatePage = () => {
                   ></textarea>
                 </div>
                 <div className="flex-start flex gap-4">
-                  <Button className="dark:bg-gray-900" onClick={handleUpdate}>
+                  <Button
+                    className="bg-black text-white hover:bg-gray-700 dark:bg-white dark:text-black dark:hover:bg-gray-200"
+                    onClick={handleUpdate}
+                  >
                     Update
                   </Button>
+                  <CreateSectionButton courseId={courseId} />
                   <Button
-                    className="dark:bg-gray-900"
+                    className="bg-black text-white hover:bg-gray-700 dark:bg-white dark:text-black dark:hover:bg-gray-200"
                     onClick={() => setOpenLectureForm(true)}
                   >
                     Create a lecture

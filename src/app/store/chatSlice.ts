@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+const initialState: ChatState = {
   selectedChatInfo: {}, // bao gom user, group
   isGroup: false,
 };
@@ -9,11 +9,11 @@ export const chatSlice = createSlice({
   name: "chat",
   initialState,
   reducers: {
-    changeChatUser: (state, action) => {
+    changeChatUser: (state, action: PayloadAction<any>) => {
       state.selectedChatInfo = action?.payload;
       state.isGroup = false;
     },
-    changeChatGroup: (state, action) => {
+    changeChatGroup: (state, action: PayloadAction<any>) => {
       state.selectedChatInfo = action?.payload;
       state.isGroup = true;
     },

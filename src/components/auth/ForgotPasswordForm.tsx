@@ -1,4 +1,4 @@
-const ForgotPasswordForm = () => {
+const ForgotPasswordForm: React.FC = () => {
   return <></>;
 };
 

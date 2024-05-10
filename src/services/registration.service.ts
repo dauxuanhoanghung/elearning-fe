@@ -7,7 +7,7 @@ const registrationService = {
    * @param {course, amount, code} body
    * @returns
    */
-  register(body:any) {
+  register(body: any) {
     return post(endpoints.registrationBase, body);
   },
   /**
@@ -35,7 +35,7 @@ const registrationService = {
    * @param {course (courseId)} body
    * @returns
    */
-  payWithPaypal(body:any) {
+  payWithPaypal(body: any) {
     return post(endpoints.payWithPaypal, body);
   },
   /**

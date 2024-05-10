@@ -6,14 +6,14 @@ const userNoteService = {
    *
    * @param {text, noteTime: int, lecture} body
    */
-  createNote(body: any): Promise<any> {
+  createNote(body: any): Promise<IResponse> {
     return post(endpoints.userNoteBase, body);
   },
   /**
    *
    * @returns
    */
-  getAll(): Promise<any> {
+  getAll(): Promise<IResponse> {
     return get(endpoints.userNoteBase);
   },
   /**
@@ -21,10 +21,10 @@ const userNoteService = {
    * @param {int} lectureId
    * @returns
    */
-  getNotesByLecture(lectureId: number): Promise<any> {
+  getNotesByLecture(lectureId: number): Promise<IResponse> {
     return get(endpoints.getNotesByLecture(lectureId));
   },
-  update(body: any): Promise<any> {
+  update(body: any): Promise<IResponse> {
     return put(endpoints.updateNote, body);
   },
   /**
@@ -32,7 +32,7 @@ const userNoteService = {
    * @param {*} id
    * @returns
    */
-  deleteById(id: number): Promise<any> {
+  deleteById(id: number): Promise<IResponse> {
     return deletes(endpoints.deleteNoteById(id));
   },
 };

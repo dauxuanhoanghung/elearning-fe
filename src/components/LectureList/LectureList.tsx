@@ -12,7 +12,7 @@ import {
 import { sectionService } from "@/services";
 import LectureItem from "./LectureItem";
 
-const LectureList = (props) => {
+const LectureList: React.FC<{ isCourseDetailPage: boolean }> = (props) => {
   const { courseId } = useParams();
   const { t } = useTranslation();
   const { isCourseDetailPage = false } = props;
@@ -24,7 +24,7 @@ const LectureList = (props) => {
   } = useQuery({
     queryKey: ["sections", { courseId }],
     queryFn: async () => {
-      const res = await sectionService.getSections(courseId);
+      const res = await sectionService.getSections(parseInt(courseId));
       return res.data;
     },
   });
@@ -36,7 +36,7 @@ const LectureList = (props) => {
     <div className="mx-auto w-full">
       <h2 className="text-3xl">Course content:</h2>
       <Accordion type="multiple" className="w-full">
-        {sections.map((section, idx) => (
+        {sections.map((section, idx: number) => (
           <AccordionItem value={idx + ""} key={idx}>
             <AccordionTrigger>
               <div className="flex w-full">
@@ -54,7 +54,7 @@ const LectureList = (props) => {
                         orderIndex={lecture.orderIndex}
                         title={lecture.title}
                         type={lecture.type}
-                        courseId={courseId}
+                        courseId={parseInt(courseId)}
                         duration={lecture.duration}
                         isCourseDetailPage={isCourseDetailPage}
                       />

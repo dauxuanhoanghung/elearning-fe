@@ -38,11 +38,7 @@ const LectureDetail = (props) => {
     console.log(res);
   };
 
-  const {
-    data: lectureData,
-    isLoading: lectureLoading,
-    isError: lectureError,
-  } = useQuery({
+  const { data: lectureData } = useQuery({
     queryKey: ["lecture", { lectureId }],
     queryFn: async () => {
       const res = await lectureService.getById(lectureId, courseId);
@@ -122,10 +118,12 @@ const LectureDetail = (props) => {
   // #endregion
   // #region note
   const [userNotes, setUserNotes] = useState([]);
-  const { isLoading: userNotesLoading, isError: userNotesError } = useQuery({
+  const { isLoading: userNotesLoading } = useQuery({
     queryKey: ["notes", { lectureId }],
     queryFn: async () => {
-      const res = await userNoteService.getNotesByLecture(lectureId);
+      const res = await userNoteService.getNotesByLecture(
+        parseInt(lectureId || "0"),
+      );
       setUserNotes(res.data);
       return res.data;
     },
@@ -150,7 +148,7 @@ const LectureDetail = (props) => {
         noteTime: currentTime,
         lecture: lectureId,
       };
-      const response = await userNoteService.createNote(request);
+      const response: IResponse = await userNoteService.createNote(request);
       if (response.status === 201) {
         setUserNotes([response.data, ...userNotes]);
         showSnackbar({ message: response.message, severity: "success" });
@@ -163,12 +161,12 @@ const LectureDetail = (props) => {
     setOpenModal(true);
   };
 
-  const handleDeleteNote = (id) => {
+  const handleDeleteNote = (id: number) => {
     const deleteNote = async () => {
       const res = await userNoteService.deleteById(id);
       if (res.status === 204) {
         showSnackbar({ message: res.message, severity: "info" });
-        const updatedUserNotes = userNotes.filter((u) => u.id != id);
+        const updatedUserNotes = userNotes.filter((u: any) => u.id != id);
         setUserNotes([...updatedUserNotes]);
       }
     };

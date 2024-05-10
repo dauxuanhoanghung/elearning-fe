@@ -6,7 +6,7 @@ import { UploadIcon } from "@/components/Icons";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { userService } from "@/services";
 
-const SignupForm = () => {
+const SignupForm: React.FC = () => {
   const { t } = useTranslation();
   const { showSnackbar } = useSnackbar();
   const navigate = useNavigate();
