@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
 import Chart from "react-apexcharts";

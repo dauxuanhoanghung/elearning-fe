@@ -34,8 +34,9 @@ export const roomSlice = createSlice({
     },
     addParticipant: (state, action) => {
       let newUser = action.payload;
-      const currentUserId = Object.keys(state.currentUser)[0];
+      const currentUserId = Object.keys(state?.currentUser)?.[0];
       const newUserId = Object.keys(newUser)[0];
+      if (!currentUserId) return;
 
       if (state.mainStream && currentUserId !== newUserId) {
         newUser = addConnection(newUser, state.currentUser, state.mainStream);

@@ -1,4 +1,5 @@
 import {
+  DatabaseReference,
   child,
   goOnline,
   onChildAdded,
@@ -16,7 +17,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { database, getFirepad, setFirepadRef } from "@/app/firebase/config";
 import { initializeListensers } from "@/app/peerConnection";
-import { store } from "@/app/store";
+import { RootState, store } from "@/app/store";
 import {
   addParticipant,
   removeParticipant,
@@ -32,7 +33,7 @@ const defaultPreference = {
   screen: false,
 };
 
-const StreamPage = () => {
+const StreamPage: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const roomId = searchParams.get("roomId");
@@ -40,7 +41,7 @@ const StreamPage = () => {
   // Track the local media stream
   const localStreamRef = useRef(null);
 
-  const connectedRef = ref(database, ".info/connected");
+  const connectedRef: DatabaseReference = ref(database, ".info/connected");
   useEffect(() => {
     const initialize = () => {
       if (roomId !== null) {
@@ -62,8 +63,8 @@ const StreamPage = () => {
     };
   }, [roomId]);
 
-  const currentUser = useSelector((state) => state.user.user);
-  const room = useSelector((state) => state.room);
+  const currentUser = useSelector((state: RootState) => state.user.user);
+  const room = useSelector((state: RootState) => state.room);
   const userName = currentUser.firstName + " " + currentUser.lastName;
   const dispatch = useDispatch();
 
@@ -85,7 +86,7 @@ const StreamPage = () => {
       goOnline(database);
 
       // inside useEffect
-      onValue(connectedRef, (snap) => {
+      const unsubcribeValue = onValue(connectedRef, (snap) => {
         const participantRef = child(getFirepad(), "participants");
         const userStatusRef = push(participantRef, {
           userId: currentUser.id,
@@ -103,6 +104,8 @@ const StreamPage = () => {
           onDisconnect(userStatusRef).remove();
         }
       });
+
+      return unsubcribeValue;
     }
     connect();
   }, []);
@@ -112,9 +115,9 @@ const StreamPage = () => {
 
   const participantRef = child(getFirepad(), "participants");
   useEffect(() => {
-    let onChildChangedRef;
+    let onChildChangedRef, onChildAddedRef, onChildRemovedRef;
     if (isStreamSet && isUserSet) {
-      onChildAdded(participantRef, (snap) => {
+      onChildAddedRef = onChildAdded(participantRef, (snap) => {
         const preferUpdate = child(participantRef, snap.key + "/preferences");
         if (onChildChangedRef) {
           onChildChangedRef();
@@ -146,10 +149,20 @@ const StreamPage = () => {
           }),
         );
       });
-      onChildRemoved(participantRef, (snap) => {
+      onChildRemovedRef = onChildRemoved(participantRef, (snap) => {
         dispatch(removeParticipant(snap.key));
       });
     }
+
+    return () => {
+      if (onChildAddedRef) {
+        console.log("cleanup");
+        onChildAddedRef();
+      }
+      if (onChildRemovedRef) {
+        onChildRemovedRef();
+      }
+    };
   }, [room.currentUser, room.mainStream]);
 
   return (

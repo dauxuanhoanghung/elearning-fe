@@ -91,8 +91,8 @@ export const objectToFormData = (obj: any, form: any, namespace: any) => {
   return fd;
 };
 
-export function secondsToMMSS(inputString: string) {
-  const totalSeconds = parseInt(inputString, 10);
+export function secondsToMMSS(inputString: string | number) {
+  const totalSeconds = parseInt(inputString + "", 10);
   if (isNaN(totalSeconds)) {
     return "";
   }
