@@ -51,7 +51,7 @@ class Http {
         return response;
       },
       (error: { response: any; config: any }) => {
-        const { response, config } = error;
+        // const { response, config } = error;
         // if (response?.status === 401) {
         //   if (!this.isRefreshToken) {
         //     this.isRefreshToken = true;

@@ -1,5 +1,4 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import Avatar from "../ui/Avatar";
@@ -7,7 +6,6 @@ import Avatar from "../ui/Avatar";
 const LecturerCard: React.FC<{ lecturer: any }> = (props) => {
   const { lecturer } = props;
   const { courseCount = 0, avatar, firstName, lastName } = lecturer;
-  const { t } = useTranslation();
 
   const toLecturerUrl = (lecturer) => {
     const slug = lecturer?.slug ? lecturer.slug : lecturer.username;

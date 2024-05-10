@@ -183,5 +183,8 @@
       "userInSystem": "Thống kê theo người dùng trong hệ thống",
       "courseInSystem": "Khoá học trong hệ thống"
     }
+  },
+  "lecture-list": {
+    "course-content": "Nội dung khoá học"
   }
 }

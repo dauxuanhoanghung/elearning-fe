@@ -54,11 +54,7 @@ export async function post(url: string, data = {}, config = {}): Promise<any> {
  * @param config
  * @returns {Promise}
  */
-export async function deletes(
-  url: string,
-  data = {},
-  config = {},
-): Promise<any> {
+export async function deletes(url: string, data = {}): Promise<any> {
   try {
     const response = await http.delete(url, data);
     await delay();

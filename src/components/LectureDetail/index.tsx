@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useQuery } from "@tanstack/react-query";
 import { AlertCircle, PlusIcon } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";

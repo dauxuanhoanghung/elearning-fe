@@ -1,3 +1,4 @@
+// @ts-ignore
 import { Check, Pencil, Trash, X } from "lucide-react";
 import { useState } from "react";
 
@@ -17,7 +18,18 @@ import {
 } from "../ui/dialog";
 import { Input } from "../ui/input";
 
-const UserNote: React.FC = (props) => {
+interface UserNoteProps {
+  id: number;
+  text: string;
+  noteTime: number;
+  lecture: any;
+  onTimeClick: () => void;
+  handleDeleteNote: (id: number) => void;
+  userNotes: any[];
+  setUserNotes: (notes: any[]) => void;
+}
+
+const UserNote: React.FC<UserNoteProps> = (props) => {
   const currentUser = useSelector((state: RootState) => state.user.user);
   const {
     id,

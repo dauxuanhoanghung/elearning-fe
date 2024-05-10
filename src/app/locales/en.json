@@ -183,5 +183,8 @@
       "userInSystem": "Stats of users in system",
       "courseInSystem": "Stats of courses in system"
     }
+  },
+  "lecture-list": {
+    "course-content": "Course content"
   }
 }

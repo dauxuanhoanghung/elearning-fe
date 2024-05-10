@@ -34,7 +34,7 @@ const LectureList: React.FC<{ isCourseDetailPage: boolean }> = (props) => {
 
   return (
     <div className="mx-auto w-full">
-      <h2 className="text-3xl">Course content:</h2>
+      <h2 className="text-3xl">{t("lecture-list.course-content")}</h2>
       <Accordion type="multiple" className="w-full">
         {sections.map((section, idx: number) => (
           <AccordionItem value={idx + ""} key={idx}>

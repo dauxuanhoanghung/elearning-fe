@@ -2,11 +2,13 @@
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": ["ES2021", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "allowJs": true,
+    "checkJs": false,
 
     "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
@@ -15,11 +17,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noImplicitAny": false,
-    "checkJs": false,
     "noStrictGenericChecks": false,
 
     "strict": false,
     "noEmit": true,
+    "noEmitOnError": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,

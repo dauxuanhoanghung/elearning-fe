@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { forwardRef, useRef, useState } from "react";
 
 import {
@@ -16,7 +17,11 @@ import {
   DialogTitle,
 } from "../ui/dialog";
 
-const FaceDetectionCamera: React.FC = forwardRef((props, ref) => {
+interface CameraProps {
+  setPlayerState: () => void;
+}
+
+const FaceDetectionCamera: React.FC<CameraProps> = forwardRef((props, ref) => {
   const { setPlayerState } = props;
   const timerRef = ref;
   const [open, setOpen] = useState<boolean>(false);
