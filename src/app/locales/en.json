@@ -72,6 +72,7 @@
     "Home": "Home",
     "my-business": "My Business",
     "register-lecturer": "Be lecturer",
+    "meeting": "Meeting",
     "my-course": "My Learning",
     "my-favorite": "My Favorite",
     "profile": "Profile",
@@ -81,7 +82,8 @@
     "customer-title": "You'll be in good company",
     "customer-detail": "We use an agile approach to test assumptions and connect with the needs of your audience early and often.",
     "last-lectures": "Continue what you have learned",
-    "popular-lecturer": "Popular Lecturer"
+    "popular-lecturer": "Popular Lecturer",
+    "recently-course": "Recent Courses"
   },
   "comment": {
     "edit": "Edit",
@@ -143,9 +145,13 @@
     "newMeetingDescription": "Create a new meeting"
   },
   "my-course": {
+    "home": "Home",
+    "learning-course": "My learning course",
     "header": "My learning",
     "index-tab": "My courses",
-    "wishlist-tab": "Wishlistes"
+    "wishlist-tab": "Wishlistes",
+    "my-wishlist": "My Wishlist Courses",
+    "wishlist-list": "Wishlist list"
   },
   "admin": {
     "Home": "Home",

@@ -71,6 +71,7 @@
     "searchPlaceholder": "Tìm kiếm khóa học...",
     "Home": "Trang chủ",
     "my-business": "Khóa học đã đăng",
+    "meeting": "Meeting",
     "register-lecturer": "Trở thành giảng viên",
     "my-course": "Khóa học của tôi",
     "my-favorite": "Khoá học ưu thích",
@@ -81,7 +82,8 @@
     "customer-title": "Bạn sẽ có cơ hội làm việc trong công ty lớn.",
     "customer-detail": "Chúng tôi sử dụng phương pháp Agile để tiếp cận linh hoạt, kiểm tra các giả định và kết nối sớm và thường xuyên với nhu cầu của người dùng.",
     "last-lectures": "Tiếp tục với bài giảng cuối cùng",
-    "popular-lecturer": "Giảng viên phổ biến"
+    "popular-lecturer": "Giảng viên phổ biến",
+    "recently-course": "Khoá học mới nhất"
   },
   "comment": {
     "edit": "Chỉnh sửa",
@@ -143,9 +145,13 @@
     "newMeetingDescription": "Tạo cuộc họp mới để trao đổi với học viên"
   },
   "my-course": {
+    "home": "Trang chủ",
+    "learning-course": "Khóa học đang học",
     "header": "Khoá học của tôi",
     "index-tab": "Khóa học",
-    "wishlist-tab": "Yêu thích"
+    "wishlist-tab": "Yêu thích",
+    "my-wishlist": "Danh sách yêu thích",
+    "wishlist-list": "Khoá học yêu thích"
   },
   "admin": {
     "Home": "Trang chủ",
