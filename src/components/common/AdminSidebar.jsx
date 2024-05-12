@@ -8,6 +8,7 @@ import {
   FindIcon,
   HomeIcon,
   MultiUsersIcon,
+  SealIcon,
   SettingsIcon,
   StatsIcon,
 } from "@/components/Icons";
@@ -30,6 +31,11 @@ const sidebarOptions = [
   // { key: "admin.sidebar.inbox", icon: InboxIcon, href: "/admin/inbox" },
   { key: "admin.sidebar.courses", icon: CourseIcon, href: "/admin/courses" },
   { key: "admin.sidebar.stats", icon: StatsIcon, href: "/admin/stats" },
+  {
+    key: "admin.sidebar.approval",
+    icon: SealIcon,
+    href: "/admin/approval",
+  },
 ];
 
 const AdminSidebar = (props) => {

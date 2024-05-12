@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
-import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
@@ -33,7 +32,7 @@ const LastLecturesContainer = () => {
       {lastLectures.length > 0 && (
         <>
           <h1 className="my-4 text-3xl">{t("home.last-lectures")}</h1>
-          <div className="flex gap-x-4">
+          <div className="grid grid-cols-4 gap-x-4">
             {lastLectures.map((item, index) => (
               <ContinueLectureCard key={index} {...item} />
             ))}

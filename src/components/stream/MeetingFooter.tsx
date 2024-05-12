@@ -33,7 +33,7 @@ const MeetingFooter: React.FC<MeetingFooterProps> = (props) => {
     video: boolean;
     screen: boolean;
   }>({
-    mic: true,
+    mic: false,
     video: false,
     screen: false,
   });

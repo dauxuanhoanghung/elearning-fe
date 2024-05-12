@@ -28,7 +28,7 @@ import {
 import MainStream from "@/components/stream/MainStream";
 
 const defaultPreference = {
-  audio: true,
+  audio: false,
   video: false,
   screen: false,
 };

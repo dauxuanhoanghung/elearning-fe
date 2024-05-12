@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
+import { RootState } from "@/app/store";
 import {
   AlertCircleIcon,
   EditIcon,
@@ -27,17 +28,25 @@ const actions = [
   },
 ];
 
+interface CommentProps {
+  user: any;
+  content: string;
+  createdDate: string;
+  replyCount?: number;
+  level?: number;
+}
+
 /**
  * @param { user, text, createdDate } props
  * @returns
  */
-const Comment = (props) => {
-  const currentUser = useSelector((state) => state.user.user);
-  const { user, content, createdDate, replyCount, level = 0 } = props;
+const Comment: React.FC<CommentProps> = (props) => {
+  const currentUser = useSelector((state: RootState) => state.user.user);
+  const { user, content, createdDate, level = 0 } = props;
   const { t } = useTranslation();
 
   const [openActionMenu, setOpenActionMenu] = useState(false);
-  const toggleOpenActionMenu = (e) => {
+  const toggleOpenActionMenu = () => {
     setOpenActionMenu((prev) => !prev);
   };
 
@@ -48,7 +57,10 @@ const Comment = (props) => {
     >
       <header className="mb-2 flex items-center justify-between">
         <div className="flex flex-wrap items-center">
-          <Link className="mr-3 inline-flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white">
+          <Link
+            to={null}
+            className="mr-3 inline-flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white"
+          >
             <Avatar src={user?.avatar || ""} isSignalShown={false} />
             <span>
               {user?.lastName} {user?.firstName}

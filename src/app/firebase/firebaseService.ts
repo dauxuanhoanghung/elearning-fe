@@ -3,6 +3,7 @@ import {
   collection,
   doc,
   getDocs,
+  or,
   query,
   serverTimestamp,
   setDoc,
@@ -28,12 +29,12 @@ const firebaseService = {
       const interactedUserIds = [-1];
       const messagesRef = collection(db, "messages");
       const sentMessagesSnapshot = await getDocs(
-        query(messagesRef, where("senderId", "==", currentUserId)),
+        query(messagesRef, or(where("senderId", "==", currentUserId))),
       );
 
       sentMessagesSnapshot.forEach((messageDoc) => {
         const recipientId = messageDoc.data().recipientId;
-        if (!interactedUserIds.includes(recipientId)) {
+        if (recipientId && !interactedUserIds.includes(recipientId)) {
           interactedUserIds.push(recipientId);
         }
       });

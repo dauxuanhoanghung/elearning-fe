@@ -2,12 +2,22 @@ import defaultAvatar from "@/assets/default-avatar.jpg";
 import classNames from "classnames";
 import { twMerge } from "tailwind-merge";
 
-const Avatar = ({
+interface AvatarProps {
+  src?: string;
+  alt?: string;
+  isCircle?: boolean;
+  isSignalShown?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+const Avatar: React.FC<AvatarProps> = ({
   src,
   isCircle = true,
   isSignalShown = true,
   className = "",
   style = {},
+  alt,
 }) => {
   src = src?.length > 0 ? src : defaultAvatar;
   return (
@@ -28,7 +38,7 @@ const Avatar = ({
           )}
           style={{ borderRadius: "100%", ...style }}
           src={src}
-          alt=""
+          alt={alt}
         />
         {isSignalShown && (
           <span

@@ -23,7 +23,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { isEmptyObject, isLecturer } from "@/utils/utils";
+import { isAdmin, isEmptyObject, isLecturer } from "@/utils/utils";
 
 const socialMedia = [
   {
@@ -159,14 +159,18 @@ const FirstNav = ({ classes }) => {
                         </span>
                       </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                      <Link to="admin">
-                        <span className=" text-gray-700 dark:text-white">
-                          Admin Page
-                        </span>
-                      </Link>
-                    </DropdownMenuItem>
+                    {isAdmin(currentUser) && (
+                      <>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem>
+                          <Link to="admin">
+                            <span className=" text-gray-700 dark:text-white">
+                              Admin Page
+                            </span>
+                          </Link>
+                        </DropdownMenuItem>
+                      </>
+                    )}
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={handleLogout}>
                       Log out

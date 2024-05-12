@@ -1,7 +1,10 @@
 import { Check, ChevronDown, ChevronUp, Info, ShieldAlert } from "lucide-react";
 import PillTag from "./index";
 
-const PillTagTrend = ({ small = false, ...props }) => {
+const PillTagTrend: React.FC<{ small: boolean; [props: string]: any }> = ({
+  small = false,
+  ...props
+}) => {
   const trendIcon = {
     up: ChevronUp,
     down: ChevronDown,

@@ -27,7 +27,7 @@ const userService = {
       },
     });
   },
-  count(params: { search?: string }): Promise<IResponse> {
+  count(params: any = {}): Promise<IResponse> {
     return get(endpoints.countUsers, { ...params });
   },
   getList(params: { page?: number; search?: string }): Promise<IResponse> {

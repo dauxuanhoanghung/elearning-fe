@@ -174,7 +174,8 @@
       "invoices": "Hóa đơn",
       "inbox": "Hộp thư",
       "courses": "Khóa học",
-      "stats": "Thống kê"
+      "stats": "Thống kê",
+      "approval": "Phê duyệt"
     },
     "stats": {
       "mostLectureCourse": "Khoá học có nhiều bài giảng nhất",

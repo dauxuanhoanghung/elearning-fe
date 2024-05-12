@@ -1,8 +1,13 @@
 import numeral from "numeral";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-const NumberDynamic = ({ prefix = "", suffix = "", value, duration = 500 }) => {
-  const [newValue, setNewValue] = useState(0);
+const NumberDynamic: React.FC<{
+  prefix?: string;
+  suffix?: string;
+  value: number;
+  duration?: number;
+}> = ({ prefix = "", suffix = "", value, duration = 500 }) => {
+  const [newValue, setNewValue] = useState<number>(0);
 
   const newValueFormatted =
     newValue < 1000 ? newValue : numeral(newValue).format("0,0");
