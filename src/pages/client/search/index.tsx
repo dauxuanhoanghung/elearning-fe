@@ -1,29 +1,31 @@
+// @ts-nocheck
 import { useQuery } from "@tanstack/react-query";
+import { Loader } from "lucide-react";
 
 import CourseContainer from "@/components/CourseContainer";
-import courseService from "@/services/course.service";
+import { courseService } from "@/services";
 import Sidebar from "./Sidebar";
 
-const SearchCoursePage = () => {
+const SearchCoursePage: React.FC = () => {
   const {
     isLoading,
-    data: tags,
+    data: courses,
     error,
   } = useQuery({
-    queryKey: ["tags", {}],
+    queryKey: ["courses", "search", {}],
     queryFn: async () => {
-      const res = await courseService.getAllTags();
+      const res = await courseService.getList();
       if (res.status === 200) return res.data;
       return [];
     },
     initialData: [],
   });
+
   return (
     <main className="md:container">
+      <Sidebar />
       <div>
-        <Sidebar />
-      </div>
-      <div>
+        {isLoading && <Loader className="h-20 w-20" />}
         <CourseContainer />
       </div>
     </main>

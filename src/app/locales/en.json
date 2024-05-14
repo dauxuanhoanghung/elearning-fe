@@ -1,4 +1,7 @@
 {
+  "common": {
+    "home": "Home"
+  },
   "login": {
     "title": "Sign in to your account",
     "yourEmail": "Your email",
@@ -174,7 +177,8 @@
       "invoices": "Invoices",
       "inbox": "Inbox",
       "courses": "Courses",
-      "stats": "Stats"
+      "stats": "Stats",
+      "approval": "Approval"
     },
     "stats": {
       "mostLectureCourse": "Courses with most lectures",

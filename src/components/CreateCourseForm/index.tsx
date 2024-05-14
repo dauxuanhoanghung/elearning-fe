@@ -13,11 +13,14 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
-const CreateCourseForm = (props) => {
+const CreateCourseForm: React.FC<{
+  courseData: any;
+  setCourseData: (callback: any) => void;
+}> = (props) => {
   const { t } = useTranslation();
   const { showSnackbar } = useSnackbar();
 
-  const { courseData, setCourseData, saveCourse } = props;
+  const { courseData, setCourseData } = props;
   const navigate = useNavigate();
   const handleReturnHome = () => {
     navigate("/");

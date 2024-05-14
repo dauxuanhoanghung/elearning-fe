@@ -19,6 +19,7 @@ const BASE = {
   blogs: `${PREFIX}/blogs`,
   blogComments: `${PREFIX}/blog-comments`,
   lecturerRegistration: `${PREFIX}/lecturer-registration`,
+  self: `${PREFIX}/self`,
   stats: `${PREFIX}/stats`,
   lastLecture: `${PREFIX}/last-lectures`,
 };
@@ -98,6 +99,8 @@ const endpoints = {
   payWithPaypal: BASE.paypal + "/init",
   capturePaypal: BASE.paypal + "/capture",
   countRegistration: `${BASE.registration}/count`,
+
+  changePassword: BASE.self + "/change-password",
 
   blogBase: BASE.blogs,
   getBlogById: (id: number) => `${BASE.blogs}/${id}`,

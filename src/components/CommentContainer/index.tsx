@@ -3,14 +3,25 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
+import { RootState } from "@/app/store";
 import { AttachmentIcon, ImageIcon } from "@/components/Icons";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { courseCommentService, lectureCommentService } from "@/services";
 import { isEmptyObject } from "@/utils/utils";
 import Comment from "./Comment";
 
-const CommentContainer = (props) => {
-  const currentUser = useSelector((state) => state.user.user);
+interface CommentContainerProps {
+  comments: any[];
+  setComments: any;
+  courseId?: number | string;
+  lectureId?: number | string;
+  blogId?: string | string;
+  getMoreComments: any;
+  page: number;
+}
+
+const CommentContainer: React.FC<CommentContainerProps> = (props) => {
+  const currentUser = useSelector((state: RootState) => state.user.user);
   const { t } = useTranslation();
   const { showSnackbar } = useSnackbar();
   const {
@@ -24,11 +35,17 @@ const CommentContainer = (props) => {
   } = props;
 
   const [newComment, setNewComment] = useState("");
-  const handleCommentChange = (event) => {
+  const handleCommentChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     setNewComment(event.target.value);
   };
 
-  const handleCommentSubmit = async (e) => {
+  const handleCommentSubmit = async (
+    e:
+      | React.MouseEvent<HTMLButtonElement>
+      | React.KeyboardEvent<HTMLTextAreaElement>,
+  ) => {
     e.preventDefault();
     let res = null;
     if (courseId) {
@@ -43,7 +60,7 @@ const CommentContainer = (props) => {
     }
 
     console.log(res);
-    if (res?.data.status === 201) {
+    if (res?.status === 201) {
       setNewComment("");
       showSnackbar({
         message: "Comment successfully created",
@@ -73,7 +90,7 @@ const CommentContainer = (props) => {
                 Your comment
               </label>
               <textarea
-                rows="4"
+                rows={4}
                 value={newComment}
                 onChange={handleCommentChange}
                 onKeyUp={(e) => e.key === "Enter" && handleCommentSubmit(e)}

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -7,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 
 import firebaseService from "@/app/firebase/firebaseService";
+import { RootState } from "@/app/store";
 import { changeChatUser } from "@/app/store/chatSlice";
 import CommentContainer from "@/components/CommentContainer";
 import {
@@ -38,11 +40,11 @@ import {
 import favoriteService from "@/services/favorite.service";
 import { isEmptyObject } from "@/utils/utils";
 
-const CourseDetailPage = (props) => {
+const CourseDetailPage: React.FC = (props) => {
   const { t } = useTranslation();
   const { handleOpenChatDrawer } = useOpenChatDrawer();
   const { courseId } = useParams();
-  const currentUser = useSelector((state) => state.user.user);
+  const currentUser = useSelector((state: RootState) => state.user.user);
   const dispatch = useDispatch();
   const { showSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
@@ -59,7 +61,9 @@ const CourseDetailPage = (props) => {
   } = useQuery({
     queryKey: ["countLectures", courseId],
     queryFn: async () => {
-      const res = await courseService.countLecturesByCourseId(courseId);
+      const res = await courseService.countLecturesByCourseId(
+        parseInt(courseId),
+      );
       return res.data;
     },
     initialData: 0,
@@ -72,7 +76,7 @@ const CourseDetailPage = (props) => {
   } = useQuery({
     queryKey: ["course", courseId],
     queryFn: async () => {
-      const res = await courseService.getById(courseId);
+      const res = await courseService.getById(parseInt(courseId));
       if (res.data) {
         return res.data;
       } else {
@@ -156,7 +160,7 @@ const CourseDetailPage = (props) => {
   const { data: listCriteria } = useQuery({
     queryKey: ["criteria", { courseId }],
     queryFn: async () => {
-      const res = await courseService.getCriteriaByCourseId(courseId);
+      const res = await courseService.getCriteriaByCourseId(parseInt(courseId));
       if (res.status === 200) return res.data;
       return [];
     },
@@ -166,8 +170,8 @@ const CourseDetailPage = (props) => {
 
   // #endregion
   // #region comments
-  const [comments, setComments] = useState([]);
-  const [page, setPage] = useState(0);
+  const [comments, setComments] = useState<any[]>([]);
+  const [page, setPage] = useState<number>(0);
   const getCommentsByCourseId = async () => {
     if (page === -1) return;
     let res = await courseCommentService.getCommentsByCourseId(courseId, page);
@@ -184,11 +188,7 @@ const CourseDetailPage = (props) => {
   // #endregion
   // #region Registration
   const [url, setUrl] = useState("");
-  const {
-    data: registration,
-    isLoading: registrationLoading,
-    isError: registrationError,
-  } = useQuery({
+  const { data: registration, isLoading: registrationLoading } = useQuery({
     queryKey: ["registration", { id: courseId }],
     queryFn: async () => {
       const res = await registrationService.getInitialRegistration(courseId);
@@ -314,7 +314,7 @@ const CourseDetailPage = (props) => {
             <div data-role="course-detail-criteria-content">
               <p className="py-2 text-4xl">Criteria:</p>
               <div className="pl-4 lg:pl-8">
-                {listCriteria?.map((criteria, index) => (
+                {listCriteria?.map((criteria, index: number) => (
                   <div className="flex items-start gap-2 py-1" key={index}>
                     <div className="">
                       <TickIcon className="text-gray-900 dark:text-gray-50" />
@@ -329,6 +329,7 @@ const CourseDetailPage = (props) => {
               <LectureList isCourseDetailPage={true} />
             </div>
             <CommentContainer
+              page={page}
               courseId={courseId}
               comments={comments}
               setComments={setComments}
@@ -348,8 +349,8 @@ const CourseDetailPage = (props) => {
                     <div className="flex gap-4">
                       <button
                         type="button"
-                        className="flex w-full justify-center gap-3 border border-solid border-white p-3 font-semibold 
-                                  transition-all dark:border-white dark:text-white dark:hover:bg-gray-500"
+                        className="flex w-full justify-center gap-3 border border-solid border-black p-3 font-semibold 
+                                  transition-all hover:bg-gray-400 dark:border-white dark:text-white dark:hover:bg-gray-600"
                         onClick={handleToggleWishlist}
                       >
                         {isWishlisted ? (
@@ -369,8 +370,8 @@ const CourseDetailPage = (props) => {
                 )}
                 <div className="flex w-full gap-4">
                   <button
-                    className="w-full border border-solid p-3 font-semibold transition-all dark:border-white
-                   dark:text-white dark:hover:bg-gray-500"
+                    className="w-full border border-solid p-3 font-semibold transition-all hover:bg-gray-400
+                   dark:border-white dark:text-white dark:hover:bg-gray-600"
                     onClick={
                       registration ? handleSeeContinue : handleRegisterCourse
                     }
@@ -383,25 +384,27 @@ const CourseDetailPage = (props) => {
                 <IncludeFeature />
               </div>
             </div>
-            <article
-              className="w-full bg-gray-200 px-6 py-2 text-gray-800 dark:bg-gray-700 dark:text-gray-200"
-              data-role="action-section"
-            >
-              <button
-                onClick={() => {}}
-                className="mt-2 w-1/2 border border-solid p-3 font-semibold transition-all dark:border-white
-                  dark:text-white dark:hover:bg-gray-500"
+            {courseData.price > 0 && (
+              <article
+                className="w-full bg-gray-200 px-6 py-2 text-gray-800 dark:bg-gray-700 dark:text-gray-200"
+                data-role="action-section"
               >
-                Gift course
-              </button>
-              <button
-                onClick={() => {}}
-                className="mt-2 w-1/2 border border-solid p-3 font-semibold transition-all dark:border-white
+                <button
+                  onClick={() => {}}
+                  className="mt-2 w-1/2 border border-solid p-3 font-semibold transition-all dark:border-white
                   dark:text-white dark:hover:bg-gray-500"
-              >
-                Apply coupon
-              </button>
-            </article>
+                >
+                  Gift course
+                </button>
+                <button
+                  onClick={() => {}}
+                  className="mt-2 w-1/2 border border-solid p-3 font-semibold transition-all dark:border-white
+                  dark:text-white dark:hover:bg-gray-500"
+                >
+                  Apply coupon
+                </button>
+              </article>
+            )}
             <div className="my-2 w-full bg-gray-200 px-6 py-2 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
               <div className="flex items-center">
                 <Avatar

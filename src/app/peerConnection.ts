@@ -60,6 +60,7 @@ export const initializeListensers = async (userId: any, store: any) => {
           "userId": "-NxDrK9GWdz0CVfo89QZ"
         }
        */
+      console.log("answer", { ...data.offer });
       const room = store.getState().room;
       const pc = room.participants[data.offer.userId].peerConnection;
       await pc.setRemoteDescription(new RTCSessionDescription(data.offer));

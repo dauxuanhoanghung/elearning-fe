@@ -33,7 +33,14 @@ export const colorsOutline = {
   info: [colorsText.info, "border-blue-500"].join(" "),
 };
 
-const PillTag = ({
+interface PillTagProps {
+  small?: boolean;
+  outline?: boolean;
+  className?: string;
+  [props: string]: any;
+}
+
+const PillTag: React.FC<PillTagProps> = ({
   small = false,
   outline = false,
   className = "",

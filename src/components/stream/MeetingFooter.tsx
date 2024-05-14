@@ -66,7 +66,9 @@ const MeetingFooter: React.FC<MeetingFooterProps> = (props) => {
   const onQuitClick = async () => {
     dispatch(clearRoomState({}));
     goOffline(database);
+
     navigate("/meeting");
+    window.location.reload();
   };
   const onCopyId = () => {
     navigator.clipboard.writeText(props.roomId);

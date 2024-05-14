@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useQuery } from "@tanstack/react-query";
 import {
   flexRender,
@@ -13,7 +14,6 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -22,17 +22,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { userService } from "@/services";
+import { registrationService } from "@/services";
 import { columns as defaultColumns } from "./columns";
 
-const UserTable = (props) => {
+const InvoiceTable: React.FC = (props) => {
   const { columns = defaultColumns } = props;
   const [params, setParams] = useState({});
   const { data: count } = useQuery({
-    queryKey: ["users", "count"],
+    queryKey: ["invoices", "count"],
     queryFn: async () => {
-      const res = await userService.count();
-      if (res.status === 200) return res.data;
+      const res = await registrationService.count();
+      if (res.status === 200) {
+        setPageCount(Math.ceil(res.data / pagination.pageSize));
+        return res.data;
+      }
       return 0;
     },
     initialData: 0,
@@ -40,34 +43,32 @@ const UserTable = (props) => {
 
   const [pagination, setPagination] = useState({
     pageIndex: 0,
-    pageSize: 10,
+    pageSize: 8,
   });
-  const [pageCount] = useState(Math.ceil(count / pagination.pageSize));
+  const [pageCount, setPageCount] = useState(0);
 
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
   const [columnVisibility, setColumnVisibility] = useState({});
   const [rowSelection, setRowSelection] = useState({});
 
-  const { data: users } = useQuery({
+  const { data: courses } = useQuery({
     queryKey: [
-      "users",
+      "invoices",
       { page: pagination.pageIndex, pageSize: pagination.pageSize },
     ],
     queryFn: async () => {
-      const res = await userService.getList({
+      const res = await registrationService.getList({
         ...params,
         page: pagination.pageIndex,
       });
-      console.log(res);
-      if (res.status === 200) return res.data;
-      return [];
+      return res.data;
     },
     initialData: [],
   });
 
   const table = useReactTable({
-    data: users,
+    data: courses,
     columns,
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
@@ -85,18 +86,11 @@ const UserTable = (props) => {
     },
     pageCount,
   });
+  console.log(table, pagination, pageCount);
 
   return (
     <div>
       <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter emails..."
-          value={table.getColumn("email")?.getFilterValue() ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -201,4 +195,4 @@ const UserTable = (props) => {
   );
 };
 
-export default UserTable;
+export default InvoiceTable;

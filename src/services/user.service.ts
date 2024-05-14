@@ -20,14 +20,14 @@ const userService = {
    * @param {username, firstName, lastName, email, avatarFile} body
    * @returns
    */
-  updateAccount(body: string): Promise<IResponse> {
+  updateAccount(body: FormData): Promise<IResponse> {
     return put(endpoints.updateUserInfo, body, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
   },
-  count(params: { search?: string }): Promise<IResponse> {
+  count(params: any = {}): Promise<IResponse> {
     return get(endpoints.countUsers, { ...params });
   },
   getList(params: { page?: number; search?: string }): Promise<IResponse> {
@@ -39,6 +39,9 @@ const userService = {
   deleteSelf(): Promise<IResponse> {
     return deletes(endpoints.deleteSelf);
   },
+  changePassword(body: { currentPassword: string; newPassword: string }): Promise<IResponse> {
+    return post(endpoints.changePassword, body);
+  }
 };
 
 export default userService;

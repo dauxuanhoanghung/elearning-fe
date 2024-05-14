@@ -1,12 +1,12 @@
 import React from "react";
 import { twMerge } from "tailwind-merge";
 
-const PillTagPlain = ({
-  small = false,
-  className = "",
-  icon: Icon,
-  ...props
-}) => {
+const PillTagPlain: React.FC<{
+  small: boolean;
+  className?: string;
+  icon?: any;
+  [props: string]: any;
+}> = ({ small = false, className = "", icon: Icon, ...props }) => {
   return (
     <div
       className={twMerge(
