@@ -170,8 +170,8 @@ const CourseDetailPage: React.FC = (props) => {
 
   // #endregion
   // #region comments
-  const [comments, setComments] = useState([]);
-  const [page, setPage] = useState(0);
+  const [comments, setComments] = useState<any[]>([]);
+  const [page, setPage] = useState<number>(0);
   const getCommentsByCourseId = async () => {
     if (page === -1) return;
     let res = await courseCommentService.getCommentsByCourseId(courseId, page);
@@ -314,7 +314,7 @@ const CourseDetailPage: React.FC = (props) => {
             <div data-role="course-detail-criteria-content">
               <p className="py-2 text-4xl">Criteria:</p>
               <div className="pl-4 lg:pl-8">
-                {listCriteria?.map((criteria, index) => (
+                {listCriteria?.map((criteria, index: number) => (
                   <div className="flex items-start gap-2 py-1" key={index}>
                     <div className="">
                       <TickIcon className="text-gray-900 dark:text-gray-50" />
@@ -349,8 +349,8 @@ const CourseDetailPage: React.FC = (props) => {
                     <div className="flex gap-4">
                       <button
                         type="button"
-                        className="flex w-full justify-center gap-3 border border-solid border-white p-3 font-semibold 
-                                  transition-all dark:border-white dark:text-white dark:hover:bg-gray-500"
+                        className="flex w-full justify-center gap-3 border border-solid border-black p-3 font-semibold 
+                                  transition-all hover:bg-gray-400 dark:border-white dark:text-white dark:hover:bg-gray-600"
                         onClick={handleToggleWishlist}
                       >
                         {isWishlisted ? (
@@ -370,8 +370,8 @@ const CourseDetailPage: React.FC = (props) => {
                 )}
                 <div className="flex w-full gap-4">
                   <button
-                    className="w-full border border-solid p-3 font-semibold transition-all dark:border-white
-                   dark:text-white dark:hover:bg-gray-500"
+                    className="w-full border border-solid p-3 font-semibold transition-all hover:bg-gray-400
+                   dark:border-white dark:text-white dark:hover:bg-gray-600"
                     onClick={
                       registration ? handleSeeContinue : handleRegisterCourse
                     }

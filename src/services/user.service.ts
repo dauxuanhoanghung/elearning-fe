@@ -20,7 +20,7 @@ const userService = {
    * @param {username, firstName, lastName, email, avatarFile} body
    * @returns
    */
-  updateAccount(body: string): Promise<IResponse> {
+  updateAccount(body: FormData): Promise<IResponse> {
     return put(endpoints.updateUserInfo, body, {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -39,6 +39,9 @@ const userService = {
   deleteSelf(): Promise<IResponse> {
     return deletes(endpoints.deleteSelf);
   },
+  changePassword(body: { currentPassword: string; newPassword: string }): Promise<IResponse> {
+    return post(endpoints.changePassword, body);
+  }
 };
 
 export default userService;

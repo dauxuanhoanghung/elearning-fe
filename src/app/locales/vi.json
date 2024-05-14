@@ -1,4 +1,7 @@
 {
+  "common": {
+    "home": "Trang chủ"
+  },
   "login": {
     "title": "Đăng nhập vào tài khoản của bạn",
     "yourEmail": "Email",

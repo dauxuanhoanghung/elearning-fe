@@ -1,4 +1,7 @@
 {
+  "common": {
+    "home": "Home"
+  },
   "login": {
     "title": "Sign in to your account",
     "yourEmail": "Your email",

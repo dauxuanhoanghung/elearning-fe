@@ -13,4 +13,5 @@ interface ICurrentUser {
   lastName: string;
   slug: string;
   roles: string[];
+  [...props: string]: any;
 }

@@ -19,7 +19,7 @@ export const userSlice = createSlice({
       state.isLogin = false;
       state.user = {};
     },
-    setUser: (state, action: PayloadAction<any>) => {
+    setUser: (state, action: PayloadAction<ICurrentUser>) => {
       // setProfileToLS(action?.payload);
       state.user = action?.payload;
       state.isLogin = true;

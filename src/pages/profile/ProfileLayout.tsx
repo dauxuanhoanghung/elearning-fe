@@ -9,14 +9,22 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { useTranslation } from "react-i18next";
 
-const ProfileLayout = ({ children, title }) => {
+interface ProfileLayoutProps {
+  children: React.ReactNode;
+  title: string;
+}
+
+const ProfileLayout: React.FC<ProfileLayoutProps> = ({ children, title }) => {
+  const { t } = useTranslation();
+
   return (
     <main className="w-full md:container" data-role="profile-layout">
       <Breadcrumb>
         <BreadcrumbList className="text-lg">
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            <BreadcrumbLink href="/">{t("common.home")}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>

@@ -10,12 +10,12 @@ const courseCommentService = {
   createComment(body: any) {
     return post(endpoints.courseCommentBase, body);
   },
-  getCommentsByCourseId(courseId: any, page = 0) {
+  getCommentsByCourseId(courseId: number, page: number = 0) {
     return get(endpoints.getCourseCommentById(courseId), {
       page: page,
     });
   },
-  deleteCommentById(commentId: any) {
+  deleteCommentById(commentId: number) {
     return deletes(endpoints.deleteCourseCommentById(commentId));
   },
 };
