@@ -18,17 +18,11 @@ import ThemeSwitcher from "./ThemeSwitcher";
 const sidebarOptions = [
   { key: "admin.sidebar.dashboard", icon: HomeIcon, href: "/admin" },
   { key: "admin.sidebar.users", icon: MultiUsersIcon, href: "/admin/users" },
-  // {
-  //   key: "admin.sidebar.settings",
-  //   icon: SettingsIcon,
-  //   href: "/admin/settings",
-  // },
   {
     key: "admin.sidebar.invoices",
     icon: BillingsIcon,
     href: "/admin/invoices",
   },
-  // { key: "admin.sidebar.inbox", icon: InboxIcon, href: "/admin/inbox" },
   { key: "admin.sidebar.courses", icon: CourseIcon, href: "/admin/courses" },
   { key: "admin.sidebar.stats", icon: StatsIcon, href: "/admin/stats" },
   {
@@ -38,7 +32,7 @@ const sidebarOptions = [
   },
 ];
 
-const AdminSidebar = (props) => {
+const AdminSidebar: React.FC<{ open: boolean }> = (props) => {
   const { t } = useTranslation();
   const { open = true } = props;
   const { pathname } = useLocation();

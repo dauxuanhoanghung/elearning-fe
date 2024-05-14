@@ -5,7 +5,7 @@ import background from "@/assets/bg.png";
 import { ArrowLeft } from "@/components/Icons";
 import { SignupForm } from "@/components/auth";
 
-const SignupPage = () => {
+const SignupPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 

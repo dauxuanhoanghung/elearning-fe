@@ -1,7 +1,12 @@
 import { CircleAvatarIcon, LoadingImageIcon } from "../Icons/index";
 
-const Skeleton = (props) => {
-  const { isRow = true, className } = props;
+interface SkeletonProps {
+  isRow?: boolean;
+  className?: string;
+}
+
+const Skeleton: React.FC<SkeletonProps> = (props) => {
+  const { isRow = true } = props;
 
   if (isRow)
     return (

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -5,15 +6,23 @@ import { useTranslation } from "react-i18next";
 import { languages } from "@/app/i18n";
 import { ArrowDown } from "@/components/Icons";
 
-const LanguageSwitcher = (props) => {
+interface LanguageSwitcherProps {
+  showFull?: boolean;
+  isAdminPage?: boolean;
+}
+
+const LanguageSwitcher: React.FC<LanguageSwitcherProps> = (props) => {
   const { showFull = true, isAdminPage = false } = props;
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language;
   // #region language switcher
   const langBtnRef = useRef();
-  const [openLanguage, setOpenLanguage] = useState(false);
+  const [openLanguage, setOpenLanguage] = useState<boolean>(false);
   const toggleOpen = () => setOpenLanguage((prev) => !prev);
-  const changeLanguage = (e, language) => {
+  const changeLanguage = (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+    language: string,
+  ) => {
     e.preventDefault();
     i18n.changeLanguage(language);
   };
@@ -21,7 +30,7 @@ const LanguageSwitcher = (props) => {
   const DisplayLanguage = () => {
     return languages
       .filter((lng) => currentLanguage === lng.lang)
-      .map((lng, idx) => (
+      .map((lng, idx: number) => (
         <React.Fragment key={idx}>
           <lng.icon />
           {showFull && (

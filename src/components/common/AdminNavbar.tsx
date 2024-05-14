@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+// @ts-nocheck
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
+import { RootState } from "@/app/store";
 import { logout } from "@/app/store/userSlice";
 import logo from "@/assets/logo.png";
 import {
@@ -61,30 +62,18 @@ const appOptions = [
   },
 ];
 
-const AdminNavbar = (props) => {
+const AdminNavbar: React.FC<{ setOpenSidebar: any }> = (props) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
   // #region action user
-  const currentUser = useSelector((state) => state.user.user);
+  const currentUser = useSelector((state: RootState) => state.user.user);
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(logout());
     navigate("/login");
   };
   const [openAvatar, toggleOpenAvatar, avatarRef] = useDropdown();
-  // #endregion
-  // #region search
-  const [searchKw, setSearchKw] = useState("");
-  const handleSearchChange = (e) => {
-    setSearchKw(e.target.value);
-  };
-  const handleEnter = (event) => {
-    if (event.keyCode === 13 && searchKw.trim().length > 0) {
-      history.push(`/search/${searchKw}`);
-      setSearchKw("");
-    }
-  };
   // #endregion
   // #region Apps
   const [openNoti, toggleNoti, notiRef] = useDropdown();
@@ -118,24 +107,6 @@ const AdminNavbar = (props) => {
                 Education
               </span>
             </Link>
-            <form className="hidden lg:block lg:pl-8">
-              <div className="relative mt-1 lg:w-80">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                  <FindIcon />
-                </div>
-                <input
-                  value={searchKw}
-                  onChange={handleSearchChange}
-                  onKeyDown={handleEnter}
-                  type="search"
-                  className="z-20 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 
-                  text-sm text-black focus:border-sky-500 focus:ring-blue-500 dark:border-gray-800
-                  dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-sky-500"
-                  placeholder={t("header.searchPlaceholder")}
-                  required
-                />
-              </div>
-            </form>
           </div>
           <div className="flex items-center md:mr-10">
             <button

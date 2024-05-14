@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
@@ -62,11 +62,11 @@ const socialMediaData = [
   { name: "YouTube", icon: <YoutubeIcon /> },
 ];
 
-const Footer = () => {
-  const [email, setEmail] = useState("");
+const Footer: React.FC = () => {
   const { t } = useTranslation();
 
-  const handleEmailChange = (event) => {
+  const [email, setEmail] = useState<string>("");
+  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
 
@@ -78,7 +78,7 @@ const Footer = () => {
           <div className="mt-12 grid grid-cols-2 gap-8 lg:col-span-2 lg:mt-0">
             {[sections1, sections2].map((sec, i) => (
               <div key={i} className="md:grid md:grid-cols-2 md:gap-8">
-                {sec.map((s, idx) => {
+                {sec.map((s, idx: number) => {
                   return (
                     <div key={idx}>
                       <h3 className="text-md font-semibold leading-6 text-gray-700 dark:text-white">
@@ -88,7 +88,7 @@ const Footer = () => {
                         {s.children.map((c, id) => (
                           <li key={id}>
                             <Link
-                              href="#"
+                              to=""
                               className="text-xs leading-6 text-gray-600 dark:text-gray-100"
                             >
                               {t(c.key)}
@@ -126,7 +126,7 @@ const Footer = () => {
               onChange={handleEmailChange}
               id="email-address"
               autoComplete="email"
-              required=""
+              required
               className="w-full min-w-0 appearance-none rounded-md border bg-white px-3 
                       py-1.5 text-base leading-6 text-gray-700 shadow-sm ring-0 ring-inset
                     ring-gray-300 ring-opacity-100 sm:w-64 sm:text-xs sm:leading-5"
@@ -149,7 +149,6 @@ const Footer = () => {
               <Link
                 to="#"
                 key={index}
-                href="#"
                 className="text-gray-500 text-opacity-100"
               >
                 <span className="clip-hidden whitespace-no-wrap absolute m-[-1px] h-1 w-1 overflow-hidden border-0 p-0">

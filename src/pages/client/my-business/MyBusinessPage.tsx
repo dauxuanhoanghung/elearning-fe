@@ -17,7 +17,7 @@ import CourseContainer from "@/components/CourseContainer/index";
 import { Skeleton } from "@/components/common";
 import { courseService } from "@/services";
 
-const MyBusinessPage = () => {
+const MyBusinessPage: React.FC = () => {
   const { t } = useTranslation();
 
   //#region Course
@@ -25,11 +25,7 @@ const MyBusinessPage = () => {
     queryKey: ["mybusiness:totalPage"],
     queryFn: () => courseService.countTotalPage(),
   });
-  const {
-    isLoading: paginationLoading,
-    isError: paginationError,
-    data: pageQueryData,
-  } = pageQuery;
+  const { isError: paginationError, data: pageQueryData } = pageQuery;
   const totalPage = pageQueryData?.data;
 
   const [page, setPage] = useState(0);
@@ -46,10 +42,9 @@ const MyBusinessPage = () => {
       if (res.status === 200) return res.data;
       return [];
     }, // The query function returns a promise
-    keepPreviousData: true,
     initialData: [],
   });
-  const handleChangePage = (page) => {
+  const handleChangePage = (page: number) => {
     setPage(page - 1);
   };
   //#endregion
@@ -59,7 +54,7 @@ const MyBusinessPage = () => {
       <Breadcrumb>
         <BreadcrumbList className="text-lg">
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            <BreadcrumbLink href="/">{t("common.home")}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -86,7 +81,11 @@ const MyBusinessPage = () => {
       </div>
 
       {isLoading ? (
-        <Skeleton />
+        <div className="grid grid-cols-4 gap-2">
+          {Array.from({ length: 4 }).map((_, idx: number) => (
+            <Skeleton isRow={false} key={idx} />
+          ))}
+        </div>
       ) : (
         <div data-role="courses pt-5">
           <div className="">

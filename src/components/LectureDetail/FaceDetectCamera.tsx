@@ -18,7 +18,8 @@ import {
 } from "../ui/dialog";
 
 interface CameraProps {
-  setPlayerState: () => void;
+  setPlayerState: (any) => void;
+  ref?: any;
 }
 
 const FaceDetectionCamera: React.FC<CameraProps> = forwardRef((props, ref) => {

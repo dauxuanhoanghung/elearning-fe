@@ -1,17 +1,13 @@
 import classNames from "classnames";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
+import { RootState } from "@/app/store";
 import { logout } from "@/app/store/userSlice";
 import logo from "@/assets/logo.png";
-import {
-  FacebookIcon,
-  FindIcon,
-  InstagramIcon,
-  TwitterIcon,
-} from "@/components/Icons";
+import { FindIcon } from "@/components/Icons";
 import { LanguageSwitcher, ThemeSwitcher } from "@/components/common";
 import { Avatar } from "@/components/ui";
 import {
@@ -24,21 +20,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { isAdmin, isEmptyObject, isLecturer } from "@/utils/utils";
-
-const socialMedia = [
-  {
-    icon: FacebookIcon,
-    href: "https://www.facebook.com/",
-  },
-  {
-    icon: InstagramIcon,
-    href: "https://www.instagram.com/",
-  },
-  {
-    icon: TwitterIcon,
-    href: "https://twitter.com/",
-  },
-];
 
 const navItems = [
   {
@@ -72,23 +53,11 @@ const navItems = [
     isAuthenticated: true,
   },
 ];
-
-const avtOptions = [
-  {
-    href: "/profile",
-    key: "profile",
-  },
-  {
-    href: "/settings",
-    key: "settings",
-  },
-];
-
-const FirstNav = ({ classes }) => {
+const FirstNav: React.FC<{ className?: string }> = ({ className }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const currentUser = useSelector((state) => state.user.user);
+  const currentUser = useSelector((state: RootState) => state.user.user);
   const handleLogout = () => {
     dispatch(logout());
     navigate("/login");
@@ -99,7 +68,7 @@ const FirstNav = ({ classes }) => {
     <nav
       className={classNames(
         "border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-800",
-        classes,
+        className,
       )}
     >
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between px-4 py-2.5 md:px-6">
@@ -188,19 +157,16 @@ const FirstNav = ({ classes }) => {
   );
 };
 
-const Header = () => {
+const Header: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
   // #region sticky
-  const [isSticky, setSticky] = useState(false);
-
+  const [isSticky, setSticky] = useState<boolean>(false);
   useEffect(() => {
     const handleScroll = () => {
-      // Set isSticky to true when scrolling down, and false when scrolling up
       setSticky(window.scrollY > 177);
     };
-    // Attach the event listener to the scroll event
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -210,18 +176,25 @@ const Header = () => {
   // #endregion
 
   // #region action user
-  const currentUser = useSelector((state) => state.user.user);
+  const currentUser = useSelector((state: RootState) => state.user.user);
 
   // #endregion
   // #region search
-  const [searchKw, setSearchKw] = useState("");
-  const handleSearchChange = (e) => {
+  const [searchKw, setSearchKw] = useState<string>("");
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchKw(e.target.value);
   };
-  const handleEnter = (event) => {
-    if (event.keyCode === 13 && searchKw.trim().length > 0) {
-      history.push(`/search/${searchKw}`);
-      setSearchKw("");
+
+  const navigateToSearchPage = () => {
+    if (searchKw.trim().length > 0) {
+      navigate(`/search?kw=${searchKw}`);
+    }
+  };
+
+  const handleEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      navigateToSearchPage();
     }
   };
   // #endregion
@@ -229,7 +202,7 @@ const Header = () => {
   return (
     <header className="shadow-md transition-all">
       <FirstNav
-        classes={classNames("fixed top-0 z-50 w-full shadow opacity-95", {
+        className={classNames("fixed top-0 z-50 w-full opacity-95 shadow", {
           hidden: !isSticky,
         })}
       />
@@ -237,10 +210,7 @@ const Header = () => {
       <nav className="border-b border-gray-200 bg-white dark:border-gray-600 dark:bg-gray-700">
         <div className="mx-auto grid max-w-7xl px-4 py-4 md:px-6 lg:grid-cols-2">
           <form className="mb-4 flex lg:order-2 lg:mb-0">
-            <label
-              className="mb-2 h-[1px] w-[1px] overflow-hidden whitespace-nowrap 
-              text-sm font-medium text-gray-50 dark:text-gray-300"
-            >
+            <label className="mb-2 h-[1px] w-[1px] overflow-hidden whitespace-nowrap text-sm font-medium text-gray-50 dark:text-gray-300">
               Search
             </label>
             <Link
@@ -265,8 +235,9 @@ const Header = () => {
                 required
               />
               <button
-                type="submit"
-                className="absolute right-0 top-0 mt-[0.667px] rounded-r-lg border border-blue-700 bg-blue-700 
+                onClick={navigateToSearchPage}
+                type="button"
+                className="absolute right-0 top-0 mt-[1px] rounded-r-lg border border-blue-700 bg-blue-700 
                 p-2.5 text-sm font-medium text-white hover:bg-blue-800  dark:bg-blue-600 dark:hover:bg-blue-700"
               >
                 <FindIcon />

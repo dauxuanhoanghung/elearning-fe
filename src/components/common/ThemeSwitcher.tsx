@@ -2,7 +2,11 @@ import { DarkThemeIcon, LightThemeIcon } from "@/components/Icons";
 import { useDarkMode } from "@/contexts/DarkModeContext";
 import { useDebounce } from "@/hooks/useDebounce";
 
-const ThemeSwitcher = (props) => {
+interface ThemeSwitcherProps {
+  className?: string;
+}
+
+const ThemeSwitcher: React.FC<ThemeSwitcherProps> = (props) => {
   const { className } = props;
   const { isDarkMode, setDarkMode } = useDarkMode();
   const changeTheme = useDebounce(() => {

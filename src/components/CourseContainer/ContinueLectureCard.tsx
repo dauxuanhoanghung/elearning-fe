@@ -3,8 +3,14 @@ import { StepForward } from "lucide-react";
 import React from "react";
 import { Link } from "react-router-dom";
 
-const ContinueLectureCard = (props) => {
-  const { id, lecture, course } = props;
+interface ContinueLectureCardProps {
+  id?: number;
+  lecture: any;
+  course: any;
+}
+
+const ContinueLectureCard: React.FC<ContinueLectureCardProps> = (props) => {
+  const { lecture, course } = props;
   const generateUrl = () => {
     return `/course/${course.id}/learning?lectureId=${lecture.id}`;
   };

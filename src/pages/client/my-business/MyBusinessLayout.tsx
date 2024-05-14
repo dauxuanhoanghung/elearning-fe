@@ -4,26 +4,22 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const MyBusinessLayout = () => {
+const MyBusinessLayout: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
-  const [tabs] = useState([
+
+  const [tabs] = useState<any[]>([
     {
       title: t("business.index-tab"),
       href: "/my-business",
     },
-    // {
-    //   title: t("business.meet-tab"),
-    //   href: "/my-business/create-room",
-    // },
   ]);
-
   const [currentTab] = useState(() => {
     return tabs.find((tab) => tab.href == location.pathname).href;
   });
 
-  const handleNavigateOnTrigger = (href) => {
+  const handleNavigateOnTrigger = (href: string) => {
     navigate(href);
   };
 
@@ -42,7 +38,6 @@ const MyBusinessLayout = () => {
                   value={tab.href}
                   href={tab.href}
                   onClick={() => handleNavigateOnTrigger(tab.href)}
-                  className
                 >
                   {tab.title}
                 </TabsTrigger>
