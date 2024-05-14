@@ -2,7 +2,14 @@ import classNames from "classnames";
 
 import { ChevronLeft } from "@/components/Icons";
 
-const Pagination = (props) => {
+interface PaginationProps {
+  totalPage: number;
+  page: number;
+  onPageChange: (page: number) => void;
+  maxItems?: number;
+}
+
+const Pagination: React.FC<PaginationProps> = (props) => {
   const { totalPage, page, onPageChange, maxItems = 5 } = props;
   // Calculate the range of page items to display
   const startPage = Math.max(1, page - Math.floor(maxItems / 2));
@@ -20,9 +27,9 @@ const Pagination = (props) => {
   const onLast = () => onPageChange(totalPage);
 
   return (
-    <div className="flex border-x border-gray-200 bg-white bg-gradient-to-r p-0 dark:border-gray-600 dark:bg-gray-900">
+    <div className="flex border-gray-200 bg-gradient-to-r p-0 dark:border-gray-600">
       <div className="w-full">
-        <div className="mx-auto w-full bg-white bg-gradient-to-r p-2 dark:bg-gray-900 sm:p-6">
+        <div className="mx-auto w-full bg-gradient-to-r p-2 sm:p-6">
           <div className="flex overflow-x-auto py-4 sm:justify-center">
             <ul className="xs:mt-0 mt-2 inline-flex items-center -space-x-px">
               <li>

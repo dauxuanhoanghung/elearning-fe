@@ -157,7 +157,7 @@ const FirstNav: React.FC<{ className?: string }> = ({ className }) => {
   );
 };
 
-const Header = () => {
+const Header: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -184,9 +184,17 @@ const Header = () => {
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchKw(e.target.value);
   };
+
+  const navigateToSearchPage = () => {
+    if (searchKw.trim().length > 0) {
+      navigate(`/search?kw=${searchKw}`);
+    }
+  };
+
   const handleEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.keyCode === 13 && searchKw.trim().length > 0) {
-      navigate(`/search/${searchKw}`);
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      navigateToSearchPage();
     }
   };
   // #endregion
@@ -227,8 +235,9 @@ const Header = () => {
                 required
               />
               <button
-                type="submit"
-                className="absolute right-0 top-0 mt-[0.667px] rounded-r-lg border border-blue-700 bg-blue-700 
+                onClick={navigateToSearchPage}
+                type="button"
+                className="absolute right-0 top-0 mt-[1px] rounded-r-lg border border-blue-700 bg-blue-700 
                 p-2.5 text-sm font-medium text-white hover:bg-blue-800  dark:bg-blue-600 dark:hover:bg-blue-700"
               >
                 <FindIcon />

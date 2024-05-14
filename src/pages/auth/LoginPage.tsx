@@ -5,7 +5,7 @@ import background from "@/assets/bg.png";
 import { ArrowLeft } from "@/components/Icons/index";
 import { LoginForm } from "@/components/auth";
 
-const LoginPage = () => {
+const LoginPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 

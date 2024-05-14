@@ -9,7 +9,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { lectureCommentService } from "@/services";
 
-const LectureDetailPage = () => {
+const LectureDetailPage: React.FC = () => {
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
   const timerRef = useRef(null);
@@ -40,7 +40,7 @@ const LectureDetailPage = () => {
     } else setPage(-1);
   };
   useEffect(() => {
-    getCommentsByLectureId(lectureId);
+    getCommentsByLectureId();
   }, []);
   // #endregion
 
@@ -65,15 +65,15 @@ const LectureDetailPage = () => {
           />
         </div>
         <div className="sm:col-span-2">
-          <ScrollArea className="h-[70vh]">
-            <LectureList isCourseDetailPage={false} />
-          </ScrollArea>
           <div>
             <FaceDetectionCamera
               setPlayerState={setPlayerState}
               ref={timerRef}
             />
           </div>
+          <ScrollArea className="h-[70vh]">
+            <LectureList isCourseDetailPage={false} />
+          </ScrollArea>
         </div>
       </div>
     </main>
