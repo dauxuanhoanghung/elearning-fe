@@ -39,9 +39,12 @@ const userService = {
   deleteSelf(): Promise<IResponse> {
     return deletes(endpoints.deleteSelf);
   },
-  changePassword(body: { currentPassword: string; newPassword: string }): Promise<IResponse> {
+  changePassword(body: {
+    currentPassword: string;
+    newPassword: string;
+  }): Promise<IResponse> {
     return post(endpoints.changePassword, body);
-  }
+  },
 };
 
 export default userService;

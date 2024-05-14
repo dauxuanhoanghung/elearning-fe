@@ -8,5 +8,5 @@ interface ChatState {
 
 interface UserState {
   isLogin: boolean;
-  user: Record<string, any>; // Adjust the type according to your user object structure
+  user?: any; // Adjust the type according to your user object structure
 }
