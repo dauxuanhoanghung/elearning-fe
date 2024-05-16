@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -65,7 +66,7 @@ const LectureDetailPage: React.FC = () => {
           />
         </div>
         <div className="sm:col-span-2">
-          <div>
+          <div className="w-full">
             <FaceDetectionCamera
               setPlayerState={setPlayerState}
               ref={timerRef}

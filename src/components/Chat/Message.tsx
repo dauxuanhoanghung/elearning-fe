@@ -1,19 +1,34 @@
+// @ts-nocheck
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 
 import classNames from "classnames";
 
+import { RootState } from "@/app/store";
 import { Avatar, Menu } from "@/components/ui";
 import { useSnackbar } from "@/contexts/SnackbarContext";
 import { CopyIcon, DeleteIcon, ReplyIcon } from "../Icons/index";
 
-const Message = (props) => {
+type MessageProps = {
+  id: string;
+  text: string;
+  senderId: string;
+  avatar: string;
+  senderInfo: any;
+  recipientId: string;
+  groupId: string;
+  createdAt: string;
+};
+
+const Message: React.FC<MessageProps> = (props) => {
   const { t } = useTranslation();
   const { showSnackbar } = useSnackbar();
   // #region redux user & chat
-  const currentUser = useSelector((state) => state.user.user);
-  const selectedChatUser = useSelector((state) => state.chat.selectedChatUser);
+  const currentUser = useSelector((state: RootState) => state.user.user);
+  const selectedChatUser = useSelector(
+    (state: RootState) => state.chat.selectedChatInfo,
+  );
   // #endregion
   const {
     id,
@@ -61,7 +76,7 @@ const Message = (props) => {
     setOpenAction(false);
   };
   useEffect(() => {
-    const handleOutsideClick = (ev) => {
+    const handleOutsideClick = (ev: any) => {
       if (menuRef.current && !menuRef.current.contains(ev.target))
         handleCloseMenuAction();
     };

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 
 import { Pagination, Skeleton } from "@/components/common";
 import React from "react";
+import { twMerge } from "tailwind-merge";
 import CourseCard from "./CourseCard";
 
 interface CourseContainerProps {
@@ -14,6 +15,7 @@ interface CourseContainerProps {
   isPaginationLoading?: boolean;
   isError?: boolean;
   isShowPagination?: boolean;
+  isSearchPage?: boolean;
 }
 
 const CourseContainer: React.FC<CourseContainerProps> = ({
@@ -22,31 +24,43 @@ const CourseContainer: React.FC<CourseContainerProps> = ({
   totalPage,
   isCourseLoading,
   onPageChange,
-  paginationLoading,
+  paginationLoading = false,
   isError,
   isShowPagination = true,
+  isSearchPage = false,
 }) => {
   if (isError) return <h1>Something went wrong!!! ....</h1>;
 
   return (
     <div data-component="course-container">
-      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+      <div
+        className={twMerge(
+          "grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4",
+          isSearchPage ? "grid-cols-1 lg:grid-cols-1" : "",
+        )}
+      >
         {isCourseLoading ? (
-          [...Array(8)].map((_, i) => <Skeleton isRow={false} key={i} />)
+          [...Array(8)].map((_, i) => <Skeleton isRow={isSearchPage} key={i} />)
         ) : (
           <>
             {courses?.length === 0 ? (
               <div className="my-8 w-full">
                 <div className="rounded-lg bg-red-200 p-4">
-                  <p className="text-red-600">
-                    Your never Learning before !!! Go back to choose a course
-                    <Link to="/"> Go to home</Link>
-                  </p>
+                  {isSearchPage ? (
+                    <p className="text-red-600">
+                      No course match to your request. Please change it!!!
+                    </p>
+                  ) : (
+                    <p className="text-red-600">
+                      Your never Learning before !!! Go back to choose a course
+                      <Link to="/"> Go to home</Link>
+                    </p>
+                  )}
                 </div>
               </div>
             ) : (
               courses?.map((course, idx) => (
-                <CourseCard {...course} key={idx} />
+                <CourseCard {...course} key={idx} isSearchPage={isSearchPage} />
               ))
             )}
           </>
