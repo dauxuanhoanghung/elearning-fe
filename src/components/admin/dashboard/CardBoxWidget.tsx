@@ -2,7 +2,19 @@ import { Card } from "@/components/ui/card";
 import NumberDynamic from "../DynamicNumber";
 import PillTagTrend from "../PillTag/Trend";
 
-const CardBoxWidget = (props) => {
+type Props = {
+  number: number;
+  numberPrefix?: string;
+  numberSuffix?: string;
+  icon: any;
+  iconColor: any;
+  label: string;
+  trendLabel?: string;
+  trendType?: any;
+  trendColor?: any;
+};
+
+const CardBoxWidget: React.FC<Props> = (props) => {
   const {
     trendType,
     trendLabel,

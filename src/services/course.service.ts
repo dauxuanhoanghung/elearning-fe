@@ -71,9 +71,6 @@ const courseService = {
   countLecturesByCourseId(courseId: number): Promise<IResponse> {
     return get(endpoints.courseCountLecturesById(courseId));
   },
-  countRegistrationsByCourseId(courseId: any): Promise<IResponse> {
-    return get(endpoints.courseCountRegistrationsById(courseId));
-  },
 };
 
 export default courseService;

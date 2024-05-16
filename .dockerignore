@@ -1,0 +1,29 @@
+# Ignore Node modules
+
+node_modules/
+
+# Ignore build output
+
+build/
+
+# Ignore logs
+
+\*.log
+
+# Ignore version control
+
+.git/
+.gitignore
+
+# Ignore editor directories and files
+
+.vscode/
+_.sublime-project
+_.sublime-workspace
+
+# Ignore miscellaneous
+
+.DS_Store
+
+.husky/
+.github/

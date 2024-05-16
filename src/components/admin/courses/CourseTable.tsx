@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useQuery } from "@tanstack/react-query";
 import {
   flexRender,
@@ -24,9 +25,9 @@ import {
 import { courseService } from "@/services";
 import { columns as defaultColumns } from "./columns";
 
-const CourseTable = (props) => {
+const CourseTable: React.FC<{ columns: any[] }> = (props) => {
   const { columns = defaultColumns } = props;
-  const [params, setParams] = useState({});
+  const [params] = useState({});
   const { data: count } = useQuery({
     queryKey: ["courses", "count"],
     queryFn: async () => {

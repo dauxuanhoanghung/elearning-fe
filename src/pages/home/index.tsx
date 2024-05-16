@@ -77,7 +77,7 @@ const HomePage = () => {
     initialData: [],
   });
 
-  const handleChangePage = (page) => {
+  const handleChangePage = (page: number) => {
     setPage(page - 1);
   };
   //#endregion
