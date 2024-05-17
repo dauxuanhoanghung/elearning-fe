@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { MicOff } from "lucide-react";
 import React from "react";
 
-const Participant = (props) => {
+const Participant: React.FC<ParticipantProps> = (props) => {
   const {
     currentIndex,
     currentParticipant,

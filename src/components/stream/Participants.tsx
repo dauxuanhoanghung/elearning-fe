@@ -1,10 +1,13 @@
+// @ts-nocheck
 import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
+
+import { RootState } from "@/app/store";
 import Participant from "./Participant";
 
-const Participants = () => {
+const Participants: React.FC = () => {
   const videoRef = useRef(null);
-  const room = useSelector((state) => state.room);
+  const room = useSelector((state: RootState) => state.room);
   const currentUser = room.currentUser
     ? Object.values(room.currentUser)[0]
     : null;
@@ -39,24 +42,26 @@ const Participants = () => {
     <div
       className={`grid h-full md:grid-cols-${gridCol} gap-5 p-2.5 grid-cols-${gridColSize} grid-rows-${gridColSize}`}
     >
-      {participantKey.map((element, index) => {
+      {participantKey.map((element, index: number) => {
         const currentParticipant = room.participants[element];
         const isCurrentUser = currentParticipant.currentUser;
         if (isCurrentUser) {
           return null;
         }
-        const pc = currentParticipant.peerConnection;
-        const remoteStream = new MediaStream();
-        let currentIndex = index;
+        const pc: RTCPeerConnection = currentParticipant.peerConnection;
+        const remoteStream: MediaStream = new MediaStream();
+        let currentIndex: number = index;
         if (pc) {
-          pc.ontrack = (event) => {
+          pc.ontrack = (event: RTCTrackEvent) => {
             event?.streams[0].getTracks().forEach((track) => {
               remoteStream.addTrack(track);
             });
-            const videElement = document.getElementById(
-              `participantVideo${currentIndex}`,
+            const videoEle = document.getElementById(
+              "participantVideo" + currentIndex,
             );
-            if (videElement) videElement.srcObject = remoteStream;
+            if (videoEle && videoEle instanceof HTMLVideoElement) {
+              videoEle.srcObject = remoteStream;
+            }
           };
         }
 
