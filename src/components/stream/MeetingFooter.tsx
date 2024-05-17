@@ -17,13 +17,6 @@ import { useNavigate } from "react-router-dom";
 import { database } from "@/app/firebase/config";
 import { clearRoomState } from "@/app/store/roomSlice";
 
-interface MeetingFooterProps {
-  roomId: string;
-  onMicClick: (isEnabled: boolean) => void;
-  onVideoClick: (isEnabled: boolean) => void;
-  onScreenClick: () => void;
-}
-
 const MeetingFooter: React.FC<MeetingFooterProps> = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();

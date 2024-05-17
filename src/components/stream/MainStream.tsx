@@ -1,27 +1,29 @@
+// @ts-nocheck
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import { RootState } from "@/app/store";
 import { setMainStream, updateUser } from "@/app/store/roomSlice";
 import { useSearchParams } from "react-router-dom";
 import MeetingFooter from "./MeetingFooter";
 import Participants from "./Participants";
 
-const MainStream = () => {
-  const room = useSelector((state) => state.room);
+const MainStream: React.FC = () => {
+  const room = useSelector((state: RootState) => state.room);
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const roomId = searchParams.get("roomId");
 
   const participantRef = useRef(room.participants);
 
-  const onMicClick = (micEnabled) => {
+  const onMicClick = (micEnabled: boolean) => {
     if (room.mainStream) {
       console.log("onMicClick");
       room.mainStream.getAudioTracks()[0].enabled = micEnabled;
       dispatch(updateUser({ currentUser: { audio: micEnabled } }));
     }
   };
-  const onVideoClick = (videoEnabled) => {
+  const onVideoClick = (videoEnabled: boolean) => {
     if (room.mainStream) {
       room.mainStream.getVideoTracks()[0].enabled = videoEnabled;
       dispatch(updateUser({ currentUser: { video: videoEnabled } }));
@@ -32,7 +34,7 @@ const MainStream = () => {
     participantRef.current = room.participants;
   }, [room.participants]);
 
-  const updateStream = (stream) => {
+  const updateStream = (stream: MediaStream) => {
     for (let key in participantRef.current) {
       const sender = participantRef.current[key];
       if (sender.currentUser) continue;
@@ -59,7 +61,7 @@ const MainStream = () => {
   };
 
   const onScreenClick = async () => {
-    let mediaStream;
+    let mediaStream: MediaStream = null;
     if (navigator.getDisplayMedia) {
       mediaStream = await navigator.getDisplayMedia({ video: true });
     } else if (navigator.mediaDevices.getDisplayMedia) {

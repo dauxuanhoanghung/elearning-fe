@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 
 import { RootState } from "@/app/store";
 import lastLectureService from "@/services/last.lecture.service";
+import { isEmptyObject } from "@/utils/utils";
 import { LoaderIcon } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 import ContinueLectureCard from "./ContinueLectureCard";
@@ -15,6 +16,7 @@ const LastLecturesContainer: React.FC = () => {
   const { data: lastLectures, isLoading: isLastLecturesLoading } = useQuery({
     queryKey: ["lastLectures"],
     queryFn: async () => {
+      if (isEmptyObject(currentUser)) return [];
       const res = await lastLectureService.getList();
       return res.data;
     },
