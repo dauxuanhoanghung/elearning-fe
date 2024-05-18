@@ -1,5 +1,7 @@
 const SERVER_HOST = import.meta.env.VITE_SERVER_HOSTNAME;
-export const URL_SERVER = `http://${SERVER_HOST}:8080`;
+export const URL_SERVER = SERVER_HOST.startsWith("https")
+  ? SERVER_HOST
+  : `http://${SERVER_HOST}:8080`;
 
 const PREFIX = "/api";
 
