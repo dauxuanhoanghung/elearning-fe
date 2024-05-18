@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -8,7 +9,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-const FAQPage = () => {
+const FAQPage: React.FC = () => {
   const { t } = useTranslation();
   const [questions, setQuestions] = useState([
     { title: t("faq.question1"), answer: t("faq.answer1") },

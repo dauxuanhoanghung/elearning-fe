@@ -12,6 +12,7 @@ pipeline {
             steps {
                 sh """
                     # Copy tokens folder
+                    sudo cp -rf /home/ubuntu/private-scp/certs ${WORKSPACE}/certs
                     sudo cp -rf /home/ubuntu/private-scp/fe-secret/.env ${WORKSPACE}/.env
                 """
             }
@@ -38,7 +39,7 @@ pipeline {
         stage('Clean up old images') {
             steps {
                 script {
-                    sh 'sudo docker image prune --filter "until=24h"'
+                    sh 'sudo docker image prune --filter "until=1h"'
                 }
             }
         }
