@@ -81,7 +81,8 @@ const StreamPage: React.FC = () => {
   useEffect(() => {
     async function connect() {
       const stream = await getUserStream();
-      stream.getVideoTracks()[0].enabled = false;
+      if (stream.getVideoTracks().length > 0)
+        stream.getVideoTracks()[0].enabled = false;
       dispatch(setMainStream({ mainStream: stream }));
       goOnline(database);
 
@@ -105,7 +106,9 @@ const StreamPage: React.FC = () => {
         }
       });
 
-      return unsubcribeValue;
+      return () => {
+        unsubcribeValue();
+      };
     }
     connect();
   }, []);
@@ -133,7 +136,7 @@ const StreamPage: React.FC = () => {
                   },
                 }),
               );
-            }, 10);
+            }, 5);
           } catch (e) {
             console.log(e);
           }

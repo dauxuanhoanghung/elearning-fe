@@ -52,6 +52,7 @@ export const initializeListensers = async (userId: any, store: any) => {
 
   onChildAdded(child(currentUserRef, "offers"), async (snapshot) => {
     const data = snapshot.val();
+    console.log({ data });
     if (data?.offer) {
       /**
        * {

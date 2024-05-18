@@ -8,8 +8,12 @@ import Participant from "./Participant";
 const Participants: React.FC = () => {
   const videoRef = useRef(null);
   const room = useSelector((state: RootState) => state.room);
-  const currentUser = room.currentUser
-    ? Object.values(room.currentUser)[0]
+  const roomCurrentUser = useSelector(
+    (state: RootState) => state.room.currentUser,
+  );
+
+  const currentUser = roomCurrentUser
+    ? Object.values(roomCurrentUser)[0]
     : null;
 
   useEffect(() => {
