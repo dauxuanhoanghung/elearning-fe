@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -6,19 +7,20 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { Loader } from "lucide-react";
 
+import { RootState } from "@/app/store";
 import { PaypalIcon } from "@/components/Icons";
 import Spinner from "@/components/common/Spinner";
 import Avatar from "@/components/ui/Avatar";
 import { useSnackbar } from "@/contexts/SnackbarContext";
-import { courseService, registrationService, sectionService } from "@/services";
+import { courseService, registrationService } from "@/services";
 import { isEmptyObject } from "@/utils/utils";
 
-const CheckoutPage = () => {
+const CheckoutPage: React.FC = () => {
   const { t } = useTranslation();
   const { showSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const { courseId } = useParams();
-  const currentUser = useSelector((state) => state.user.user);
+  const currentUser = useSelector((state: RootState) => state.user.user);
 
   useEffect(() => {
     if (!courseId) {
@@ -40,26 +42,10 @@ const CheckoutPage = () => {
     }
   });
 
-  const {
-    data: sections,
-    isLoading: sectionLoading,
-    isError: sectionError,
-  } = useQuery({
-    queryKey: ["sections", { courseId }],
-    queryFn: async () => {
-      const res = await sectionService.getSections(courseId);
-      return res.data;
-    },
-  });
-
-  const {
-    data: courseData,
-    isLoading,
-    isError,
-  } = useQuery({
+  const { data: courseData, isLoading } = useQuery({
     queryKey: ["course", { courseId }],
     queryFn: async () => {
-      const res = await courseService.getById(courseId);
+      const res = await courseService.getById(parseInt(courseId));
       return res.data;
     },
     initialData: {
@@ -92,21 +78,6 @@ const CheckoutPage = () => {
     if (res.status === 200) {
       localStorage.setItem("courseId", res.data.courseId);
       window.location.href = res.data.redirect_url;
-    }
-  };
-  const handlePayWithStripe = async () => {
-    const res = await registrationService.payWithStripe(courseId);
-    if (res.data.status === 200) {
-      showSnackbar({
-        message: res.data.message,
-        severity: "success",
-      });
-      navigate(`/course/${courseId}`);
-    } else {
-      showSnackbar({
-        message: res.data.message,
-        severity: "error",
-      });
     }
   };
 
