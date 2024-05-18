@@ -106,7 +106,7 @@ const LectureDetail = (props) => {
   const [currentTime, setCurrentTime] = useState(0);
   // #endregion
   // #region Modal
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const handleOpenModal = () => {
     setOpenModal(true);
     handleChangePlayerState("playing", false);

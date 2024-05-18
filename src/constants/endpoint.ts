@@ -94,6 +94,7 @@ const endpoints = {
     `${BASE.lectureComments}/${id}/delete`,
 
   registrationBase: BASE.registration,
+  getTransactionByEmailAndCourseId: `${BASE.registration}/get-by-email-and-course-id`,
   getInitialRegistration: (id: number) =>
     `${BASE.registration}/${id}/get-current-user`,
   getRegisteredCourses: BASE.registration + "/get-registered-courses",
