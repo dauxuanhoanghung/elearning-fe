@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createOffer, updatePreference } from "../peerConnection";
 
+/**
+ * Ice servers configuration
+ */
 const servers = {
   iceServers: [
     {

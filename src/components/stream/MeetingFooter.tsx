@@ -46,7 +46,11 @@ const MeetingFooter: React.FC<MeetingFooterProps> = (props) => {
   };
 
   const onScreenClick = () => {
-    // setScreenState(!streamState.screen);
+    try {
+      // setScreenState(!streamState.screen);
+    } catch (error) {
+      console.error(error);
+    }
     props.onScreenClick();
   };
 
