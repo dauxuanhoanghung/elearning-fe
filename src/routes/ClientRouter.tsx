@@ -13,7 +13,11 @@ import BlogsPage from "@/pages/client/blog";
 import BlogDetailsPage from "@/pages/client/blog/blog-detail";
 import CourseDetailPage from "@/pages/client/course-detail";
 import LectureDetailPage from "@/pages/client/lecture-detail";
-import { MyBusinessLayout, MyBusinessPage } from "@/pages/client/my-business";
+import {
+  BusinessCreditPage,
+  MyBusinessLayout,
+  MyBusinessPage,
+} from "@/pages/client/my-business";
 import {
   MyCourseLayout,
   MyCoursePage,
@@ -188,6 +192,10 @@ const ClientRouter = [
           {
             index: true,
             element: <MyBusinessPage />,
+          },
+          {
+            path: "credit",
+            element: <BusinessCreditPage />,
           },
         ],
       },

@@ -14,6 +14,10 @@ const MyBusinessLayout: React.FC = () => {
       title: t("business.index-tab"),
       href: "/my-business",
     },
+    {
+      title: "Credit",
+      href: "/my-business/credit",
+    },
   ]);
   const [currentTab] = useState(() => {
     return tabs.find((tab) => tab.href == location.pathname).href;

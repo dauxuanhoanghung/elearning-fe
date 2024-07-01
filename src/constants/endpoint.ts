@@ -37,6 +37,7 @@ const endpoints = {
   getAllUsers: `${BASE.users}`,
   currentUser: `${BASE.users}/current-user`,
   userRegister: BASE.users,
+  payoutCredit: `${BASE.users}/payout-credit`,
   updateUserInfo: `${BASE.users}/update-info`,
   getTopLectures: `${BASE.users}/top-lecturers`,
   countUsers: `${BASE.users}/count`,
