@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createOffer, updatePreference } from "../peerConnection";
 
+/**
+ * Ice servers configuration
+ */
 const servers = {
   iceServers: [
     {
@@ -11,7 +14,7 @@ const servers = {
 };
 
 const generateColor = () =>
-  "#" + Math.floor(Math.random() * 16777215).toString(16);
+  "#" + Math.floor(Math.random() * 82932).toString(16);
 
 export const roomSlice = createSlice({
   name: "room",

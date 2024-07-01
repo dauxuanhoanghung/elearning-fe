@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { CarFrontIcon } from "lucide-react";
 
 import { MultiUsersIcon, TimelinesIcon } from "@/components/Icons/index";
 import { MostLecturesCourseChart } from "@/components/admin/charts";
@@ -62,7 +61,7 @@ const AdminHomePage = () => {
               number={total}
               label="Clients"
             />
-            <CardBoxWidget
+            {/* <CardBoxWidget
               trendLabel="16%"
               trendType="down"
               trendColor="danger"
@@ -81,7 +80,7 @@ const AdminHomePage = () => {
               number={256}
               numberSuffix="%"
               label="Performance"
-            />
+            /> */}
           </div>
         </div>
         <div className="mb-6 pt-6" data-role="chart">

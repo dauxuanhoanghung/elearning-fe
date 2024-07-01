@@ -22,6 +22,8 @@ const CheckoutPage: React.FC = () => {
   const { courseId } = useParams();
   const currentUser = useSelector((state: RootState) => state.user.user);
 
+  const payeeEmail: string = localStorage.getItem("payeeEmail");
+
   useEffect(() => {
     if (!courseId) {
       navigate("/");
@@ -29,7 +31,7 @@ const CheckoutPage: React.FC = () => {
   }, []);
 
   // #region Registration
-  const [registration, setRegistration] = useState(false);
+  const [registration, setRegistration] = useState<boolean>(false);
   useEffect(() => {
     if (registration) return;
     if (isEmptyObject(currentUser)) {
@@ -55,14 +57,17 @@ const CheckoutPage: React.FC = () => {
   });
   // #endregion
 
+  // #region Payment
   const [paymentMethod, setPaymentMethod] = useState("paypal");
-
   const handlePaymentMethodChange = (event) => {
     setPaymentMethod(event.target.value);
   };
 
   const handlePayWithPaypal = async () => {
-    const res = await registrationService.payWithPaypal({ course: courseId });
+    const res = await registrationService.payWithPaypal({
+      course: courseId,
+      payeeEmail: payeeEmail,
+    });
     const { status, message, data } = res;
     if (status === 200) {
       window.location.href = data.redirectUrl;
@@ -74,14 +79,17 @@ const CheckoutPage: React.FC = () => {
     }
   };
   const handlePayWithVNPay = async () => {
-    const res = await registrationService.payWithVNPay({ course: courseId });
+    const res = await registrationService.payWithVNPay({
+      course: courseId,
+      payeeEmail: payeeEmail,
+    });
     if (res.status === 200) {
       localStorage.setItem("courseId", res.data.courseId);
       window.location.href = res.data.redirect_url;
     }
   };
 
-  const [isPaymentLoading, setIsPaymentLoading] = useState(false);
+  const [isPaymentLoading, setIsPaymentLoading] = useState<boolean>(false);
   const handlePayment = () => {
     let res;
     setIsPaymentLoading(true);
@@ -96,6 +104,7 @@ const CheckoutPage: React.FC = () => {
         break;
     }
   };
+  // #endregion
 
   return (
     <main data-role="checkout-page">
@@ -116,7 +125,9 @@ const CheckoutPage: React.FC = () => {
                       />
                     </div>
                     <div className="col-span-2">
-                      <div className="text-lg">{courseData.price} VND</div>
+                      <div className="my-2 text-3xl font-semibold">
+                        ${courseData.price}
+                      </div>
                       <h1 className="text-2xl font-bold">{courseData.name}</h1>
                       <div className="line-clamp-3">
                         {courseData.description}
@@ -180,7 +191,6 @@ const CheckoutPage: React.FC = () => {
                     <span>
                       VNPay
                       <span className="pl-2 text-lg">
-                        {" "}
                         (Only use in Vietnam)
                       </span>
                     </span>
@@ -194,7 +204,7 @@ const CheckoutPage: React.FC = () => {
                 <div className="grid grid-cols-1 gap-2">
                   <div className="mb-2 flex items-center justify-between">
                     <span className="">Original Price:</span>
-                    <span className="">{courseData.price} vnd</span>
+                    <span className="">${courseData.price}</span>
                   </div>
                   {/* <div className="mb-2 flex items-center justify-between">
                     <span className="">Discounts:</span>
@@ -203,7 +213,7 @@ const CheckoutPage: React.FC = () => {
                   <div className="h-[1px] w-full bg-black dark:bg-white"></div>
                   <div className="flex items-center justify-between font-bold">
                     <span className="">Total:</span>
-                    <span className="">{courseData.price} VND</span>
+                    <span className="">${courseData.price}</span>
                   </div>
                 </div>
               </div>

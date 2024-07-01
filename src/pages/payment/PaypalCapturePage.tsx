@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
+import { useSnackbar } from "@/contexts/SnackbarContext";
 import useCountdownRedirect from "@/hooks/useCountdownRedirect";
 import registrationService from "@/services/registration.service";
 
 const PaypalCapturePage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { showSnackbar } = useSnackbar();
 
   const [redirectUrl, setRedirectUrl] = useState("/");
 
@@ -18,7 +20,18 @@ const PaypalCapturePage: React.FC = () => {
       }
       const res = await registrationService.capturePaypal({ token });
       console.log(res);
-      if (res) {
+      if (res?.status === 200) {
+        if (res.data.payeeEmail) {
+          showSnackbar({
+            message: "You have gifted successfully to " + res.data.payeeEmail,
+            severity: "success",
+          });
+          localStorage.removeItem("payeeEmail");
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
+          return;
+        }
         setRedirectUrl(
           `/course/${res.data.courseId}/learning?lectureId=${res.data.lecture.id}`,
         );
@@ -27,7 +40,7 @@ const PaypalCapturePage: React.FC = () => {
     handleResponse();
   }, []);
 
-  const countdownDuration = 5;
+  const countdownDuration = 10;
   const countdown = useCountdownRedirect(redirectUrl, countdownDuration);
   console.log(searchParams);
 

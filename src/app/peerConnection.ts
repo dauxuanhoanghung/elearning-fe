@@ -1,4 +1,11 @@
-import { child, onChildAdded, push, set, update } from "firebase/database";
+import {
+  Unsubscribe,
+  child,
+  onChildAdded,
+  push,
+  set,
+  update,
+} from "firebase/database";
 
 import { getFirepad } from "./firebase/config";
 
@@ -45,39 +52,121 @@ export const createOffer = async (
   await set(newOfferRef, { offer });
 };
 
+const setRemoteDescription = async (pc, data, userId, store) => {
+  try {
+    // Check if there's an existing remote description
+    const currentRemoteDescription = pc.remoteDescription;
+
+    if (currentRemoteDescription) {
+      // If there's an existing remote description, we need to handle renegotiation
+      console.log("Existing remote description found. Handling renegotiation.");
+
+      // Create a new offer based on the current state
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+
+      // Now set the remote description
+      await pc.setRemoteDescription(new RTCSessionDescription(data.offer));
+    } else {
+      // If there's no existing remote description, proceed as normal
+      await pc.setRemoteDescription(new RTCSessionDescription(data.offer));
+    }
+
+    await createAnswer(data.offer.userId, userId, store);
+  } catch (error) {
+    console.error("Error in setRemoteDescription:", error);
+    throw error;
+  }
+};
+
+// Utility function for retrying with exponential backoff
+const retryWithBackoff = async (fn, maxRetries, baseDelay = 100) => {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (i === maxRetries - 1) throw error;
+      const delay = baseDelay * Math.pow(2, i);
+      console.log(`Retrying in ${delay}ms...`);
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+  }
+};
+
 export const initializeListensers = async (userId: any, store: any) => {
   const participantRef = child(getFirepad(), "participants");
   const currentUserRef = child(participantRef, userId);
   console.log("initializeListensers", currentUserRef);
+  let offerUnsub: Unsubscribe,
+    offerCandidatesUnsub: Unsubscribe,
+    answerUnsub: Unsubscribe,
+    answerCandidatesUnsub: Unsubscribe;
 
-  onChildAdded(child(currentUserRef, "offers"), async (snapshot) => {
-    const data = snapshot.val();
-    if (data?.offer) {
-      /**
-       * {
-          "sdp": "..."
-          "type": "offer",
-          "userId": "-NxDrK9GWdz0CVfo89QZ"
+  offerUnsub = await onChildAdded(
+    child(currentUserRef, "offers"),
+    async (snapshot) => {
+      const data = snapshot.val();
+      console.log({ data });
+      if (data?.offer) {
+        /**
+         * {
+            "sdp": "..."
+            "type": "offer",
+            "userId": "-NxDrK9GWdz0CVfo89QZ"
+          }
+        */
+        console.log("answer", { ...data.offer });
+        const room = store.getState().room;
+        const offerUserId = data.offer.userId;
+
+        if (!room.participants[offerUserId]) {
+          console.error("Participant not found for userId:", offerUserId);
+          return;
         }
-       */
-      console.log("answer", { ...data.offer });
-      const room = store.getState().room;
-      const pc = room.participants[data.offer.userId].peerConnection;
-      await pc.setRemoteDescription(new RTCSessionDescription(data.offer));
-      await createAnswer(data.offer.userId, userId, store);
-    }
-  });
+        const pc = room.participants[data.offer.userId].peerConnection;
 
-  onChildAdded(child(currentUserRef, "offerCandidates"), (snapshot) => {
-    const data = snapshot.val();
-    if (data?.userId) {
-      const room = store.getState().room;
-      const pc = room.participants[data.userId].peerConnection;
-      pc.addIceCandidate(new RTCIceCandidate(data));
-    }
-  });
+        if (!pc) {
+          console.error("PeerConnection not found for userId:", offerUserId);
+          return;
+        }
 
-  onChildAdded(child(currentUserRef, "answers"), (snapshot) => {
+        try {
+          await setRemoteDescription(pc, data, userId, store);
+          return;
+        } catch (error) {
+          console.error("Error setting remote description:", error);
+          // Implement a retry mechanism with backoff
+          await retryWithBackoff(
+            () => setRemoteDescription(pc, data, userId, store),
+            10,
+          );
+        }
+
+        try {
+          await setRemoteDescription(pc, data, userId, store);
+        } catch (error) {
+          console.error("Error setting remote description --- ", error);
+          await setRemoteDescription(pc, data, userId, store);
+        }
+        // await pc.setRemoteDescription(new RTCSessionDescription(data.offer));
+        // await createAnswer(data.offer.userId, userId, store);
+      }
+    },
+  );
+
+  offerCandidatesUnsub = onChildAdded(
+    child(currentUserRef, "offerCandidates"),
+    (snapshot) => {
+      const data = snapshot.val();
+      if (data?.userId) {
+        const room = store.getState().room;
+        const pc = room.participants[data.userId].peerConnection;
+        pc.addIceCandidate(new RTCIceCandidate(data));
+      }
+    },
+  );
+
+  answerUnsub = onChildAdded(child(currentUserRef, "answers"), (snapshot) => {
     const data = snapshot.val();
     if (data?.answer) {
       const room = store.getState().room;
@@ -87,14 +176,24 @@ export const initializeListensers = async (userId: any, store: any) => {
     }
   });
 
-  onChildAdded(child(currentUserRef, "answerCandidates"), (snapshot) => {
-    const data = snapshot.val();
-    if (data?.userId) {
-      const room = store.getState().room;
-      const pc = room.participants[data.userId].peerConnection;
-      pc.addIceCandidate(new RTCIceCandidate(data));
-    }
-  });
+  answerCandidatesUnsub = onChildAdded(
+    child(currentUserRef, "answerCandidates"),
+    (snapshot) => {
+      const data = snapshot.val();
+      if (data?.userId) {
+        const room = store.getState().room;
+        const pc = room.participants[data.userId].peerConnection;
+        pc.addIceCandidate(new RTCIceCandidate(data));
+      }
+    },
+  );
+
+  return {
+    offerUnsub,
+    offerCandidatesUnsub,
+    answerUnsub,
+    answerCandidatesUnsub,
+  };
 };
 
 const createAnswer = async (otherUserId: any, userId: any, store: any) => {

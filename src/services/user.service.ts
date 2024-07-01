@@ -45,6 +45,10 @@ const userService = {
   }): Promise<IResponse> {
     return post(endpoints.changePassword, body);
   },
+
+  payoutCredit(credit: number, username: string): Promise<IResponse> {
+    return post(endpoints.payoutCredit, { credit, username });
+  },
 };
 
 export default userService;

@@ -18,6 +18,9 @@ const registrationService = {
   getInitialRegistration(courseId: any) {
     return get(endpoints.getInitialRegistration(courseId));
   },
+  getByEmailAndCourseId(body: { email: string; courseId: string }) {
+    return post(endpoints.getTransactionByEmailAndCourseId, body);
+  },
   /**
    *
    * @returns

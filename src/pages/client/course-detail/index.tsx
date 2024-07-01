@@ -39,6 +39,7 @@ import {
 } from "@/services";
 import favoriteService from "@/services/favorite.service";
 import { isEmptyObject } from "@/utils/utils";
+import GiftButton from "./GiftButton";
 
 const CourseDetailPage: React.FC = (props) => {
   const { t } = useTranslation();
@@ -389,20 +390,7 @@ const CourseDetailPage: React.FC = (props) => {
                 className="w-full bg-gray-200 px-6 py-2 text-gray-800 dark:bg-gray-700 dark:text-gray-200"
                 data-role="action-section"
               >
-                <button
-                  onClick={() => {}}
-                  className="mt-2 w-1/2 border border-solid p-3 font-semibold transition-all dark:border-white
-                  dark:text-white dark:hover:bg-gray-500"
-                >
-                  Gift course
-                </button>
-                <button
-                  onClick={() => {}}
-                  className="mt-2 w-1/2 border border-solid p-3 font-semibold transition-all dark:border-white
-                  dark:text-white dark:hover:bg-gray-500"
-                >
-                  Apply coupon
-                </button>
+                <GiftButton />
               </article>
             )}
             <div className="my-2 w-full bg-gray-200 px-6 py-2 text-gray-800 dark:bg-gray-700 dark:text-gray-200">

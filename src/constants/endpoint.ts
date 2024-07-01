@@ -37,6 +37,7 @@ const endpoints = {
   getAllUsers: `${BASE.users}`,
   currentUser: `${BASE.users}/current-user`,
   userRegister: BASE.users,
+  payoutCredit: `${BASE.users}/payout-credit`,
   updateUserInfo: `${BASE.users}/update-info`,
   getTopLectures: `${BASE.users}/top-lecturers`,
   countUsers: `${BASE.users}/count`,
@@ -94,6 +95,7 @@ const endpoints = {
     `${BASE.lectureComments}/${id}/delete`,
 
   registrationBase: BASE.registration,
+  getTransactionByEmailAndCourseId: `${BASE.registration}/get-by-email-and-course-id`,
   getInitialRegistration: (id: number) =>
     `${BASE.registration}/${id}/get-current-user`,
   getRegisteredCourses: BASE.registration + "/get-registered-courses",
